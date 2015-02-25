@@ -1,4 +1,4 @@
-Total number of lines: 
+﻿Total number of lines: 
        833598
 Total number of subclass relationships: 
        451708
@@ -7,4 +7,5 @@ Total number of other relationships:
 Total number of concepts: 
        450384
 Total number of possible roots: 
-       30
+       28
+There was no cycle in this knowledge graph!!!

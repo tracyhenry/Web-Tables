@@ -33,11 +33,37 @@ map<int, string> MM;
 //graph
 vector<vector<int> > adj;
 vector<int> inDegree;
-int N;
+int N, root;
 
 //queue
 vector<int> q;
+vector<int> used;
 int f;
+
+void dfs(int x)
+{
+	vv[x] = 1;
+	used[x] = 1;
+	r ++; q[r] = x;
+	if (finish) return ;
+	
+	for (int i = 0; i < adj[x].size(); i ++)
+	{
+		int j = adj[x][i];
+		if (used[j])
+		{
+			finish = true;
+			for (int k = 1; k <= r; k ++)
+				cout << MM[q[k]] << endl;
+			cout << MM[j] << endl;
+			return ;
+		}
+		dfs(j);
+		if (finish) return ;
+	}
+	r --;
+	used[x] = 0;
+}
 
 int main()
 {
@@ -77,8 +103,6 @@ int main()
 		string s1, s2, s3;
 		ss >> s1 >> s2 >> s3;	
 		
-		if (s1[0] != '<' || s1[s1.size() - 1] != '>' || s3[0] != '<' || s3[s3.size() - 1] != '>')
-			continue;
 			
 		//remove the parenthesis
 		if (s1[0] == '<') s1 = s1.substr(1);
@@ -91,16 +115,6 @@ int main()
 			
 		edges.push_back(make_pair(s1, s3));
 		M[s1] = M[s3] = 0;
-		
-		//check special cases
-		//wordnet_house_103544360		
-		//wordnet_building_102913152
-		//wordnet_dwelling_103259505
-		//wordnet_housing_103546340
-		//wordnet_structure_104341686
-
-		//if (s1 == "wordnet_structure_104341686")
-		//	cout << s3 << endl;
 	}
 
 //	cout << "Total number of lines: " << endl << "       " << totalLine << endl;
@@ -116,6 +130,9 @@ int main()
 	//make graph
 	adj.resize(N + 1);
 	inDegree.resize(N + 1);
+	for (int i = 1; i <= N; i ++)
+		inDegree[i] = 0, adj[i].clear();
+
 	for (int i = 0; i < edges.size(); i ++)
 	{
 		int x = M[edges[i].first];
@@ -128,7 +145,7 @@ int main()
 	int numberRoot = 0;
 	for (int i = 1; i <= N; i ++)
 		if (inDegree[i] == 0)
-			numberRoot ++;	
+			numberRoot ++;
 //	cout << "Total number of concepts: " << endl << "       " << N << endl;
 //	cout << "Total number of possible roots: " << endl << "       " << numberRoot << endl;
 	
@@ -137,10 +154,11 @@ int main()
 	for (int i = 1; i <= N; i ++)
 		if (inDegree[i] == 0)
 			q.push_back(i);
+
 	int f = 0;
 	while (f < q.size())
 	{
-		int x = q[++ f];
+		int x = q[f ++];
 		for (int i = 0; i < adj[x].size(); i ++)
 		{
 			int j = adj[x][i];
@@ -149,10 +167,15 @@ int main()
 				q.push_back(j);
 		}
 	}
-	cout << q.size() << " " << N << endl;
+	
+//	cout << q.size() << " " << N << endl;
 //	if (q.size() != N)
-//		cout << "There is Cycle in this knowledge graph!!" << endl;
+//		cout << "There is Cycle in this knowledge graph!!" << endl; 
 
+	//Depth First Search
+	used.resize(N + 1);
+	
+	
 	return 0;
 }
 	
