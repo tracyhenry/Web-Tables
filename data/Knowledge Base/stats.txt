@@ -9,3 +9,10 @@ Total number of concepts:
 Total number of possible roots: 
        28
 There was no cycle in this knowledge graph!!!
+
+Total number of concepts that aren't a subclass of owl:Thing: 
+       116
+Total number of concepts that are a subclass of owl:Thing: 
+       450268
+Total number of extra edges: 
+       1342

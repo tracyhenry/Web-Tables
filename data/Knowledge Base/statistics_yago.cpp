@@ -42,27 +42,9 @@ int f;
 
 void dfs(int x)
 {
-	vv[x] = 1;
 	used[x] = 1;
-	r ++; q[r] = x;
-	if (finish) return ;
-	
 	for (int i = 0; i < adj[x].size(); i ++)
-	{
-		int j = adj[x][i];
-		if (used[j])
-		{
-			finish = true;
-			for (int k = 1; k <= r; k ++)
-				cout << MM[q[k]] << endl;
-			cout << MM[j] << endl;
-			return ;
-		}
-		dfs(j);
-		if (finish) return ;
-	}
-	r --;
-	used[x] = 0;
+		dfs(adj[x][i]);
 }
 
 int main()
@@ -172,10 +154,24 @@ int main()
 //	if (q.size() != N)
 //		cout << "There is Cycle in this knowledge graph!!" << endl; 
 
+
 	//Depth First Search
 	used.resize(N + 1);
+	for (int i = 1; i <= N; i ++)
+		used[i] = 0;
 	
+	dfs(M["owl:Thing"]);
 	
+	int noThing = 0;
+	int numberEdges = 0;
+	
+	for (int i = 1; i <= N; i ++)
+		if (! used[i])
+			noThing ++;
+		else numberEdges += adj[i].size();
+		
+	cout << "Total number of concepts that are a subclass of owl:Thing: " << endl << "       " << N - noThing << endl;
+	cout << "Total number of extra edges: " << endl << "       " << numberEdges - (N - noThing - 1) << endl;
 	return 0;
 }
 	
