@@ -63,3 +63,47 @@ KB::KB()
 		inDegree[x] ++;
 	}
 }
+
+void KB::Traverse()
+{
+	int cur = M["owl:Thing"];
+	vector<int> q; q.clear();
+	q.push_back(cur);
+	
+	while (1)
+	{
+		cur = q[q.size() - 1];
+		cout << "We are at : " << MM[cur] << endl << "Input your operation: " << endl;
+		
+		int x;
+		cin >> x;
+		
+		switch (x)
+		{
+			case 1 : 
+				//print out the number of successors
+				cout << "The number of successors: " << endl << adj[cur].size() << endl;
+				break;
+			case 2 : 
+				//print all the successors
+				cout << "The successors are: " << endl;
+				for (int i = 0; i < adj[cur].size(); i ++)
+					cout << MM[adj[cur][i]] << "     ";
+				cout << endl;
+				break;
+			case 3 :
+				//Go upwards
+				if (q.size() == 1)
+					cout << "We cannot go upward any more!" << endl;
+				else
+					q.pop_back();
+				break;
+			case 4 :
+				string s;
+				cin >> s;
+				q.push_back(M[s]);
+				break;
+		}
+		cout << "-------------------------------------" << endl << endl;
+	}
+}

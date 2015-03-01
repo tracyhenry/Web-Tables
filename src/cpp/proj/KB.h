@@ -32,4 +32,7 @@ public:
 	//Constructor
 	KB();
 	
+	//Basic Traverse 
+	void Traverse();
+	
 };

@@ -49,8 +49,8 @@ void dfs(int x)
 
 int main()
 {
-	freopen("yagoTaxonomy.ttl", "r", stdin);
-	freopen("stats.txt", "a", stdout);
+	freopen("D:\\Applications\\PortableGit-1.8.4-preview20130916\\Web-Tables\\data\\Knowledge Base\\yagoTaxonomy.ttl", "r", stdin);
+	freopen("D:\\Applications\\PortableGit-1.8.4-preview20130916\\Web-Tables\\data\\Knowledge Base\\stats.txt", "a", stdout);
 	
 	string s;
 	lines.clear();
@@ -170,8 +170,10 @@ int main()
 			noThing ++;
 		else numberEdges += adj[i].size();
 		
-	cout << "Total number of concepts that are a subclass of owl:Thing: " << endl << "       " << N - noThing << endl;
-	cout << "Total number of extra edges: " << endl << "       " << numberEdges - (N - noThing - 1) << endl;
+//	cout << "Total number of concepts that are a subclass of owl:Thing: " << endl << "       " << N - noThing << endl;
+//	cout << "Total number of extra edges: " << endl << "       " << numberEdges - (N - noThing - 1) << endl;
+
+	//The longest directed paths
 	return 0;
 }
 
