@@ -16,3 +16,12 @@ Total number of concepts that are a subclass of owl:Thing:
        450268
 Total number of extra edges: 
        1342
+The number of the maximum out degree : 
+       36978
+Wordnet_person has 30000+ successors!
+
+The length of the longest directed path: 
+       20
+
+The longest path:
+owl:Thing --> wordnet_physical_entity_100001930 --> wordnet_object_100002684 --> wordnet_whole_100003553 --> wordnet_living_thing_100004258 --> wordnet_organism_100004475 --> wordnet_animal_100015388 --> wordnet_chordate_101466257 --> wordnet_vertebrate_101471682 --> wordnet_aquatic_vertebrate_101473806 --> wordnet_fish_102512053 --> wordnet_bony_fish_102514825 --> wordnet_teleost_fish_102528163 --> wordnet_spiny-finned_fish_102552171 --> wordnet_percoid_fish_102554730 --> wordnet_serranid_fish_102566109 --> wordnet_sea_bass_102566834 --> wordnet_grouper_102568959 --> wordnet_hind_102569484 --> wordnet_rock_hind_102569631

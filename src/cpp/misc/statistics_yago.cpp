@@ -40,11 +40,32 @@ vector<int> q;
 vector<int> used;
 int f;
 
+//dp
+vector<int> opt;
+vector<int> pick;
+
 void dfs(int x)
 {
 	used[x] = 1;
 	for (int i = 0; i < adj[x].size(); i ++)
 		dfs(adj[x][i]);
+}
+
+void dp(int x)
+{
+	if (used[x]) return;
+	used[x] = opt[x] = 0;
+	for (int i = 0; i < adj[x].size(); i ++)
+	{
+		dp(adj[x][i]);
+		if (opt[adj[x][i]] > opt[x])
+		{
+			opt[x] = max(opt[x], opt[adj[x][i]]);
+			pick[x] = i;
+		}
+	}
+	opt[x] ++;
+	return ;
 }
 
 int main()
@@ -161,19 +182,45 @@ int main()
 		used[i] = 0;
 	
 	dfs(M["owl:Thing"]);
-	
+
+	int maxDegree = 0;	
 	int noThing = 0;
 	int numberEdges = 0;
 	
 	for (int i = 1; i <= N; i ++)
 		if (! used[i])
 			noThing ++;
-		else numberEdges += adj[i].size();
-		
+		else 
+		{
+			numberEdges += adj[i].size();
+			maxDegree = max(maxDegree, (int) adj[i].size());
+		}
+	
+//	cout << "The number of the maximum out degree : " << endl << "       " << maxDegree << endl;
 //	cout << "Total number of concepts that are a subclass of owl:Thing: " << endl << "       " << N - noThing << endl;
 //	cout << "Total number of extra edges: " << endl << "       " << numberEdges - (N - noThing - 1) << endl;
 
 	//The longest directed paths
+	used.resize(N + 1);
+	for (int i = 1; i <= N; i ++)
+		used[i] = 0;
+	
+	opt.resize(N + 1);
+	pick.resize(N + 1);
+	dp(M["owl:Thing"]);
+	
+	int cur = M["owl:Thing"];
+	while (1)
+	{
+		if (MM[cur] != "owl:Thing")
+			cout << " --> ";
+		cout << MM[cur];
+		if (adj[cur].size() == 0)
+			break;
+		cur = adj[cur][pick[cur]];
+	}
+//	cout << "The length of the longest directed path: " << endl << "       " << opt[M["owl:Thing"]];
+	
 	return 0;
 }
 
