@@ -9,7 +9,12 @@
 using namespace std;
 
 
-KB::KB()
+YAGO::YAGO()
+{
+	InitTaxonomy();
+}
+
+void YAGO::InitTaxonomy()
 {
 
 	//YAGO's Input File
@@ -64,7 +69,7 @@ KB::KB()
 	}
 }
 
-void KB::Traverse()
+void YAGO::Traverse()
 {
 	int cur = M["owl:Thing"];
 	vector<int> q; q.clear();

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef KB__H
+#define KB__H
 
 #include <map>
 #include <vector>
@@ -13,9 +14,6 @@ public:
 	//Adjacent lists
 	std::vector<std::vector<int> > adj;
 	
-	//in-degree of nodes
-	std::vector<int> inDegree;
-	
 	//number of concepts
 	int N;
 	
@@ -23,16 +21,38 @@ public:
 	std::map<std::string, int> M;
 	std::map<int, std::string> MM;
 
-	/**For topo-sort**/	
+	//Basic Traverse 
+	virtual void Traverse() = 0;
+
+	virtual ~KB() {}
+};
+
+class YAGO : public KB
+{
+public:
+
+	/** Public data members **/
+	//in-degree of nodes
+	std::vector<int> inDegree;	
+
+	//For topo sort
 	std::vector<int> q;
 	std::vector<int> used;
 	int f;
-	
-	/**Public functions**/
+
+	/** Public functions **/
 	//Constructor
-	KB();
+	YAGO();	
 	
-	//Basic Traverse 
+	//Init SubClassOf Relationship
+	void InitTaxonomy();
+	
+	//Init Type Relationship
+	void InitType();
+	
+	//Extended Traverse Function
 	void Traverse();
 	
 };
+
+#endif
