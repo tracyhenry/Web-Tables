@@ -14,10 +14,9 @@ void dfs(int x)
 		dfs(aha.adj[x][i]);
 }
 
-
 int main()
 {
-	
+	aha.Traverse();
 	system("pause");
 	return 0;
 }
