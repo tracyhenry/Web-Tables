@@ -18,7 +18,7 @@ void YAGO::InitTaxonomy()
 {
 
 	//YAGO's Input File
-	ifstream fin("D:\\Applications\\PortableGit-1.8.4-preview20130916\\Web-Tables\\data\\Knowledge Base\\yagoTaxonomy.ttl");
+	ifstream fin("D:\\Applications\\PortableGit-1.8.4-preview20130916\\Web-Tables\\data\\KB\\yagoTaxonomy.ttl");
 	//some variables for reading the file
 	vector<pair<string, string> > edges;
 	string s;
