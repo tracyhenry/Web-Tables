@@ -59,4 +59,5 @@ target/
 
 # Huge Data
 data/Table
+Types.txt
 *.ttl

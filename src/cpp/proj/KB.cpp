@@ -9,25 +9,30 @@
 using namespace std;
 
 
+KB::KB() : 
+	dirPath("D:\\Applications\\PortableGit-1.8.4-preview20130916\\"), delim("\\") 
+{}
+
+
 YAGO::YAGO()
 {
 	InitTaxonomy();
+	InitType();
 }
 
 void YAGO::InitTaxonomy()
 {
-
+	
 	//YAGO's Input File
-	ifstream conceptFile("D:\\Applications\\PortableGit-1.8.4-preview20130916\\Web-Tables\\data\\KB\\Concepts.txt");
+	ifstream conceptFile((dirPath + "Web-Tables" + delim + "data" + delim + "KB" + delim + "Concepts.txt").c_str());
+
+	FILE *subclassFile = fopen((dirPath + "Web-Tables" + delim + "data" + delim + "KB" + delim + "SubClass.txt").c_str(), "r");
 	
-	FILE *subclassFile = fopen("D:\\Applications\\PortableGit-1.8.4-preview20130916\\Web-Tables\\data\\KB\\SubClass.txt", "r");
-	
-	//some variables for reading the file
+	//make the maps
 	M.clear();
 	MM.clear();
 	N = 0;
 	
-	//make the maps
 	string c;
 	while (getline(conceptFile, c))
 		M[c] = ++ N, MM[N] = c;
@@ -43,6 +48,33 @@ void YAGO::InitTaxonomy()
 		adj[y].push_back(x);
 }
 
+void YAGO::InitType()
+{
+	ifstream entityFile((dirPath + "Web-Tables" + delim + "data" + delim + "KB" + delim + "Entities.txt").c_str());
+	
+	FILE *typeFile = fopen((dirPath + "Web-Tables" + delim + "data" + delim + "KB" + delim + "Types.txt").c_str(), "r");
+	
+	//Get entity strings
+	E.clear();
+	EE.clear();
+	K = 0;
+	
+	string e;
+	while (getline(entityFile, e))
+		E[e] = ++ K, EE[K] = e;
+	
+	//make relationship
+	int x, y;
+	possess.resize(N + 1);
+	belongs.resize(K + 1);
+	for (int i = 1; i <= N; i ++)
+		possess[i].clear();
+	for (int i = 1; i <= K; i ++)
+		belongs[i].clear();
+	while (fscanf(typeFile, "%d%d", &x, &y) == 2)
+		belongs[x].push_back(y), possess[y].push_back(x);
+}
+	
 void YAGO::Traverse()
 {
 	int cur = M["owl:Thing"];
@@ -55,6 +87,7 @@ void YAGO::Traverse()
 		cout << "We are at : " << MM[cur] << endl << "Input your operation: " << endl;
 		
 		int x;
+		string s;		
 		cin >> x;
 		
 		switch (x)
@@ -78,9 +111,13 @@ void YAGO::Traverse()
 					q.pop_back();
 				break;
 			case 4 :
-				string s;
 				cin >> s;
 				q.push_back(M[s]);
+				break;
+			case 5 :
+				cout << "Sample entities are: " << endl;
+				for (int i = 0; i < min((int) possess[cur].size(), 10); i ++)
+					cout << "  " << EE[possess[cur][i]] << endl;
 				break;
 		}
 		cout << "-------------------------------------" << endl << endl;
