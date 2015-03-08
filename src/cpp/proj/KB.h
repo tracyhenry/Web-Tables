@@ -31,15 +31,6 @@ class YAGO : public KB
 {
 public:
 
-	/** Public data members **/
-	//in-degree of nodes
-	std::vector<int> inDegree;	
-
-	//For topo sort
-	std::vector<int> q;
-	std::vector<int> used;
-	int f;
-
 	/** Public functions **/
 	//Constructor
 	YAGO();	

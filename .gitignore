@@ -58,5 +58,5 @@ docs/_build/
 target/
 
 # Huge Data
-data/
+data/Table
 *.ttl
