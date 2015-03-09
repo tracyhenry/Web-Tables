@@ -22,5 +22,23 @@ def showtable(request):
     # Get the url of this table
     table_url = cells[0].table_url
 
-    return HttpResponse(table_url)
+    # Calculate N and M
+    N = 0
+    M = 0
+    for cell in cells:
+        N = max(N, cell.row)
+        M = max(M, cell.col)
+    N += 1
+    M += 1
+
+    # Lists
+    row_list = []
+    for i in range(0, N):
+        row_list.append({"row" : i, "cell" : []})
+    for cell in cells:
+        row_list[cell.row]["cell"].append({"col" : cell.col, "value" : cell.value})
+
+
+    return render(request, 'showtable.html', {'row_list' : rowList,
+                                              'table_url' : table_url})
 
