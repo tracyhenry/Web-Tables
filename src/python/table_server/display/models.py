@@ -23,7 +23,7 @@ class DjangoMigrations(models.Model):
 
 
 class GoldAnnotation(models.Model):
-    table_id = models.IntegerField(blank=True, null=True)
+    table_id = models.IntegerField(primary_key=True)
     col = models.IntegerField(blank=True, null=True)
     gold_type = models.CharField(max_length=1000, blank=True)
 
@@ -36,7 +36,7 @@ class TableCells(models.Model):
     row = models.IntegerField(blank=True, null=True)
     col = models.IntegerField(blank=True, null=True)
     value = models.TextField(blank=True)
-    table_id = models.IntegerField(blank=True, null=True)
+    table_id = models.IntegerField(primary_key=True)
 
     class Meta:
         db_table = 'table_cells'
@@ -45,7 +45,7 @@ class TableCells(models.Model):
 class TableContext(models.Model):
     table_url = models.CharField(max_length=500, blank=True)
     content = models.TextField(blank=True)
-    table_id = models.IntegerField(blank=True, null=True)
+    table_id = models.IntegerField(primary_key=True)
 
     class Meta:
         db_table = 'table_context'
@@ -57,7 +57,7 @@ class TableSchema(models.Model):
     att_name = models.CharField(max_length=2000, blank=True)
     att_type = models.CharField(max_length=10, blank=True)
     is_entity = models.IntegerField(blank=True, null=True)
-    table_id = models.IntegerField(blank=True, null=True)
+    table_id = models.IntegerField(primary_key=True)
 
     class Meta:
         db_table = 'table_schema'
