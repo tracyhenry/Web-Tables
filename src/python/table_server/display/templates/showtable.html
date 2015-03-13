@@ -10,6 +10,14 @@
 
 		<table border = "1">
 			<tr>
+				{% for col in gt_list|dictsort:"col" %}
+					<td>
+						<b><u> {{ col.value }} </u></b>
+					</td>
+				{% endfor %}
+			</tr>
+
+			<tr>
 				{% for col in schema_list|dictsort:"col" %}
 					<td>
 						<b> {{ col.value }} </b>
