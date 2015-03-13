@@ -39,6 +39,6 @@ def showtable(request):
         row_list[cell.row]["cell"].append({"col" : cell.col, "value" : cell.value})
 
 
-    return render(request, 'showtable.html', {'row_list' : rowList,
+    return render(request, 'showtable.html', {'row_list' : row_list,
                                               'table_url' : table_url})
 
