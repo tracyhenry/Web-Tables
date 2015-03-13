@@ -19,6 +19,9 @@ def showtable(request):
     if cells.count() == 0:
         return HttpResponse('No such table!')
 
+    # Get the schema of this table
+    schemas = TableSchema.objects.filter(table_id = table_id)
+
     # Get the url of this table
     table_url = cells[0].table_url
 
@@ -31,14 +34,19 @@ def showtable(request):
     N += 1
     M += 1
 
-    # Lists
+    # Row Lists
     row_list = []
     for i in range(0, N):
         row_list.append({"row" : i, "cell" : []})
     for cell in cells:
         row_list[cell.row]["cell"].append({"col" : cell.col, "value" : cell.value})
 
+    # Schema Lists
+    schema_list = []
+    for col in schemas:
+        schema_list.append({"col" : col.att_id, "value" : col.att_name})
 
     return render(request, 'showtable.html', {'row_list' : row_list,
-                                              'table_url' : table_url})
+                                              'table_url' : table_url,
+                                              'schema_list' : schema_list})
 

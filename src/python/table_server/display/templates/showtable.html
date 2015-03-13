@@ -4,7 +4,19 @@
 
 	<body>
 
+		<p>
+			{{ table_url }}
+		</p>
+
 		<table border = "1">
+			<tr>
+				{% for col in schema_list|dictsort:"col" %}
+					<td>
+						<b> {{ col.value }} </b>
+					</td>
+				{% endfor %}
+			</tr>
+
 			{% for row in row_list|dictsort:"row" %}
 				<tr>
 					{% for col in row.cell|dictsort:"col" %}
