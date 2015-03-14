@@ -22,22 +22,22 @@ YAGO::YAGO()
 
 void YAGO::InitTaxonomy()
 {
-	
+
 	//YAGO's Input File
 	ifstream conceptFile((dirPath + "Web-Tables" + delim + "data" + delim + "KB" + delim + "Concepts.txt").c_str());
 
 	FILE *subclassFile = fopen((dirPath + "Web-Tables" + delim + "data" + delim + "KB" + delim + "SubClass.txt").c_str(), "r");
-	
+
 	//make the maps
 	M.clear();
 	MM.clear();
 	N = 0;
-	
+
 	string c;
 	while (getline(conceptFile, c))
 		M[c] = ++ N, MM[N] = c;
 	conceptFile.close();
-	
+
 	//make graph
 	adj.resize(N + 1);
 	for (int i = 1; i <= N; i ++)
@@ -51,18 +51,17 @@ void YAGO::InitTaxonomy()
 void YAGO::InitType()
 {
 	ifstream entityFile((dirPath + "Web-Tables" + delim + "data" + delim + "KB" + delim + "Entities.txt").c_str());
-	
+
 	FILE *typeFile = fopen((dirPath + "Web-Tables" + delim + "data" + delim + "KB" + delim + "Types.txt").c_str(), "r");
-	
+
 	//Get entity strings
 	E.clear();
 	EE.clear();
 	K = 0;
-	
 	string e;
 	while (getline(entityFile, e))
 		E[e] = ++ K, EE[K] = e;
-	
+
 	//make relationship
 	int x, y;
 	possess.resize(N + 1);
@@ -74,22 +73,22 @@ void YAGO::InitType()
 	while (fscanf(typeFile, "%d%d", &x, &y) == 2)
 		belongs[x].push_back(y), possess[y].push_back(x);
 }
-	
+
 void YAGO::Traverse()
 {
 	int cur = M["owl:Thing"];
 	vector<int> q; q.clear();
 	q.push_back(cur);
-	
+
 	while (1)
 	{
 		cur = q[q.size() - 1];
 		cout << "We are at : " << MM[cur] << endl << "Input your operation: " << endl;
-		
+
 		int x;
-		string s;		
+		string s;
 		cin >> x;
-		
+
 		switch (x)
 		{
 			case 1 : 

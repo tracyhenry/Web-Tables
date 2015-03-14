@@ -39,7 +39,7 @@ int N;
 int main()
 {
 	ifstream fin("D:\\Applications\\PortableGit-1.8.4-preview20130916\\Web-Tables\\data\\KB\\yagoTaxonomy.ttl");	
-	
+
 	string s;
 	lines.clear();
 
@@ -49,17 +49,17 @@ int main()
 	int otherRelationship = 0;
 	M.clear();
 	edges.clear();
-	
+
 	while (getline(fin, s))
 	{
 		totalLine ++;
 		if (s.substr(0, 2) == "#@")
 			continue;
-		
+
 		if (s.find("rdfs:subClassOf") == string::npos)
 			otherRelationship ++;
 		else numberSubclass ++;
-		
+
 		//check format
 		int numberLeftParenthesis = 0;
 		int numberRightParenthesis = 0;
@@ -68,12 +68,12 @@ int main()
 				numberLeftParenthesis ++;
 			else if (s[i] == '>')
 				numberRightParenthesis ++;
-		
+
 		stringstream ss(s);
 		string s1, s2, s3;
-		ss >> s1 >> s2 >> s3;	
-		
-			
+		ss >> s1 >> s2 >> s3;
+
+
 		//remove the parenthesis
 		if (s1[0] == '<') s1 = s1.substr(1);
 		if (s1[s1.size() - 1] == '>')
@@ -82,7 +82,7 @@ int main()
 		if (s3[0] == '<') s3 = s3.substr(1);
 		if (s3[s3.size() - 1] == '>')
 			s3 = s3.substr(0, s3.size() - 1);
-			
+
 		edges.push_back(make_pair(s1, s3));
 		M[s1] = M[s3] = 0;
 	}
@@ -93,12 +93,12 @@ int main()
 	MM.clear();
 	for (map<string, int>::iterator it = M.begin(); it != M.end(); it ++)
 		it->second = ++ N, MM[N] = it->first;
-	
+
 	ofstream fout1("D:\\Applications\\PortableGit-1.8.4-preview20130916\\Web-Tables\\data\\KB\\Concepts.txt");
 	for (int i = 1; i <= N; i ++)
 		fout1 << MM[i] << endl;	
 	fout1.close();
-	
+
 	ofstream fout2("D:\\Applications\\PortableGit-1.8.4-preview20130916\\Web-Tables\\data\\KB\\SubClass.txt");
 	for (int i = 0; i < edges.size(); i ++)
 	{
