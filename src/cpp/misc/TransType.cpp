@@ -77,11 +77,7 @@ int main()
 			notType ++;
 
 		if (! M.count(s3))
-		{
 			fakeConcept ++;
-			if (fakeConcept <= 10)
-				cout << s3 << endl;
-		}
 
 		//check s1 with ascii
 		string norm_s1 = "";
@@ -93,6 +89,8 @@ int main()
 				s1[i] = char(s1[i] + 32);
 			norm_s1 += s1[i];
 		}
+		if (norm_s1 == "")
+			continue;
 		entities[norm_s1] = 0;
 		types.push_back(make_pair(norm_s1, M[s3]));
 	}
@@ -109,8 +107,16 @@ int main()
 	cout << "Wrote the entity file!" << endl;
 
 	//write the type file
+	set<pair<int, int>> typeSet; typeSet.clear();
 	for (int i = 0; i < types.size(); i ++)
-		fprintf(newTypeFile, "%d %d\n", entities[types[i].first], types[i].second);
+	{
+		int x = entities[types[i].first];
+		int y = types[i].second;
+		if (typeSet.count(make_pair(x, y)))
+			continue;
+		fprintf(newTypeFile, "%d %d\n", x, y);
+		typeSet.insert(make_pair(x, y));
+	}
 	fclose(newTypeFile);
 
 	cout << "Wrote the type file!" << endl << endl;
