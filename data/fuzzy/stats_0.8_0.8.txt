@@ -1,0 +1,6 @@
+Number of cells that have more than one matched entity: 
+      19118
+Number of cells that have exactly one matched entity: 
+      153060
+Number of cells that have no matches: 
+      379173
