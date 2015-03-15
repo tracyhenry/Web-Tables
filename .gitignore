@@ -61,3 +61,7 @@ target/
 data/Table
 Types.txt
 *.ttl
+
+# Linux executable
+stats_wwt
+
