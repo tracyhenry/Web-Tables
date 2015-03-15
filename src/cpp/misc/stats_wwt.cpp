@@ -43,7 +43,7 @@ int main()
 	ifstream fin1("../../../data/Table/wwt_id");
 	ifstream fin2("../../../data/Table/wwt_value");
 	ifstream fin3("../../../data/fuzzy/result_0.8_0.8.txt");
-	freopen("../../../data/fuzzy/stats_0.8_0.8.txt", "a", stdout);
+//	freopen("../../../data/fuzzy/stats_0.8_0.8.txt", "a", stdout);
 
 	allCells.clear();
 	allCells.push_back(Cell());
@@ -82,6 +82,10 @@ int main()
 		entityID ++;
 		cellID ++;
 		allCells[cellID].matched ++;
+
+		//line 2~4
+		for (int i = 1; i <= 3; i ++)
+			getline(fin3, s);
 	}
 //	cout << "Read file 3!" << endl;
 

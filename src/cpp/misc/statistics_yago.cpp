@@ -72,7 +72,7 @@ int main()
 {
 	freopen("D:\\Applications\\PortableGit-1.8.4-preview20130916\\Web-Tables\\data\\Knowledge Base\\yagoTaxonomy.ttl", "r", stdin);
 	freopen("D:\\Applications\\PortableGit-1.8.4-preview20130916\\Web-Tables\\data\\Knowledge Base\\stats.txt", "a", stdout);
-	
+
 	string s;
 	lines.clear();
 
@@ -82,17 +82,17 @@ int main()
 	int otherRelationship = 0;
 	M.clear();
 	edges.clear();
-	
+
 	while (getline(cin, s))
 	{
 		totalLine ++;
 		if (s.substr(0, 2) == "#@")
 			continue;
-		
+
 		if (s.find("rdfs:subClassOf") == string::npos)
 			otherRelationship ++;
 		else numberSubclass ++;
-		
+
 		//check format
 		int numberLeftParenthesis = 0;
 		int numberRightParenthesis = 0;
@@ -101,12 +101,12 @@ int main()
 				numberLeftParenthesis ++;
 			else if (s[i] == '>')
 				numberRightParenthesis ++;
-		
+
 		stringstream ss(s);
 		string s1, s2, s3;
-		ss >> s1 >> s2 >> s3;	
-		
-			
+		ss >> s1 >> s2 >> s3;
+
+
 		//remove the parenthesis
 		if (s1[0] == '<') s1 = s1.substr(1);
 		if (s1[s1.size() - 1] == '>')
@@ -115,7 +115,7 @@ int main()
 		if (s3[0] == '<') s3 = s3.substr(1);
 		if (s3[s3.size() - 1] == '>')
 			s3 = s3.substr(0, s3.size() - 1);
-			
+
 		edges.push_back(make_pair(s1, s3));
 		M[s1] = M[s3] = 0;
 	}
@@ -123,13 +123,13 @@ int main()
 //	cout << "Total number of lines: " << endl << "       " << totalLine << endl;
 //	cout << "Total number of subclass relationships: " << endl << "       " << numberSubclass << endl;
 //	cout << "Total number of other relationships: " << endl << "       " << otherRelationship << endl;
-	
+
 	//make ids
 	N = 0;
 	MM.clear();
 	for (map<string, int>::iterator it = M.begin(); it != M.end(); it ++)
 		it->second = ++ N, MM[N] = it->first;
-	
+
 	//make graph
 	adj.resize(N + 1);
 	inDegree.resize(N + 1);
@@ -143,7 +143,7 @@ int main()
 		adj[y].push_back(x);
 		inDegree[x] ++;
 	}
-	
+
 	//statistics about the hierarchy
 	int numberRoot = 0;
 	for (int i = 1; i <= N; i ++)
@@ -151,7 +151,7 @@ int main()
 			numberRoot ++;
 //	cout << "Total number of concepts: " << endl << "       " << N << endl;
 //	cout << "Total number of possible roots: " << endl << "       " << numberRoot << endl;
-	
+
 	//topo sort
 	q.clear();
 	for (int i = 1; i <= N; i ++)
@@ -170,7 +170,7 @@ int main()
 				q.push_back(j);
 		}
 	}
-	
+
 //	cout << q.size() << " " << N << endl;
 //	if (q.size() != N)
 //		cout << "There is Cycle in this knowledge graph!!" << endl; 
@@ -180,13 +180,13 @@ int main()
 	used.resize(N + 1);
 	for (int i = 1; i <= N; i ++)
 		used[i] = 0;
-	
+
 	dfs(M["owl:Thing"]);
 
-	int maxDegree = 0;	
+	int maxDegree = 0;
 	int noThing = 0;
 	int numberEdges = 0;
-	
+
 	for (int i = 1; i <= N; i ++)
 		if (! used[i])
 			noThing ++;
@@ -195,7 +195,7 @@ int main()
 			numberEdges += adj[i].size();
 			maxDegree = max(maxDegree, (int) adj[i].size());
 		}
-	
+
 //	cout << "The number of the maximum out degree : " << endl << "       " << maxDegree << endl;
 //	cout << "Total number of concepts that are a subclass of owl:Thing: " << endl << "       " << N - noThing << endl;
 //	cout << "Total number of extra edges: " << endl << "       " << numberEdges - (N - noThing - 1) << endl;
@@ -204,11 +204,11 @@ int main()
 	used.resize(N + 1);
 	for (int i = 1; i <= N; i ++)
 		used[i] = 0;
-	
+
 	opt.resize(N + 1);
 	pick.resize(N + 1);
 	dp(M["owl:Thing"]);
-	
+
 	int cur = M["owl:Thing"];
 	while (1)
 	{
@@ -220,24 +220,6 @@ int main()
 		cur = adj[cur][pick[cur]];
 	}
 //	cout << "The length of the longest directed path: " << endl << "       " << opt[M["owl:Thing"]];
-	
+
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
