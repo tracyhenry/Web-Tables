@@ -79,6 +79,8 @@ int main()
 		int entityID, cellID;
 
 		sin1 >> sim >> entityID >> cellID;
+		entityID ++;
+		cellID ++;
 		allCells[cellID].matched ++;
 	}
 //	cout << "Read file 3!" << endl;

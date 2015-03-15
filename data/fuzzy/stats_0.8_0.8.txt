@@ -11,4 +11,4 @@ Total number of tables in WWT:
 Total number of tables that have more than 4 columns: 
       4152
 Total number of tables that have more than 50% lucky cells: 
-      1015
+      3042
