@@ -59,9 +59,10 @@ target/
 
 # Huge Data
 data/Table
+result*.txt
 Types.txt
 *.ttl
 
 # Linux executable
 stats_wwt
-
+stats_fuzzy

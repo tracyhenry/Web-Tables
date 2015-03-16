@@ -45,8 +45,8 @@ int main()
 	ifstream fin1("../../../data/Table/wwt_id");
 	ifstream fin2("../../../data/Table/wwt_value");
 	ifstream fin3("../../../data/Table/wwt_isentity");
-	ifstream fin4("../../../data/fuzzy/result_0.8_0.8.txt");
-	freopen("../../../data/fuzzy/stats_0.8_0.8.txt", "a", stdout);
+	ifstream fin4("../../../data/fuzzy/result_jaccard_0.8_0.8.txt");
+	freopen("../../../data/fuzzy/stats_jaccard_0.8_0.8.txt", "a", stdout);
 
 	allCells.clear();
 	allCells.push_back(Cell());
@@ -106,7 +106,7 @@ int main()
 	//make tables
 	allTables.clear();
 	sort(allCells.begin(), allCells.end());
-//	cout << "Sorted table! The number of cells: " << endl << "      " << nCell << endl;
+//	cout << endl << "Sorted table! The number of cells: " << endl << "      " << nCell << endl;
 
 	for (int i = 1; i <= nCell; i ++)
 		if (i == 1 || allCells[i].table_id != allCells[i - 1].table_id)
@@ -151,14 +151,14 @@ int main()
 	//make some stats
 
 	nTable = allTables.size();
-//	cout << "Total number of tables in WWT: " << endl << "      " << nTable << endl;
+//	cout << endl << "Total number of tables in WWT: " << endl << "      " << nTable << endl;
 
 	int nManyCol = 0;
 	for (int i = 0; i < nTable; i ++)
-		if (allTables[i].nCol >= 4)
+		if (allTables[i].nCol >= 5)
 			nManyCol ++;
 
-//	cout << "Total number of tables that have more than 4 columns: " << endl << "      " << nManyCol << endl;
+//	cout << endl << "Total number of tables that have more than 5 columns: " << endl << "      " << nManyCol << endl;
 
 	int nManyLucky = 0;
 	for (int i = 0; i < nTable; i ++)
@@ -174,16 +174,17 @@ int main()
 			nManyLucky ++;
 	}
 
-//	cout << "Total number of tables that have more than 30% lucky cells: " << endl << "      " << nManyLucky << endl;
+//	cout << endl << "Total number of tables that have more than 30% lucky cells: " << endl << "      " << nManyLucky << endl;
 
 	int maxMatch = 0;
 	for (int i = 1; i <= nCell; i ++)
 		if (allCells[i].value.size() > 0)
 			maxMatch = max(maxMatch, allCells[i].matched);
-//	cout << "The maximum number of entities a table cell can be matched to : " << endl << "      " << maxMatch << endl;
+//	cout << endl << "The maximum number of entities a table cell can be matched to : " << endl << "      " << maxMatch << endl;
 
 	int nEntity = 0;
 	int matchedEntity = 0;
+	int luckyEntity = 0;
 	for (int i = 0; i < nTable; i ++)
 	{
 		if (allTables[i].entityCol < 0)
@@ -192,10 +193,46 @@ int main()
 		for (int x = 0; x < allTables[i].nRow; x ++)
 			if (allTables[i].cells[x][entityCol].matched)
 				matchedEntity ++;
+		for (int x = 0; x < allTables[i].nRow; x ++)
+		{
+			int matchedAttr = 0;
+			for (int y = 0; y < allTables[i].nCol; y ++)
+				if (allTables[i].cells[x][y].matched && y != entityCol)
+					matchedAttr ++;
+			if (matchedAttr * 5 >= (allTables[i].nCol - 1) * 2)
+				luckyEntity ++;
+		}
 		nEntity += allTables[i].nRow;
 	}
-	cout << endl << "The number of total entities in WWT:" << endl << "      " << nEntity << endl;
-	cout << endl << "The number of matched entities in WWT:" << endl << "      " << matchedEntity  << endl;
+//	cout << endl << "The number of total entities in WWT:" << endl << "      " << nEntity << endl;
+//	cout << endl << "The number of matched entities in WWT:" << endl << "      " << matchedEntity  << endl;
+	cout << endl << "The number of entities that have more than 40% covered attributes: " << endl << "      " << luckyEntity << endl;
+
+	int luckyEntityTable = 0;
+	int luckyAttrTable = 0;
+	for (int i = 0; i < nTable; i ++)
+	{
+		if (allTables[i].entityCol < 0)
+			continue;
+		int entityCol = allTables[i].entityCol;
+		int matchedEntity = 0;
+		int matchedAttr = 0;
+		for (int x = 0; x < allTables[i].nRow; x ++)
+			for (int y = 0; y < allTables[i].nCol; y ++)
+				if (allTables[i].cells[x][y].matched)
+					if (y == entityCol)
+						matchedEntity ++;
+					else 
+						matchedAttr ++;
+
+		if (matchedEntity * 2 >= allTables[i].nRow)
+			luckyEntityTable ++;
+		if (matchedAttr * 10 >= allTables[i].nRow * (allTables[i].nCol - 1) * 3)
+			luckyAttrTable ++;
+	}
+
+//	cout << endl << "The number of tables that have more than 50% covered entities: " << endl << "      " << luckyEntityTable << endl;
+//	cout << endl << "The number of tables that have more than 30% covered attributes: " << endl << "      " << luckyAttrTable << endl;
 
 	return 0;
 }

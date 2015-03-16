@@ -12,7 +12,7 @@ int matched[1010100];
 
 int main()
 {
-	freopen("../../../data/Table/fuzzy_wwt_yago_0.8_0.8.txt", "r", stdin);
+	freopen("../../../data/fuzzy/result_cosine_0.8_0.7.txt", "r", stdin);
 
 	string s;
 	memset(matched, 0, sizeof(matched));
@@ -36,7 +36,7 @@ int main()
 	int multiMatch = 0;
 	int noMatch = 0;
 	int oneMatch = 0;
-	for (int i = 1; i <= 551351; i ++)
+	for (int i = 0; i < 551351; i ++)
 		if (matched[i] > 1)
 			multiMatch ++;
 		else if (matched[i] == 1)
