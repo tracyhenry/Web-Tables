@@ -61,3 +61,19 @@ class TableSchema(models.Model):
 
     class Meta:
         db_table = 'table_schema'
+
+class YagoEntity(models.Model):
+    id = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'yago_entity'
+
+class FuzzyMatch(models.Model):
+    row = models.IntegerField()
+    col = models.IntegerField()
+    table_id = models.IntegerField(primary_key=True)
+    entity_id = models.IntegerField()
+
+    class Meta:
+        db_table = 'fuzzy_match'
