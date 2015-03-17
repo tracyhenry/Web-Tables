@@ -10,7 +10,22 @@
 				$(".cell").click(function()
 				{
 					var id = $(this).attr("id");
-					alert(id);
+					var split = id.split('_');
+					var table_id = split[0];
+					var row = split[1];
+					var col = split[2];
+
+					$.post("/display/showcell/",
+						{
+							table_id : table_id,
+							row : row,
+							col : col
+						},
+						function(data, status)
+						{
+							alert("Data: " + data + "\nStatus: " + status);
+						}
+					      );
 				});
 			});
 		</script>

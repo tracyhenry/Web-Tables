@@ -3,13 +3,14 @@ from django.shortcuts import render
 # Create your views here.
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
 
 from models import *
 
 @require_GET
-def showtable(request):
+def show_table(request):
 
     # Get table id
     table_id = int(request.GET.get('tableID'))
@@ -67,3 +68,13 @@ def showtable(request):
                                               'gt_list' : gt_list,
                                               'schema_list' : schema_list})
 
+@require_POST
+@csrf_exempt
+def show_cell(request): 
+
+    table_id = request.POST.get('table_id')
+    row = request.POST.get('row')
+    col = request.POST.get('col')
+
+    cur_cell = TableCells.objects.filter(table_id = table_id).filter(row = row).filter(col = col)
+    return HttpResponse(cur_cell[0].value + " | " + cur_cell[0].value)
