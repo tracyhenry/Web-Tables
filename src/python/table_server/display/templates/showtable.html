@@ -1,8 +1,27 @@
 <html>
 	<head>
+		<script type = "text/javascript" src = "/static/jquery-1.11.0.js"></script>
+		<script type = "text/javascript" src = "/static/jquery.validate.min.js"></script> 
+
+		<script type = "text/javascript">
+
+			$(document).ready(function()
+			{
+				$(".cell").click(function()
+				{
+					var id = $(this).attr("id");
+					alert(id);
+				});
+			});
+		</script>
 	</head>
 
+
 	<body>
+
+		<p id = "change">
+			This is where amazing happens!
+		</p>
 
 		<p>
 			{{ table_url }}
@@ -28,13 +47,12 @@
 			{% for row in row_list|dictsort:"row" %}
 				<tr>
 					{% for col in row.cell|dictsort:"col" %}
-						<td>
+						<td class = "cell" id = "{{ table_id }}_{{ row.row }}_{{ col.col }}">
 							{{ col.value }}
 						</td>
-					{% endfor %}				
+					{% endfor %}
 				</tr>
 			{% endfor %}
 		</table>
 	</body>
 </html>
-

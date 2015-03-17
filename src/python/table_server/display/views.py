@@ -62,6 +62,7 @@ def showtable(request):
             gt_list.append({"col" : i, "value" : "NO_GROUND_TRUTH"})
 
     return render(request, 'showtable.html', {'row_list' : row_list,
+                                              'table_id' : str(table_id),
                                               'table_url' : table_url,
                                               'gt_list' : gt_list,
                                               'schema_list' : schema_list})
