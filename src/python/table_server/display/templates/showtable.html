@@ -63,7 +63,11 @@
 				<tr>
 					{% for col in row.cell|dictsort:"col" %}
 						<td class = "cell" id = "{{ table_id }}_{{ row.row }}_{{ col.col }}">
-							{{ col.value }}
+							{% if col.matched %}
+								<font color = "red"> {{ col.value }} </font>
+							{% else %}
+								{{ col.value }}
+							{% endif %}
 						</td>
 					{% endfor %}
 				</tr>

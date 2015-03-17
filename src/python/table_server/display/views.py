@@ -42,8 +42,14 @@ def show_table(request):
     row_list = []
     for i in range(0, N):
         row_list.append({"row" : i, "cell" : []})
+
+    table_matches = FuzzyMatch.objects.filter(table_id = cells[0].table_id)
+    have_match = [[False for j in range(M)] for i in range(N)]
+    for match in table_matches:
+        have_match[match.row][match.col] = True
+
     for cell in cells:
-        row_list[cell.row]["cell"].append({"col" : cell.col, "value" : cell.value})
+        row_list[cell.row]["cell"].append({"col" : cell.col, "value" : cell.value, "matched" : have_match[cell.row][cell.col]})
 
     # Schema Lists
     schema_list = []
