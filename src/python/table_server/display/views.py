@@ -97,5 +97,15 @@ def show_cell(request):
     row = request.POST.get('row')
     col = request.POST.get('col')
 
-    cur_cell = TableCells.objects.filter(table_id = table_id).filter(row = row).filter(col = col)
-    return HttpResponse(cur_cell[0].value + " | " + cur_cell[0].value)
+    matches = FuzzyMatch.objects.filter(table_id = table_id, row = row, col = col)
+
+    # no matches
+    if matches.count() == 0:
+        return HttpResponse("No Matches!")
+
+    # matches
+    ans = ""
+    for match in matches:
+        ans = ans + YagoEntity.objects.filter(id = match.entity_id)[0].value + "\n"
+
+    return HttpResponse(ans)
