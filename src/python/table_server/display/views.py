@@ -26,6 +26,13 @@ def show_table(request):
     # Ground Truth
     ground_truths = GoldAnnotation.objects.filter(table_id = table_id)
 
+    # Entity Column
+    entity_col = TableSchema.objects.filter(table_id = table_id).filter(is_entity = 1)
+    if entity_col.count() == 0:
+        entity_col = -1
+    else:
+        entity_col = entity_col[0].att_id
+
     # Get the url of this table
     table_url = cells[0].table_url
 
@@ -45,11 +52,18 @@ def show_table(request):
 
     table_matches = FuzzyMatch.objects.filter(table_id = cells[0].table_id)
     have_match = [[False for j in range(M)] for i in range(N)]
+    in_database = [[False for j in range(M)] for i in range(N)]
     for match in table_matches:
         have_match[match.row][match.col] = True
 
     for cell in cells:
         row_list[cell.row]["cell"].append({"col" : cell.col, "value" : cell.value, "matched" : have_match[cell.row][cell.col]})
+        in_database[cell.row][cell.col] = True
+
+    for i in range(0, N):
+        for j in range(0, M):
+            if in_database[i][j] == False:
+                row_list[i]["cell"].append({"col" : j, "value" : "null", "matched" : False})
 
     # Schema Lists
     schema_list = []
@@ -72,6 +86,7 @@ def show_table(request):
                                               'table_id' : str(table_id),
                                               'table_url' : table_url,
                                               'gt_list' : gt_list,
+                                              'entity_col' : entity_col,
                                               'schema_list' : schema_list})
 
 @require_POST
