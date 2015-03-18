@@ -53,6 +53,9 @@ void genFuzzyMatchTable()
 		cellID ++;
 
 		fout << row[cellID] << '\t' << col[cellID] << '\t' << table_id[cellID] << '\t' << entityID << endl;
+
+		for (int i = 1; i <= 3; i ++)
+			getline(fin3, s);
 	}
 
 	fin1.close();
