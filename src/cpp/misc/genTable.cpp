@@ -40,7 +40,7 @@ void genFuzzyMatchTable()
 		row.push_back(r), col.push_back(c), table_id.push_back(tid);
 
 	string s;
-
+	int id = 0;
 	while (getline(fin2, s))
 	{
 		//line 1
@@ -52,10 +52,10 @@ void genFuzzyMatchTable()
 		entityID ++;
 		cellID ++;
 
-		fout << row[cellID] << '\t' << col[cellID] << '\t' << table_id[cellID] << '\t' << entityID << endl;
+		fout << ++id << '\t' << row[cellID] << '\t' << col[cellID] << '\t' << table_id[cellID] << '\t' << entityID << endl;
 
 		for (int i = 1; i <= 3; i ++)
-			getline(fin3, s);
+			getline(fin2, s);
 	}
 
 	fin1.close();
@@ -63,10 +63,36 @@ void genFuzzyMatchTable()
 	fout.close();
 }
 
+void genTypeTable()
+{
+	ifstream fin1("../../../data/KB/Types.txt");
+	ofstream fout("/tmp/types_db.txt");
+	int x, y, id = 0;
+	while (fin1 >> x >> y)
+		fout << ++ id << '\t' << x << '\t' << y << endl;
+	fin1.close();
+	fout.close();
+}
+
+void genConceptTable()
+{
+	ifstream fin1("../../../data/KB/Concepts.txt");
+	ofstream fout("/tmp/concept_db.txt");
+	string value;
+	int id = 0;
+
+	while (getline(fin1, value))
+		fout << ++ id << '\t' << value << endl;
+	fin1.close();
+	fout.close();
+}
+
 int main()
 {
-	genYagoEntityTable();
-	genFuzzyMatchTable();
+//	genYagoEntityTable();
+//	genFuzzyMatchTable();
+//	genTypeTable();
+	genConceptTable();
 
 	return 0;
 }
