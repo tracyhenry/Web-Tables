@@ -31,8 +31,8 @@ int main()
 	ifstream typeFile("/home/wenbo/Web-Tables/data/KB/yagoTypes.ttl");
 	ifstream conceptFile("/home/wenbo/Web-Tables/data/KB/Concepts.txt");
 
-	FILE *entityFile = fopen("/home/wenbo/Web-Tables/data/KB/Entities.txt", "w");
-	FILE *newTypeFile = fopen("/home/wenbo/Web-Tables/data/KB/Types.txt", "w");
+	ofstream entityFile("/home/wenbo/Web-Tables/data/KB/Entities.txt");
+	ofstream newTypeFile("/home/wenbo/Web-Tables/data/KB/Types.txt");
 
 	//Get concepts
 	map<string, int> M;	M.clear();
@@ -94,6 +94,7 @@ int main()
 		entities[norm_s1] = 0;
 		types.push_back(make_pair(norm_s1, M[s3]));
 	}
+
 	typeFile.close();
 
 	cout << "Read the type file!" << endl;
@@ -101,8 +102,8 @@ int main()
 	//write the entity file
 	N = 0;
 	for (map<string, int>::iterator it = entities.begin(); it != entities.end(); it ++)
-		it->second = ++ N, fprintf(entityFile, "%s\n", (it->first).c_str());
-	fclose(entityFile);
+		it->second = ++ N, entityFile << it->first << endl;
+	entityFile.close();
 
 	cout << "Wrote the entity file!" << endl;
 
@@ -112,12 +113,15 @@ int main()
 	{
 		int x = entities[types[i].first];
 		int y = types[i].second;
+		if (x == 468539)
+			cout << y << endl;
 		if (typeSet.count(make_pair(x, y)))
 			continue;
-		fprintf(newTypeFile, "%d %d\n", x, y);
+
+		newTypeFile << x << " " << y << endl;
 		typeSet.insert(make_pair(x, y));
 	}
-	fclose(newTypeFile);
+	newTypeFile.close();
 
 	cout << "Wrote the type file!" << endl << endl;
 
