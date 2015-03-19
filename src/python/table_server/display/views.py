@@ -5,7 +5,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.http import require_GET, require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-
+from sets import Set
 
 from models import *
 
@@ -104,8 +104,14 @@ def show_cell(request):
         return HttpResponse("No Matches!")
 
     # matches
-    ans = ""
+    ans = "\n"
     for match in matches:
-        ans = ans + YagoEntity.objects.filter(id = match.entity_id)[0].value + "\n"
+
+        ans = ans + YagoEntity.objects.filter(id = match.entity_id)[0].value + ":\n"
+        types = YagoType.objects.filter(entity_id = match.entity_id)
+        for cur_type in types:
+            ans = ans + YagoConcept.objects.filter(id = cur_type.concept_id)[0].value + "\n"
+
+        ans = ans + "\n--------------------------------\n"
 
     return HttpResponse(ans)
