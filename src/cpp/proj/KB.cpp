@@ -6,6 +6,7 @@
 #include <sstream>
 #include <utility>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 
@@ -20,6 +21,7 @@ YAGO::YAGO()
 	subclassFileName = dirPath + delim + "SubClass.txt";
 	entityFileName = dirPath + delim + "Entities.txt";
 	typeFileName = dirPath + delim + "Types.txt";
+	relationFileName = dirPath + delim + "Relations.txt";
 	factFileName = dirPath + delim + "Facts.txt";
 
 	InitTaxonomy();
@@ -43,7 +45,7 @@ void YAGO::InitTaxonomy()
 	string c;
 	while (getline(conceptFile, c))
 		M[c] = ++ N, MM[N] = c;
-	conceptFile.close();
+ 	conceptFile.close();
 
 	//make graph
 	adj.resize(N + 1);
@@ -83,7 +85,46 @@ void YAGO::InitType()
 
 void YAGO::InitFact()
 {
+	ifstream relationFile(relationFileName.c_str());
 
+	FILE *factFile = fopen(factFileName.c_str(), "r");
+
+	//Get relation names
+	R.clear();
+	RR.clear();
+	F = 0;
+	string r;
+	while (getline(relationFile, r))
+		R[r] = ++ F, RR[F] = r;
+
+	//Get facts
+	int x, z, y;
+	facts.resize(K + 1);
+	for (int i = 1; i <= K; i ++)
+		facts[i].clear();
+	while (fscanf(factFile, "%d%d%d", &x, &z, &y) == 3)
+		facts[x].emplace_back(z, y);
+}
+
+void YAGO::GetConceptWithMostFacts()
+{
+	vector<pair<int, string>> mmm;
+	mmm.clear();
+	for (int i = 1; i <= N; i ++)
+	{
+		if (MM[i].substr(0, 4) != "word")
+			continue;
+		int tot = 0;
+		for (int j = 0; j < possess[i].size(); j ++)
+		{
+			int x = possess[i][j];
+			tot += facts[x].size();
+		}
+		mmm.emplace_back(-tot, MM[i]);
+	}
+	sort(mmm.begin(), mmm.end());
+	for (int i = 0; i < 20; i ++)
+		cout << mmm[i].second << " : " << -mmm[i].first << endl;
 }
 
 void YAGO::Traverse()
@@ -97,7 +138,7 @@ void YAGO::Traverse()
 		cur = q[q.size() - 1];
 		cout << "We are at : " << MM[cur] << endl << "Input your operation: " << endl;
 
-		int x;
+		int x, tmp;
 		string s;
 		cin >> x;
 
@@ -126,10 +167,18 @@ void YAGO::Traverse()
 				q.push_back(M[s]);
 				break;
 			case 5 :
-				cout << "Sample entities are: " << endl;
+				cout << possess[cur].size() << " entities in this concept! Sample entities are: " << endl;
 				for (int i = 0; i < min((int) possess[cur].size(), 10); i ++)
 					cout << "  " << EE[possess[cur][i]] << endl;
 				break;
+			case 6 :
+				tmp = 0;
+				for (int i = 0; i < possess[cur].size(); i ++)
+				{
+					int j = possess[cur][i];
+					tmp += facts[j].size();
+				}
+				cout << "Number of facts related to this concept: " << endl << tmp << endl;
 		}
 		cout << "-------------------------------------" << endl << endl;
 	}

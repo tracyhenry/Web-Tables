@@ -23,6 +23,9 @@ protected:
 	//number of entities
 	int K;
 
+	//number of relations
+	int F;
+
 	//Transformation between concept id and string
 	std::map<std::string, int> M;
 	std::map<int, std::string> MM;
@@ -31,9 +34,16 @@ protected:
 	std::map<std::string, int> E;
 	std::map<int, std::string> EE;
 
+	//Transformation between relation id and string
+	std::map<std::string, int> R;
+	std::map<int, std::string> RR;
+
 	//Type relationship
-	std::vector<std::vector<int> > belongs;
-	std::vector<std::vector<int> > possess;
+	std::vector<std::vector<int>> belongs;
+	std::vector<std::vector<int>> possess;
+
+	//Facts  first : relation name (e.g. actedIn),  second : entity ID
+	std::vector<std::vector<std::pair<int, int>>> facts;
 
 public:
 	//Constructor
@@ -52,7 +62,7 @@ private:
 	//Input Files
 	std::string conceptFileName, entityFileName;
 	std::string typeFileName, subclassFileName;
-	std::string factFileName;
+	std::string relationFileName, factFileName;
 
 public:
 	//Constructor
@@ -66,6 +76,9 @@ public:
 
 	//Init Fact Relationship
 	void InitFact();
+
+	//Auxiliary function to get concepts with most facts associated
+	void GetConceptWithMostFacts();
 
 	//Extended Traverse Function
 	void Traverse();
