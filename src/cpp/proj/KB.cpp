@@ -10,7 +10,7 @@ using namespace std;
 
 
 KB::KB() : 
-	dirPath("D:\\Applications\\PortableGit-1.8.4-preview20130916\\"), delim("\\") 
+	dirPath("/home/wenbo/"), delim("/") 
 {}
 
 

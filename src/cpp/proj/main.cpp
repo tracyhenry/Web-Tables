@@ -10,6 +10,5 @@ KB *aha = new YAGO();
 int main()
 {
 	aha->Traverse();
-	system("pause");
 	return 0;
 }
