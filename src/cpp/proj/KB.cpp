@@ -10,23 +10,30 @@ using namespace std;
 
 
 KB::KB() : 
-	dirPath("/home/wenbo/"), delim("/") 
+	dirPath("/home/wenbo/Web-Tables/data/KB"), delim("/") 
 {}
 
 
 YAGO::YAGO()
 {
+	conceptFileName = dirPath + delim + "Concepts.txt";
+	subclassFileName = dirPath + delim + "SubClass.txt";
+	entityFileName = dirPath + delim + "Entities.txt";
+	typeFileName = dirPath + delim + "Types.txt";
+	factFileName = dirPath + delim + "Facts.txt";
+
 	InitTaxonomy();
 	InitType();
+	InitFact();
 }
 
 void YAGO::InitTaxonomy()
 {
 
 	//YAGO's Input File
-	ifstream conceptFile((dirPath + "Web-Tables" + delim + "data" + delim + "KB" + delim + "Concepts.txt").c_str());
+	ifstream conceptFile(conceptFileName.c_str());
 
-	FILE *subclassFile = fopen((dirPath + "Web-Tables" + delim + "data" + delim + "KB" + delim + "SubClass.txt").c_str(), "r");
+	FILE *subclassFile = fopen(subclassFileName.c_str(), "r");
 
 	//make the maps
 	M.clear();
@@ -50,9 +57,9 @@ void YAGO::InitTaxonomy()
 
 void YAGO::InitType()
 {
-	ifstream entityFile((dirPath + "Web-Tables" + delim + "data" + delim + "KB" + delim + "Entities.txt").c_str());
+	ifstream entityFile(entityFileName.c_str());
 
-	FILE *typeFile = fopen((dirPath + "Web-Tables" + delim + "data" + delim + "KB" + delim + "Types.txt").c_str(), "r");
+	FILE *typeFile = fopen(typeFileName.c_str(), "r");
 
 	//Get entity strings
 	E.clear();
@@ -72,6 +79,11 @@ void YAGO::InitType()
 		belongs[i].clear();
 	while (fscanf(typeFile, "%d%d", &x, &y) == 2)
 		belongs[x].push_back(y), possess[y].push_back(x);
+}
+
+void YAGO::InitFact()
+{
+
 }
 
 void YAGO::Traverse()

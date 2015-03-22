@@ -91,7 +91,7 @@ int main()
 {
 //	genYagoEntityTable();
 //	genFuzzyMatchTable();
-	genTypeTable();
+//	genTypeTable();
 //	genConceptTable();
 
 	return 0;

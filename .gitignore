@@ -61,6 +61,7 @@ target/
 data/Table
 result*.txt
 Types.txt
+Facts.txt
 *.ttl
 
 # Linux executable
@@ -68,4 +69,6 @@ stats_wwt
 stats_fuzzy
 genTable
 TransType
+TransFact
+TransTaxonomy
 main
