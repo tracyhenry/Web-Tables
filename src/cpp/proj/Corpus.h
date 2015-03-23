@@ -27,6 +27,11 @@ struct Table
 	Table() {}
 	std::vector<std::vector<Cell>> cells;
 	int nRow, nCol, table_id, entityCol;
+
+	int operator < (const Table &o) const
+	{
+		return table_id < o.table_id;
+	}
 };
 
 class Corpus
@@ -34,6 +39,8 @@ class Corpus
 public:
 	Corpus();
 	int countMultiColumnTable();
+	virtual Cell getCellById(int) = 0;
+	virtual Table getTableById(int) = 0;
 
 protected:
 	//constants
@@ -51,6 +58,11 @@ class WWT : public Corpus
 {
 public :
 	WWT();
+	virtual Cell getCellById(int);
+	virtual Table getTableById(int);
+
+private:
+	std::map<int, int> idMap;
 };
 
 #endif

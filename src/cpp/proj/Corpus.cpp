@@ -34,6 +34,15 @@ int Corpus::countMultiColumnTable()
 	return ans;
 }
 
+Cell WWT::getCellById(int id)
+{
+	return allCells[id];
+}
+
+Table WWT::getTableById(int id)
+{
+	return allTables[idMap[id]];
+}
 
 WWT::WWT()
 {
@@ -89,7 +98,6 @@ WWT::WWT()
 					break;
 				int x = allCells[j].row;
 				int y = allCells[j].col;
-
 				if (x + 1 > cur.cells.size())
 					cur.cells.resize(x + 1);
 				if (y + 1 > cur.cells[x].size())
@@ -109,5 +117,11 @@ WWT::WWT()
 			allTables.push_back(cur);
 		}
 
+	sort(allTables.begin(), allTables.end());
 	nTable = allTables.size() - 1;
+
+	//idMap
+	idMap.clear();
+	for (int i = 1; i <= nTable; i ++)
+		idMap[allTables[i].table_id] = i;
 }
