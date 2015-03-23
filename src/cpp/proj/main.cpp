@@ -1,14 +1,16 @@
 #include "KB.h"
+#include "Corpus.h"
 #include <map>
 #include <vector>
 #include <string>
 #include <iostream>
 using namespace std;
 
-KB *aha = new YAGO();
+KB *yago = new YAGO();
+Corpus *wwt = new WWT();
 
 int main()
 {
-	aha->Traverse();
+//	aha->Traverse();
 	return 0;
 }

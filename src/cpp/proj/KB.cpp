@@ -10,19 +10,20 @@
 using namespace std;
 
 
-KB::KB() : 
-	dirPath("/home/wenbo/Web-Tables/data/KB"), delim("/") 
+KB::KB() :
+	dirPath("/home/wenbo/Web-Tables/data/KB/"), delim("/") 
 {}
-
 
 YAGO::YAGO()
 {
-	conceptFileName = dirPath + delim + "Concepts.txt";
-	subclassFileName = dirPath + delim + "SubClass.txt";
-	entityFileName = dirPath + delim + "Entities.txt";
-	typeFileName = dirPath + delim + "Types.txt";
-	relationFileName = dirPath + delim + "Relations.txt";
-	factFileName = dirPath + delim + "Facts.txt";
+	conceptFileName = dirPath + "Concepts.txt";
+	subclassFileName = dirPath + "SubClass.txt";
+	entityFileName = dirPath + "Entities.txt";
+	typeFileName = dirPath + "Types.txt";
+	relationFileName = dirPath + "Relations.txt";
+	factFileName = dirPath + "Facts.txt";
+
+	cout << "Initializing YAGO!" << endl;
 
 	InitTaxonomy();
 	InitType();
