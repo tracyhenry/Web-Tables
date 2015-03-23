@@ -11,6 +11,7 @@ Corpus *wwt = new WWT();
 
 int main()
 {
-//	aha->Traverse();
+	yago->Traverse();
+	cout << wwt->countMultiColumnTable() << endl;
 	return 0;
 }

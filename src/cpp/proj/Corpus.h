@@ -33,6 +33,7 @@ class Corpus
 {
 public:
 	Corpus();
+	int countMultiColumnTable();
 
 protected:
 	//constants

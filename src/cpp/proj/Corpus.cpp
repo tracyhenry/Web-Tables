@@ -17,12 +17,23 @@ Cell::Cell(int r, int c, int tid, int cid, string v)
 }
 
 Corpus::Corpus() :
-	dirPath("/home/wenbo/Web-Tables/data/Table"), delim("/")
+	dirPath("/home/wenbo/Web-Tables/data/Table/"), delim("/")
 {
 	nCell = nTable = 0;
 	allCells.clear();
 	allTables.clear();
 }
+
+// Get the number of tables that have more than 4 columns
+int Corpus::countMultiColumnTable()
+{
+	int ans = 0;
+	for (int i = 1; i <= nTable; i ++)
+		if (allTables[i].nCol >= 4)
+			ans ++;
+	return ans;
+}
+
 
 WWT::WWT()
 {
@@ -35,6 +46,8 @@ WWT::WWT()
 	ifstream idFile(idFileName.c_str());
 	ifstream valueFile(valueFileName.c_str());
 	ifstream isEntityFile(isEntityFileName.c_str());
+
+	allCells.push_back(Cell());
 
 	//id File
 	int r, c, tid;
@@ -77,12 +90,15 @@ WWT::WWT()
 				int x = allCells[j].row;
 				int y = allCells[j].col;
 
-				if (x > cur.cells.size() - 1)
+				if (x + 1 > cur.cells.size())
 					cur.cells.resize(x + 1);
-				if (y > cur.cells[x].size() - 1)
+				if (y + 1 > cur.cells[x].size())
 					cur.cells[x].resize(y + 1);
 				cur.cells[x][y] = allCells[j];
 			}
+
+			cur.nRow = cur.cells.size();
+			cur.nCol = (cur.nRow ? cur.cells[0].size() : 0);
 
 			//entity column
 			if (entityCol.count(cur.table_id))
