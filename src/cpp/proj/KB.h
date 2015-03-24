@@ -15,7 +15,7 @@ protected:
 	const std::string delim;
 
 	//Adjacent lists
-	std::vector<std::vector<int> > adj;
+	std::vector<std::vector<int>> adj;
 
 	//number of concepts
 	int N;
@@ -46,11 +46,19 @@ protected:
 	std::vector<std::vector<std::pair<int, int>>> facts;
 
 public:
+
+	//Auxiliary function returning the total number of concepts in the KB
+	int countConcept();
+
+	//Public auxiliary functions
+	int getAdjCount(int);		//by concept id
+	int getAdjNode(int, int);	//by concept id & vector id
+
 	//Constructor
 	KB();
 
-	//Basic Traverse 
-	virtual void Traverse() = 0;
+	//Basic Traverse
+	virtual void traverse() = 0;
 
 	//Deconstructor
 	virtual ~KB() {}
@@ -69,19 +77,19 @@ public:
 	YAGO();
 
 	//Init SubClassOf Relationship
-	void InitTaxonomy();
+	void initTaxonomy();
 
 	//Init Type Relationship
-	void InitType();
+	void initType();
 
 	//Init Fact Relationship
-	void InitFact();
+	void initFact();
 
 	//Auxiliary function to get concepts with most facts associated
-	void GetConceptWithMostFacts();
+	void getConceptWithMostFacts();
 
 	//Extended Traverse Function
-	void Traverse();
+	void traverse();
 
 };
 

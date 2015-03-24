@@ -14,6 +14,21 @@ KB::KB() :
 	dirPath("/home/wenbo/Web-Tables/data/KB/"), delim("/") 
 {}
 
+int KB::countConcept()
+{
+	return N;
+}
+
+int KB::getAdjCount(int conceptId)
+{
+	return adj[conceptId].size();
+}
+
+int KB::getAdjNode(int conceptId, int vectorId)
+{
+	return adj[conceptId][vectorId];
+}
+
 YAGO::YAGO()
 {
 	conceptFileName = dirPath + "Concepts.txt";
@@ -25,12 +40,12 @@ YAGO::YAGO()
 
 	cout << "Initializing YAGO!" << endl;
 
-	InitTaxonomy();
-	InitType();
-	InitFact();
+	initTaxonomy();
+	initType();
+	initFact();
 }
 
-void YAGO::InitTaxonomy()
+void YAGO::initTaxonomy()
 {
 
 	//YAGO's Input File
@@ -49,6 +64,7 @@ void YAGO::InitTaxonomy()
  	conceptFile.close();
 
 	//make graph
+	adj.clear();
 	adj.resize(N + 1);
 	for (int i = 1; i <= N; i ++)
 		adj[i].clear();
@@ -58,7 +74,7 @@ void YAGO::InitTaxonomy()
 		adj[y].push_back(x);
 }
 
-void YAGO::InitType()
+void YAGO::initType()
 {
 	ifstream entityFile(entityFileName.c_str());
 
@@ -84,7 +100,7 @@ void YAGO::InitType()
 		belongs[x].push_back(y), possess[y].push_back(x);
 }
 
-void YAGO::InitFact()
+void YAGO::initFact()
 {
 	ifstream relationFile(relationFileName.c_str());
 
@@ -107,7 +123,7 @@ void YAGO::InitFact()
 		facts[x].emplace_back(z, y);
 }
 
-void YAGO::GetConceptWithMostFacts()
+void YAGO::getConceptWithMostFacts()
 {
 	vector<pair<int, string>> mmm;
 	mmm.clear();
@@ -128,7 +144,7 @@ void YAGO::GetConceptWithMostFacts()
 		cout << mmm[i].second << " : " << -mmm[i].first << endl;
 }
 
-void YAGO::Traverse()
+void YAGO::traverse()
 {
 	int cur = M["owl:Thing"];
 	vector<int> q; q.clear();
