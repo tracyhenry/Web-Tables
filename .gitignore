@@ -58,7 +58,7 @@ docs/_build/
 target/
 
 # Huge Data
-data/Table
+*.sql
 result*.txt
 Types.txt
 Facts.txt
