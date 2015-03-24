@@ -1,14 +1,10 @@
-#include "KB.h"
-#include "Corpus.h"
+#include "Bridge.h"
 #include <map>
 #include <vector>
 #include <string>
 #include <iostream>
 #include <algorithm>
 using namespace std;
-
-KB *yago = new YAGO();
-Corpus *wwt = new WWT();
 
 int main()
 {
@@ -26,17 +22,7 @@ int main()
 			cout << curTable.cells[i][j].id << endl;
 */
 
-	int leaf = 0;
-	int nConcept = yago->countConcept();
-	for (int i = 1; i <= nConcept; i ++)
-	{
-		int nCh = yago->getAdjCount(i);
-		if (nCh == 0)
-			leaf ++;
-	}
-
-	cout << "Total Concept : " << nConcept << endl;
-	cout << "Leaf Concepts: " << leaf << endl;
-
+	Bridge *bridge = new Bridge();
+	bridge->testPattern();
 	return 0;
 }

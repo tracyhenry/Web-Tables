@@ -6,11 +6,15 @@
 #include <utility>
 #include <sstream>
 #include <fstream>
+#include <iostream>
+#include <algorithm>
 #include <unordered_set>
 using namespace std;
 
 Bridge::Bridge()
 {
+	cout << "Initializing Bridge!" << endl;
+
 	//KB and Corpus
 	kb = new YAGO();
 	corpus = new WWT();
@@ -39,7 +43,7 @@ Bridge::Bridge()
 	}
 }
 
-void testPattern()
+void Bridge::testPattern()
 {
 	int totalEntity = kb->countEntity();
 	int maxLeafPatternSize = 0;
@@ -50,18 +54,18 @@ void testPattern()
 	{
 		unordered_set<int> anc;
 		anc.clear();
-		
+
 		int totalBelong = kb->getBelongCount(i);
 		for (int j = 0; j < totalBelong; j ++)
 		{
 			int cid = kb->getBelongConcept(i, j);
 			while (kb->getPreCount(cid))
 			{
-				anc.push_back(cid);
+				anc.insert(cid);
 				cid = kb->getPreNode(cid, 0);
 			}
 		}
-		
+
 		int curPatternSize = 0;
 		for (unordered_set<int>::iterator it = anc.begin(); it != anc.end(); it ++)
 			curPatternSize ++;
