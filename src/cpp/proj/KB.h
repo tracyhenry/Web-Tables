@@ -15,7 +15,7 @@ protected:
 	const std::string delim;
 
 	//Adjacent lists
-	std::vector<std::vector<int>> adj;
+	std::vector<std::vector<int>> pre, suc;
 
 	//number of concepts
 	int N;
@@ -47,12 +47,16 @@ protected:
 
 public:
 
-	//Auxiliary function returning the total number of concepts in the KB
-	int countConcept();
 
 	//Public auxiliary functions
-	int getAdjCount(int);		//by concept id
-	int getAdjNode(int, int);	//by concept id & vector id
+	int countConcept();
+	int countEntity();
+	int getPreCount(int);		//by concept id
+	int getPreNode(int, int);	//by concept id & index
+	int getSucCount(int);		//by concept id
+	int getSucNode(int, int);	//by concept id & index
+	int getBelongCount(int);		//by entity id
+	int getBelongConcept(int, int);		//by entity id & index
 
 	//Constructor
 	KB();

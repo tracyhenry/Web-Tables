@@ -58,6 +58,7 @@ docs/_build/
 target/
 
 # Huge Data
+data/Table/WWT_xml/
 *.sql
 result*.txt
 Types.txt

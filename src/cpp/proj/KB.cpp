@@ -19,14 +19,39 @@ int KB::countConcept()
 	return N;
 }
 
-int KB::getAdjCount(int conceptId)
+int KB::countEntity()
 {
-	return adj[conceptId].size();
+	return K;
 }
 
-int KB::getAdjNode(int conceptId, int vectorId)
+int KB::getPreCount(int conceptId)
 {
-	return adj[conceptId][vectorId];
+	return pre[conceptId].size();
+}
+
+int KB::getPreNode(int conceptId, int index)
+{
+	return pre[conceptId][index];
+}
+
+int KB::getSucCount(int conceptId)
+{
+	return suc[conceptId].size();
+}
+
+int KB::getSucNode(int conceptId, int index)
+{
+	return suc[conceptId][index];
+}
+
+int KB::getBelongCount(int entityId)
+{
+	return belongs[entityId].size();
+}
+
+int KB::getBelongConcept(int entityId, int index)
+{
+	return belongs[entityId][index];
 }
 
 YAGO::YAGO()
@@ -64,14 +89,14 @@ void YAGO::initTaxonomy()
  	conceptFile.close();
 
 	//make graph
-	adj.clear();
-	adj.resize(N + 1);
+	pre.clear(), suc.clear();
+	pre.resize(N + 1), suc.resize(N + 1);
 	for (int i = 1; i <= N; i ++)
-		adj[i].clear();
+		pre[i].clear(), suc[i].clear();
 
 	int x, y;
 	while (fscanf(subclassFile, "%d%d", &x, &y) == 2)
-		adj[y].push_back(x);
+		pre[x].push_back(y), suc[y].push_back(x);
 }
 
 void YAGO::initType()
@@ -163,13 +188,13 @@ void YAGO::traverse()
 		{
 			case 1 : 
 				//print out the number of successors
-				cout << "The number of successors: " << endl << adj[cur].size() << endl;
+				cout << "The number of successors: " << endl << suc[cur].size() << endl;
 				break;
 			case 2 : 
 				//print all the successors
 				cout << "The successors are: " << endl;
-				for (int i = 0; i < adj[cur].size(); i ++)
-					cout << MM[adj[cur][i]] << "     ";
+				for (int i = 0; i < suc[cur].size(); i ++)
+					cout << MM[suc[cur][i]] << "     ";
 				cout << endl;
 				break;
 			case 3 :
