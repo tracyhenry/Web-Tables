@@ -22,7 +22,7 @@ private:
 	//  2. Each property of each concept
 
 	//schema of kb concepts: kbProperty[conceptId](relationId, TaxoPattern)
-	std::vector<std::unordered_map<int, TaxoPattern *> kbProperty;
+	std::vector<std::unordered_map<int, TaxoPattern *>> kbProperty;
 
 	//Initialize match result
 	void initMatch();

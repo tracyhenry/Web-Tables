@@ -1,11 +1,13 @@
 #ifndef TAXO_PATTERN
 #define TAXO_PATTERN
 
+#include <unordered_map>
+
 struct TaxoPattern
 {
-	TaxoPattern() {w.clear()}
+	TaxoPattern() {w.clear();}
 	//From concept to weight
-	unordered_map<int, int> w;
+	std::unordered_map<int, int> w;
 };
 
 #endif

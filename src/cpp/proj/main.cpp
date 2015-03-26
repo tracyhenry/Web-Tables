@@ -23,13 +23,13 @@ int main()
 */
 
 	Bridge *bridge = new Bridge();
-//	bridge->testPattern();
-//	bridge->traverse();
+/*	bridge->testPattern();
+	bridge->traverse();
 	int totalConcept = bridge->kb->countConcept();
 	int notUnderThing = -1;
 	for (int i = 1; i <= totalConcept; i ++)
 		if (bridge->kb->getPreCount(i) != 1)
 			notUnderThing ++;
-	cout << notUnderThing << endl;
+	cout << notUnderThing << endl; */
 	return 0;
 }

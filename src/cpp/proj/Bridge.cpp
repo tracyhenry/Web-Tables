@@ -30,6 +30,7 @@ Bridge::Bridge()
 
 void Bridge::initMatch()
 {
+	cout << "Initializing match!!!!" << endl;
 	//Match FileName
 	string matchFileName = "../../../data/fuzzy/result_jaccard_0.8_0.8.txt";
 	ifstream matchFile(matchFileName);
@@ -68,17 +69,26 @@ void Bridge::initKbProperty()
 
 	//make the KB property recursively
 	cout << "Starting bridge::makeSchema dfs!" << endl;
+
 	makeSchema(kb->getRoot());
+
+	int rt = kb->getRoot();
+	int sum = 0;
+	for (unordered_map<int, TaxoPattern *>::iterator it = kbProperty[rt].begin(); it != kbProperty[rt].end(); it ++)
+		sum += ((it->second)->w).size();
+	cout << sum << endl;
 }
 
 void Bridge::makeSchema(int curNode)
 {
 	//instances of curNode
 	int totalPossess = kb->getPossessCount(curNode);
+
 	for (int i = 0; i < totalPossess; i ++)
 	{
 		int entityX = kb->getPossessEntity(curNode, i);
 		int totalRelatedFact = kb->getFactCount(entityX);
+
 		for (int j = 0; j < totalRelatedFact; j ++)
 		{
 			//entityX <curRelation> entityY
@@ -91,7 +101,15 @@ void Bridge::makeSchema(int curNode)
 			for (int k = 0; k < totalBelong; k ++)
 			{
 				int curConcept = kb->getBelongConcept(entityY, k);
-				kbProperty[curNode][curRelation]->w[curConcept] ++;
+				while (1)
+				{
+					if (! kbProperty[curNode].count(curRelation))
+						kbProperty[curNode][curRelation] = new TaxoPattern();
+					kbProperty[curNode][curRelation]->w[curConcept] ++;
+					if (kb->getPreCount(curConcept) == 0)
+						break;
+					curConcept = kb->getPreNode(curConcept, 0);
+				}
 			}
 		}
 	}
@@ -104,12 +122,16 @@ void Bridge::makeSchema(int curNode)
 		makeSchema(curSuc);
 
 		//aggregate
-		unordered_map<int, TaxoPattern> &curMap = kbProperty[curSuc];
+		unordered_map<int, TaxoPattern *> &curMap = kbProperty[curSuc];
 		for (unordered_map<int, TaxoPattern *>::iterator it1 = curMap.begin(); it1 != curMap.end(); it1 ++)
 		{
 			unordered_map<int, int> &curPatternMap = it1->second->w;
-			for (unordered_map<int, int>::iterator it2 = curPatternMap.begin(); it != curPatternMap.end(); it2 ++)
+			for (unordered_map<int, int>::iterator it2 = curPatternMap.begin(); it2 != curPatternMap.end(); it2 ++)
+			{
+				if (! kbProperty[curNode].count(it1->first))
+					kbProperty[curNode][it1->first] = new TaxoPattern();
 				kbProperty[curNode][it1->first]->w[it2->first] += it2->second;
+			}
 		}
 	}
 }

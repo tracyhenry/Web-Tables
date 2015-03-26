@@ -11,7 +11,7 @@ using namespace std;
 
 
 KB::KB() :
-	dirPath("/home/wenbo/Web-Tables/data/KB/"), delim("/") 
+	dirPath("../../../data/KB/"), delim("/") 
 {}
 
 int KB::countConcept()
@@ -94,6 +94,11 @@ string KB::getEntity(int entityId)
 	return EE[entityId];
 }
 
+string KB::getRelation(int relationId)
+{
+	return RR[relationId];
+}
+
 YAGO::YAGO()
 {
 	conceptFileName = dirPath + "Concepts.txt";
@@ -138,10 +143,7 @@ void YAGO::initTaxonomy()
 	while (fscanf(subclassFile, "%d%d", &x, &y) == 2)
 		pre[x].push_back(y), suc[y].push_back(x);
 
-	root = 0;
-	for (int i = 1; i <= N; i ++)
-		if (pre[i].size() == 0)
-			root = i;
+	root = M["owl:Thing"];
 }
 
 void YAGO::initType()

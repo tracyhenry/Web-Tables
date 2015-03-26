@@ -17,7 +17,7 @@ Cell::Cell(int r, int c, int tid, int cid, string v)
 }
 
 Corpus::Corpus() :
-	dirPath("/home/wenbo/Web-Tables/data/Table/"), delim("/")
+	dirPath("../../../data/Table/"), delim("/")
 {
 	nCell = nTable = 0;
 	allCells.clear();
@@ -79,6 +79,7 @@ WWT::WWT()
 			entityCol[tid] = c;
 
 	//make allTables
+	cout << "Making tables....." << endl;
 	sort(allCells.begin(), allCells.end());
 	allTables.push_back(Table());
 

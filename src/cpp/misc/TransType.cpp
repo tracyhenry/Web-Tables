@@ -28,11 +28,11 @@ using namespace std;
 
 int main()
 {
-	ifstream typeFile("/home/wenbo/Web-Tables/data/KB/yagoTypes.ttl");
-	ifstream conceptFile("/home/wenbo/Web-Tables/data/KB/Concepts.txt");
+	ifstream typeFile("../../../data/KB/yagoTypes.ttl");
+	ifstream conceptFile("../../../data/KB/Concepts.txt");
 
-	ofstream entityFile("/home/wenbo/Web-Tables/data/KB/Entities.txt");
-	ofstream newTypeFile("/home/wenbo/Web-Tables/data/KB/Types.txt");
+	ofstream entityFile("../../../data/KB/Entities.txt");
+	ofstream newTypeFile("../../../data/KB/Types.txt");
 
 	//Get concepts
 	map<string, int> M;	M.clear();

@@ -65,6 +65,7 @@ public:
 	std::pair<int, int> getFactPair(int, int);		//by entity id & index
 	std::string getConcept(int); 		//by id
 	std::string getEntity(int);		//by id
+	std::string getRelation(int);		//by id
 
 	//Constructor
 	KB();
