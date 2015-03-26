@@ -9,7 +9,6 @@
 class KB
 {
 protected:
-
 	//constants
 	const std::string dirPath;
 	const std::string delim;
@@ -25,6 +24,9 @@ protected:
 
 	//number of relations
 	int F;
+
+	//root of the KB tree
+	int root;
 
 	//Transformation between concept id and string
 	std::map<std::string, int> M;
@@ -46,11 +48,11 @@ protected:
 	std::vector<std::vector<std::pair<int, int>>> facts;
 
 public:
-
-
 	//Public auxiliary functions
 	int countConcept();
 	int countEntity();
+	int countRelation();
+	int getRoot();
 	int getPreCount(int);			//by concept id
 	int getPreNode(int, int);		//by concept id & index
 	int getSucCount(int);			//by concept id
@@ -59,6 +61,8 @@ public:
 	int getBelongConcept(int, int);		//by entity id & index
 	int getPossessCount(int);		//by concept id
 	int getPossessEntity(int, int);		//by concept id & index
+	int getFactCount(int);		//by entity id
+	std::pair<int, int> getFactPair(int, int);		//by entity id & index
 	std::string getConcept(int); 		//by id
 	std::string getEntity(int);		//by id
 
@@ -80,10 +84,6 @@ private:
 	std::string typeFileName, subclassFileName;
 	std::string relationFileName, factFileName;
 
-public:
-	//Constructor
-	YAGO();
-
 	//Init SubClassOf Relationship
 	void initTaxonomy();
 
@@ -92,6 +92,10 @@ public:
 
 	//Init Fact Relationship
 	void initFact();
+
+public:
+	//Constructor
+	YAGO();
 
 	//Auxiliary function to get concepts with most facts associated
 	void getConceptWithMostFacts();

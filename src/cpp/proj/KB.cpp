@@ -24,6 +24,16 @@ int KB::countEntity()
 	return K;
 }
 
+int KB::countRelation()
+{
+	return F;
+}
+
+int KB::getRoot()
+{
+	return root;
+}
+
 int KB::getPreCount(int conceptId)
 {
 	return pre[conceptId].size();
@@ -64,6 +74,16 @@ int KB::getPossessEntity(int conceptId, int index)
 	return possess[conceptId][index];
 }
 
+int KB::getFactCount(int entityId)
+{
+	return facts[entityId].size();
+}
+
+pair<int, int> KB::getFactPair(int entityId, int index)
+{
+	return facts[entityId][index];
+}
+
 string KB::getConcept(int conceptId)
 {
 	return MM[conceptId];
@@ -73,8 +93,6 @@ string KB::getEntity(int entityId)
 {
 	return EE[entityId];
 }
-
-
 
 YAGO::YAGO()
 {
@@ -119,6 +137,11 @@ void YAGO::initTaxonomy()
 	int x, y;
 	while (fscanf(subclassFile, "%d%d", &x, &y) == 2)
 		pre[x].push_back(y), suc[y].push_back(x);
+
+	root = 0;
+	for (int i = 1; i <= N; i ++)
+		if (pre[i].size() == 0)
+			root = i;
 }
 
 void YAGO::initType()
@@ -161,13 +184,24 @@ void YAGO::initFact()
 	while (getline(relationFile, r))
 		R[r] = ++ F, RR[F] = r;
 
+	//Reverse relations
+	for (int i = F + 1; i <= F * 2; i ++)
+	{
+		string curRelation = "** " + RR[i - F] + " **";
+		R[curRelation] = i, RR[i] = curRelation;
+	}
+	F *= 2;
+
 	//Get facts
 	int x, z, y;
 	facts.resize(K + 1);
 	for (int i = 1; i <= K; i ++)
 		facts[i].clear();
 	while (fscanf(factFile, "%d%d%d", &x, &z, &y) == 3)
+	{
 		facts[x].emplace_back(z, y);
+		facts[y].emplace_back(z + F / 2, x);
+	}
 }
 
 void YAGO::getConceptWithMostFacts()

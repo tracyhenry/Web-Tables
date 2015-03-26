@@ -3,8 +3,9 @@
 
 struct TaxoPattern
 {
-	std::vector<int> concepts;
-	std::vector<int> weights;
+	TaxoPattern() {w.clear()}
+	//From concept to weight
+	unordered_map<int, int> w;
 };
 
 #endif
