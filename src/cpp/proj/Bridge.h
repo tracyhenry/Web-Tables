@@ -11,12 +11,14 @@
 
 class Bridge
 {
-private:
+public:
 	//Knowledge base
 	KB *kb;
 
 	//Web table corpus
 	Corpus *corpus;
+
+private:
 
 	//Match Result, (first, second) = (entityId, cellId)
 	std::vector<std::pair<int, int>> matches;
@@ -34,6 +36,9 @@ public:
 
 	//Test function
 	void testPattern();
+
+	//Knowledge base traversal
+	void traverse();
 };
 
 #endif

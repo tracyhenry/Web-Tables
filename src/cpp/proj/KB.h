@@ -51,12 +51,16 @@ public:
 	//Public auxiliary functions
 	int countConcept();
 	int countEntity();
-	int getPreCount(int);		//by concept id
-	int getPreNode(int, int);	//by concept id & index
-	int getSucCount(int);		//by concept id
-	int getSucNode(int, int);	//by concept id & index
+	int getPreCount(int);			//by concept id
+	int getPreNode(int, int);		//by concept id & index
+	int getSucCount(int);			//by concept id
+	int getSucNode(int, int);		//by concept id & index
 	int getBelongCount(int);		//by entity id
 	int getBelongConcept(int, int);		//by entity id & index
+	int getPossessCount(int);		//by concept id
+	int getPossessEntity(int, int);		//by concept id & index
+	std::string getConcept(int); 		//by id
+	std::string getEntity(int);		//by id
 
 	//Constructor
 	KB();

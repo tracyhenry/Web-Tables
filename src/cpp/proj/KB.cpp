@@ -54,12 +54,34 @@ int KB::getBelongConcept(int entityId, int index)
 	return belongs[entityId][index];
 }
 
+int KB::getPossessCount(int conceptId)
+{
+	return possess[conceptId].size();
+}
+
+int KB::getPossessEntity(int conceptId, int index)
+{
+	return possess[conceptId][index];
+}
+
+string KB::getConcept(int conceptId)
+{
+	return MM[conceptId];
+}
+
+string KB::getEntity(int entityId)
+{
+	return EE[entityId];
+}
+
+
+
 YAGO::YAGO()
 {
 	conceptFileName = dirPath + "Concepts.txt";
-	subclassFileName = dirPath + "SubClass.txt";
+	subclassFileName = dirPath + "SubClass_Tree.txt";
 	entityFileName = dirPath + "Entities.txt";
-	typeFileName = dirPath + "Types.txt";
+	typeFileName = dirPath + "Types_Tree.txt";
 	relationFileName = dirPath + "Relations.txt";
 	factFileName = dirPath + "Facts.txt";
 

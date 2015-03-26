@@ -62,6 +62,7 @@ data/Table/WWT_xml/
 *.sql
 result*.txt
 Types.txt
+Types_Tree.txt
 Facts.txt
 *.ttl
 
@@ -73,3 +74,5 @@ TransType
 TransFact
 TransTaxonomy
 main
+makeTree
+

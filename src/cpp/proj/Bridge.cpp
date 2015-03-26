@@ -50,6 +50,7 @@ void Bridge::testPattern()
 	int sumLeafPatternSize = 0;
 	int maxPatternSize = 0;
 	int sumPatternSize = 0;
+
 	for (int i = 1; i <= totalEntity; i ++)
 	{
 		unordered_set<int> anc;
@@ -65,7 +66,6 @@ void Bridge::testPattern()
 				cid = kb->getPreNode(cid, 0);
 			}
 		}
-
 		int curPatternSize = 0;
 		for (unordered_set<int>::iterator it = anc.begin(); it != anc.end(); it ++)
 			curPatternSize ++;
@@ -75,8 +75,18 @@ void Bridge::testPattern()
 		sumLeafPatternSize += totalBelong;
 	}
 
-	cout << "Maximum leaf size of a pattern: " << endl << "      " << maxLeafPatternSize << endl;
-	cout << "Average leaf size of a pattern: " << endl << "      " << (int) ((double) sumLeafPatternSize / totalEntity) << endl;
-	cout << "Maximum size of a pattern: " << endl << "      " << maxPatternSize << endl;
-	cout << "Average size of a pattern: " << endl << "      " << (int) ((double) sumPatternSize / totalEntity) << endl;
+	cout << "Maximum leaf size of a pattern: " << endl << "      "
+		<< maxLeafPatternSize << endl;
+	cout << "Average leaf size of a pattern: " << endl << "      "
+		<< (int) ((double) sumLeafPatternSize / totalEntity) << endl;
+	cout << "Maximum size of a pattern: " << endl << "      "
+		<< maxPatternSize << endl;
+	cout << "Average size of a pattern: " << endl << "      "
+		<< (int) ((double) sumPatternSize / totalEntity) << endl;
 }
+
+void Bridge::traverse()
+{
+	kb->traverse();
+}
+
