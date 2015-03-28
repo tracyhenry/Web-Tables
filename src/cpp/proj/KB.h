@@ -62,6 +62,9 @@ public:
 	int getPossessCount(int);		//by concept id
 	int getPossessEntity(int, int);		//by concept id & index
 	int getFactCount(int);		//by entity id
+	int getConceptId(std::string);		//by string
+	int getEntityId(std::string);		//by string
+	int getRelationId(std::string);		//by string
 	std::pair<int, int> getFactPair(int, int);		//by entity id & index
 	std::string getConcept(int); 		//by id
 	std::string getEntity(int);		//by id
@@ -69,9 +72,6 @@ public:
 
 	//Constructor
 	KB();
-
-	//Basic Traverse
-	virtual void traverse() = 0;
 
 	//Deconstructor
 	virtual ~KB() {}
@@ -100,10 +100,6 @@ public:
 
 	//Auxiliary function to get concepts with most facts associated
 	void getConceptWithMostFacts();
-
-	//Extended Traverse Function
-	void traverse();
-
 };
 
 #endif

@@ -70,13 +70,22 @@ void Bridge::initKbProperty()
 	//make the KB property recursively
 	cout << "Starting bridge::makeSchema dfs!" << endl;
 
-	makeSchema(kb->getRoot());
+	makeSchema(root);
 
-	int rt = kb->getRoot();
+/*	int tmp = kb->getConceptId("wordnet_property_104916342");
+	for (int i = 0; i < kb->getSucCount(tmp); i ++)
+	{
+		int j = kb->getSucNode(tmp, i);
+		if ((kbProperty[j]).size())
+			cout << kb->getConcept(j) << endl;
+	}
+
 	int sum = 0;
-	for (unordered_map<int, TaxoPattern *>::iterator it = kbProperty[rt].begin(); it != kbProperty[rt].end(); it ++)
-		sum += ((it->second)->w).size();
-	cout << sum << endl;
+	for (int i = 1; i <= totalConcept; i ++)
+		for (unordered_map<int, TaxoPattern *>::iterator it = kbProperty[i].begin(); it != kbProperty[i].end(); it ++)
+			sum += ((it->second)->w).size();
+	cout << "Total Kb property size: " << endl << "      " << sum << endl;
+	cout << "Average Kb property size: " << endl << "      " << (double) sum / totalConcept << endl; */
 }
 
 void Bridge::makeSchema(int curNode)
@@ -180,6 +189,79 @@ void Bridge::testPattern()
 
 void Bridge::traverse()
 {
-	kb->traverse();
+	int cur = kb->getRoot();
+	vector<int> q; q.clear();
+	q.push_back(cur);
+
+	while (1)
+	{
+		cur = q[q.size() - 1];
+		cout << "We are at : " << kb->getConcept(cur) << endl << "Input your operation: " << endl;
+
+		int x, tmp;
+		string s;
+		cin >> x;
+
+		switch (x)
+		{
+			case 1 :
+				//print out the number of successors
+				cout << "The number of successors: " << endl << kb->getSucCount(cur) << endl;
+				break;
+			case 2 :
+				//print all the successors
+				cout << "The successors are: " << endl;
+				tmp = kb->getSucCount(cur);
+				for (int i = 0; i < tmp; i ++)
+					cout << kb->getConcept(kb->getSucNode(cur, i)) << "     ";
+				cout << endl;
+				break;
+			case 3 :
+				//Go upwards
+				if (q.size() == 1)
+					cout << "We cannot go upward any more!" << endl;
+				else
+					q.pop_back();
+				break;
+			case 4 :
+				cin >> s;
+				q.push_back(kb->getConceptId(s));
+				break;
+			case 5 :
+				cout << (tmp = kb->getPossessCount(cur)) <<
+					" entities in this concept! Sample entities are: " << endl;
+				for (int i = 0; i < min(tmp, 10); i ++)
+					cout << "  " << kb->getEntity(kb->getPossessEntity(cur, i)) << endl;
+				break;
+			case 6 :
+				tmp = 0;
+				for (int i = 0; i < kb->getPossessCount(cur); i ++)
+				{
+					int j = kb->getPossessEntity(cur, i);
+					tmp += kb->getFactCount(j);
+				}
+				cout << "Number of facts related to this concept: " << endl << tmp << endl;
+				break;
+			case 7 :
+				cout << "Size of the schema of this node: " << endl << "  "
+					<< (kbProperty[cur]).size() << endl;
+				break;
+			case 8 :
+				cout << "Sample Relations are: " << endl << endl;
+				for (unordered_map<int, TaxoPattern *>::iterator it1 = kbProperty[cur].begin();
+					it1 != kbProperty[cur].end(); it1 ++)
+				{
+					cout << kb->getRelation(it1->first) << " : " << endl << "    ";
+					unordered_map<int, int>::iterator it2 = ((it1->second)->w).begin();
+					for (int i = 1; i <= 5 && it2 != ((it1->second)->w).end(); i ++, it2 ++)
+						cout << kb->getConcept(it2->first) << "    ";
+					cout << endl;
+					cout << endl;
+				}
+				cout << endl;
+				break;
+		}
+		cout << "-------------------------------------" << endl << endl;
+	}
 }
 

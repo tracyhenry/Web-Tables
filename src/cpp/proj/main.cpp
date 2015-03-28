@@ -23,8 +23,8 @@ int main()
 */
 
 	Bridge *bridge = new Bridge();
-/*	bridge->testPattern();
 	bridge->traverse();
+/*	bridge->testPattern();
 	int totalConcept = bridge->kb->countConcept();
 	int notUnderThing = -1;
 	for (int i = 1; i <= totalConcept; i ++)

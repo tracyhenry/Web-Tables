@@ -79,6 +79,21 @@ int KB::getFactCount(int entityId)
 	return facts[entityId].size();
 }
 
+int KB::getConceptId(string c)
+{
+	return M[c];
+}
+
+int KB::getEntityId(string e)
+{
+	return E[e];
+}
+
+int KB::getRelationId(string r)
+{
+	return R[r];
+}
+
 pair<int, int> KB::getFactPair(int entityId, int index)
 {
 	return facts[entityId][index];
@@ -227,59 +242,3 @@ void YAGO::getConceptWithMostFacts()
 		cout << mmm[i].second << " : " << -mmm[i].first << endl;
 }
 
-void YAGO::traverse()
-{
-	int cur = M["owl:Thing"];
-	vector<int> q; q.clear();
-	q.push_back(cur);
-
-	while (1)
-	{
-		cur = q[q.size() - 1];
-		cout << "We are at : " << MM[cur] << endl << "Input your operation: " << endl;
-
-		int x, tmp;
-		string s;
-		cin >> x;
-
-		switch (x)
-		{
-			case 1 : 
-				//print out the number of successors
-				cout << "The number of successors: " << endl << suc[cur].size() << endl;
-				break;
-			case 2 : 
-				//print all the successors
-				cout << "The successors are: " << endl;
-				for (int i = 0; i < suc[cur].size(); i ++)
-					cout << MM[suc[cur][i]] << "     ";
-				cout << endl;
-				break;
-			case 3 :
-				//Go upwards
-				if (q.size() == 1)
-					cout << "We cannot go upward any more!" << endl;
-				else
-					q.pop_back();
-				break;
-			case 4 :
-				cin >> s;
-				q.push_back(M[s]);
-				break;
-			case 5 :
-				cout << possess[cur].size() << " entities in this concept! Sample entities are: " << endl;
-				for (int i = 0; i < min((int) possess[cur].size(), 10); i ++)
-					cout << "  " << EE[possess[cur][i]] << endl;
-				break;
-			case 6 :
-				tmp = 0;
-				for (int i = 0; i < possess[cur].size(); i ++)
-				{
-					int j = possess[cur][i];
-					tmp += facts[j].size();
-				}
-				cout << "Number of facts related to this concept: " << endl << tmp << endl;
-		}
-		cout << "-------------------------------------" << endl << endl;
-	}
-}
