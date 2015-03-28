@@ -177,6 +177,7 @@ void YAGO::initType()
 
 	//make relationship
 	int x, y;
+	possess.clear(), belongs.clear();
 	possess.resize(N + 1);
 	belongs.resize(K + 1);
 	for (int i = 1; i <= N; i ++)
@@ -211,6 +212,7 @@ void YAGO::initFact()
 
 	//Get facts
 	int x, z, y;
+	facts.clear();
 	facts.resize(K + 1);
 	for (int i = 1; i <= K; i ++)
 		facts[i].clear();

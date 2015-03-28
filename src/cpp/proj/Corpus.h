@@ -8,7 +8,7 @@
 
 struct Cell
 {
-	Cell() {}
+	Cell() {id = 0; }
 	Cell(int, int, int, int, std::string);
 
 	int row, col, table_id, id;
@@ -24,7 +24,7 @@ struct Cell
 
 struct Table
 {
-	Table() {}
+	Table() {cells.clear(); }
 	std::vector<std::vector<Cell>> cells;
 	int nRow, nCol, table_id, entityCol;
 
@@ -38,8 +38,8 @@ class Corpus
 {
 public:
 	Corpus();
-	int countMultiColumnTable();	
-	
+	int countMultiColumnTable();
+
 	//public auxiliary functions
 	int countCell();
 	int countTable();

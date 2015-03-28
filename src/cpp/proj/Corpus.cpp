@@ -95,7 +95,7 @@ WWT::WWT()
 
 	//make allTables
 	cout << "Making tables....." << endl;
-	sort(allCells.begin(), allCells.end());
+	sort(allCells.begin() + 1, allCells.end());
 	allTables.push_back(Table());
 
 	for (int i = 1; i <= nCell; i ++)
@@ -114,9 +114,10 @@ WWT::WWT()
 					break;
 				int x = allCells[j].row;
 				int y = allCells[j].col;
-				if (x + 1 > cur.cells.size())
+
+				if (x + 1 > (int) cur.cells.size())
 					cur.cells.resize(x + 1);
-				if (y + 1 > cur.cells[x].size())
+				if (y + 1 > (int) cur.cells[x].size())
 					cur.cells[x].resize(y + 1);
 				cur.cells[x][y] = allCells[j];
 			}
@@ -133,7 +134,7 @@ WWT::WWT()
 			allTables.push_back(cur);
 		}
 
-	sort(allTables.begin(), allTables.end());
+	sort(allTables.begin() + 1, allTables.end());
 	nTable = allTables.size() - 1;
 
 	//idMap

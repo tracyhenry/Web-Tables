@@ -25,7 +25,7 @@ Bridge::Bridge()
 
 	//initialize kb property
 	initKbProperty();
-	
+
 	//initialize cell taxo patterns
 	initCellPattern();
 }
@@ -80,21 +80,15 @@ void Bridge::initKbProperty()
 
 	makeSchema(root);
 
-/*	int tmp = kb->getConceptId("wordnet_property_104916342");
-	for (int i = 0; i < kb->getSucCount(tmp); i ++)
-	{
-		int j = kb->getSucNode(tmp, i);
-		if ((kbProperty[j]).size())
-			cout << kb->getConcept(j) << endl;
-	}
-
+/*
 	int sum = 0;
 	for (int i = 1; i <= totalConcept; i ++)
-		for (unordered_map<int, TaxoPattern *>::iterator it = kbProperty[i].begin(); 
+		for (unordered_map<int, TaxoPattern *>::iterator it = kbProperty[i].begin();
 			it != kbProperty[i].end(); it ++)
 			sum += ((it->second)->w).size();
 	cout << "Total Kb property size: " << endl << "      " << sum << endl;
-	cout << "Average Kb property size: " << endl << "      " << (double) sum / totalConcept << endl; */
+	cout << "Average Kb property size: " << endl << "      " << (double) sum / totalConcept << endl;
+*/
 }
 
 void Bridge::makeSchema(int curNode)
@@ -141,15 +135,16 @@ void Bridge::makeSchema(int curNode)
 
 		//aggregate
 		unordered_map<int, TaxoPattern *> &curMap = kbProperty[curSuc];
-		for (unordered_map<int, TaxoPattern *>::iterator it1 = curMap.begin(); 
+		for (unordered_map<int, TaxoPattern *>::iterator it1 = curMap.begin();
 			it1 != curMap.end(); it1 ++)
 		{
 			unordered_map<int, int> &curPatternMap = it1->second->w;
-			for (unordered_map<int, int>::iterator it2 = curPatternMap.begin(); 
+			for (unordered_map<int, int>::iterator it2 = curPatternMap.begin();
 				it2 != curPatternMap.end(); it2 ++)
 			{
 				if (! kbProperty[curNode].count(it1->first))
 					kbProperty[curNode][it1->first] = new TaxoPattern();
+
 				kbProperty[curNode][it1->first]->w[it2->first] += it2->second;
 			}
 		}
@@ -158,13 +153,15 @@ void Bridge::makeSchema(int curNode)
 
 void Bridge::initCellPattern()
 {
+	cout << "Initializing cell taxonomy patterns!!!" << endl;
+
 	int totalCell = corpus->countCell();
 	int totalTable = corpus->countTable();
 
 	//Initialize container
 	cellPattern.clear();
 	cellPattern.resize(totalCell + 1);
-	
+
 	//make patterns for those who have direct matches
 	for (int i = 1; i <= totalCell; i ++)
 	{
@@ -242,7 +239,7 @@ void Bridge::traverse()
 	while (1)
 	{
 		cur = q[q.size() - 1];
-		cout << "We are at : " << kb->getConcept(cur) << endl 
+		cout << "We are at : " << cur << " " << kb->getConcept(cur) << endl
 			<< "Input your operation: " << endl;
 
 		int x, tmp;
@@ -311,4 +308,3 @@ void Bridge::traverse()
 		cout << "-------------------------------------" << endl << endl;
 	}
 }
-
