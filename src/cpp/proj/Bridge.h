@@ -13,16 +13,14 @@
 class Bridge
 {
 private:
-	//Match Result, (first, second) = (entityId, cellId)
-	std::vector<std::pair<int, int>> matches;
-
-	//TaxoPattern
-	//What needs taxonomy pattern?
-	//  1. Each cell
-	//  2. Each property of each concept
+	//Match Result: matches[cellId] = [KBentity1, KBentity2 ...]
+	std::vector<std::vector<int>> matches;
 
 	//schema of kb concepts: kbProperty[conceptId](relationId, TaxoPattern)
 	std::vector<std::unordered_map<int, TaxoPattern *>> kbProperty;
+
+	//Taxo patterns of table cells
+	std::vector<TaxoPattern *> cellPattern;
 
 	//Initialize match result
 	void initMatch();
@@ -32,6 +30,9 @@ private:
 
 	//make the KB property recursively
 	void makeSchema(int);
+
+	//Initialize the taxo pattern of cells
+	void initCellPattern();
 
 public:
 	//Knowledge base

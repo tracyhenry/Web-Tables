@@ -24,22 +24,37 @@ Corpus::Corpus() :
 	allTables.clear();
 }
 
-// Get the number of tables that have more than 4 columns
 int Corpus::countMultiColumnTable()
 {
 	int ans = 0;
+	// Get the number of tables that have more than 4 columns
 	for (int i = 1; i <= nTable; i ++)
 		if (allTables[i].nCol >= 4)
 			ans ++;
 	return ans;
 }
 
-Cell WWT::getCellById(int id)
+int Corpus::countCell()
+{
+	return nCell;
+}
+
+int Corpus::countTable()
+{
+	return nTable;
+}
+
+Cell Corpus::getCell(int id)
 {
 	return allCells[id];
 }
 
-Table WWT::getTableById(int id)
+Table Corpus::getTable(int id)
+{
+	return allTables[id];
+}
+
+Table WWT::getTableByDataId(int id)
 {
 	return allTables[idMap[id]];
 }

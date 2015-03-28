@@ -25,7 +25,9 @@ Bridge::Bridge()
 
 	//initialize kb property
 	initKbProperty();
-
+	
+	//initialize cell taxo patterns
+	initCellPattern();
 }
 
 void Bridge::initMatch()
@@ -36,7 +38,13 @@ void Bridge::initMatch()
 	ifstream matchFile(matchFileName);
 
 	string s;
+	int totalCell = corpus->countCell();
+
 	matches.clear();
+	matches.resize(totalCell + 1);
+	for (int i = 1; i <= totalCell; i ++)
+		matches[i].clear();
+
 	while (getline(matchFile, s))
 	{
 		//line 1
@@ -47,7 +55,7 @@ void Bridge::initMatch()
 		sin >> sim >> entityId >> cellId;
 		entityId ++;
 		cellId ++;
-		matches.emplace_back(entityId, cellId);
+		matches[cellId].push_back(entityId);
 
 		//line 2~4
 		for (int i = 1; i <= 3; i ++)
@@ -82,7 +90,8 @@ void Bridge::initKbProperty()
 
 	int sum = 0;
 	for (int i = 1; i <= totalConcept; i ++)
-		for (unordered_map<int, TaxoPattern *>::iterator it = kbProperty[i].begin(); it != kbProperty[i].end(); it ++)
+		for (unordered_map<int, TaxoPattern *>::iterator it = kbProperty[i].begin(); 
+			it != kbProperty[i].end(); it ++)
 			sum += ((it->second)->w).size();
 	cout << "Total Kb property size: " << endl << "      " << sum << endl;
 	cout << "Average Kb property size: " << endl << "      " << (double) sum / totalConcept << endl; */
@@ -132,14 +141,51 @@ void Bridge::makeSchema(int curNode)
 
 		//aggregate
 		unordered_map<int, TaxoPattern *> &curMap = kbProperty[curSuc];
-		for (unordered_map<int, TaxoPattern *>::iterator it1 = curMap.begin(); it1 != curMap.end(); it1 ++)
+		for (unordered_map<int, TaxoPattern *>::iterator it1 = curMap.begin(); 
+			it1 != curMap.end(); it1 ++)
 		{
 			unordered_map<int, int> &curPatternMap = it1->second->w;
-			for (unordered_map<int, int>::iterator it2 = curPatternMap.begin(); it2 != curPatternMap.end(); it2 ++)
+			for (unordered_map<int, int>::iterator it2 = curPatternMap.begin(); 
+				it2 != curPatternMap.end(); it2 ++)
 			{
 				if (! kbProperty[curNode].count(it1->first))
 					kbProperty[curNode][it1->first] = new TaxoPattern();
 				kbProperty[curNode][it1->first]->w[it2->first] += it2->second;
+			}
+		}
+	}
+}
+
+void Bridge::initCellPattern()
+{
+	int totalCell = corpus->countCell();
+	int totalTable = corpus->countTable();
+
+	//Initialize container
+	cellPattern.clear();
+	cellPattern.resize(totalCell + 1);
+	
+	//make patterns for those who have direct matches
+	for (int i = 1; i <= totalCell; i ++)
+	{
+		if (matches[i].size() == 0)
+			continue;
+
+		cellPattern[i] = new TaxoPattern();
+		for (int j = 0; j < matches[i].size(); j ++)
+		{
+			int curEntity = matches[i][j];
+			int totalBelong = kb->getBelongCount(curEntity);
+			for (int k = 0; k < totalBelong; k ++)
+			{
+				int curConcept = kb->getBelongConcept(curEntity, k);
+				while (1)
+				{
+					cellPattern[i]->w[curConcept] ++;
+					if (kb->getPreCount(curConcept) == 0)
+						break;
+					curConcept = kb->getPreNode(curConcept, 0);
+				}
 			}
 		}
 	}
@@ -196,7 +242,8 @@ void Bridge::traverse()
 	while (1)
 	{
 		cur = q[q.size() - 1];
-		cout << "We are at : " << kb->getConcept(cur) << endl << "Input your operation: " << endl;
+		cout << "We are at : " << kb->getConcept(cur) << endl 
+			<< "Input your operation: " << endl;
 
 		int x, tmp;
 		string s;

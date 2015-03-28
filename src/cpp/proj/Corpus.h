@@ -38,9 +38,13 @@ class Corpus
 {
 public:
 	Corpus();
-	int countMultiColumnTable();
-	virtual Cell getCellById(int) = 0;
-	virtual Table getTableById(int) = 0;
+	int countMultiColumnTable();	
+	
+	//public auxiliary functions
+	int countCell();
+	int countTable();
+	Cell getCell(int);		//by cell id
+	Table getTable(int);		//by table id
 
 protected:
 	//constants
@@ -58,10 +62,11 @@ class WWT : public Corpus
 {
 public :
 	WWT();
-	virtual Cell getCellById(int);
-	virtual Table getTableById(int);
+	Table getTableByDataId(int);
 
 private:
+
+	//table_id (in original dataset) --> id (in allTables[])
 	std::map<int, int> idMap;
 };
 
