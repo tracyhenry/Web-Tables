@@ -229,25 +229,6 @@ void Bridge::initCellPattern()
 	cout << "Average Pattern Size : " << endl << "      " << double(sum) / totalCell << endl;*/
 }
 
-void Bridge::tableQuery()
-{
-	while (1)
-	{
-		int tid, r, c, cid;
-		cin >> tid;
-		if (tid == -1)
-			break;
-		cin >> r >> c;
-		cid = corpus->getTableByDataId(tid).cells[r][c].id;
-
-		unordered_map<int, int> &tmp = cellPattern[cid]->w;
-		cout << endl << "-----------------------------------------------------" << endl;
-		for (unordered_map<int, int>::iterator it = tmp.begin(); it != tmp.end(); it ++)
-			cout << it->first << " " << kb->getConcept(it->first) << ": " << it->second << endl;
-		cout << endl << "-----------------------------------------------------" << endl;
-	}
-}
-
 void Bridge::testPattern()
 {
 	int totalEntity = kb->countEntity();
@@ -367,4 +348,97 @@ void Bridge::traverse()
 		}
 		cout << "-------------------------------------" << endl << endl;
 	}
+}
+
+void Bridge::tableQuery()
+{
+	while (1)
+	{
+		int tid, r, c, cid;
+		cin >> tid;
+		if (tid == -1)
+			break;
+		cin >> r >> c;
+		cid = corpus->getTableByDataId(tid).cells[r][c].id;
+
+		unordered_map<int, int> &tmp = cellPattern[cid]->w;
+		cout << endl << "-----------------------------------------------------" << endl;
+		for (unordered_map<int, int>::iterator it = tmp.begin(); it != tmp.end(); it ++)
+			cout << it->first << " " << kb->getConcept(it->first) << ": " << it->second << endl;
+		cout << endl << "-----------------------------------------------------" << endl;
+	}
+}
+
+void Bridge::findConceptWeightedJaccard(int tid, int r);
+{
+	//Brute force
+	int totalConcept = kb->countConcept();
+
+	//Similarity Array
+	vector<pair<double, int>> simScore;
+	simScore.clear();
+	simScore.resize(totalConcept + 1);
+
+	//information about the current record
+	Table curTable = corpus->getTable(tid);
+	int nCol = curTable.nCol;
+	int entityCol = curTable.entityCol;
+
+	for (int i = 1; i <= totalConcept; i ++)
+	{
+		simScore[i].first = 0;
+		simScore[i].second = i;
+
+		//loop over all attributes
+		for (int c = 0; c < nCol; c ++)
+		{
+			if (c == entityCol) continue;
+			double sim = 0;
+
+			//loop over all properties
+			for (unordered_map<int, TaxoPattern *>::iterator it1 = kbProperty[i].begin();
+				it1 != kbProperty[i].end(); it1 ++)
+			{
+				//two sets
+				unordered_map<int, int> &setA = cellPattern[curTable.cells[r][c]]->w;
+				unordered_map<int, int> &setB = it1->second->w;
+
+				//union and intersect
+				int commonWeight = 0;
+				int unionWeight = 0;
+
+				//union setA
+				for (unordered_map<int, int>::iterator it2 = setA.begin();
+					it2 != setA.end(); it2 ++)
+					if (! setB.count(it2->first))
+						unionWeight += it2->second;
+					else unionWeight += max(it2->second, setB[it2->first]);
+
+				//union setB
+				for (unordered_map<int, int>::iterator it2 = setB.begin();
+					it2 != setB.end(); it2 ++)
+					if (! setA.count(it2->first))
+						unionWeight += it2->second;
+
+				//intersect
+				for (unordered_map<int, int>::iterator it2 = setA.begin();
+					it2 != setA.end(); it2 ++)
+					if (setB.count(it2->first))
+						commonWeight += min(it2->second, setB[it2->first]);
+
+				sim = max(sim, (double) commonWeight / unionWeight);
+			}
+			simScore[i].first += sim;
+		}
+		simScore[i] *= -1;
+	}
+
+	//sort
+	sort(simScore.begin() + 1, simScore.end());
+
+	//output
+	cout << endl << "Top 10 Answers: " << endl;
+	for (int i = 1; i <= 10; i ++)
+		if (simScore[i].first > 0)
+			cout << simScore[i].first << " " << kb->getConcept(simScore[i].second) << endl;
 }

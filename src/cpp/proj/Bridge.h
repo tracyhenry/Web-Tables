@@ -52,6 +52,9 @@ public:
 
 	//Answer cell pattern queries
 	void tableQuery();
+
+	//Find the most similar concept for a record using W-Jaccard
+	void findConceptWeightedJaccard(int, int);
 };
 
 #endif
