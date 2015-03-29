@@ -186,12 +186,13 @@ void Bridge::initCellPattern()
 			}
 		}
 	}
-	
+
 	//make patterns for unlucky cells
 	for (int i = 1; i <= totalTable; i ++)
 	{
-		int nRow = allTables[i].nRow;
-		int nCol = allTables[i].nCol;
+		Table curTable = corpus->getTable(i);
+		int nRow = curTable.nRow;
+		int nCol = curTable.nCol;
 
 		for (int y = 0; y < nCol; y ++)
 		{
@@ -200,24 +201,50 @@ void Bridge::initCellPattern()
 
 			for (int x = 0; x < nRow; x ++)
 			{
-				Cell cur = allTables[i].cells[x][y];
+				Cell cur = curTable.cells[x][y];
 				if (matches[cur.id].size() == 0)
 					continue;
 				//merge
-				unordered_map<int, int> curMap = cellPattern[cur.id]->w;
-				for (unordered_map<int, int>::iterator it = curMap.begin(); 
+				unordered_map<int, int> &curMap = cellPattern[cur.id]->w;
+				for (unordered_map<int, int>::iterator it = curMap.begin();
 					it != curMap.end(); it ++)
 					colPattern->w[it->first] += it->second;
 			}
 
 			for (int x = 0; x < nRow; x ++)
 			{
-				Cell cur = allTables[i].cells[x][y];
+				Cell cur = curTable.cells[x][y];
 				if (matches[cur.id].size())
 					continue;
 				cellPattern[cur.id] = colPattern;
 			}
 		}
+	}
+
+/*	//stats
+	int sum = 0;
+	for (int i = 1; i <= totalCell; i ++)
+		sum += cellPattern[i]->w.size();
+
+	cout << "Average Pattern Size : " << endl << "      " << double(sum) / totalCell << endl;*/
+}
+
+void Bridge::tableQuery()
+{
+	while (1)
+	{
+		int tid, r, c, cid;
+		cin >> tid;
+		if (tid == -1)
+			break;
+		cin >> r >> c;
+		cid = corpus->getTableByDataId(tid).cells[r][c].id;
+
+		unordered_map<int, int> &tmp = cellPattern[cid]->w;
+		cout << endl << "-----------------------------------------------------" << endl;
+		for (unordered_map<int, int>::iterator it = tmp.begin(); it != tmp.end(); it ++)
+			cout << it->first << " " << kb->getConcept(it->first) << ": " << it->second << endl;
+		cout << endl << "-----------------------------------------------------" << endl;
 	}
 }
 

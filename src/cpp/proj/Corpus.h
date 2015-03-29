@@ -46,6 +46,10 @@ public:
 	Cell getCell(int);		//by cell id
 	Table getTable(int);		//by table id
 
+
+	//virtual functions
+	virtual Table getTableByDataId(int) = 0;
+
 protected:
 	//constants
 	const std::string dirPath;
@@ -62,7 +66,7 @@ class WWT : public Corpus
 {
 public :
 	WWT();
-	Table getTableByDataId(int);
+	virtual Table getTableByDataId(int);
 
 private:
 

@@ -49,6 +49,9 @@ public:
 
 	//Knowledge base traversal
 	void traverse();
+
+	//Answer cell pattern queries
+	void tableQuery();
 };
 
 #endif

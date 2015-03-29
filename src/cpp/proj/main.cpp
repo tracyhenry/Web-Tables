@@ -23,7 +23,7 @@ int main()
 */
 
 	Bridge *bridge = new Bridge();
-	bridge->traverse();
+	bridge->tableQuery();
 /*	bridge->testPattern();
 	int totalConcept = bridge->kb->countConcept();
 	int notUnderThing = -1;
