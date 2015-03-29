@@ -162,7 +162,7 @@ void Bridge::initCellPattern()
 	cellPattern.clear();
 	cellPattern.resize(totalCell + 1);
 
-	//make patterns for those who have direct matches
+	//make patterns for lucky cells
 	for (int i = 1; i <= totalCell; i ++)
 	{
 		if (matches[i].size() == 0)
@@ -183,6 +183,39 @@ void Bridge::initCellPattern()
 						break;
 					curConcept = kb->getPreNode(curConcept, 0);
 				}
+			}
+		}
+	}
+	
+	//make patterns for unlucky cells
+	for (int i = 1; i <= totalTable; i ++)
+	{
+		int nRow = allTables[i].nRow;
+		int nCol = allTables[i].nCol;
+
+		for (int y = 0; y < nCol; y ++)
+		{
+			TaxoPattern *colPattern = new TaxoPattern();
+			colPattern->w[kb->getRoot()] = 1;
+
+			for (int x = 0; x < nRow; x ++)
+			{
+				Cell cur = allTables[i].cells[x][y];
+				if (matches[cur.id].size() == 0)
+					continue;
+				//merge
+				unordered_map<int, int> curMap = cellPattern[cur.id]->w;
+				for (unordered_map<int, int>::iterator it = curMap.begin(); 
+					it != curMap.end(); it ++)
+					colPattern->w[it->first] += it->second;
+			}
+
+			for (int x = 0; x < nRow; x ++)
+			{
+				Cell cur = allTables[i].cells[x][y];
+				if (matches[cur.id].size())
+					continue;
+				cellPattern[cur.id] = colPattern;
 			}
 		}
 	}
