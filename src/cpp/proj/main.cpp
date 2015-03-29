@@ -23,8 +23,20 @@ int main()
 */
 
 	Bridge *bridge = new Bridge();
-	bridge->tableQuery();
-/*	bridge->testPattern();
+	bridge->traverse();
+
+	while (1)
+	{
+		cout << endl << "-----------------------------------------" << endl;
+		cout << "Input table_id and row_id :" << endl;
+		int x, y;
+		cin >> x >> y;
+		bridge->findConceptWeightedJaccard(x, y);
+		cout << endl << "-----------------------------------------" << endl;
+	}
+
+/*	bridge->tableQuery();
+	bridge->testPattern();
 	int totalConcept = bridge->kb->countConcept();
 	int notUnderThing = -1;
 	for (int i = 1; i <= totalConcept; i ++)
