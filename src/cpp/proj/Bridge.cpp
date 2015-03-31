@@ -427,7 +427,7 @@ void Bridge::tableQuery()
 	}
 }
 
-void Bridge::findConceptWeightedJaccard(int tid, int r)
+void Bridge::findConcept(int tid, int r)
 {
 	//Brute force
 	int totalConcept = kb->countConcept();
@@ -459,53 +459,15 @@ void Bridge::findConceptWeightedJaccard(int tid, int r)
 		for (int c = 0; c < nCol; c ++)
 		{
 			if (c == entityCol) continue;
-
 			double sim = 0;
 
 			//loop over all properties
 			for (unordered_map<int, TaxoPattern *>::iterator it1 = kbProperty[i].begin();
 				it1 != kbProperty[i].end(); it1 ++)
 			{
-				//two sets
-				unordered_map<int, int> &setA = cellPattern[curTable.cells[r][c].id]->w;
-				unordered_map<int, int> &setB = it1->second->w;
-
-				//union and intersect
-				int commonWeight = 0;
-				int unionWeight = 1e-9;
-
-				//union setA
-				for (unordered_map<int, int>::iterator it2 = setA.begin();
-					it2 != setA.end(); it2 ++)
-					{
-						if (kb->getSucCount(it2->first))
-							continue;
-						if (! setB.count(it2->first))
-							unionWeight += it2->second;
-						else
-							unionWeight += max(it2->second, setB[it2->second]);
-					}
-
-				//union setB
-				for (unordered_map<int, int>::iterator it2 = setB.begin();
-					it2 != setB.end(); it2 ++)
-					{
-						if (kb->getSucCount(it2->first))
-							continue;
-						if (! setA.count(it2->first))
-							unionWeight += it2->second;
-					}
-
-				//intersect
-				for (unordered_map<int, int>::iterator it2 = setA.begin();
-					it2 != setA.end(); it2 ++)
-					{
-						if (kb->getSucCount(it2->first))
-							continue;
-						if (setB.count(it2->first))
-							commonWeight += min(it2->second, setB[it2->first]);
-					}
-				sim = max(sim, (double) commonWeight / unionWeight);
+				TaxoPattern *cellPattern = cellPattern[curTable.cells[r][c].id];
+				TaxoPattern *propertyPattern = it1->second;
+				sim = max(sim, Matcher.weightedJaccard(cellPattern, propertyPattern));
 			}
 			sumSim += sim;
 		}
@@ -519,5 +481,6 @@ void Bridge::findConceptWeightedJaccard(int tid, int r)
 	cout << endl << "Top 10 Answers: " << endl;
 	for (int i = 0; i < min(10, (int) simScore.size()); i ++)
 		if (- simScore[i].first > 0)
-			cout << - simScore[i].first << " " << simScore[i].second << " " << kb->getConcept(simScore[i].second) << endl;
+			cout << - simScore[i].first << " " << simScore[i].second
+				<< " " << kb->getConcept(simScore[i].second) << endl;
 }
