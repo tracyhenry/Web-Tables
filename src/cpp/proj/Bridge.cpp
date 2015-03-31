@@ -20,6 +20,9 @@ Bridge::Bridge()
 	kb = new YAGO();
 	corpus = new WWT();
 
+	//debug file
+	debug.open("debug.txt");
+
 	//initialize match result
 	initMatch();
 
@@ -229,6 +232,59 @@ void Bridge::initCellPattern()
 	cout << "Average Pattern Size : " << endl << "      " << double(sum) / totalCell << endl;*/
 }
 
+TaxoPattern *Bridge::getKbProperty(int conceptId, int relationId, bool isDebug)
+{
+	TaxoPattern *ans = kbProperty[conceptId][relationId];
+	if (isDebug)
+	{
+		for (int i = 1; i <= 10; i ++)
+			debug << endl;
+		debug <<  "-------------------------------------------" << endl;
+		debug << conceptId << " " << kb->getConcept(conceptId) << " " <<
+			kb->getRelation(relationId) << " : " << endl;
+		debug <<  "-------------------------------------------" << endl;
+
+		printPattern(ans->w);
+	}
+	return ans;
+}
+
+TaxoPattern *Bridge::getCellPattern(int cellId, bool isDebug)
+{
+	TaxoPattern *ans = cellPattern[cellId];
+	if (isDebug)
+	{
+		for (int i = 1; i <= 10; i ++)
+			debug << endl;
+		debug << "-----------------------------------------" << endl;
+		debug << "The pattern of cell id : " << cellId << endl;
+		debug << "-----------------------------------------" << endl;
+
+		//sort array
+		printPattern(ans->w);
+	}
+	return ans;
+}
+
+void Bridge::printPattern(unordered_map<int, int> M)
+{
+	//sort array
+	vector<pair<int, int>> tmp; tmp.clear();
+	int sum = 0;
+
+	for (unordered_map<int, int>::iterator it = M.begin(); it != M.end(); it ++)
+		if (kb->getSucCount(it->first))
+			tmp.emplace_back(- it->second, it->first);
+		else
+			sum += it->second;
+
+	sort(tmp.begin(), tmp.end());
+	for (int i = 0; i < tmp.size(); i ++)
+		debug << tmp[i].second << " " << kb->getConcept(tmp[i].second)
+			<< " : " << - tmp[i].first
+			<< " " << double(- tmp[i].first) / sum << endl;
+}
+
 void Bridge::testPattern()
 {
 	int totalEntity = kb->countEntity();
@@ -387,6 +443,12 @@ void Bridge::findConceptWeightedJaccard(int tid, int r)
 	int entityCol = curTable.entityCol;
 	int cid = curTable.cells[r][entityCol].id;
 
+	//debug
+	getKbProperty(113966, kb->getRelationId("created"), true);
+	getKbProperty(114102, kb->getRelationId("created"), true);
+	getCellPattern(curTable.cells[14][2].id, true);
+
+	//loop over all concepts
 	for (int i = 1; i <= totalConcept; i ++)
 	{
 		if (! cellPattern[cid]->w.count(i))
@@ -397,6 +459,7 @@ void Bridge::findConceptWeightedJaccard(int tid, int r)
 		for (int c = 0; c < nCol; c ++)
 		{
 			if (c == entityCol) continue;
+
 			double sim = 0;
 
 			//loop over all properties
@@ -409,28 +472,39 @@ void Bridge::findConceptWeightedJaccard(int tid, int r)
 
 				//union and intersect
 				int commonWeight = 0;
-				int unionWeight = 0;
+				int unionWeight = 1e-9;
 
 				//union setA
 				for (unordered_map<int, int>::iterator it2 = setA.begin();
 					it2 != setA.end(); it2 ++)
+					{
+						if (kb->getSucCount(it2->first))
+							continue;
 						if (! setB.count(it2->first))
 							unionWeight += it2->second;
 						else
 							unionWeight += max(it2->second, setB[it2->second]);
+					}
 
 				//union setB
 				for (unordered_map<int, int>::iterator it2 = setB.begin();
 					it2 != setB.end(); it2 ++)
+					{
+						if (kb->getSucCount(it2->first))
+							continue;
 						if (! setA.count(it2->first))
 							unionWeight += it2->second;
+					}
 
 				//intersect
 				for (unordered_map<int, int>::iterator it2 = setA.begin();
 					it2 != setA.end(); it2 ++)
+					{
+						if (kb->getSucCount(it2->first))
+							continue;
 						if (setB.count(it2->first))
 							commonWeight += min(it2->second, setB[it2->first]);
-
+					}
 				sim = max(sim, (double) commonWeight / unionWeight);
 			}
 			sumSim += sim;

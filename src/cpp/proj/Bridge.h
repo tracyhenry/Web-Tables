@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <fstream>
 #include <unordered_map>
 
 class Bridge
@@ -22,6 +23,9 @@ private:
 	//Taxo patterns of table cells
 	std::vector<TaxoPattern *> cellPattern;
 
+	//debug file
+	std::ofstream debug;
+
 	//Initialize match result
 	void initMatch();
 
@@ -33,6 +37,15 @@ private:
 
 	//Initialize the taxo pattern of cells
 	void initCellPattern();
+
+	//get kb Property: concept id, relation id, debug or not
+	TaxoPattern *getKbProperty(int, int, bool);
+
+	//get cell pattern : cellId, debug or not
+	TaxoPattern *getCellPattern(int, bool);
+
+	//print the map of a pattern
+	void printPattern(std::unordered_map<int, int>);
 
 public:
 	//Knowledge base
