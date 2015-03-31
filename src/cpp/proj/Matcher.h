@@ -2,6 +2,7 @@
 #define MATCHER__H
 
 #include "TaxoPattern.h"
+#include "KB.h"
 #include <unordered_map>
 
 class Matcher
@@ -9,8 +10,11 @@ class Matcher
 public:
 
 	//using weighted jaccard
-	static double weightedJaccard(TaxoPattern *, TaxoPattern *);
-	
+	static double weightedJaccard(KB *, TaxoPattern *, TaxoPattern *);
+
 	//using depths of concepts
 //	static double conceptLevelMatch(TaxoPattern *, TaxoPattern *);
 };
+
+#endif
+

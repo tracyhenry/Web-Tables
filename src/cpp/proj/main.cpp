@@ -31,7 +31,7 @@ int main()
 		cout << "Input table_id and row_id :" << endl;
 		int x, y;
 		cin >> x >> y;
-		bridge->findConceptWeightedJaccard(x, y);
+		bridge->findConcept(x, y);
 		cout << endl << "-----------------------------------------" << endl;
 	}
 

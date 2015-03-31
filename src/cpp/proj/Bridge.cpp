@@ -1,4 +1,5 @@
 #include "Bridge.h"
+#include "Matcher.h"
 #include <set>
 #include <map>
 #include <vector>
@@ -465,9 +466,9 @@ void Bridge::findConcept(int tid, int r)
 			for (unordered_map<int, TaxoPattern *>::iterator it1 = kbProperty[i].begin();
 				it1 != kbProperty[i].end(); it1 ++)
 			{
-				TaxoPattern *cellPattern = cellPattern[curTable.cells[r][c].id];
-				TaxoPattern *propertyPattern = it1->second;
-				sim = max(sim, Matcher.weightedJaccard(cellPattern, propertyPattern));
+				TaxoPattern *cp = cellPattern[curTable.cells[r][c].id];
+				TaxoPattern *pp = it1->second;
+				sim = max(sim, Matcher::weightedJaccard(kb, cp, pp));
 			}
 			sumSim += sim;
 		}

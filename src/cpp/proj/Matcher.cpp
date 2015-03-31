@@ -8,7 +8,7 @@
 using namespace std;
 
 
-static double Matcher::weightedJaccard(TaxoPattern *cell, TaxoPattern *property)
+double Matcher::weightedJaccard(KB *kb, TaxoPattern *cell, TaxoPattern *property)
 {
 	//two sets
 	unordered_map<int, int> &setA = cell->w;
