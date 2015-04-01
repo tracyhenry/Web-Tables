@@ -114,23 +114,7 @@ string KB::getRelation(int relationId)
 	return RR[relationId];
 }
 
-YAGO::YAGO()
-{
-	conceptFileName = dirPath + "Concepts.txt";
-	subclassFileName = dirPath + "SubClass_Tree.txt";
-	entityFileName = dirPath + "Entities.txt";
-	typeFileName = dirPath + "Types_Tree.txt";
-	relationFileName = dirPath + "Relations.txt";
-	factFileName = dirPath + "Facts.txt";
-
-	cout << "Initializing YAGO!" << endl;
-
-	initTaxonomy();
-	initType();
-	initFact();
-}
-
-void YAGO::initTaxonomy()
+void KB::initTaxonomy()
 {
 
 	//YAGO's Input File
@@ -159,9 +143,14 @@ void YAGO::initTaxonomy()
 		pre[x].push_back(y), suc[y].push_back(x);
 
 	root = M["owl:Thing"];
+
+	//make depth array
+	depth.clear();
+	depth.resize(N + 1);
+	makeDepth(root);
 }
 
-void YAGO::initType()
+void KB::initType()
 {
 	ifstream entityFile(entityFileName.c_str());
 
@@ -188,7 +177,7 @@ void YAGO::initType()
 		belongs[x].push_back(y), possess[y].push_back(x);
 }
 
-void YAGO::initFact()
+void KB::initFact()
 {
 	ifstream relationFile(relationFileName.c_str());
 
@@ -221,6 +210,38 @@ void YAGO::initFact()
 		facts[x].emplace_back(z, y);
 		facts[y].emplace_back(z + F / 2, x);
 	}
+}
+
+void KB::makeDepth(int x)
+{
+	depth[x] = 0;
+	for (int i = 0; i < suc[x].size(); i ++)
+	{
+		int j = suc[x][i];
+		makeDepth(j);
+		depth[x] = max(depth[x], depth[j] + 1);
+	}
+}
+
+void KB::getDepth(int x)
+{
+	return depth[x];
+}
+
+YAGO::YAGO()
+{
+	conceptFileName = dirPath + "Concepts.txt";
+	subclassFileName = dirPath + "SubClass_Tree.txt";
+	entityFileName = dirPath + "Entities.txt";
+	typeFileName = dirPath + "Types_Tree.txt";
+	relationFileName = dirPath + "Relations.txt";
+	factFileName = dirPath + "Facts.txt";
+
+	cout << "Initializing YAGO!" << endl;
+
+	initTaxonomy();
+	initType();
+	initFact();
 }
 
 void YAGO::getConceptWithMostFacts()

@@ -16,6 +16,9 @@ protected:
 	//Adjacent lists
 	std::vector<std::vector<int>> pre, suc;
 
+	//longest depth
+	std::vector<int> depth;
+
 	//number of concepts
 	int N;
 
@@ -47,6 +50,23 @@ protected:
 	//Facts  first : relation name (e.g. actedIn),  second : entity ID
 	std::vector<std::vector<std::pair<int, int>>> facts;
 
+	//Input Files
+	std::string conceptFileName, entityFileName;
+	std::string typeFileName, subclassFileName;
+	std::string relationFileName, factFileName;
+
+	//Init SubClassOf Relationship
+	void initTaxonomy();
+
+	//Init Type Relationship
+	void initType();
+
+	//Init Fact Relationship
+	void initFact();
+
+	//Make the depth array recursively
+	makeDepth(int);
+
 public:
 	//Public auxiliary functions
 	int countConcept();
@@ -69,7 +89,7 @@ public:
 	std::string getConcept(int); 		//by id
 	std::string getEntity(int);		//by id
 	std::string getRelation(int);		//by id
-
+	int getDepth(int);		//by concept id
 	//Constructor
 	KB();
 
@@ -79,21 +99,6 @@ public:
 
 class YAGO : public KB
 {
-private:
-	//Input Files
-	std::string conceptFileName, entityFileName;
-	std::string typeFileName, subclassFileName;
-	std::string relationFileName, factFileName;
-
-	//Init SubClassOf Relationship
-	void initTaxonomy();
-
-	//Init Type Relationship
-	void initType();
-
-	//Init Fact Relationship
-	void initFact();
-
 public:
 	//Constructor
 	YAGO();

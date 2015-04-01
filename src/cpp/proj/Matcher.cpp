@@ -52,3 +52,18 @@ double Matcher::weightedJaccard(KB *kb, TaxoPattern *cell, TaxoPattern *property
 
 	return (double) commonWeight / unionWeight;
 }
+
+double Matcher::dotProduct(KB *kb, TaxoPattern *Cell, TaxoPattern *Property)
+{
+	//two sets
+	unordered_map<int, int> &setA = cell->w;
+	unordered_map<int, int> &setB = property->w;
+
+	double sim = 0;
+	for (unordered_map<int, int>::iterator it = setA.begin();
+		it != setA.end(); it ++)
+		if (setB.count(it->first))
+			sim += (it->second) * setB[it->first];
+
+	return sim;
+}

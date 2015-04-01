@@ -13,7 +13,7 @@ public:
 	static double weightedJaccard(KB *, TaxoPattern *, TaxoPattern *);
 
 	//using depths of concepts
-//	static double conceptLevelMatch(TaxoPattern *, TaxoPattern *);
+	static double dotProduct(KB *, TaxoPattern *, TaxoPattern *);
 };
 
 #endif
