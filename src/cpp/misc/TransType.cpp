@@ -31,8 +31,8 @@ int main()
 	ifstream typeFile("../../../data/KB/yagoTypes.ttl");
 	ifstream conceptFile("../../../data/KB/Concepts.txt");
 
-//	ofstream entityFile("../../../data/KB/Entities.txt");
-//	ofstream newTypeFile("../../../data/KB/Types.txt");
+	ofstream entityFile("../../../data/KB/Entities.txt");
+	ofstream newTypeFile("../../../data/KB/Types.txt");
 
 	//Get concepts
 	map<string, int> M;	M.clear();
@@ -83,8 +83,6 @@ int main()
 		string norm_s1 = "";
 		for (int i = 0; i < s1.size(); i ++)
 		{
-			if (! isascii(s1[i]))
-				continue;
 			if (s1[i] >= 65 && s1[i] <= 90)
 				s1[i] = char(s1[i] + 32);
 			norm_s1 += s1[i];
@@ -93,8 +91,6 @@ int main()
 			continue;
 		entities[norm_s1] = 0;
 		types.push_back(make_pair(norm_s1, M[s3]));
-		if (M[s3] == 164970 && norm_s1 == "male")
-			cout << s1 << " " << s3 << endl;
 	}
 
 	typeFile.close();
@@ -104,13 +100,12 @@ int main()
 	//write the entity file
 	N = 0;
 	for (map<string, int>::iterator it = entities.begin(); it != entities.end(); it ++)
-		it->second = ++ N;//, entityFile << it->first << endl;
-//	entityFile.close();
+		it->second = ++ N, entityFile << it->first << endl;
+	entityFile.close();
 
-//	cout << "....................   " << " " << entities["male"] << endl;
 	cout << "Wrote the entity file!" << endl;
 
-/*	//write the type file
+	//write the type file
 	set<pair<int, int>> typeSet; typeSet.clear();
 	for (int i = 0; i < types.size(); i ++)
 	{
@@ -123,7 +118,7 @@ int main()
 		typeSet.insert(make_pair(x, y));
 	}
 	newTypeFile.close();
-*/
+
 	cout << "Wrote the type file!" << endl << endl;
 
 	cout << "notType: " << notType << endl;

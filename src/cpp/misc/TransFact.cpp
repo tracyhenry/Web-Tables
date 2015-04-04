@@ -56,16 +56,12 @@ int main()
 		string sx = "", sy = "";
 		for (int i = 0; i < s1.size(); i ++)
 		{
-			if (! isascii(s1[i]))
-				continue;
 			if (s1[i] >= 65 && s1[i] <= 90)
 				s1[i] = char(s1[i] + 32);
 			sx += s1[i];
 		}
 		for (int i = 0; i < s3.size(); i ++)
 		{
-			if (! isascii(s3[i]))
-				continue;
 			if (s3[i] >= 65 && s3[i] <= 90)
 				s3[i] = char(s3[i] + 32);
 			sy += s3[i];
@@ -99,4 +95,3 @@ int main()
 
 	return 0;
 }
-
