@@ -12,8 +12,11 @@ public:
 	//using weighted jaccard
 	static double weightedJaccard(KB *, TaxoPattern *, TaxoPattern *);
 
-	//using depths of concepts
+	//simple dot product
 	static double dotProduct(KB *, TaxoPattern *, TaxoPattern *);
+
+	//using the depth of intersection with exponential weight
+	static double expoDepth(KB *, TaxoPattern *, TaxoPattern *);
 };
 
 #endif

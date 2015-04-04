@@ -245,7 +245,8 @@ TaxoPattern *Bridge::getKbProperty(int conceptId, int relationId, bool isDebug)
 			kb->getRelation(relationId) << " : " << endl;
 		debug <<  "-------------------------------------------" << endl;
 
-		printPattern(ans->w);
+		if (ans != NULL)
+			printPattern(ans->w);
 	}
 	return ans;
 }
@@ -271,7 +272,7 @@ void Bridge::printPattern(unordered_map<int, int> M)
 {
 	//sort array
 	vector<pair<int, int>> tmp; tmp.clear();
-	int sum = 0;
+	int sum = 1e-9;
 
 	for (unordered_map<int, int>::iterator it = M.begin(); it != M.end(); it ++)
 		if (kb->getSucCount(it->first))
@@ -280,6 +281,7 @@ void Bridge::printPattern(unordered_map<int, int> M)
 			sum += it->second;
 
 	sort(tmp.begin(), tmp.end());
+
 	for (int i = 0; i < tmp.size(); i ++)
 		debug << tmp[i].second << " " << kb->getConcept(tmp[i].second)
 			<< " : " << - tmp[i].first
@@ -447,13 +449,19 @@ void Bridge::findConcept(int tid, int r)
 	//debug
 	getKbProperty(113966, kb->getRelationId("created"), true);
 	getKbProperty(114102, kb->getRelationId("created"), true);
+	getKbProperty(164970, kb->getRelationId("created"), true);
 	getCellPattern(curTable.cells[14][2].id, true);
+
+	for (int i = 1; i <= kb->countRelation(); i ++)
+		getKbProperty(164970, i, true);
 
 	//loop over all concepts
 	for (int i = 1; i <= totalConcept; i ++)
 	{
-		if (! cellPattern[cid]->w.count(i))
-			continue;
+//		if (! cellPattern[cid]->w.count(i))
+//			continue;
+
+		if (kb->getSucCount(i)) continue;
 		double sumSim = 0;
 
 		//loop over all attributes
@@ -468,7 +476,7 @@ void Bridge::findConcept(int tid, int r)
 			{
 				TaxoPattern *cp = cellPattern[curTable.cells[r][c].id];
 				TaxoPattern *pp = it1->second;
-				sim = max(sim, Matcher::weightedJaccard(kb, cp, pp));
+				sim = max(sim, Matcher::expoDepth(kb, cp, pp));
 			}
 			sumSim += sim;
 		}
@@ -480,8 +488,8 @@ void Bridge::findConcept(int tid, int r)
 
 	//output
 	cout << endl << "Top 10 Answers: " << endl;
-	for (int i = 0; i < min(10, (int) simScore.size()); i ++)
-		if (- simScore[i].first > 0)
+	for (int i = 0; i < min((int) simScore.size(), 10); i ++)
+		if (- simScore[i].first > 0 && ! kb->getSucCount(simScore[i].second))
 			cout << - simScore[i].first << " " << simScore[i].second
 				<< " " << kb->getConcept(simScore[i].second) << endl;
 }

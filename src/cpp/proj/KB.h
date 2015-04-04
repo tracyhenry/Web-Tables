@@ -65,7 +65,7 @@ protected:
 	void initFact();
 
 	//Make the depth array recursively
-	makeDepth(int);
+	void makeDepth(int);
 
 public:
 	//Public auxiliary functions
