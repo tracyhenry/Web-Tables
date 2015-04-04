@@ -275,17 +275,15 @@ void Bridge::printPattern(unordered_map<int, int> M)
 	int sum = 1e-9;
 
 	for (unordered_map<int, int>::iterator it = M.begin(); it != M.end(); it ++)
-		if (kb->getSucCount(it->first))
+		if (cellPattern[213487]->w.count(it->first))
 			tmp.emplace_back(- it->second, it->first);
-		else
-			sum += it->second;
 
 	sort(tmp.begin(), tmp.end());
 
 	for (int i = 0; i < tmp.size(); i ++)
 		debug << tmp[i].second << " " << kb->getConcept(tmp[i].second)
 			<< " : " << - tmp[i].first
-			<< " " << double(- tmp[i].first) / sum << endl;
+			<< " " << kb->getDepth(tmp[i].second) << endl;
 }
 
 void Bridge::testPattern()
@@ -447,21 +445,18 @@ void Bridge::findConcept(int tid, int r)
 	int cid = curTable.cells[r][entityCol].id;
 
 	//debug
-	getKbProperty(113966, kb->getRelationId("created"), true);
+	getKbProperty(70366, kb->getRelationId("created"), true);
 	getKbProperty(114102, kb->getRelationId("created"), true);
-	getKbProperty(164970, kb->getRelationId("created"), true);
 	getCellPattern(curTable.cells[14][2].id, true);
-
 	for (int i = 1; i <= kb->countRelation(); i ++)
-		getKbProperty(164970, i, true);
+		getKbProperty(114279, i, true);
 
 	//loop over all concepts
 	for (int i = 1; i <= totalConcept; i ++)
 	{
 //		if (! cellPattern[cid]->w.count(i))
 //			continue;
-
-		if (kb->getSucCount(i)) continue;
+//		if (kb->getSucCount(i)) continue;
 		double sumSim = 0;
 
 		//loop over all attributes
@@ -487,9 +482,10 @@ void Bridge::findConcept(int tid, int r)
 	sort(simScore.begin(), simScore.end());
 
 	//output
-	cout << endl << "Top 10 Answers: " << endl;
-	for (int i = 0; i < min((int) simScore.size(), 10); i ++)
-		if (- simScore[i].first > 0 && ! kb->getSucCount(simScore[i].second))
+	cout << endl << "Top 50 Answers: " << endl;
+	for (int i = 0; i < min((int) simScore.size(), 50); i ++)
+		if (- simScore[i].first > 0)
 			cout << - simScore[i].first << " " << simScore[i].second
-				<< " " << kb->getConcept(simScore[i].second) << endl;
+				<< " " << kb->getConcept(simScore[i].second)
+				<< " " << kb->getDepth(simScore[i].second) << endl;
 }

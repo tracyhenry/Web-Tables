@@ -81,13 +81,14 @@ double Matcher::expoDepth(KB *kb, TaxoPattern *cell, TaxoPattern *property)
 	unordered_map<int, int> &setB = property->w;
 
 	double sim = 0;
-	double coef = 10.0;
+	double coef = 1000.0;
+	int H = kb->getDepth(kb->getRoot());
 
 	for (unordered_map<int, int>::iterator it = setA.begin();
 		it != setA.end(); it ++)
 		if (setB.count(it->first))
 			sim += (double) (it->second) * (double) setB[it->first]
-				 * exp(log(coef) * kb->getDepth(it->first));
+				 * exp(log(coef) * (H - kb->getDepth(it->first)));
 
 	return sim;
 }

@@ -219,7 +219,7 @@ void KB::initFact()
 
 void KB::makeDepth(int x)
 {
-	depth[x] = 0;
+	depth[x] = 1;
 	for (int i = 0; i < suc[x].size(); i ++)
 	{
 		int j = suc[x][i];
@@ -242,24 +242,6 @@ YAGO::YAGO()
 	initTaxonomy();
 	initType();
 	initFact();
-
-/*	//debug
-	int curConcept = 164970;
-	for (int i = 0; i < getPossessCount(curConcept); i ++)
-	{
-		int entityX = getPossessEntity(curConcept, i);
-		if (getEntity(entityX) == "male")
-			cout << entityX << " " << getEntity(entityX) << endl;
-		continue;
-		for (int j = 0; j < facts[entityX].size(); j ++)
-			if (facts[entityX][j].first == getRelationId("** hasGender **"))
-			{
-				cout << getEntity(facts[entityX][j].second) << " hasGender "
-					<< getEntity(entityX) << endl;
-				break;
-			}
-	}
-*/
 }
 
 void YAGO::getConceptWithMostFacts()
@@ -282,4 +264,3 @@ void YAGO::getConceptWithMostFacts()
 	for (int i = 0; i < 20; i ++)
 		cout << mmm[i].second << " : " << -mmm[i].first << endl;
 }
-
