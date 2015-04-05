@@ -112,6 +112,11 @@ void Bridge::makeSchema(int curNode)
 			int curRelation = curPair.first;
 			int entityY = curPair.second;
 
+			//new taxo pattern & add the entity
+			if (! kbProperty[curNode].count(curRelation))
+				kbProperty[curNode][curRelation] = new TaxoPattern();
+			kbProperty[curNode][curRelation]->e[entityY] ++;
+
 			//use the type information of entityY
 			int totalBelong = kb->getBelongCount(entityY);
 			for (int k = 0; k < totalBelong; k ++)
@@ -119,9 +124,7 @@ void Bridge::makeSchema(int curNode)
 				int curConcept = kb->getBelongConcept(entityY, k);
 				while (1)
 				{
-					if (! kbProperty[curNode].count(curRelation))
-						kbProperty[curNode][curRelation] = new TaxoPattern();
-					kbProperty[curNode][curRelation]->w[curConcept] ++;
+					kbProperty[curNode][curRelation]->c[curConcept] ++;
 					if (kb->getPreCount(curConcept) == 0)
 						break;
 					curConcept = kb->getPreNode(curConcept, 0);
@@ -137,20 +140,26 @@ void Bridge::makeSchema(int curNode)
 		int curSuc = kb->getSucNode(curNode, i);
 		makeSchema(curSuc);
 
-		//aggregate
+		//loop over all relations
 		unordered_map<int, TaxoPattern *> &curMap = kbProperty[curSuc];
 		for (unordered_map<int, TaxoPattern *>::iterator it1 = curMap.begin();
 			it1 != curMap.end(); it1 ++)
 		{
-			unordered_map<int, int> &curPatternMap = it1->second->w;
-			for (unordered_map<int, int>::iterator it2 = curPatternMap.begin();
-				it2 != curPatternMap.end(); it2 ++)
-			{
-				if (! kbProperty[curNode].count(it1->first))
-					kbProperty[curNode][it1->first] = new TaxoPattern();
+			//new taxo pattern
+			if (! kbProperty[curNode].count(it1->first))
+				kbProperty[curNode][it1->first] = new TaxoPattern();
 
-				kbProperty[curNode][it1->first]->w[it2->first] += it2->second;
-			}
+			//merge concepts
+			unordered_map<int, int> &curConceptMap = it1->second->c;
+			for (unordered_map<int, int>::iterator it2 = curConceptMap.begin();
+				it2 != curConceptMap.end(); it2 ++)
+				kbProperty[curNode][it1->first]->c[it2->first] += it2->second;
+
+			//merge entities
+			unordered_map<int, int> &curEntityMap = it1->second->e;
+			for (unordered_map<int, int>::iterator it2 = curEntityMap.begin();
+				it2 != curEntityMap.end(); it2 ++)
+				kbProperty[curNode][it1->first]->e[it2->first] += it2->second;
 		}
 	}
 }
@@ -176,13 +185,15 @@ void Bridge::initCellPattern()
 		for (int j = 0; j < matches[i].size(); j ++)
 		{
 			int curEntity = matches[i][j];
+			cellPattern[i]->e[curEntity] ++;
+
 			int totalBelong = kb->getBelongCount(curEntity);
 			for (int k = 0; k < totalBelong; k ++)
 			{
 				int curConcept = kb->getBelongConcept(curEntity, k);
 				while (1)
 				{
-					cellPattern[i]->w[curConcept] ++;
+					cellPattern[i]->c[curConcept] ++;
 					if (kb->getPreCount(curConcept) == 0)
 						break;
 					curConcept = kb->getPreNode(curConcept, 0);
@@ -201,18 +212,25 @@ void Bridge::initCellPattern()
 		for (int y = 0; y < nCol; y ++)
 		{
 			TaxoPattern *colPattern = new TaxoPattern();
-			colPattern->w[kb->getRoot()] = 1;
+			colPattern->c[kb->getRoot()] = 1;
 
 			for (int x = 0; x < nRow; x ++)
 			{
 				Cell cur = curTable.cells[x][y];
 				if (matches[cur.id].size() == 0)
 					continue;
-				//merge
-				unordered_map<int, int> &curMap = cellPattern[cur.id]->w;
-				for (unordered_map<int, int>::iterator it = curMap.begin();
-					it != curMap.end(); it ++)
-					colPattern->w[it->first] += it->second;
+
+				//merge concepts
+				unordered_map<int, int> &curConceptMap = cellPattern[cur.id]->c;
+				for (unordered_map<int, int>::iterator it = curConceptMap.begin();
+					it != curConceptMap.end(); it ++)
+					colPattern->c[it->first] += it->second;
+
+				//merge entities
+				unordered_map<int, int> &curEntityMap = cellPattern[cur.id]->e;
+				for (unordered_map<int, int>::iterator it = curEntityMap.begin();
+					it != curEntityMap.end(); it ++)
+					colPattern->e[it->first] += it->second;
 			}
 
 			for (int x = 0; x < nRow; x ++)
@@ -246,7 +264,7 @@ TaxoPattern *Bridge::getKbProperty(int conceptId, int relationId, bool isDebug)
 		debug <<  "-------------------------------------------" << endl;
 
 		if (ans != NULL)
-			printPattern(ans->w);
+			printPattern(ans);
 	}
 	return ans;
 }
@@ -263,27 +281,34 @@ TaxoPattern *Bridge::getCellPattern(int cellId, bool isDebug)
 		debug << "-----------------------------------------" << endl;
 
 		//sort array
-		printPattern(ans->w);
+		printPattern(ans);
 	}
 	return ans;
 }
 
-void Bridge::printPattern(unordered_map<int, int> M)
+void Bridge::printPattern(TaxoPattern *p)
 {
-	//sort array
+	int testCid = 213487;
+	unordered_map<int, int> &C = p->c;
+
+	//concepts
 	vector<pair<int, int>> tmp; tmp.clear();
 	int sum = 1e-9;
-
-	for (unordered_map<int, int>::iterator it = M.begin(); it != M.end(); it ++)
-		if (cellPattern[213487]->w.count(it->first))
+	for (unordered_map<int, int>::iterator it = C.begin(); it != C.end(); it ++)
+		if (cellPattern[testCid]->c.count(it->first))
 			tmp.emplace_back(- it->second, it->first);
 
 	sort(tmp.begin(), tmp.end());
-
 	for (int i = 0; i < tmp.size(); i ++)
 		debug << tmp[i].second << " " << kb->getConcept(tmp[i].second)
 			<< " : " << - tmp[i].first
 			<< " " << kb->getDepth(tmp[i].second) << endl;
+
+	//entities
+	unordered_map<int, int> &E = p->e;
+	for (unordered_map<int, int>::iterator it = E.begin(); it != E.end(); it ++)
+		if (cellPattern[testCid]->e.count(it->first))
+			debug << kb->getEntity(it->first) << " : " << it->second << endl;
 }
 
 void Bridge::testPattern()
@@ -396,8 +421,8 @@ void Bridge::traverse()
 					it1 != kbProperty[cur].end(); it1 ++)
 				{
 					cout << kb->getRelation(it1->first) << " : " << endl << "    ";
-					unordered_map<int, int>::iterator it2 = ((it1->second)->w).begin();
-					for (int i = 1; i <= 20 && it2 != ((it1->second)->w).end(); i ++, it2 ++)
+					unordered_map<int, int>::iterator it2 = ((it1->second)->c).begin();
+					for (int i = 1; i <= 20 && it2 != ((it1->second)->c).end(); i ++, it2 ++)
 						cout << kb->getConcept(it2->first) << "    ";
 					cout << endl;
 					cout << endl;
@@ -420,7 +445,7 @@ void Bridge::tableQuery()
 		cin >> r >> c;
 		cid = corpus->getTableByDataId(tid).cells[r][c].id;
 
-		unordered_map<int, int> &tmp = cellPattern[cid]->w;
+		unordered_map<int, int> &tmp = cellPattern[cid]->c;
 		cout << endl << "-----------------------------------------------------" << endl;
 		for (unordered_map<int, int>::iterator it = tmp.begin(); it != tmp.end(); it ++)
 			cout << it->first << " " << kb->getConcept(it->first) << ": " << it->second << endl;

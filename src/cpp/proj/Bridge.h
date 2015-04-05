@@ -45,7 +45,7 @@ private:
 	TaxoPattern *getCellPattern(int, bool);
 
 	//print the map of a pattern
-	void printPattern(std::unordered_map<int, int>);
+	void printPattern(TaxoPattern *);
 
 public:
 	//Knowledge base

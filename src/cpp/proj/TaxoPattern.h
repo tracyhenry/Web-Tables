@@ -5,9 +5,12 @@
 
 struct TaxoPattern
 {
-	TaxoPattern() {w.clear();}
+	TaxoPattern() {c.clear(), e.clear();}
 	//From concept to weight
-	std::unordered_map<int, int> w;
+	std::unordered_map<int, int> c;
+
+	//From entity to weight
+	std::unordered_map<int, int> e;
 };
 
 #endif
