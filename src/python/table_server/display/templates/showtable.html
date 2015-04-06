@@ -34,16 +34,17 @@
 
 	<body>
 
-		<p id = "change">
+		<p id = "change" align = "center">
 			Entity Column : {{ entity_col }}
 		</p>
 
-		<p>
+		<p align = "center">
 			{{ table_url }}
 		</p>
 
-		<table border = "1">
+		<table border = "1" align = "center">
 			<tr>
+				<td></td>
 				{% for col in gt_list|dictsort:"col" %}
 					<td>
 						<b><u> {{ col.value }} </u></b>
@@ -52,6 +53,7 @@
 			</tr>
 
 			<tr>
+				<td></td>
 				{% for col in schema_list|dictsort:"col" %}
 					<td>
 						<b> {{ col.value }} </b>
@@ -61,6 +63,9 @@
 
 			{% for row in row_list|dictsort:"row" %}
 				<tr>
+					<td>
+						{{ row.row }}
+					</td>
 					{% for col in row.cell|dictsort:"col" %}
 						<td class = "cell" id = "{{ table_id }}_{{ row.row }}_{{ col.col }}">
 							{% if col.matched %}

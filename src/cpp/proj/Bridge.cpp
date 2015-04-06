@@ -470,18 +470,18 @@ void Bridge::findConcept(int tid, int r)
 	int cid = curTable.cells[r][entityCol].id;
 
 	//debug
-	getKbProperty(70366, kb->getRelationId("created"), true);
-	getKbProperty(114102, kb->getRelationId("created"), true);
-	getCellPattern(curTable.cells[14][2].id, true);
-	for (int i = 1; i <= kb->countRelation(); i ++)
-		getKbProperty(114279, i, true);
+//	getKbProperty(70366, kb->getRelationId("created"), true);
+//	getKbProperty(114102, kb->getRelationId("created"), true);
+//	getCellPattern(curTable.cells[14][2].id, true);
+//	for (int i = 1; i <= kb->countRelation(); i ++)
+//		getKbProperty(114279, i, true);
 
 	//loop over all concepts
 	for (int i = 1; i <= totalConcept; i ++)
 	{
-//		if (! cellPattern[cid]->w.count(i))
-//			continue;
-//		if (kb->getSucCount(i)) continue;
+		if (! cellPattern[cid]->c.count(i))
+			continue;
+		if (kb->getSucCount(i)) continue;
 		double sumSim = 0;
 
 		//loop over all attributes
