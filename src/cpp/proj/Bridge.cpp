@@ -288,7 +288,7 @@ TaxoPattern *Bridge::getCellPattern(int cellId, bool isDebug)
 
 void Bridge::printPattern(TaxoPattern *p)
 {
-	int testCid = 213487;
+	int testCid = 275954;
 	unordered_map<int, int> &C = p->c;
 
 	//concepts
@@ -472,16 +472,16 @@ void Bridge::findConcept(int tid, int r)
 	//debug
 //	getKbProperty(70366, kb->getRelationId("created"), true);
 //	getKbProperty(114102, kb->getRelationId("created"), true);
-//	getCellPattern(curTable.cells[14][2].id, true);
+//	getCellPattern(curTable.cells[r][3].id, true);
 //	for (int i = 1; i <= kb->countRelation(); i ++)
-//		getKbProperty(114279, i, true);
+//		getKbProperty(25431, i, true);
 
 	//loop over all concepts
 	for (int i = 1; i <= totalConcept; i ++)
 	{
 		if (! cellPattern[cid]->c.count(i))
 			continue;
-		if (kb->getSucCount(i)) continue;
+//		if (kb->getSucCount(i)) continue;
 		double sumSim = 0;
 
 		//loop over all attributes

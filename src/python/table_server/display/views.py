@@ -5,6 +5,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.http import require_GET, require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from random import randint
 from sets import Set
 
 from models import *
@@ -14,6 +15,13 @@ def show_table(request):
 
     # Get table id
     table_id = int(request.GET.get('tableID'))
+
+    # Random
+    if table_id == -1:
+        while True:
+            table_id = randint(0, 6000);
+            if TableCells.objects.filter(table_id = table_id).count() > 0:
+                break
 
     # Get the set of table cells
     cells =  TableCells.objects.filter(table_id = table_id)
