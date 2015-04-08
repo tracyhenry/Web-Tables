@@ -72,7 +72,7 @@ double Matcher::dotProduct(KB *kb, TaxoPattern *cell, TaxoPattern *property)
 	return sim;
 }
 
-double Matcher::expoDepth(KB *kb, TaxoPattern *cell, TaxoPattern *property)
+double Matcher::constExpoDepth(KB *kb, TaxoPattern *cell, TaxoPattern *property)
 {
 	if (cell == NULL || property == NULL)
 		return 0;
@@ -102,3 +102,32 @@ double Matcher::expoDepth(KB *kb, TaxoPattern *cell, TaxoPattern *property)
 				* exp(log(coef) * H);
 	return sim;
 }
+
+double Matcher::weightExpoDepth(KB *kb, TaxoPattern *cell, TaxoPattern *property)
+{
+	if (cell == NULL || property == NULL)
+		return 0;
+	double sim = 0;
+	int H = kb->getDepth(kb->getRoot());
+
+	//Concept set
+	unordered_map<int, int> &cA = cell->c;
+	unordered_map<int, int> &cB = property->c;
+
+	for (unordered_map<int, int>::iterator it = cA.begin();
+		it!= cA.end(); it ++)
+		if (cB.count(it->first))
+			sim += exp(log(it->second * cB[it->first]) *
+				(H - kb->getDepth(it->first)));
+
+	//Entity set
+	unordered_map<int, int> &eA = cell->e;
+	unordered_map<int, int> &eB = property->e;
+
+	for (unordered_map<int, int>::iterator it = eA.begin();
+		it != eA.end(); it ++)
+		if (eB.count(it->first))
+			sim += exp(log(it->second * eB[it->first]) * H);
+	return sim;
+}
+

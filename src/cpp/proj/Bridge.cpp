@@ -288,14 +288,14 @@ TaxoPattern *Bridge::getCellPattern(int cellId, bool isDebug)
 
 void Bridge::printPattern(TaxoPattern *p)
 {
-	int testCid = 275954;
+	int testCid = 0;
 	unordered_map<int, int> &C = p->c;
 
 	//concepts
 	vector<pair<int, int>> tmp; tmp.clear();
 	int sum = 1e-9;
 	for (unordered_map<int, int>::iterator it = C.begin(); it != C.end(); it ++)
-		if (cellPattern[testCid]->c.count(it->first))
+		if (! testCid || cellPattern[testCid]->c.count(it->first))
 			tmp.emplace_back(- it->second, it->first);
 
 	sort(tmp.begin(), tmp.end());
@@ -307,7 +307,7 @@ void Bridge::printPattern(TaxoPattern *p)
 	//entities
 	unordered_map<int, int> &E = p->e;
 	for (unordered_map<int, int>::iterator it = E.begin(); it != E.end(); it ++)
-		if (cellPattern[testCid]->e.count(it->first))
+		if (! testCid || cellPattern[testCid]->e.count(it->first))
 			debug << kb->getEntity(it->first) << " : " << it->second << endl;
 }
 
@@ -472,7 +472,7 @@ void Bridge::findConcept(int tid, int r)
 	//debug
 //	getKbProperty(70366, kb->getRelationId("created"), true);
 //	getKbProperty(114102, kb->getRelationId("created"), true);
-//	getCellPattern(curTable.cells[r][3].id, true);
+	getCellPattern(curTable.cells[r][entityCol].id, true);
 //	for (int i = 1; i <= kb->countRelation(); i ++)
 //		getKbProperty(25431, i, true);
 
@@ -481,7 +481,7 @@ void Bridge::findConcept(int tid, int r)
 	{
 		if (! cellPattern[cid]->c.count(i))
 			continue;
-//		if (kb->getSucCount(i)) continue;
+		if (kb->getSucCount(i)) continue;
 		double sumSim = 0;
 
 		//loop over all attributes
@@ -496,7 +496,7 @@ void Bridge::findConcept(int tid, int r)
 			{
 				TaxoPattern *cp = cellPattern[curTable.cells[r][c].id];
 				TaxoPattern *pp = it1->second;
-				sim = max(sim, Matcher::expoDepth(kb, cp, pp));
+				sim = max(sim, Matcher::weightExpoDepth(kb, cp, pp));
 			}
 			sumSim += sim;
 		}

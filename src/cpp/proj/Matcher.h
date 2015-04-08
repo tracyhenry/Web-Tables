@@ -15,8 +15,11 @@ public:
 	//simple dot product
 	static double dotProduct(KB *, TaxoPattern *, TaxoPattern *);
 
-	//using the depth of intersection with exponential weight
-	static double expoDepth(KB *, TaxoPattern *, TaxoPattern *);
+	//using the depth of intersection with constant-based exponential weight
+	static double constExpoDepth(KB *, TaxoPattern *, TaxoPattern *);
+
+	//weight ^ Generality
+	static double weightExpoDepth(KB *, TaxoPattern *, TaxoPattern *);
 };
 
 #endif
