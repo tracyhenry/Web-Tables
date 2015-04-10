@@ -459,7 +459,7 @@ void Bridge::findConcept(int tid, int r)
 	int totalConcept = kb->countConcept();
 
 	//Similarity Array
-	vector<pair<double, int>> simScore;
+	vector<pair<depthVector, int>> simScore;
 	simScore.clear();
 	simScore.resize(totalConcept + 1);
 
@@ -482,13 +482,13 @@ void Bridge::findConcept(int tid, int r)
 		if (! cellPattern[cid]->c.count(i))
 			continue;
 		if (kb->getSucCount(i)) continue;
-		double sumSim = 0;
+		depthVector sumSim = 0;
 
 		//loop over all attributes
 		for (int c = 0; c < nCol; c ++)
 		{
 			if (c == entityCol) continue;
-			double sim = 0;
+			depthVector sim = 0;
 
 			//loop over all properties
 			for (unordered_map<int, TaxoPattern *>::iterator it1 = kbProperty[i].begin();
@@ -496,11 +496,11 @@ void Bridge::findConcept(int tid, int r)
 			{
 				TaxoPattern *cp = cellPattern[curTable.cells[r][c].id];
 				TaxoPattern *pp = it1->second;
-				sim = max(sim, Matcher::weightExpoDepth(kb, cp, pp));
+				sim = sim.maxUpdate(Matcher::dVector(kb, cp, pp));
 			}
-			sumSim += sim;
+			sumSim.addUpdate(sim);
 		}
-		simScore.emplace_back(- sumSim, i);
+		simScore.emplace_back(sumSim, i);
 	}
 
 	//sort
@@ -510,7 +510,7 @@ void Bridge::findConcept(int tid, int r)
 	cout << endl << "Top 50 Answers: " << endl;
 	for (int i = 0; i < min((int) simScore.size(), 50); i ++)
 		if (- simScore[i].first > 0)
-			cout << - simScore[i].first << " " << simScore[i].second
+			cout << simScore[i].first.score(1000.0) << " " << simScore[i].second
 				<< " " << kb->getConcept(simScore[i].second)
 				<< " " << kb->getDepth(simScore[i].second) << endl;
 }

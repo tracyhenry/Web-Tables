@@ -131,3 +131,31 @@ double Matcher::weightExpoDepth(KB *kb, TaxoPattern *cell, TaxoPattern *property
 	return sim;
 }
 
+depthVector Matcher::dVector(KB *kb, TaxoPattern *cell, TaxoPattern *property)
+{
+	if (cell == NULL || property == NULL)
+		return 0;
+	double sim = 0;
+	int H = kb->getDepth(kb->getRoot());
+	depthVector ans(H);
+
+	//Concept set
+	unordered_map<int, int> &cA = cell->c;
+	unordered_map<int, int> &cB = property->c;
+
+	for (unordered_map<int, int>::iterator it = cA.begin();
+		it != cA.end(); it ++)
+		if (cB.count(it->first))
+			ans.w[H - kb->getDepth(it->first)] += (double) it->second * cB[it->first];
+
+	//Entity set
+	unordered_map<int, int> &eA = cell->e;
+	unordered_map<int, int> &eB = property->e;
+
+	for (unordered_map<int, int>::iterator it = eA.begin();
+		it != eA.end(); it ++)
+		if (eB.count(it->first))
+			ans.w[H] += (double) it->second * eB[it->first];
+
+	return ans;
+}

@@ -20,6 +20,9 @@ public:
 
 	//weight ^ Generality
 	static double weightExpoDepth(KB *, TaxoPattern *, TaxoPattern *);
+
+	//Return the intersection as a depthVector
+	static depthVector dVector(KB *, TaxoPattern *, TaxoPattern *);
 };
 
 #endif
