@@ -137,7 +137,7 @@ depthVector Matcher::dVector(KB *kb, TaxoPattern *cell, TaxoPattern *property)
 		return 0;
 	double sim = 0;
 	int H = kb->getDepth(kb->getRoot());
-	depthVector ans(H);
+	depthVector ans(H + 1);
 
 	//Concept set
 	unordered_map<int, int> &cA = cell->c;

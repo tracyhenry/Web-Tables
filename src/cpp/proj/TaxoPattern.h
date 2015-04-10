@@ -18,17 +18,7 @@ struct TaxoPattern
 struct depthVector
 {
 	//comparison
-	int operator < (const depthVector &o) const;
-	{
-		for (int i = 0; i < w.size(); i ++)
-		{
-			if (w[i] > o.w[i])
-				return 1;
-			if (w[i] < o.w[i])
-				return 0;
-		}
-		return 0;
-	}
+	int operator <(const depthVector &) const;
 
 	//constructor
 	depthVector();
@@ -39,7 +29,7 @@ struct depthVector
 	void addUpdate(depthVector &);
 
 	//max
-	depthVector max(depthVector &);
+	depthVector mAx(depthVector &);
 	void maxUpdate(depthVector &);
 
 	//convert to exponential score

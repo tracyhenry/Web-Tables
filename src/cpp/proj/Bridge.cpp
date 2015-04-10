@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <iomanip>
 #include <utility>
 #include <sstream>
 #include <fstream>
@@ -461,13 +462,15 @@ void Bridge::findConcept(int tid, int r)
 	//Similarity Array
 	vector<pair<depthVector, int>> simScore;
 	simScore.clear();
-	simScore.resize(totalConcept + 1);
 
 	//information about the current record
 	Table curTable = corpus->getTableByDataId(tid);
 	int nCol = curTable.nCol;
 	int entityCol = curTable.entityCol;
 	int cid = curTable.cells[r][entityCol].id;
+
+	//depth of kb
+	int H = kb->getDepth(kb->getRoot());
 
 	//debug
 //	getKbProperty(70366, kb->getRelationId("created"), true);
@@ -482,13 +485,13 @@ void Bridge::findConcept(int tid, int r)
 		if (! cellPattern[cid]->c.count(i))
 			continue;
 		if (kb->getSucCount(i)) continue;
-		depthVector sumSim = 0;
+		depthVector sumSim(H + 1);
 
 		//loop over all attributes
 		for (int c = 0; c < nCol; c ++)
 		{
 			if (c == entityCol) continue;
-			depthVector sim = 0;
+			depthVector sim(H + 1);
 
 			//loop over all properties
 			for (unordered_map<int, TaxoPattern *>::iterator it1 = kbProperty[i].begin();
@@ -496,7 +499,9 @@ void Bridge::findConcept(int tid, int r)
 			{
 				TaxoPattern *cp = cellPattern[curTable.cells[r][c].id];
 				TaxoPattern *pp = it1->second;
-				sim = sim.maxUpdate(Matcher::dVector(kb, cp, pp));
+
+				depthVector curVector = Matcher::dVector(kb, cp, pp);
+				sim.maxUpdate(curVector);
 			}
 			sumSim.addUpdate(sim);
 		}
@@ -509,8 +514,14 @@ void Bridge::findConcept(int tid, int r)
 	//output
 	cout << endl << "Top 50 Answers: " << endl;
 	for (int i = 0; i < min((int) simScore.size(), 50); i ++)
-		if (- simScore[i].first > 0)
-			cout << simScore[i].first.score(1000.0) << " " << simScore[i].second
-				<< " " << kb->getConcept(simScore[i].second)
-				<< " " << kb->getDepth(simScore[i].second) << endl;
+	{
+//		if (- simScore[i].first > 0)
+		cout << simScore[i].first.score(1000.0) << " " << simScore[i].second
+			<< " " << kb->getConcept(simScore[i].second)
+			<< " " << kb->getDepth(simScore[i].second) << endl;
+
+		for (int j = H; j > 16; j --)
+			cout << left << setw(15) << simScore[i].first.w[j] << " ";
+		cout << endl << endl;
+	}
 }

@@ -8,6 +8,18 @@ TaxoPattern::TaxoPattern()
 	c.clear(), e.clear();
 }
 
+int depthVector::operator < (const depthVector &o) const
+{
+	for (int i = w.size() - 1; i >= 0; i --)
+	{
+		if (w[i] > o.w[i] + 1e-9)
+			return 1;
+		if (w[i] + 1e-9  < o.w[i])
+			return 0;
+	}
+	return 0;
+}
+
 depthVector::depthVector()
 {
 	w.clear();
@@ -33,7 +45,7 @@ void depthVector::addUpdate(depthVector &o)
 		w[i] += o.w[i];
 }
 
-depthVector depthVector::max(depthVector &o)
+depthVector depthVector::mAx(depthVector &o)
 {
 	depthVector ans((int) w.size());
 	for (int i = 0; i < ans.w.size(); i ++)
