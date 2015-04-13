@@ -11,7 +11,7 @@ using namespace std;
 
 
 KB::KB() :
-	dirPath("../../../data/KB/"), delim("/") 
+	dirPath("../../../data/KB/"), delim("/")
 {}
 
 int KB::countConcept()

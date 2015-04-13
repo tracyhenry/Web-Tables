@@ -444,16 +444,15 @@ void Bridge::findRelation(int tid, int c)
 
 	//Similarity Array
 	vector<pair<depthVector, int>> simScore;
-	simScore.resize(R + 1);
+	simScore.clear();
 
 	//Frequently-used Taxo Patterns
 	TaxoPattern *entityColPattern = colPattern[id][entityCol];
-	TaxoPattern *queryColPattern = colPattern[i][c];
+	TaxoPattern *queryColPattern = colPattern[id][c];
 
 	for (int r = 1; r <= R; r ++)
 	{
 		TaxoPattern *curRelPattern = new TaxoPattern();
-
 		//loop over all leaf nodes
 		for (IterII it1 = entityColPattern->c.begin();
 			it1 != entityColPattern->c.end(); it1 ++)
@@ -465,7 +464,7 @@ void Bridge::findRelation(int tid, int c)
 
 				//loop over all property to find the r relation
 				for (IterIT it2 = kbProperty[curConcept].begin();
-					it2 != kbProperty[i].end(); it2 ++)
+					it2 != kbProperty[curConcept].end(); it2 ++)
 					{
 						if (it2->first != r)
 							continue;
@@ -479,10 +478,10 @@ void Bridge::findRelation(int tid, int c)
 							curRelPattern->e[it3->first] += it3->second * it1->second;
 					}
 			}
-		simScore[r].emplace_back(Matcher::dVector(kb, curRelPattern, queryColPattern), r);
+		simScore.emplace_back(Matcher::dVector(kb, curRelPattern, queryColPattern), r);
 	}
-	sort(simScore.begin(), simScore.end());
 
+	sort(simScore.begin(), simScore.end());
 	//output
 	cout << endl << "Top 10 Answers: " << endl;
 	for (int i = 0; i < min((int) simScore.size(), 10); i ++)

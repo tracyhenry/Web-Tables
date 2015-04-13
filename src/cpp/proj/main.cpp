@@ -29,9 +29,17 @@ int main()
 	{
 		cout << endl << "-----------------------------------------" << endl;
 		cout << "Input table_id and row_id :" << endl;
-		int x, y;
-		cin >> x >> y;
-		bridge->findConcept(x, y);
+		int t, x, y;
+		cin >> t >> x >> y;
+		switch (t)
+		{
+			case 0:
+				bridge->findConcept(x, y);
+				break;
+			case 1:
+				bridge->findRelation(x, y);
+				break;
+		}
 		cout << endl << "-----------------------------------------" << endl;
 	}
 
