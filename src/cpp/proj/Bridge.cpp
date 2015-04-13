@@ -12,6 +12,8 @@
 #include <algorithm>
 #include <unordered_set>
 #include <unordered_map>
+#define IterII unordered_map<int, int>::iterator
+#define IterIT unordered_map<int, TaxoPattern *>::iterator
 using namespace std;
 
 Bridge::Bridge()
@@ -84,16 +86,6 @@ void Bridge::initKbProperty()
 	cout << "Starting bridge::makeSchema dfs!" << endl;
 
 	makeSchema(root);
-
-/*
-	int sum = 0;
-	for (int i = 1; i <= totalConcept; i ++)
-		for (unordered_map<int, TaxoPattern *>::iterator it = kbProperty[i].begin();
-			it != kbProperty[i].end(); it ++)
-			sum += ((it->second)->w).size();
-	cout << "Total Kb property size: " << endl << "      " << sum << endl;
-	cout << "Average Kb property size: " << endl << "      " << (double) sum / totalConcept << endl;
-*/
 }
 
 void Bridge::makeSchema(int curNode)
@@ -175,6 +167,8 @@ void Bridge::initCellPattern()
 	//Initialize container
 	cellPattern.clear();
 	cellPattern.resize(totalCell + 1);
+	colPattern.clear();
+	colPattern.resize(totalTable + 1);
 
 	//make patterns for lucky cells
 	for (int i = 1; i <= totalCell; i ++)
@@ -209,11 +203,13 @@ void Bridge::initCellPattern()
 		Table curTable = corpus->getTable(i);
 		int nRow = curTable.nRow;
 		int nCol = curTable.nCol;
+		colPattern[i].clear();
 
 		for (int y = 0; y < nCol; y ++)
 		{
-			TaxoPattern *colPattern = new TaxoPattern();
-			colPattern->c[kb->getRoot()] = 1;
+			colPattern[i].push_back(new TaxoPattern());
+			TaxoPattern *curColPattern = colPattern[i][y];
+			curColPattern->c[kb->getRoot()] = 1;
 
 			for (int x = 0; x < nRow; x ++)
 			{
@@ -225,13 +221,13 @@ void Bridge::initCellPattern()
 				unordered_map<int, int> &curConceptMap = cellPattern[cur.id]->c;
 				for (unordered_map<int, int>::iterator it = curConceptMap.begin();
 					it != curConceptMap.end(); it ++)
-					colPattern->c[it->first] += it->second;
+					curColPattern->c[it->first] += it->second;
 
 				//merge entities
 				unordered_map<int, int> &curEntityMap = cellPattern[cur.id]->e;
 				for (unordered_map<int, int>::iterator it = curEntityMap.begin();
 					it != curEntityMap.end(); it ++)
-					colPattern->e[it->first] += it->second;
+					curColPattern->e[it->first] += it->second;
 			}
 
 			for (int x = 0; x < nRow; x ++)
@@ -239,17 +235,10 @@ void Bridge::initCellPattern()
 				Cell cur = curTable.cells[x][y];
 				if (matches[cur.id].size())
 					continue;
-				cellPattern[cur.id] = colPattern;
+				cellPattern[cur.id] = curColPattern;
 			}
 		}
 	}
-
-/*	//stats
-	int sum = 0;
-	for (int i = 1; i <= totalCell; i ++)
-		sum += cellPattern[i]->w.size();
-
-	cout << "Average Pattern Size : " << endl << "      " << double(sum) / totalCell << endl;*/
 }
 
 TaxoPattern *Bridge::getKbProperty(int conceptId, int relationId, bool isDebug)
@@ -435,22 +424,75 @@ void Bridge::traverse()
 	}
 }
 
-void Bridge::tableQuery()
+void Bridge::findRelation(int tid, int c)
 {
-	while (1)
-	{
-		int tid, r, c, cid;
-		cin >> tid;
-		if (tid == -1)
-			break;
-		cin >> r >> c;
-		cid = corpus->getTableByDataId(tid).cells[r][c].id;
+	//Table variables
+	Table curTable = corpus->getTableByDataId(tid);
+	int entityCol = curTable.entityCol;
+	int id = curTable.id;
 
-		unordered_map<int, int> &tmp = cellPattern[cid]->c;
-		cout << endl << "-----------------------------------------------------" << endl;
-		for (unordered_map<int, int>::iterator it = tmp.begin(); it != tmp.end(); it ++)
-			cout << it->first << " " << kb->getConcept(it->first) << ": " << it->second << endl;
-		cout << endl << "-----------------------------------------------------" << endl;
+	if (entityCol == c)
+	{
+		cout << "Sorry, the column you are querying for is the same as the entity column!"
+			<< endl;
+		return ;
+	}
+
+	//KB constants
+	int H = kb->getDepth(kb->getRoot());
+	int R = kb->countRelation();
+
+	//Similarity Array
+	vector<pair<depthVector, int>> simScore;
+	simScore.resize(R + 1);
+
+	//Frequently-used Taxo Patterns
+	TaxoPattern *entityColPattern = colPattern[id][entityCol];
+	TaxoPattern *queryColPattern = colPattern[i][c];
+
+	for (int r = 1; r <= R; r ++)
+	{
+		TaxoPattern *curRelPattern = new TaxoPattern();
+
+		//loop over all leaf nodes
+		for (IterII it1 = entityColPattern->c.begin();
+			it1 != entityColPattern->c.end(); it1 ++)
+			{
+				//only use leaf nodes
+				int curConcept = it1->first;
+				if (kb->getSucCount(curConcept))
+					continue;
+
+				//loop over all property to find the r relation
+				for (IterIT it2 = kbProperty[curConcept].begin();
+					it2 != kbProperty[i].end(); it2 ++)
+					{
+						if (it2->first != r)
+							continue;
+						//merge concepts
+						for (IterII it3 = it2->second->c.begin();
+							it3 != it2->second->c.end(); it3 ++)
+							curRelPattern->c[it3->first] += it3->second * it1->second;
+						//merge entities
+						for (IterII it3 = it2->second->e.begin();
+							it3 != it2->second->e.end(); it3 ++)
+							curRelPattern->e[it3->first] += it3->second * it1->second;
+					}
+			}
+		simScore[r].emplace_back(Matcher::dVector(kb, curRelPattern, queryColPattern), r);
+	}
+	sort(simScore.begin(), simScore.end());
+
+	//output
+	cout << endl << "Top 10 Answers: " << endl;
+	for (int i = 0; i < min((int) simScore.size(), 10); i ++)
+	{
+		cout << simScore[i].first.score(1000.0) << " " << simScore[i].second
+			<< " " << kb->getRelation(simScore[i].second) << endl;
+
+		for (int j = H; j > 16; j --)
+			cout << left << setw(15) << simScore[i].first.w[j] << " ";
+		cout << endl << endl;
 	}
 }
 
@@ -515,7 +557,6 @@ void Bridge::findConcept(int tid, int r)
 	cout << endl << "Top 50 Answers: " << endl;
 	for (int i = 0; i < min((int) simScore.size(), 50); i ++)
 	{
-//		if (- simScore[i].first > 0)
 		cout << simScore[i].first.score(1000.0) << " " << simScore[i].second
 			<< " " << kb->getConcept(simScore[i].second)
 			<< " " << kb->getDepth(simScore[i].second) << endl;

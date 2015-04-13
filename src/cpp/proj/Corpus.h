@@ -26,7 +26,7 @@ struct Table
 {
 	Table() {cells.clear(); }
 	std::vector<std::vector<Cell>> cells;
-	int nRow, nCol, table_id, entityCol;
+	int nRow, nCol, table_id, id, entityCol;
 
 	int operator < (const Table &o) const
 	{

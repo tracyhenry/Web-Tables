@@ -23,6 +23,9 @@ private:
 	//Taxo patterns of table cells
 	std::vector<TaxoPattern *> cellPattern;
 
+	//Taxo patterns of columns
+	std::vector<std::vector<TaxoPattern *>> colPattern;
+
 	//debug file
 	std::ofstream debug;
 
@@ -68,6 +71,10 @@ public:
 
 	//Find the most similar concept for a record 
 	void findConcept(int, int);
+
+	//Find the most possible type of relation for a given column
+	void findRelation(int, int);
+
 };
 
 #endif

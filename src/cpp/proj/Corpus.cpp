@@ -131,6 +131,9 @@ WWT::WWT()
 			else
 				cur.entityCol = -1;
 
+			//id
+			cur.id = allTables.size();
+
 			allTables.push_back(cur);
 		}
 

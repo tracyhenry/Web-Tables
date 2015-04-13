@@ -54,10 +54,17 @@ depthVector depthVector::mAx(depthVector &o)
 	return ans;
 }
 
-void depthVector::maxUpdate(depthVector &o)
+int depthVector::maxUpdate(depthVector &o)
 {
-	for (int i = 0; i < w.size(); i ++)
-		w[i] = max(w[i], o.w[i]);
+	if (o < (* this))
+	{
+		for (int i = 0; i < w.size(); i ++)
+			w[i] = o.w[i];
+		//updated
+		return 1;
+	}
+	//not updated
+	return 0;
 }
 
 double depthVector::score(double coef)
