@@ -135,7 +135,7 @@ void Bridge::makeSchema(int curNode)
 
 		//loop over all relations
 		unordered_map<int, TaxoPattern *> &curMap = kbProperty[curSuc];
-		for (unordered_map<int, TaxoPattern *>::iterator it1 = curMap.begin();
+		for (IterIT it1 = curMap.begin();
 			it1 != curMap.end(); it1 ++)
 		{
 			//new taxo pattern
@@ -144,13 +144,13 @@ void Bridge::makeSchema(int curNode)
 
 			//merge concepts
 			unordered_map<int, int> &curConceptMap = it1->second->c;
-			for (unordered_map<int, int>::iterator it2 = curConceptMap.begin();
+			for (IterII it2 = curConceptMap.begin();
 				it2 != curConceptMap.end(); it2 ++)
 				kbProperty[curNode][it1->first]->c[it2->first] += it2->second;
 
 			//merge entities
 			unordered_map<int, int> &curEntityMap = it1->second->e;
-			for (unordered_map<int, int>::iterator it2 = curEntityMap.begin();
+			for (IterII it2 = curEntityMap.begin();
 				it2 != curEntityMap.end(); it2 ++)
 				kbProperty[curNode][it1->first]->e[it2->first] += it2->second;
 		}
@@ -219,13 +219,13 @@ void Bridge::initCellPattern()
 
 				//merge concepts
 				unordered_map<int, int> &curConceptMap = cellPattern[cur.id]->c;
-				for (unordered_map<int, int>::iterator it = curConceptMap.begin();
+				for (IterII it = curConceptMap.begin();
 					it != curConceptMap.end(); it ++)
 					curColPattern->c[it->first] += it->second;
 
 				//merge entities
 				unordered_map<int, int> &curEntityMap = cellPattern[cur.id]->e;
-				for (unordered_map<int, int>::iterator it = curEntityMap.begin();
+				for (IterII it = curEntityMap.begin();
 					it != curEntityMap.end(); it ++)
 					curColPattern->e[it->first] += it->second;
 			}
@@ -284,7 +284,7 @@ void Bridge::printPattern(TaxoPattern *p)
 	//concepts
 	vector<pair<int, int>> tmp; tmp.clear();
 	int sum = 1e-9;
-	for (unordered_map<int, int>::iterator it = C.begin(); it != C.end(); it ++)
+	for (IterII it = C.begin(); it != C.end(); it ++)
 		if (! testCid || cellPattern[testCid]->c.count(it->first))
 			tmp.emplace_back(- it->second, it->first);
 
@@ -296,7 +296,7 @@ void Bridge::printPattern(TaxoPattern *p)
 
 	//entities
 	unordered_map<int, int> &E = p->e;
-	for (unordered_map<int, int>::iterator it = E.begin(); it != E.end(); it ++)
+	for (IterII it = E.begin(); it != E.end(); it ++)
 		if (! testCid || cellPattern[testCid]->e.count(it->first))
 			debug << kb->getEntity(it->first) << " : " << it->second << endl;
 }
@@ -407,11 +407,11 @@ void Bridge::traverse()
 				break;
 			case 8 :
 				cout << "Sample Relations are: " << endl << endl;
-				for (unordered_map<int, TaxoPattern *>::iterator it1 = kbProperty[cur].begin();
+				for (IterIT it1 = kbProperty[cur].begin();
 					it1 != kbProperty[cur].end(); it1 ++)
 				{
 					cout << kb->getRelation(it1->first) << " : " << endl << "    ";
-					unordered_map<int, int>::iterator it2 = ((it1->second)->c).begin();
+					IterII it2 = ((it1->second)->c).begin();
 					for (int i = 1; i <= 20 && it2 != ((it1->second)->c).end(); i ++, it2 ++)
 						cout << kb->getConcept(it2->first) << "    ";
 					cout << endl;
@@ -462,21 +462,22 @@ void Bridge::findRelation(int tid, int c)
 				if (kb->getSucCount(curConcept))
 					continue;
 
-				//loop over all property to find the r relation
-				for (IterIT it2 = kbProperty[curConcept].begin();
-					it2 != kbProperty[curConcept].end(); it2 ++)
-					{
-						if (it2->first != r)
-							continue;
-						//merge concepts
-						for (IterII it3 = it2->second->c.begin();
-							it3 != it2->second->c.end(); it3 ++)
-							curRelPattern->c[it3->first] += it3->second * it1->second;
-						//merge entities
-						for (IterII it3 = it2->second->e.begin();
-							it3 != it2->second->e.end(); it3 ++)
-							curRelPattern->e[it3->first] += it3->second * it1->second;
-					}
+				//if this leaf node doesn't have relation R
+				if (! kbProperty[curConcept].count(r))
+					continue;
+
+				//Get the taxoPattern of relation R
+				TaxoPattern *rPattern = kbProperty[curConcept][r];
+
+				//merge concepts
+				for (IterII it2 = rPattern->c.begin();
+					it2 != rPattern->c.end(); it2 ++)
+					curRelPattern->c[it2->first] += it2->second * it1->second;
+
+				//merge entities
+				for (IterII it2 = rPattern->e.begin();
+					it2 != rPattern->e.end(); it2 ++)
+					curRelPattern->e[it2->first] += it2->second * it1->second;
 			}
 		simScore.emplace_back(Matcher::dVector(kb, curRelPattern, queryColPattern), r);
 	}
@@ -535,7 +536,7 @@ void Bridge::findConcept(int tid, int r)
 			depthVector sim(H + 1);
 
 			//loop over all properties
-			for (unordered_map<int, TaxoPattern *>::iterator it1 = kbProperty[i].begin();
+			for (IterIT it1 = kbProperty[i].begin();
 				it1 != kbProperty[i].end(); it1 ++)
 			{
 				TaxoPattern *cp = cellPattern[curTable.cells[r][c].id];
