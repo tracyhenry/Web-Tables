@@ -424,18 +424,21 @@ void Bridge::traverse()
 	}
 }
 
-void Bridge::findRelation(int tid, int c)
+int Bridge::findRelation(int tid, int c)
 {
 	//Table variables
 	Table curTable = corpus->getTableByDataId(tid);
 	int entityCol = curTable.entityCol;
 	int id = curTable.id;
 
-	if (entityCol == c)
+	if (entityCol == c || entityCol == -1)
 	{
-		cout << "Sorry, the column you are querying for is the same as the entity column!"
-			<< endl;
-		return ;
+		if (entityCol == -1)
+			cout << "Sorry, this table dosen't have a given entity column." << endl;
+		else
+			cout << "Sorry, the column you are querying for is the same as the entity column!"
+				<< endl;
+		return 0;
 	}
 
 	//KB constants
@@ -480,11 +483,12 @@ void Bridge::findRelation(int tid, int c)
 					curRelPattern->e[it2->first] += it2->second * it1->second;
 			}
 		simScore.emplace_back(Matcher::dVector(kb, curRelPattern, queryColPattern), r);
+		delete curRelPattern;
 	}
 
 	sort(simScore.begin(), simScore.end());
 	//output
-	cout << endl << "Top 10 Answers: " << endl;
+/*	cout << endl << "Top 10 Answers: " << endl;
 	for (int i = 0; i < min((int) simScore.size(), 10); i ++)
 	{
 		cout << simScore[i].first.score(1000.0) << " " << simScore[i].second
@@ -494,6 +498,10 @@ void Bridge::findRelation(int tid, int c)
 			cout << left << setw(15) << simScore[i].first.w[j] << " ";
 		cout << endl << endl;
 	}
+*/
+	if (simScore.size() > 0 && simScore[0].first.score(1000.0) > 1e55)
+		return 1;
+	return 0;
 }
 
 void Bridge::findConcept(int tid, int r)
@@ -517,7 +525,7 @@ void Bridge::findConcept(int tid, int r)
 	//debug
 //	getKbProperty(70366, kb->getRelationId("created"), true);
 //	getKbProperty(114102, kb->getRelationId("created"), true);
-	getCellPattern(curTable.cells[r][entityCol].id, true);
+//	getCellPattern(curTable.cells[r][entityCol].id, true);
 //	for (int i = 1; i <= kb->countRelation(); i ++)
 //		getKbProperty(25431, i, true);
 

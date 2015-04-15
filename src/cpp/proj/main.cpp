@@ -24,8 +24,30 @@ int main()
 
 	Bridge *bridge = new Bridge();
 	bridge->traverse();
+	int nTable = bridge->corpus->countTable();
+	int goodTable = 0;
+	for (int i = 1; i <= nTable; i ++)
+	{
+		if (i % 500 == 0)
+			cout << i << endl;
+		Table curTable = bridge->corpus->getTable(i);
+		int goodCol = 0;
 
-	while (1)
+		if (curTable.entityCol < 0)
+			continue;
+
+		for (int c = 0; c < curTable.nCol; c ++)
+		{
+			if (c == curTable.entityCol)
+				continue;
+			goodCol += bridge->findRelation(curTable.table_id, c);
+		}
+		if (goodCol)
+			goodTable ++;
+	}
+	cout << "Number of good tables: " << goodTable << endl;
+
+/*	while (1)
 	{
 		cout << endl << "-----------------------------------------" << endl;
 		cout << "Input table_id and row_id :" << endl;
@@ -42,6 +64,7 @@ int main()
 		}
 		cout << endl << "-----------------------------------------" << endl;
 	}
+*/
 
 /*	bridge->tableQuery();
 	bridge->testPattern();

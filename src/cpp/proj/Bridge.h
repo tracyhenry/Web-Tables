@@ -73,7 +73,7 @@ public:
 	void findConcept(int, int);
 
 	//Find the most possible type of relation for a given column
-	void findRelation(int, int);
+	int findRelation(int, int);
 
 };
 
