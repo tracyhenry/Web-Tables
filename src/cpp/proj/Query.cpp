@@ -1,11 +1,17 @@
 #include "Bridge.h"
 #include "Matcher.h"
 #include <vector>
+#include <iomanip>
+#include <iostream>
+#include <algorithm>
+#define IterII unordered_map<int, int>::iterator
+#define IterIT unordered_map<int, TaxoPattern *>::iterator
+using namespace std;
 
 /**
 * call findRelation for all columns
 */
-void findAllRelation()
+void Bridge::findAllRelation()
 {
 	int nTable = corpus->countTable();
 	colRelation.resize(nTable + 1);
@@ -21,7 +27,10 @@ void findAllRelation()
 
 		for (int c = 0; c < curTable.nCol; c ++)
 			if (colRelation[i][c].size())
+			{
 				goodTables ++;
+				break;
+			}
 	}
 	cout << "Number of good tables: " << goodTables << endl;
 }

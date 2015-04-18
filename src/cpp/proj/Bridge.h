@@ -76,7 +76,7 @@ public:
 	void findConcept(int, int);
 
 	//Find the most possible type of relation for a given column
-	int findRelation(int, int, bool);
+	std::vector<int> findRelation(int, int, bool);
 
 	//Find the relations for all 
 	void findAllRelation();
