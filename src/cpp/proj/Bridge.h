@@ -26,6 +26,9 @@ private:
 	//Taxo patterns of columns
 	std::vector<std::vector<TaxoPattern *>> colPattern;
 
+	//Relations between attr columns and the entity column
+	std::vector<std::vector<std::vector<int>>> colRelation;
+
 	//debug file
 	std::ofstream debug;
 
@@ -73,8 +76,10 @@ public:
 	void findConcept(int, int);
 
 	//Find the most possible type of relation for a given column
-	int findRelation(int, int);
+	int findRelation(int, int, bool);
 
+	//Find the relations for all 
+	void findAllRelation();
 };
 
 #endif
