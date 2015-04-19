@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iostream>
 #include <algorithm>
+#include <unordered_set>
 using namespace std;
 
 void genYagoEntityTable()
@@ -90,16 +91,18 @@ void genConceptTable()
 
 void genColRelationResultTable()
 {
-	ifstream fin1("../../../data/Result/colRelation_1e55.txt");
+	ifstream fin1("../../../data/Result/colRelation_1e57.txt");
 	ofstream fout("/tmp/colRelation_db.txt");
 
 	vector<string> res;
 	string s;
-	while (fin1 >> s)
+	while (getline(fin1, s))
 	{
 		for (int i = 0; i < s.size(); i ++)
 			if (s[i] == ' ')
 				s[i] = '\t';
+			else if (s[i] == '*')
+				break;
 		res.push_back(s);
 	}
 
@@ -116,7 +119,7 @@ void genColRelationResultTable()
 				break;
 		}
 		selected.insert(x);
-		fout << res[x] << endl;
+		fout << lp + 1 << '\t' << res[x] << '\t' << 0 << endl;
 	}
 	fout.close();
 }
@@ -127,6 +130,6 @@ int main()
 	genFuzzyMatchTable();
 	genTypeTable();
 	genConceptTable();
-
+	genColRelationResultTable();
 	return 0;
 }

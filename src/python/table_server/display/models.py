@@ -86,3 +86,13 @@ class YagoType(models.Model):
     class Meta:
         db_table = 'yago_type'
 
+class ColRelation(models.Model):
+    id = models.IntegerField(primary_key=True)
+    table_id = models.IntegerField()
+    col_id = models.IntegerField()
+    relation = models.CharField(max_length=255)
+    verdict = models.IntegerField()
+
+    class Meta:
+        db_table = 'col_relation'
+
