@@ -48,25 +48,6 @@ void Bridge::findAllRelation()
 					<< c << " " << kb->getRelation(colRelation[i][c][0])
 					<< endl;
 	fout.close();
-
-/*	srand(time(0));
-	//randomly select 100 columns
-	ofstream fout("/tmp/colrelation_db.txt");
-	for (int lp = 0; lp < 100; lp ++)
-		while (1)
-		{
-			int tid = rand() % nTable + 1;
-			int nCol = corpus->getTable(tid).nCol;
-			int colId = rand() % nCol;
-
-			if (! colRelation[tid][colId].size())
-				continue;
-			fout << corpus->getTable(tid).table_id << '\t' << colId <<
-				'\t' << kb->getRelation(colRelation[tid][colId][0]) << endl;
-			break;
-		}
-	fout.close();
-*/
 }
 
 /**

@@ -1,4 +1,5 @@
 #include <map>
+#include <ctime>
 #include <vector>
 #include <cstdio>
 #include <fstream>
@@ -84,6 +85,39 @@ void genConceptTable()
 	while (getline(fin1, value))
 		fout << ++ id << '\t' << value << endl;
 	fin1.close();
+	fout.close();
+}
+
+void genColRelationResultTable()
+{
+	ifstream fin1("../../../data/Result/colRelation_1e55.txt");
+	ofstream fout("/tmp/colRelation_db.txt");
+
+	vector<string> res;
+	string s;
+	while (fin1 >> s)
+	{
+		for (int i = 0; i < s.size(); i ++)
+			if (s[i] == ' ')
+				s[i] = '\t';
+		res.push_back(s);
+	}
+
+	//randomly select 100 columns
+	srand(time(0));
+	unordered_set<int> selected;
+	for (int lp = 0; lp < 100; lp ++)
+	{
+		int x;
+		while (1)
+		{
+			x = rand() % ((int) res.size());
+			if (! selected.count(x))
+				break;
+		}
+		selected.insert(x);
+		fout << res[x] << endl;
+	}
 	fout.close();
 }
 
