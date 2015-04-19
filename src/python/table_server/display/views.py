@@ -106,13 +106,15 @@ def show_cell(request):
     col = request.POST.get('col')
 
     matches = FuzzyMatch.objects.filter(table_id = table_id, row = row, col = col)
+    cur_cell = TableCells.objects.filter(table_id = table_id, row = row, col = col)
+
+    ans = "\n--------------\n Cell ID: " + str(cur_cell[0].id) + "\n--------------\n"
 
     # no matches
     if matches.count() == 0:
-        return HttpResponse("No Matches!")
+        return HttpResponse(ans + "No Matches!")
 
     # matches
-    ans = "\n"
     for match in matches:
 
         ans = ans + YagoEntity.objects.filter(id = match.entity_id)[0].value + ":\n"

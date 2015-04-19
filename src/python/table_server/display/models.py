@@ -4,7 +4,7 @@ from django.db import models
 
 
 class DjangoMigrations(models.Model):
-    id = models.IntegerField(primary_key=True)  # AutoField?
+    id = models.IntegerField(primary_key=True)
     app = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     applied = models.DateTimeField()
@@ -28,6 +28,7 @@ class TableCells(models.Model):
     col = models.IntegerField(blank=True, null=True)
     value = models.TextField(blank=True)
     table_id = models.IntegerField(primary_key=True)
+    id = models.IntegerField(null=True)
 
     class Meta:
         db_table = 'table_cells'
