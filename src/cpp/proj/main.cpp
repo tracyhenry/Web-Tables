@@ -2,6 +2,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <fstream>
 #include <iostream>
 #include <algorithm>
 using namespace std;

@@ -10,7 +10,7 @@ using namespace std;
 void genYagoEntityTable()
 {
 	ifstream fin("../../../data/KB/Entities.txt");
-	ofstream fout("../../../data/KB/yago_entity_db.txt");
+	ofstream fout("/tmp/yago_entity_db.txt");
 
 	string value;
 	int cur = 0;
@@ -89,10 +89,10 @@ void genConceptTable()
 
 int main()
 {
-//	genYagoEntityTable();
-//	genFuzzyMatchTable();
-//	genTypeTable();
-//	genConceptTable();
+	genYagoEntityTable();
+	genFuzzyMatchTable();
+	genTypeTable();
+	genConceptTable();
 
 	return 0;
 }

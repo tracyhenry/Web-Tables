@@ -1,0 +1,4040 @@
+0 1 ** isLocatedIn **
+1 1 ** isLocatedIn **
+2 1 ** created **
+2 2 ** actedIn **
+3 1 hasCapital
+3 2 ** isLocatedIn **
+4 0 isMarriedTo
+4 2 actedIn
+5 2 actedIn
+6 1 created
+6 2 actedIn
+7 2 ** directed **
+8 1 ** directed **
+10 1 ** created **
+10 3 ** isLocatedIn **
+11 2 ** directed **
+11 3 ** created **
+11 4 ** wroteMusicFor **
+12 2 ** directed **
+12 3 ** actedIn **
+12 4 ** wroteMusicFor **
+12 5 ** actedIn **
+13 1 isCitizenOf
+13 2 ** directed **
+14 1 ** isLocatedIn **
+14 2 ** isLocatedIn **
+15 1 isLocatedIn
+17 2 ** created **
+18 2 ** isLocatedIn **
+19 1 ** isLocatedIn **
+19 2 ** isLocatedIn **
+23 1 ** actedIn **
+24 2 ** actedIn **
+24 3 ** actedIn **
+26 1 actedIn
+27 1 ** isLocatedIn **
+27 2 ** isLocatedIn **
+28 1 ** dealsWith **
+28 2 hasOfficialLanguage
+29 1 ** actedIn **
+463 2 ** created **
+464 1 created
+464 2 isMarriedTo
+466 2 isAffiliatedTo
+467 2 created
+470 2 created
+471 1 isLocatedIn
+473 2 isAffiliatedTo
+477 1 isMarriedTo
+481 2 wasBornIn
+482 1 ** hasChild **
+482 2 ** hasChild **
+485 2 ** isLocatedIn **
+487 1 wasBornIn
+489 1 isMarriedTo
+490 2 ** created **
+493 0 isLocatedIn
+495 1 isPoliticianOf
+495 2 isPoliticianOf
+497 1 isLocatedIn
+498 1 isLocatedIn
+498 2 ** isLocatedIn **
+499 1 isLocatedIn
+500 1 ** created **
+502 1 isLocatedIn
+505 2 isAffiliatedTo
+508 1 isCitizenOf
+508 2 created
+509 1 ** isMarriedTo **
+510 2 actedIn
+511 1 ** isMarriedTo **
+512 1 created
+514 2 created
+515 1 owns
+516 2 isAffiliatedTo
+517 2 isAffiliatedTo
+519 2 wasBornIn
+523 2 ** hasChild **
+524 1 hasCapital
+531 1 ** isMarriedTo **
+534 2 hasChild
+537 1 ** created **
+541 1 isMarriedTo
+543 2 ** created **
+561 2 isAffiliatedTo
+563 1 isMarriedTo
+566 1 ** isLocatedIn **
+568 2 isAffiliatedTo
+570 2 isLocatedIn
+572 2 dealsWith
+573 2 dealsWith
+575 1 isMarriedTo
+578 2 isAffiliatedTo
+580 2 isAffiliatedTo
+584 1 isCitizenOf
+585 1 isLocatedIn
+586 2 owns
+587 1 isAffiliatedTo
+590 2 created
+591 2 created
+592 2 actedIn
+594 2 holdsPoliticalPosition
+596 1 isLocatedIn
+597 2 isAffiliatedTo
+598 2 isAffiliatedTo
+599 2 isAffiliatedTo
+600 1 ** created **
+603 2 isCitizenOf
+604 1 ** created **
+605 2 created
+606 2 created
+611 1 ** isMarriedTo **
+611 2 isMarriedTo
+613 1 created
+614 1 created
+618 2 isAffiliatedTo
+619 2 isAffiliatedTo
+621 1 ** actedIn **
+622 1 ** actedIn **
+623 1 ** actedIn **
+624 1 ** actedIn **
+625 1 ** actedIn **
+626 1 ** wroteMusicFor **
+627 2 ** wroteMusicFor **
+632 2 owns
+633 2 ** owns **
+635 2 isCitizenOf
+636 2 isCitizenOf
+639 1 isLocatedIn
+642 1 actedIn
+643 1 owns
+644 1 owns
+653 2 holdsPoliticalPosition
+654 1 ** isLocatedIn **
+657 2 ** isLocatedIn **
+658 1 isCitizenOf
+658 2 created
+661 2 ** created **
+664 2 created
+666 2 created
+667 2 actedIn
+670 2 actedIn
+671 2 actedIn
+672 2 created
+673 2 actedIn
+674 2 created
+675 2 actedIn
+676 2 created
+677 2 isLocatedIn
+679 0 ** created **
+680 2 isCitizenOf
+681 2 isCitizenOf
+682 1 isLocatedIn
+682 2 owns
+683 1 isLocatedIn
+683 2 owns
+684 1 isLocatedIn
+684 2 owns
+685 1 isLocatedIn
+685 2 owns
+686 1 isLocatedIn
+686 2 owns
+687 1 isLocatedIn
+688 1 isLocatedIn
+688 2 owns
+690 1 ** created **
+691 1 ** created **
+691 2 ** created **
+694 1 ** isLocatedIn **
+694 2 ** diedIn **
+695 2 ** owns **
+696 1 ** holdsPoliticalPosition **
+697 1 owns
+700 2 ** owns **
+701 2 isLocatedIn
+702 1 ** isMarriedTo **
+704 1 ** isMarriedTo **
+705 2 created
+708 0 isLocatedIn
+714 1 influences
+717 2 created
+719 2 wasBornIn
+725 2 ** isMarriedTo **
+727 2 ** dealsWith **
+733 1 ** isLocatedIn **
+733 2 ** isLocatedIn **
+735 2 isAffiliatedTo
+736 1 isAffiliatedTo
+738 1 isLocatedIn
+743 1 actedIn
+745 2 actedIn
+746 2 actedIn
+747 2 actedIn
+748 2 actedIn
+749 2 actedIn
+750 2 livesIn
+753 1 isCitizenOf
+754 2 isLocatedIn
+757 2 actedIn
+761 2 created
+762 1 ** hasChild **
+766 2 actedIn
+768 1 created
+769 1 ** isMarriedTo **
+770 1 isPoliticianOf
+781 1 created
+783 1 owns
+784 2 isAffiliatedTo
+785 2 isAffiliatedTo
+786 2 isCitizenOf
+794 2 livesIn
+795 2 wasBornIn
+796 1 created
+797 1 wasBornIn
+799 1 ** created **
+799 2 ** created **
+801 2 isAffiliatedTo
+802 2 isAffiliatedTo
+803 2 isAffiliatedTo
+804 2 isAffiliatedTo
+805 2 isAffiliatedTo
+806 2 isAffiliatedTo
+807 2 isAffiliatedTo
+808 2 isAffiliatedTo
+809 2 isAffiliatedTo
+810 2 isAffiliatedTo
+812 1 isCitizenOf
+812 2 created
+813 1 isCitizenOf
+813 2 created
+815 1 ** created **
+817 2 isAffiliatedTo
+818 2 isAffiliatedTo
+819 2 isAffiliatedTo
+820 2 isAffiliatedTo
+821 2 isAffiliatedTo
+822 2 isAffiliatedTo
+823 2 isAffiliatedTo
+824 2 isAffiliatedTo
+825 2 isAffiliatedTo
+831 1 isCitizenOf
+831 2 created
+832 2 actedIn
+833 2 created
+836 1 isLocatedIn
+836 2 owns
+837 1 isAffiliatedTo
+839 2 created
+840 1 isCitizenOf
+841 1 isMarriedTo
+846 1 ** actedIn **
+847 1 ** actedIn **
+848 1 ** wroteMusicFor **
+849 1 ** actedIn **
+850 2 isMarriedTo
+851 1 ** isMarriedTo **
+852 1 ** isMarriedTo **
+853 2 ** owns **
+855 2 ** owns **
+856 1 ** actedIn **
+865 0 isLocatedIn
+866 1 isLocatedIn
+868 1 ** isMarriedTo **
+868 2 isMarriedTo
+869 2 wasBornIn
+870 2 isMarriedTo
+874 2 isAffiliatedTo
+875 1 ** actedIn **
+875 2 created
+876 1 isCitizenOf
+876 2 created
+877 1 isCitizenOf
+877 2 actedIn
+878 1 isCitizenOf
+878 2 created
+879 1 isAffiliatedTo
+880 1 isLocatedIn
+885 2 actedIn
+886 2 actedIn
+887 2 created
+889 1 isLocatedIn
+889 2 owns
+890 1 ** isLocatedIn **
+892 2 isAffiliatedTo
+893 2 isLocatedIn
+894 1 created
+897 1 ** created **
+899 1 ** created **
+899 2 ** created **
+901 2 ** hasChild **
+905 1 created
+906 2 isMarriedTo
+914 1 isLocatedIn
+916 1 created
+921 2 influences
+922 2 actedIn
+923 2 actedIn
+924 2 actedIn
+926 1 isLocatedIn
+926 2 owns
+927 1 isLocatedIn
+927 2 owns
+928 2 isCitizenOf
+929 2 isAffiliatedTo
+930 2 isAffiliatedTo
+931 1 isAffiliatedTo
+931 2 isAffiliatedTo
+932 1 isAffiliatedTo
+932 2 isAffiliatedTo
+934 1 ** created **
+934 2 ** created **
+935 2 ** hasChild **
+936 1 isAffiliatedTo
+938 1 isMarriedTo
+941 1 isLocatedIn
+946 1 wasBornIn
+951 1 isCitizenOf
+951 2 created
+952 2 owns
+953 2 isLocatedIn
+954 1 isAffiliatedTo
+954 2 isAffiliatedTo
+955 2 wasBornIn
+956 1 isAffiliatedTo
+957 1 ** hasChild **
+957 2 isLeaderOf
+958 2 isAffiliatedTo
+963 1 created
+964 1 ** isMarriedTo **
+965 1 ** isMarriedTo **
+966 1 isLocatedIn
+966 2 owns
+967 2 ** isMarriedTo **
+968 2 isMarriedTo
+969 2 isMarriedTo
+971 1 ** isLocatedIn **
+974 1 ** isMarriedTo **
+975 1 isCitizenOf
+975 2 created
+978 2 actedIn
+979 1 isLocatedIn
+979 2 owns
+980 2 isAffiliatedTo
+981 2 isAffiliatedTo
+982 1 created
+984 1 created
+986 2 isCitizenOf
+988 1 ** wasBornIn **
+989 1 isLocatedIn
+990 1 ** hasChild **
+995 2 isLocatedIn
+996 1 graduatedFrom
+997 1 isCitizenOf
+997 2 created
+998 1 isCitizenOf
+998 2 created
+999 2 created
+1002 2 ** created **
+1005 2 created
+1006 2 ** influences **
+1008 2 livesIn
+1013 1 ** created **
+1013 2 ** created **
+1015 1 isMarriedTo
+1016 1 owns
+1017 1 owns
+1018 1 ** owns **
+1021 1 isLocatedIn
+1023 1 livesIn
+1025 2 ** influences **
+1030 2 ** isLocatedIn **
+1031 1 isAffiliatedTo
+1032 1 ** holdsPoliticalPosition **
+1033 1 ** created **
+1034 1 ** isMarriedTo **
+1037 2 wasBornIn
+1039 1 isCitizenOf
+1039 2 created
+1041 1 isLocatedIn
+1043 2 created
+1044 2 actedIn
+1046 1 ** created **
+1047 2 actedIn
+1048 1 ** wasBornIn **
+1049 1 ** livesIn **
+1052 1 ** holdsPoliticalPosition **
+1054 2 ** isLocatedIn **
+1056 2 ** isLocatedIn **
+1057 1 ** graduatedFrom **
+1057 2 ** graduatedFrom **
+1061 1 isAffiliatedTo
+1061 2 isAffiliatedTo
+1063 1 isCitizenOf
+1064 2 ** created **
+1065 2 wasBornIn
+1066 1 ** actedIn **
+1069 1 ** created **
+1069 2 ** created **
+1072 2 ** directed **
+1078 2 ** directed **
+1080 0 participatedIn
+1082 1 ** isMarriedTo **
+1084 2 livesIn
+1085 2 ** influences **
+1087 1 created
+1088 1 wasBornIn
+1088 2 isLocatedIn
+1089 1 isCitizenOf
+1089 2 created
+1090 1 created
+1092 2 ** owns **
+1094 1 created
+1094 2 created
+1095 2 owns
+1097 2 ** hasChild **
+1103 1 ** created **
+1104 1 ** isLocatedIn **
+1110 1 ** livesIn **
+1111 2 ** owns **
+1112 0 ** actedIn **
+1113 1 isInterestedIn
+1116 2 hasChild
+1117 1 created
+1119 1 created
+1120 2 wasBornIn
+1123 1 created
+1126 2 ** owns **
+1127 2 isCitizenOf
+1134 1 created
+1144 2 wasBornIn
+1145 1 ** isLocatedIn **
+1145 2 ** isLocatedIn **
+1148 1 ** wasBornIn **
+1148 2 ** wasBornIn **
+1154 1 isCitizenOf
+1154 2 created
+1156 1 created
+1157 2 isAffiliatedTo
+1161 2 wasBornIn
+1165 1 isCitizenOf
+1165 2 created
+1168 1 ** actedIn **
+1169 1 ** actedIn **
+1170 1 ** directed **
+1171 1 ** actedIn **
+1172 1 ** actedIn **
+1173 1 created
+1174 2 isCitizenOf
+1180 1 isCitizenOf
+1180 2 created
+1181 1 ** owns **
+1182 2 actedIn
+1184 2 actedIn
+1186 1 isLocatedIn
+1187 0 isLocatedIn
+1187 1 isLocatedIn
+1189 1 ** graduatedFrom **
+1190 1 isCitizenOf
+1190 2 created
+1202 1 ** created **
+1202 2 isLocatedIn
+1205 1 wasBornIn
+1210 1 isLocatedIn
+1214 2 wasBornIn
+1221 2 ** livesIn **
+1223 2 isLocatedIn
+1225 2 isAffiliatedTo
+1226 1 created
+1226 2 directed
+1228 1 isLocatedIn
+1230 1 isLocatedIn
+1231 0 isMarriedTo
+1231 2 actedIn
+1241 1 isAffiliatedTo
+1247 2 graduatedFrom
+1248 1 isLocatedIn
+1251 1 wasBornIn
+1252 2 wasBornIn
+1256 1 isLocatedIn
+1259 2 ** created **
+1264 1 isCitizenOf
+1266 1 isLocatedIn
+1270 1 ** actedIn **
+1273 1 ** isLocatedIn **
+1295 2 isAffiliatedTo
+1297 2 created
+1312 1 isAffiliatedTo
+1322 1 ** isMarriedTo **
+1332 1 isAffiliatedTo
+1333 1 isAffiliatedTo
+1334 1 isAffiliatedTo
+1335 1 isAffiliatedTo
+1336 2 created
+1338 1 ** isLocatedIn **
+1339 1 ** isLocatedIn **
+1352 0 ** isLocatedIn **
+1355 2 isAffiliatedTo
+1356 2 isAffiliatedTo
+1357 2 isAffiliatedTo
+1358 2 isAffiliatedTo
+1359 2 isAffiliatedTo
+1360 2 isAffiliatedTo
+1361 2 isAffiliatedTo
+1362 2 isAffiliatedTo
+1363 2 isAffiliatedTo
+1364 2 isAffiliatedTo
+1365 2 isAffiliatedTo
+1369 1 ** created **
+1373 1 isMarriedTo
+1374 1 ** created **
+1377 1 isLocatedIn
+1395 1 ** created **
+1396 1 isLocatedIn
+1396 2 isLocatedIn
+1397 1 isLocatedIn
+1398 1 isAffiliatedTo
+1399 1 isAffiliatedTo
+1400 1 isAffiliatedTo
+1401 1 isAffiliatedTo
+1402 1 isAffiliatedTo
+1403 1 isAffiliatedTo
+1404 1 isAffiliatedTo
+1412 1 isLocatedIn
+1414 1 isLocatedIn
+1419 1 isCitizenOf
+1419 2 created
+1420 2 actedIn
+1422 1 ** isCitizenOf **
+1425 2 isCitizenOf
+1428 2 isAffiliatedTo
+1430 1 isAffiliatedTo
+1454 2 isAffiliatedTo
+1455 2 created
+1456 1 isLocatedIn
+1457 0 ** isLocatedIn **
+1467 1 created
+1479 2 ** created **
+1482 1 ** actedIn **
+1484 1 created
+1485 1 isCitizenOf
+1492 1 ** created **
+1496 1 created
+1498 0 isLocatedIn
+1500 2 isLocatedIn
+1511 2 isAffiliatedTo
+1512 2 isAffiliatedTo
+1513 1 ** isLocatedIn **
+1514 1 ** isLocatedIn **
+1515 1 ** actedIn **
+1517 1 isLocatedIn
+1518 2 isCitizenOf
+1519 2 livesIn
+1524 2 wasBornIn
+1526 2 isAffiliatedTo
+1527 2 isAffiliatedTo
+1528 2 isAffiliatedTo
+1529 2 isAffiliatedTo
+1530 2 isAffiliatedTo
+1531 0 ** created **
+1532 2 isAffiliatedTo
+1533 2 isAffiliatedTo
+1534 1 isLocatedIn
+1537 1 ** isLocatedIn **
+1537 2 ** isPoliticianOf **
+1545 1 ** isCitizenOf **
+1545 2 ** isLeaderOf **
+1546 1 isMarriedTo
+1546 2 isMarriedTo
+1549 1 isLocatedIn
+1551 1 ** isLocatedIn **
+1555 1 isAffiliatedTo
+1555 2 livesIn
+1558 1 isLocatedIn
+1559 2 actedIn
+1562 2 ** influences **
+1566 2 livesIn
+1570 1 actedIn
+1572 1 livesIn
+1577 1 isLocatedIn
+1577 2 isLocatedIn
+1591 1 ** isLocatedIn **
+1593 1 isAffiliatedTo
+1594 1 ** influences **
+1598 2 livesIn
+1599 2 ** isLocatedIn **
+1601 2 ** isLocatedIn **
+1602 1 ** isLocatedIn **
+1602 2 ** isLocatedIn **
+1605 2 isAffiliatedTo
+1607 2 isAffiliatedTo
+1608 1 isAffiliatedTo
+1611 0 isLocatedIn
+1614 2 ** isMarriedTo **
+1622 2 ** created **
+1623 1 holdsPoliticalPosition
+1623 2 isLeaderOf
+1625 2 isAffiliatedTo
+1626 2 isAffiliatedTo
+1627 2 isAffiliatedTo
+1628 2 isAffiliatedTo
+1637 1 created
+1638 1 created
+1639 1 isLocatedIn
+1640 1 isCitizenOf
+1641 1 ** isLocatedIn **
+1651 1 isLocatedIn
+1654 1 isAffiliatedTo
+1655 1 isAffiliatedTo
+1661 1 isCitizenOf
+1661 2 created
+1665 1 owns
+1666 1 owns
+1667 1 owns
+1668 1 owns
+1669 1 owns
+1670 1 owns
+1672 2 livesIn
+1676 2 isAffiliatedTo
+1681 2 created
+1686 1 ** wasBornIn **
+1687 2 hasChild
+1688 2 hasChild
+1695 2 ** created **
+1697 2 created
+1699 2 actedIn
+1700 1 ** actedIn **
+1703 1 ** holdsPoliticalPosition **
+1705 0 isLocatedIn
+1706 1 isLocatedIn
+1707 2 isCitizenOf
+1709 1 created
+1713 2 created
+1716 2 graduatedFrom
+1718 1 ** created **
+1720 2 graduatedFrom
+1722 1 ** isLocatedIn **
+1726 1 ** isLocatedIn **
+1728 2 isLocatedIn
+1732 1 ** isLocatedIn **
+1732 2 isLocatedIn
+1733 2 graduatedFrom
+1739 2 isAffiliatedTo
+1741 2 isCitizenOf
+1747 1 ** wasBornIn **
+1748 1 ** isLocatedIn **
+1749 2 dealsWith
+1750 2 dealsWith
+1752 1 created
+1757 2 wasBornIn
+1759 2 isLocatedIn
+1761 2 ** created **
+1762 1 isAffiliatedTo
+1764 0 isLocatedIn
+1775 1 isCitizenOf
+1776 1 ** isLocatedIn **
+1778 2 isLocatedIn
+1780 1 isAffiliatedTo
+1781 1 isAffiliatedTo
+1782 1 isAffiliatedTo
+1789 1 isLocatedIn
+1791 1 isCitizenOf
+1792 1 isCitizenOf
+1792 2 created
+1793 1 isCitizenOf
+1793 2 created
+1794 1 isCitizenOf
+1794 2 created
+1795 1 isCitizenOf
+1795 2 created
+1796 1 isCitizenOf
+1796 2 created
+1797 1 isCitizenOf
+1797 2 created
+1798 1 isCitizenOf
+1798 2 created
+1799 1 isLocatedIn
+1799 2 isLocatedIn
+1800 2 created
+1801 1 owns
+1806 2 isAffiliatedTo
+1807 1 isAffiliatedTo
+1807 2 isAffiliatedTo
+1814 1 created
+1819 1 created
+1827 1 created
+1837 2 isCitizenOf
+1842 2 isLocatedIn
+1844 1 isLocatedIn
+1847 1 ** wasBornIn **
+1851 1 isLocatedIn
+1857 1 wasBornIn
+1861 1 ** created **
+1862 1 ** created **
+1863 1 ** isMarriedTo **
+1864 2 isAffiliatedTo
+1865 2 isAffiliatedTo
+1867 2 ** isLocatedIn **
+1871 2 isAffiliatedTo
+1873 2 dealsWith
+1881 1 directed
+1882 1 ** wroteMusicFor **
+1884 2 ** owns **
+1885 2 isAffiliatedTo
+1886 1 isPoliticianOf
+1886 2 livesIn
+1890 1 created
+1894 1 ** created **
+1896 1 isAffiliatedTo
+1904 1 isCitizenOf
+1904 2 created
+1905 1 isCitizenOf
+1905 2 created
+1907 2 actedIn
+1911 1 ** created **
+1913 1 ** isMarriedTo **
+1916 2 ** directed **
+1917 1 ** actedIn **
+1921 1 isMarriedTo
+1922 2 ** isLocatedIn **
+1924 1 isMarriedTo
+1924 2 created
+1925 2 ** isAffiliatedTo **
+1926 1 ** created **
+1928 1 ** created **
+1928 2 ** created **
+1929 1 ** isLocatedIn **
+1938 1 ** isLocatedIn **
+1938 2 isLocatedIn
+1941 1 ** created **
+1946 1 isLocatedIn
+1947 2 isAffiliatedTo
+1953 1 hasCapital
+1957 1 hasCurrency
+1958 2 isAffiliatedTo
+1960 1 isLocatedIn
+1963 1 isLocatedIn
+1965 2 actedIn
+1966 2 isLocatedIn
+1967 1 ** actedIn **
+1968 1 ** actedIn **
+1969 1 ** wroteMusicFor **
+1970 1 ** actedIn **
+1971 2 actedIn
+1972 2 isCitizenOf
+1975 1 ** isLocatedIn **
+1977 1 isLocatedIn
+1977 2 isLocatedIn
+1978 1 isCitizenOf
+1981 0 isCitizenOf
+1982 1 isLocatedIn
+1984 1 isLocatedIn
+1984 2 isLocatedIn
+1985 1 isCitizenOf
+1985 2 created
+1986 1 isCitizenOf
+1986 2 created
+1987 2 actedIn
+1989 2 holdsPoliticalPosition
+1995 2 isAffiliatedTo
+1997 1 ** created **
+1998 2 isAffiliatedTo
+1999 1 ** created **
+2001 2 ** created **
+2007 1 created
+2008 1 ** isMarriedTo **
+2009 1 isMarriedTo
+2010 1 livesIn
+2010 2 created
+2014 1 ** isLocatedIn **
+2015 1 ** isLocatedIn **
+2017 2 wasBornIn
+2025 2 livesIn
+2026 2 isLocatedIn
+2029 1 ** actedIn **
+2030 3 ** isLocatedIn **
+2033 1 isLocatedIn
+2033 2 isLocatedIn
+2034 1 isLocatedIn
+2041 2 isMarriedTo
+2041 3 created
+2042 2 ** isMarriedTo **
+2043 2 isAffiliatedTo
+2045 3 isLocatedIn
+2047 2 isLocatedIn
+2050 2 ** directed **
+2051 2 ** directed **
+2052 0 ** isLocatedIn **
+2055 2 ** isLocatedIn **
+2057 2 owns
+2058 2 owns
+2059 1 owns
+2059 2 created
+2063 3 isAffiliatedTo
+2066 1 isLocatedIn
+2068 1 ** isLocatedIn **
+2068 2 ** isLocatedIn **
+2068 3 ** isLocatedIn **
+2070 1 ** created **
+2071 2 ** created **
+2072 2 ** created **
+2072 3 ** created **
+2074 1 ** isAffiliatedTo **
+2074 2 ** isAffiliatedTo **
+2074 3 ** isAffiliatedTo **
+2075 1 isAffiliatedTo
+2075 2 ** isMarriedTo **
+2077 2 ** created **
+2080 3 isAffiliatedTo
+2081 2 ** created **
+2082 2 ** created **
+2086 1 graduatedFrom
+2087 0 ** graduatedFrom **
+2091 2 livesIn
+2091 3 isKnownFor
+2092 1 ** isMarriedTo **
+2096 1 holdsPoliticalPosition
+2096 3 ** hasChild **
+2098 2 isLocatedIn
+2101 1 created
+2102 1 ** isLocatedIn **
+2102 2 ** isLocatedIn **
+2103 2 isLocatedIn
+2104 2 isLocatedIn
+2105 1 ** isAffiliatedTo **
+2108 2 ** created **
+2109 3 ** isMarriedTo **
+2110 3 wasBornIn
+2111 2 ** created **
+2112 0 ** isLocatedIn **
+2114 3 created
+2115 3 isMarriedTo
+2116 2 ** isMarriedTo **
+2117 2 ** isCitizenOf **
+2117 3 ** isCitizenOf **
+2119 3 owns
+2130 3 ** created **
+2132 2 ** created **
+2134 1 happenedIn
+2135 1 isLocatedIn
+2135 2 isLocatedIn
+2137 1 ** isMarriedTo **
+2139 1 owns
+2145 1 isLocatedIn
+2147 1 created
+2147 2 isMarriedTo
+2147 3 created
+2148 2 isAffiliatedTo
+2150 1 isLocatedIn
+2150 2 ** graduatedFrom **
+2152 2 ** isLocatedIn **
+2154 2 ** owns **
+2154 3 isLocatedIn
+2156 3 isAffiliatedTo
+2157 3 isAffiliatedTo
+2159 2 ** isLocatedIn **
+2159 3 isLocatedIn
+2160 2 ** hasCapital **
+2160 3 isLocatedIn
+2161 1 ** owns **
+2162 2 isLocatedIn
+2164 2 ** isLocatedIn **
+2165 2 ** created **
+2166 2 isCitizenOf
+2166 3 holdsPoliticalPosition
+2170 1 created
+2175 2 isLocatedIn
+2176 2 isLocatedIn
+2177 2 isLocatedIn
+2179 2 isAffiliatedTo
+2182 3 isAffiliatedTo
+2183 1 ** isMarriedTo **
+2186 1 ** actedIn **
+2186 2 ** actedIn **
+2186 3 ** created **
+2187 1 ** isLocatedIn **
+2187 2 ** isLocatedIn **
+2190 1 isLocatedIn
+2190 2 isLocatedIn
+2191 2 isLocatedIn
+2192 2 isLocatedIn
+2193 2 isLocatedIn
+2194 2 isLocatedIn
+2195 2 isLocatedIn
+2196 1 ** isLocatedIn **
+2196 2 isLocatedIn
+2196 3 isLocatedIn
+2197 1 created
+2197 2 created
+2197 3 ** influences **
+2198 2 created
+2198 3 wasBornIn
+2203 1 isAffiliatedTo
+2205 1 ** influences **
+2210 2 isLocatedIn
+2212 2 ** created **
+2214 1 isAffiliatedTo
+2215 1 isLocatedIn
+2215 2 owns
+2216 2 isCitizenOf
+2217 1 ** holdsPoliticalPosition **
+2218 1 ** isLocatedIn **
+2224 0 holdsPoliticalPosition
+2224 3 created
+2226 1 isAffiliatedTo
+2229 2 ** isLocatedIn **
+2231 2 owns
+2232 2 owns
+2236 1 ** isMarriedTo **
+2236 3 created
+2238 1 ** isCitizenOf **
+2239 1 ** isLeaderOf **
+2240 1 ** isCitizenOf **
+2241 1 ** isCitizenOf **
+2242 2 ** created **
+2245 3 ** influences **
+2246 3 isLocatedIn
+2247 1 ** created **
+2249 1 ** isMarriedTo **
+2254 2 isLocatedIn
+2255 2 isLocatedIn
+2261 2 ** actedIn **
+2265 1 isLocatedIn
+2265 2 ** isLocatedIn **
+2266 1 isLocatedIn
+2267 2 ** livesIn **
+2271 2 ** owns **
+2271 3 owns
+2272 1 isMarriedTo
+2274 2 isLocatedIn
+2277 1 created
+2277 2 isMarriedTo
+2277 3 isMarriedTo
+2279 1 hasChild
+2280 2 ** isCitizenOf **
+2282 3 isLocatedIn
+2296 2 isMarriedTo
+2299 1 created
+2299 2 ** isMarriedTo **
+2299 3 created
+2300 1 ** isLocatedIn **
+2300 2 ** isLeaderOf **
+2300 3 ** isLocatedIn **
+2301 2 ** created **
+2301 3 ** created **
+2303 2 isLocatedIn
+2304 3 ** wroteMusicFor **
+2305 2 isCitizenOf
+2309 3 owns
+2310 2 ** created **
+2311 1 ** isLocatedIn **
+2311 2 ** isLocatedIn **
+2312 2 ** hasCapital **
+2312 3 isLocatedIn
+2314 3 isCitizenOf
+2315 1 ** isCitizenOf **
+2316 1 ** isCitizenOf **
+2317 1 ** isCitizenOf **
+2318 1 ** isCitizenOf **
+2322 1 isAffiliatedTo
+2322 2 holdsPoliticalPosition
+2323 3 ** isMarriedTo **
+2324 2 ** created **
+2328 2 actedIn
+2330 2 ** owns **
+2330 3 isLocatedIn
+2331 2 isLocatedIn
+2332 2 isLocatedIn
+2339 2 ** created **
+2340 1 ** created **
+2340 3 ** created **
+2345 1 owns
+2346 2 isLocatedIn
+2347 3 isCitizenOf
+2351 2 ** created **
+2351 3 ** created **
+2353 2 isLocatedIn
+2355 0 isLocatedIn
+2356 1 holdsPoliticalPosition
+2356 2 livesIn
+2358 1 created
+2358 2 ** influences **
+2359 1 created
+2359 2 isLeaderOf
+2360 1 created
+2360 2 ** influences **
+2361 2 ** influences **
+2380 3 isMarriedTo
+2383 1 ** dealsWith **
+2388 2 isLocatedIn
+2389 2 ** hasCapital **
+2390 2 ** hasCapital **
+2393 2 ** directed **
+2393 3 isLocatedIn
+2404 1 ** isMarriedTo **
+2404 3 created
+2405 1 ** owns **
+2407 1 created
+2407 2 ** influences **
+2408 3 isLocatedIn
+2409 2 ** created **
+2410 2 isLocatedIn
+2410 3 isLocatedIn
+2412 0 isLocatedIn
+2413 1 isLocatedIn
+2414 2 influences
+2415 1 ** created **
+2418 2 isLocatedIn
+2419 2 isLocatedIn
+2420 1 ** isLocatedIn **
+2427 3 ** created **
+2429 1 isMarriedTo
+2431 2 ** owns **
+2431 3 isLocatedIn
+2433 2 ** isMarriedTo **
+2433 3 created
+2434 2 isLocatedIn
+2436 2 isLocatedIn
+2436 3 owns
+2437 1 owns
+2437 2 owns
+2439 2 ** created **
+2439 3 ** created **
+2444 1 ** holdsPoliticalPosition **
+2447 1 isLocatedIn
+2447 2 isLocatedIn
+2450 3 created
+2455 2 isCitizenOf
+2456 3 holdsPoliticalPosition
+2457 3 isLocatedIn
+2460 2 isCitizenOf
+2460 3 holdsPoliticalPosition
+2462 1 created
+2463 3 isLocatedIn
+2464 2 isCitizenOf
+2468 2 ** owns **
+2471 2 isLocatedIn
+2472 1 isLocatedIn
+2474 3 ** created **
+2476 1 created
+2477 2 isAffiliatedTo
+2478 2 ** created **
+2480 2 ** isMarriedTo **
+2490 1 isLocatedIn
+2493 3 livesIn
+2495 1 actedIn
+2496 2 ** hasCapital **
+2497 2 isLocatedIn
+2498 2 ** hasCapital **
+2500 1 ** isLocatedIn **
+2506 2 isCitizenOf
+2507 3 isCitizenOf
+2508 2 ** owns **
+2511 1 created
+2512 0 isLocatedIn
+2514 1 isAffiliatedTo
+2515 2 isLocatedIn
+2517 1 isLocatedIn
+2518 1 holdsPoliticalPosition
+2518 2 livesIn
+2521 2 ** influences **
+2526 1 created
+2526 3 created
+2527 2 ** actedIn **
+2527 3 created
+2530 2 livesIn
+2530 3 isCitizenOf
+2538 1 wasBornIn
+2539 3 livesIn
+2540 1 actedIn
+2542 2 isLocatedIn
+2545 1 isLocatedIn
+2545 3 ** created **
+2546 0 ** created **
+2546 3 ** created **
+2547 1 ** isLocatedIn **
+2548 3 created
+2549 1 ** created **
+2550 2 ** isLocatedIn **
+2552 1 wroteMusicFor
+2553 2 isConnectedTo
+2553 3 isLocatedIn
+2555 2 ** created **
+2555 3 ** created **
+2556 1 ** diedIn **
+2565 1 isLocatedIn
+2567 2 ** created **
+2569 3 ** influences **
+2571 1 created
+2574 1 created
+2576 1 ** isMarriedTo **
+2578 1 isLocatedIn
+2578 2 owns
+2579 1 isLocatedIn
+2579 2 owns
+2580 2 owns
+2581 1 isLocatedIn
+2581 2 owns
+2582 1 ** owns **
+2582 2 owns
+2583 1 isLocatedIn
+2583 2 owns
+2584 2 owns
+2585 1 isLocatedIn
+2585 2 owns
+2586 1 isLocatedIn
+2586 2 owns
+2587 1 isLocatedIn
+2587 2 owns
+2589 3 ** created **
+2590 2 ** wroteMusicFor **
+2595 1 ** holdsPoliticalPosition **
+2596 3 isAffiliatedTo
+2598 1 ** created **
+2600 0 isLocatedIn
+2600 2 ** isLocatedIn **
+2601 1 isCitizenOf
+2601 3 isCitizenOf
+2603 3 isAffiliatedTo
+2604 3 ** influences **
+2605 3 ** influences **
+2606 3 ** isMarriedTo **
+2610 2 isMarriedTo
+2610 3 created
+2611 1 isLocatedIn
+2613 1 ** wasBornIn **
+2614 1 livesIn
+2615 2 ** created **
+2620 1 actedIn
+2624 1 owns
+2625 2 ** isLocatedIn **
+2626 0 ** created **
+2627 2 ** hasCapital **
+2627 3 isLocatedIn
+2630 3 ** isMarriedTo **
+2631 3 ** isMarriedTo **
+2632 3 ** isMarriedTo **
+2633 3 ** isMarriedTo **
+2634 3 ** influences **
+2635 3 ** influences **
+2636 3 ** influences **
+2639 3 isLocatedIn
+2645 1 isLocatedIn
+2645 2 owns
+2646 1 ** isMarriedTo **
+2654 3 holdsPoliticalPosition
+2655 1 ** isLocatedIn **
+2657 1 created
+2658 2 isLocatedIn
+2659 0 isLocatedIn
+2659 2 ** wasBornIn **
+2662 3 wasBornIn
+2663 3 isLocatedIn
+2664 3 ** hasChild **
+2665 2 ** owns **
+2665 3 isLocatedIn
+2666 2 ** created **
+2666 3 ** created **
+2668 1 ** holdsPoliticalPosition **
+2674 2 isAffiliatedTo
+2675 1 created
+2678 2 ** influences **
+2680 1 ** isMarriedTo **
+2680 2 ** hasChild **
+2681 1 wasBornIn
+2681 3 isAffiliatedTo
+2682 2 ** isLocatedIn **
+2683 1 isLocatedIn
+2683 2 owns
+2684 1 isLocatedIn
+2684 2 owns
+2687 1 isLocatedIn
+2696 2 ** hasCapital **
+2696 3 isLocatedIn
+2697 3 isCitizenOf
+2698 1 isLocatedIn
+2700 2 isAffiliatedTo
+2701 2 created
+2703 1 ** diedIn **
+2704 3 ** isLocatedIn **
+2705 1 isMarriedTo
+2707 2 isCitizenOf
+2714 1 actedIn
+2715 1 isCitizenOf
+2715 3 isCitizenOf
+2717 2 ** influences **
+2718 1 created
+2719 2 isCitizenOf
+2722 2 ** hasCapital **
+2722 3 isLocatedIn
+2723 2 ** hasCapital **
+2723 3 isLocatedIn
+2726 3 ** isMarriedTo **
+2727 1 isLocatedIn
+2728 2 isCitizenOf
+2728 3 holdsPoliticalPosition
+2729 2 isLocatedIn
+2732 3 ** hasChild **
+2733 2 isLocatedIn
+2733 3 isLocatedIn
+2735 1 created
+2735 2 created
+2735 3 wasBornIn
+2736 1 created
+2736 2 created
+2736 3 ** isMarriedTo **
+2738 2 isLocatedIn
+2739 1 ** created **
+2741 1 ** isCitizenOf **
+2742 2 ** isLocatedIn **
+2742 3 ** isLocatedIn **
+2744 3 isLocatedIn
+2745 1 created
+2747 1 isLocatedIn
+2747 2 hasOfficialLanguage
+2752 1 created
+2752 2 created
+2752 3 created
+2754 2 ** hasCapital **
+2754 3 isLocatedIn
+2755 2 owns
+2755 3 owns
+2758 2 isLocatedIn
+2759 3 ** hasChild **
+2760 2 isAffiliatedTo
+2761 1 created
+2761 2 isLeaderOf
+2762 2 isLeaderOf
+2766 3 graduatedFrom
+2767 2 ** created **
+2768 2 isLeaderOf
+2771 2 isCitizenOf
+2772 3 ** isLocatedIn **
+2773 2 wasBornIn
+2775 2 ** dealsWith **
+2776 1 created
+2777 2 isLocatedIn
+2781 3 isKnownFor
+2783 1 created
+2785 3 isLocatedIn
+2786 1 ** livesIn **
+2788 0 isLocatedIn
+2788 2 ** isLocatedIn **
+2789 1 ** actedIn **
+2789 2 ** actedIn **
+2790 1 isLocatedIn
+2791 2 isLocatedIn
+2794 2 ** isLocatedIn **
+2797 2 isLocatedIn
+2797 3 ** isLocatedIn **
+2801 1 ** isCitizenOf **
+2802 2 isCitizenOf
+2802 3 holdsPoliticalPosition
+2803 1 hasOfficialLanguage
+2805 2 isLocatedIn
+2805 3 ** wasBornIn **
+2806 0 ** isLocatedIn **
+2808 1 ** isCitizenOf **
+2811 1 ** created **
+2813 2 isLocatedIn
+2816 2 isLocatedIn
+2820 1 created
+2820 2 created
+2820 3 created
+2821 2 ** isLocatedIn **
+2822 2 isLocatedIn
+2823 2 ** influences **
+2824 2 isPoliticianOf
+2824 3 created
+2825 2 isCitizenOf
+2825 3 holdsPoliticalPosition
+2826 2 isCitizenOf
+2826 3 holdsPoliticalPosition
+2827 1 created
+2828 1 isLocatedIn
+2829 2 isLocatedIn
+2832 1 created
+2832 2 livesIn
+2833 3 wasBornIn
+2834 2 ** hasCapital **
+2835 2 isLocatedIn
+2836 2 isLocatedIn
+2838 2 isAffiliatedTo
+2839 1 ** isLocatedIn **
+2839 2 ** isLocatedIn **
+2839 3 ** isLocatedIn **
+2840 1 created
+2841 3 isLocatedIn
+2843 1 created
+2843 2 actedIn
+2843 3 ** influences **
+2844 3 ** isLocatedIn **
+2846 2 ** hasCapital **
+2849 2 isLocatedIn
+2852 3 isLeaderOf
+2855 2 isCitizenOf
+2855 3 holdsPoliticalPosition
+2856 1 ** isLocatedIn **
+2856 2 ** isLocatedIn **
+2856 3 ** isLocatedIn **
+2857 3 isAffiliatedTo
+2860 1 ** created **
+2860 2 isLocatedIn
+2861 1 isAffiliatedTo
+2862 1 ** created **
+2862 2 ** created **
+2864 2 created
+2865 1 created
+2866 1 ** isCitizenOf **
+2867 1 ** diedIn **
+2868 1 ** isCitizenOf **
+2870 2 isAffiliatedTo
+2871 2 created
+2872 1 actedIn
+2872 2 created
+2872 3 created
+2875 1 isLocatedIn
+2876 1 ** isCitizenOf **
+2877 2 created
+2879 2 ** wasBornIn **
+2881 1 isLeaderOf
+2881 2 isAffiliatedTo
+2881 3 isLeaderOf
+2883 2 created
+2884 2 isLocatedIn
+2887 1 ** actedIn **
+2887 2 ** actedIn **
+2888 1 isLocatedIn
+2889 2 isLocatedIn
+2891 1 created
+2891 2 livesIn
+2892 2 isLocatedIn
+2894 0 isLocatedIn
+2895 2 wasBornIn
+2895 3 holdsPoliticalPosition
+2896 2 isAffiliatedTo
+2897 2 isLocatedIn
+2898 1 actedIn
+2898 2 created
+2898 3 wasBornIn
+2899 1 created
+2899 2 created
+2899 3 created
+2900 1 created
+2900 2 created
+2900 3 wasBornIn
+2902 1 isLocatedIn
+2902 2 isLocatedIn
+2904 2 created
+2904 3 wasBornIn
+2905 1 ** actedIn **
+2905 2 ** actedIn **
+2907 1 ** diedIn **
+2908 2 isPoliticianOf
+2908 3 created
+2909 3 isAffiliatedTo
+2910 3 isLocatedIn
+2911 1 created
+2912 3 created
+2913 2 ** influences **
+2914 1 ** isCitizenOf **
+2915 2 isLocatedIn
+2916 1 created
+2916 2 isPoliticianOf
+2918 2 ** dealsWith **
+2919 1 created
+2919 2 isMarriedTo
+2919 3 created
+2920 2 wasBornIn
+2921 1 created
+2921 2 isLeaderOf
+2924 2 ** created **
+2926 1 livesIn
+2927 2 actedIn
+2929 3 isLocatedIn
+2930 1 ** isLocatedIn **
+2938 3 owns
+2939 2 created
+2939 3 actedIn
+2962 3 isLocatedIn
+2963 3 isLocatedIn
+2964 1 isAffiliatedTo
+2965 1 ** isLocatedIn **
+2968 2 isLocatedIn
+2969 1 ** created **
+2970 1 ** dealsWith **
+2970 2 ** isCitizenOf **
+2972 2 isLocatedIn
+2973 3 ** created **
+2974 3 isLocatedIn
+2981 2 ** created **
+2983 2 isLocatedIn
+2984 2 isLocatedIn
+2987 3 created
+2988 3 ** isLocatedIn **
+2989 0 isLocatedIn
+2992 2 actedIn
+2993 2 isLocatedIn
+2996 1 ** created **
+2997 1 isLocatedIn
+2998 2 isLocatedIn
+2999 2 isLocatedIn
+3000 2 isLocatedIn
+3001 2 isLocatedIn
+3002 2 isLocatedIn
+3003 2 ** isLocatedIn **
+3003 3 isLocatedIn
+3004 2 isLocatedIn
+3004 3 isLocatedIn
+3008 1 ** happenedIn **
+3008 2 ** isCitizenOf **
+3009 2 wasBornIn
+3009 3 isAffiliatedTo
+3010 1 actedIn
+3015 1 ** created **
+3015 2 ** created **
+3017 2 happenedIn
+3019 3 isAffiliatedTo
+3020 2 isLocatedIn
+3022 1 ** created **
+3022 2 ** created **
+3030 1 ** isLocatedIn **
+3031 1 graduatedFrom
+3038 3 holdsPoliticalPosition
+3040 1 ** created **
+3041 2 isLocatedIn
+3042 1 isAffiliatedTo
+3043 1 created
+3045 3 ** created **
+3047 2 ** owns **
+3047 3 isLocatedIn
+3050 3 ** isLocatedIn **
+3052 2 ** created **
+3053 2 isAffiliatedTo
+3053 3 wasBornIn
+3057 1 ** isLocatedIn **
+3061 2 isLocatedIn
+3062 2 isLocatedIn
+3063 3 owns
+3064 3 isLocatedIn
+3065 2 created
+3068 2 ** created **
+3069 2 ** created **
+3070 1 hasChild
+3072 1 ** isLocatedIn **
+3072 2 ** isLocatedIn **
+3076 3 isCitizenOf
+3077 2 isLocatedIn
+3078 3 created
+3079 3 owns
+3094 1 ** hasCapital **
+3094 2 isLocatedIn
+3095 1 ** isLocatedIn **
+3095 2 ** isLocatedIn **
+3095 3 ** isLocatedIn **
+3096 1 ** created **
+3097 1 ** isLocatedIn **
+3099 1 created
+3099 2 livesIn
+3100 1 ** isLocatedIn **
+3101 1 livesIn
+3101 2 isCitizenOf
+3101 3 ** hasChild **
+3102 2 created
+3103 2 created
+3104 2 created
+3105 2 created
+3106 2 created
+3107 2 created
+3108 2 created
+3109 2 created
+3110 2 created
+3111 2 created
+3112 2 created
+3113 2 created
+3114 2 created
+3115 2 created
+3116 2 created
+3117 2 created
+3120 2 ** dealsWith **
+3122 2 created
+3123 2 created
+3124 2 created
+3126 2 isAffiliatedTo
+3127 2 hasCurrency
+3128 1 isPoliticianOf
+3128 3 wasBornIn
+3129 2 wasBornIn
+3129 3 isCitizenOf
+3130 3 isLocatedIn
+3131 2 graduatedFrom
+3131 3 actedIn
+3132 1 isAffiliatedTo
+3133 1 ** isLocatedIn **
+3133 2 ** isLocatedIn **
+3134 2 isLocatedIn
+3134 3 hasCapital
+3135 2 ** isLocatedIn **
+3137 3 isLocatedIn
+3140 3 created
+3144 1 ** isLocatedIn **
+3144 2 ** isLocatedIn **
+3146 1 isAffiliatedTo
+3146 2 wasBornIn
+3147 1 ** isLocatedIn **
+3150 2 graduatedFrom
+3150 3 actedIn
+3154 3 isLocatedIn
+3155 2 ** actedIn **
+3162 1 isAffiliatedTo
+3173 2 isAffiliatedTo
+3175 2 isAffiliatedTo
+3176 2 isAffiliatedTo
+3177 2 isAffiliatedTo
+3178 2 isAffiliatedTo
+3179 2 isAffiliatedTo
+3180 2 isAffiliatedTo
+3181 2 isAffiliatedTo
+3182 2 isAffiliatedTo
+3185 2 ** owns **
+3185 3 owns
+3188 1 isAffiliatedTo
+3189 1 actedIn
+3196 2 isAffiliatedTo
+3197 2 isAffiliatedTo
+3198 2 isAffiliatedTo
+3199 2 isAffiliatedTo
+3200 2 isAffiliatedTo
+3201 2 isAffiliatedTo
+3202 2 isAffiliatedTo
+3203 2 isAffiliatedTo
+3204 2 isAffiliatedTo
+3205 2 isAffiliatedTo
+3206 2 isAffiliatedTo
+3207 2 isAffiliatedTo
+3210 1 ** owns **
+3211 2 ** isLocatedIn **
+3211 3 ** isConnectedTo **
+3213 2 ** created **
+3213 3 ** created **
+3214 1 created
+3215 2 holdsPoliticalPosition
+3217 2 wasBornIn
+3217 3 isAffiliatedTo
+3218 2 isPoliticianOf
+3219 1 created
+3219 2 livesIn
+3221 2 isLocatedIn
+3224 1 ** actedIn **
+3226 3 isAffiliatedTo
+3227 2 isLocatedIn
+3228 2 ** isMarriedTo **
+3232 2 ** owns **
+3238 2 isLocatedIn
+3239 2 isLocatedIn
+3243 2 actedIn
+3243 3 isAffiliatedTo
+3253 2 isLocatedIn
+3259 1 ** created **
+3259 2 ** created **
+3263 2 created
+3264 1 isPoliticianOf
+3269 1 isAffiliatedTo
+3269 2 isLeaderOf
+3270 3 isLocatedIn
+3272 1 ** isLocatedIn **
+3273 2 ** directed **
+3273 3 ** actedIn **
+3274 2 graduatedFrom
+3274 3 actedIn
+3275 3 isInterestedIn
+3278 2 wasBornIn
+3280 1 created
+3282 1 wasBornIn
+3285 1 isLocatedIn
+3287 2 ** created **
+3291 1 ** isLocatedIn **
+3292 2 isCitizenOf
+3292 3 isAffiliatedTo
+3294 3 isAffiliatedTo
+3295 2 isAffiliatedTo
+3302 1 wasBornIn
+3303 3 created
+3306 3 ** isLocatedIn **
+3308 1 created
+3310 1 ** isCitizenOf **
+3310 2 ** isCitizenOf **
+3311 1 isCitizenOf
+3311 3 isCitizenOf
+3312 1 isCitizenOf
+3312 3 diedIn
+3314 1 ** isCitizenOf **
+3315 1 ** isCitizenOf **
+3317 1 isLocatedIn
+3317 2 isLocatedIn
+3318 1 created
+3319 1 created
+3320 2 wasBornIn
+3324 1 ** created **
+3324 2 ** created **
+3325 1 ** created **
+3325 2 ** created **
+3326 1 ** created **
+3332 1 ** isMarriedTo **
+3332 3 created
+3334 2 ** created **
+3336 1 created
+3337 1 isLocatedIn
+3340 1 ** created **
+3341 2 isLocatedIn
+3344 1 isAffiliatedTo
+3345 2 ** created **
+3346 2 isLocatedIn
+3347 1 created
+3347 3 isMarriedTo
+3353 1 isAffiliatedTo
+3354 1 created
+3355 3 isAffiliatedTo
+3357 2 isCitizenOf
+3358 2 ** created **
+3358 3 ** created **
+3363 1 isLocatedIn
+3363 2 isLocatedIn
+3365 2 ** wasBornIn **
+3370 3 isLocatedIn
+3371 1 isAffiliatedTo
+3371 2 ** isMarriedTo **
+3371 3 isAffiliatedTo
+3374 1 influences
+3374 2 created
+3375 3 ** hasChild **
+3376 2 isLocatedIn
+3378 1 isAffiliatedTo
+3379 1 isAffiliatedTo
+3380 3 isLocatedIn
+3382 1 isAffiliatedTo
+3384 2 ** isLocatedIn **
+3386 3 holdsPoliticalPosition
+3387 3 isAffiliatedTo
+3388 2 isLeaderOf
+3389 3 isLocatedIn
+3390 1 isLocatedIn
+3392 1 livesIn
+3393 2 isLocatedIn
+3394 2 isLeaderOf
+3397 2 livesIn
+3400 2 wasBornIn
+3401 1 isAffiliatedTo
+3402 1 created
+3404 1 isLocatedIn
+3410 3 ** isLocatedIn **
+3414 1 isAffiliatedTo
+3418 2 dealsWith
+3419 2 actedIn
+3422 1 ** isMarriedTo **
+3422 3 created
+3423 3 ** isConnectedTo **
+3424 3 ** isConnectedTo **
+3425 2 ** livesIn **
+3425 3 ** isLocatedIn **
+3426 2 ** isLocatedIn **
+3426 3 ** isLocatedIn **
+3427 2 ** directed **
+3427 3 isLocatedIn
+3431 1 ** created **
+3432 2 ** hasCapital **
+3432 3 isLocatedIn
+3433 2 ** hasCapital **
+3433 3 isLocatedIn
+3434 2 owns
+3435 3 isCitizenOf
+3436 3 created
+3440 3 isAffiliatedTo
+3441 3 isAffiliatedTo
+3442 3 isAffiliatedTo
+3445 2 wasBornIn
+3446 2 isLocatedIn
+3447 2 isLocatedIn
+3448 2 isLocatedIn
+3451 1 created
+3453 3 created
+3456 2 isLocatedIn
+3459 3 ** created **
+3460 3 isLocatedIn
+3463 1 isLocatedIn
+3463 3 ** created **
+3464 1 livesIn
+3465 3 ** hasChild **
+3466 1 isLocatedIn
+3468 1 isCitizenOf
+3468 2 isAffiliatedTo
+3468 3 isAffiliatedTo
+3469 2 ** hasCapital **
+3469 3 isLocatedIn
+3470 1 ** isLeaderOf **
+3473 2 isLocatedIn
+3473 3 isLocatedIn
+3474 3 isLocatedIn
+3475 2 ** isLocatedIn **
+3477 2 ** owns **
+3477 3 isLocatedIn
+3483 2 created
+3483 3 isMarriedTo
+3485 1 isAffiliatedTo
+3486 1 isAffiliatedTo
+3488 2 isLocatedIn
+3492 1 ** influences **
+3493 2 ** actedIn **
+3502 3 isInterestedIn
+3503 1 isLocatedIn
+3503 2 isLocatedIn
+3504 2 ** created **
+3508 1 created
+3508 2 created
+3510 2 ** created **
+3511 2 isCitizenOf
+3512 2 isCitizenOf
+3513 2 isCitizenOf
+3514 1 ** isLocatedIn **
+3515 1 ** created **
+3516 1 created
+3518 3 isInterestedIn
+3519 2 ** created **
+3520 1 isAffiliatedTo
+3521 1 isAffiliatedTo
+3522 2 isLocatedIn
+3523 2 isLocatedIn
+3524 2 isLocatedIn
+3526 2 ** isLocatedIn **
+3528 2 ** created **
+3531 3 isLocatedIn
+3532 2 isLocatedIn
+3536 1 isLocatedIn
+3537 1 isAffiliatedTo
+3538 1 created
+3539 3 ** created **
+3543 0 isLocatedIn
+3544 2 isAffiliatedTo
+3546 4 ** created **
+3550 1 ** directed **
+3551 1 ** directed **
+3551 2 ** actedIn **
+3552 1 ** created **
+3552 2 ** actedIn **
+3554 1 ** directed **
+3562 3 ** created **
+3562 4 ** created **
+3563 1 ** created **
+3566 2 ** isCitizenOf **
+3566 3 ** created **
+3567 2 ** isCitizenOf **
+3567 3 ** created **
+3568 3 ** created **
+3571 3 wasBornIn
+3572 1 isLocatedIn
+3574 2 wasBornIn
+3574 4 created
+3575 2 isLocatedIn
+3579 2 ** directed **
+3582 2 isAffiliatedTo
+3583 4 isAffiliatedTo
+3584 4 isAffiliatedTo
+3585 4 isAffiliatedTo
+3587 2 isLocatedIn
+3592 2 isLocatedIn
+3592 3 isLocatedIn
+3594 2 ** isLocatedIn **
+3596 1 ** isAffiliatedTo **
+3596 2 owns
+3597 2 ** created **
+3597 3 ** created **
+3598 2 ** created **
+3598 3 ** created **
+3604 2 isLocatedIn
+3610 2 isLocatedIn
+3612 3 livesIn
+3612 4 isCitizenOf
+3614 2 ** owns **
+3614 3 isLocatedIn
+3615 2 isCitizenOf
+3615 3 wasBornIn
+3619 3 isAffiliatedTo
+3622 1 isLocatedIn
+3627 1 isLocatedIn
+3632 0 livesIn
+3632 4 created
+3633 2 isLocatedIn
+3633 4 isLocatedIn
+3634 1 ** isLocatedIn **
+3634 2 isLocatedIn
+3636 2 isCitizenOf
+3636 3 created
+3637 2 isCitizenOf
+3638 2 hasCapital
+3638 4 ** isCitizenOf **
+3640 2 ** isLocatedIn **
+3640 3 ** isLocatedIn **
+3641 2 isCitizenOf
+3643 1 isCitizenOf
+3646 1 ** directed **
+3647 1 ** directed **
+3647 2 ** actedIn **
+3648 1 ** directed **
+3648 2 ** actedIn **
+3649 1 ** directed **
+3649 2 ** actedIn **
+3653 1 isLocatedIn
+3655 1 ** created **
+3657 4 ** created **
+3662 2 isLocatedIn
+3664 1 isLocatedIn
+3665 1 isLocatedIn
+3665 2 ** isCitizenOf **
+3666 1 actedIn
+3666 2 ** influences **
+3667 1 isCitizenOf
+3667 2 wasBornIn
+3667 4 livesIn
+3669 2 isLocatedIn
+3671 3 isLocatedIn
+3674 2 livesIn
+3675 1 isCitizenOf
+3679 3 ** created **
+3679 4 ** created **
+3680 2 owns
+3681 2 ** created **
+3684 2 ** created **
+3686 1 ** isPoliticianOf **
+3687 1 ** isPoliticianOf **
+3688 1 ** isPoliticianOf **
+3689 1 isLocatedIn
+3690 2 isCitizenOf
+3690 3 created
+3691 1 isLocatedIn
+3692 2 isCitizenOf
+3692 3 ** isMarriedTo **
+3693 1 ** directed **
+3693 2 ** actedIn **
+3693 3 created
+3693 4 ** created **
+3694 1 ** directed **
+3694 2 ** actedIn **
+3694 4 ** created **
+3695 1 ** directed **
+3695 2 ** actedIn **
+3696 1 ** directed **
+3702 2 isLocatedIn
+3703 1 isLocatedIn
+3707 3 ** created **
+3711 3 isAffiliatedTo
+3711 4 wasBornIn
+3714 0 isLocatedIn
+3715 1 ** isLocatedIn **
+3715 2 dealsWith
+3715 3 ** isLocatedIn **
+3717 2 ** created **
+3717 3 ** created **
+3719 0 isLocatedIn
+3721 1 ** influences **
+3722 3 isCitizenOf
+3722 4 isAffiliatedTo
+3725 1 isCitizenOf
+3726 3 livesIn
+3726 4 isCitizenOf
+3727 2 created
+3727 3 livesIn
+3727 4 isCitizenOf
+3728 3 diedIn
+3728 4 isCitizenOf
+3734 2 isLocatedIn
+3735 3 wasBornIn
+3738 1 ** isPoliticianOf **
+3739 1 ** isPoliticianOf **
+3740 2 created
+3741 2 isCitizenOf
+3741 3 graduatedFrom
+3741 4 isAffiliatedTo
+3743 1 isLocatedIn
+3744 2 isCitizenOf
+3744 3 created
+3745 2 isLocatedIn
+3746 1 ** directed **
+3746 2 ** actedIn **
+3747 1 ** directed **
+3747 3 ** created **
+3748 1 ** directed **
+3749 1 ** directed **
+3749 2 ** actedIn **
+3750 2 ** created **
+3750 3 ** created **
+3751 2 ** created **
+3751 3 ** created **
+3752 4 ** created **
+3756 1 isLocatedIn
+3762 1 ** isLocatedIn **
+3762 4 ** isLocatedIn **
+3765 2 ** created **
+3765 3 ** created **
+3768 2 wasBornIn
+3769 2 isLocatedIn
+3770 1 ** isLocatedIn **
+3770 2 ** isLocatedIn **
+3772 4 isAffiliatedTo
+3773 1 isLocatedIn
+3773 2 isLocatedIn
+3774 1 ** isLocatedIn **
+3774 3 ** isLocatedIn **
+3775 4 isAffiliatedTo
+3777 3 ** isLocatedIn **
+3781 1 ** created **
+3781 2 ** created **
+3781 3 ** created **
+3781 4 ** created **
+3783 1 isLocatedIn
+3784 3 livesIn
+3784 4 isCitizenOf
+3785 2 created
+3785 3 wasBornIn
+3785 4 isCitizenOf
+3786 3 livesIn
+3786 4 isCitizenOf
+3788 1 ** created **
+3789 3 created
+3789 4 wasBornIn
+3790 1 ** isPoliticianOf **
+3792 2 isCitizenOf
+3792 3 isAffiliatedTo
+3792 4 isAffiliatedTo
+3796 2 isCitizenOf
+3796 3 holdsPoliticalPosition
+3797 2 isCitizenOf
+3797 3 created
+3798 2 isCitizenOf
+3798 3 holdsPoliticalPosition
+3799 1 isLocatedIn
+3799 2 wasBornIn
+3800 1 ** directed **
+3801 1 ** directed **
+3806 3 ** isMarriedTo **
+3807 4 livesIn
+3810 2 ** created **
+3810 3 ** actedIn **
+3811 2 ** created **
+3811 3 ** created **
+3815 1 ** isLocatedIn **
+3815 2 ** isLocatedIn **
+3815 3 hasCapital
+3819 1 isCitizenOf
+3819 2 isCitizenOf
+3819 4 livesIn
+3820 1 isCitizenOf
+3820 3 isAffiliatedTo
+3820 4 livesIn
+3823 1 ** owns **
+3823 2 isLocatedIn
+3823 3 isLocatedIn
+3824 2 isLocatedIn
+3824 3 isLocatedIn
+3825 3 ** created **
+3830 2 created
+3830 3 livesIn
+3830 4 isCitizenOf
+3832 2 created
+3832 3 wasBornIn
+3832 4 isCitizenOf
+3833 2 created
+3833 3 livesIn
+3833 4 isCitizenOf
+3834 3 livesIn
+3834 4 isCitizenOf
+3837 2 ** created **
+3837 3 ** created **
+3840 1 owns
+3840 2 owns
+3840 4 ** isAffiliatedTo **
+3842 0 isLocatedIn
+3843 2 isCitizenOf
+3843 3 holdsPoliticalPosition
+3844 2 isLocatedIn
+3844 3 isLocatedIn
+3852 1 ** directed **
+3852 2 ** actedIn **
+3852 4 ** created **
+3853 1 ** actedIn **
+3854 2 isAffiliatedTo
+3854 3 isAffiliatedTo
+3854 4 actedIn
+3855 2 isCitizenOf
+3855 3 created
+3857 2 ** actedIn **
+3860 2 isLocatedIn
+3861 2 isCitizenOf
+3862 1 ** directed **
+3863 3 created
+3865 2 isConnectedTo
+3866 2 isConnectedTo
+3868 3 wasBornIn
+3871 1 ** isMarriedTo **
+3873 3 livesIn
+3873 4 isCitizenOf
+3874 2 created
+3874 3 wasBornIn
+3874 4 isCitizenOf
+3875 2 ** isLeaderOf **
+3875 3 ** isLocatedIn **
+3876 2 ** isLeaderOf **
+3877 2 ** isLeaderOf **
+3878 2 ** isLeaderOf **
+3879 2 ** isLeaderOf **
+3879 3 ** isLocatedIn **
+3880 2 ** isLeaderOf **
+3880 3 ** isLocatedIn **
+3882 2 isLocatedIn
+3882 3 isLocatedIn
+3882 4 isLocatedIn
+3883 1 ** directed **
+3884 3 ** directed **
+3884 4 ** actedIn **
+3890 1 isLocatedIn
+3891 3 isAffiliatedTo
+3891 4 isCitizenOf
+3892 1 isCitizenOf
+3892 2 wasBornIn
+3892 3 isAffiliatedTo
+3892 4 livesIn
+3894 2 created
+3894 3 livesIn
+3894 4 isCitizenOf
+3895 2 created
+3895 3 livesIn
+3895 4 isCitizenOf
+3896 3 livesIn
+3896 4 isCitizenOf
+3897 3 livesIn
+3897 4 isCitizenOf
+3898 1 isLocatedIn
+3900 3 ** owns **
+3902 1 isLocatedIn
+3904 4 owns
+3906 1 isLocatedIn
+3907 2 ** isLocatedIn **
+3907 3 ** isLocatedIn **
+3910 3 diedIn
+3910 4 isCitizenOf
+3911 3 wasBornIn
+3911 4 isCitizenOf
+3912 2 created
+3912 3 livesIn
+3912 4 isCitizenOf
+3913 1 ** isLocatedIn **
+3914 1 isLocatedIn
+3915 1 ** directed **
+3915 3 ** owns **
+3916 1 ** directed **
+3917 1 ** directed **
+3920 4 wasBornIn
+3921 3 ** owns **
+3923 1 created
+3923 2 ** isMarriedTo **
+3923 3 actedIn
+3923 4 created
+3927 2 created
+3927 3 livesIn
+3927 4 isCitizenOf
+3928 3 hasChild
+3930 2 ** influences **
+3930 3 created
+3932 1 ** directed **
+3932 2 ** actedIn **
+3936 2 isLocatedIn
+3936 3 isLocatedIn
+3937 0 isCitizenOf
+3937 3 created
+3938 2 ** isLocatedIn **
+3939 1 isLocatedIn
+3940 1 isCitizenOf
+3940 2 livesIn
+3941 2 ** created **
+3941 3 ** created **
+3942 1 wasBornIn
+3943 3 hasWonPrize
+3944 1 ** isLeaderOf **
+3944 2 ** isLeaderOf **
+3944 4 ** isLeaderOf **
+3945 2 created
+3945 3 wasBornIn
+3945 4 isCitizenOf
+3946 2 created
+3946 3 livesIn
+3946 4 isCitizenOf
+3947 2 livesIn
+3947 3 wasBornIn
+3947 4 worksAt
+3948 1 isLocatedIn
+3948 2 owns
+3950 2 wasBornIn
+3951 1 ** wasBornIn **
+3952 1 ** isLocatedIn **
+3952 2 livesIn
+3952 3 livesIn
+3953 3 isLocatedIn
+3954 3 isLocatedIn
+3955 1 ** directed **
+3955 2 ** actedIn **
+3955 4 ** created **
+3956 2 isMarriedTo
+3956 3 isMarriedTo
+3956 4 isMarriedTo
+3957 1 wasBornIn
+3957 2 created
+3959 1 isLocatedIn
+3963 3 dealsWith
+3964 1 isLocatedIn
+3968 1 isLocatedIn
+3971 1 isLocatedIn
+3971 2 ** owns **
+3976 1 ** influences **
+3979 2 created
+3979 3 wasBornIn
+3979 4 isCitizenOf
+3981 1 isLocatedIn
+3981 2 owns
+3983 1 livesIn
+3984 1 isLocatedIn
+3984 3 ** wasBornIn **
+3984 4 ** isConnectedTo **
+3988 2 isCitizenOf
+3989 3 isLocatedIn
+3991 1 isLocatedIn
+3992 2 created
+3992 3 livesIn
+3992 4 isCitizenOf
+3993 3 wasBornIn
+3993 4 isCitizenOf
+3999 1 isLocatedIn
+3999 2 owns
+4001 1 ** directed **
+4002 2 isCitizenOf
+4002 4 created
+4003 2 ** created **
+4003 3 ** created **
+4003 4 ** created **
+4004 4 isAffiliatedTo
+4005 3 isLocatedIn
+4006 2 isMarriedTo
+4006 3 ** hasChild **
+4007 2 ** created **
+4007 3 ** created **
+4008 2 ** isLocatedIn **
+4008 4 dealsWith
+4009 1 livesIn
+4011 1 livesIn
+4012 1 ** isLocatedIn **
+4013 1 ** directed **
+4013 2 ** actedIn **
+4018 4 created
+4022 1 isCitizenOf
+4022 2 livesIn
+4022 4 livesIn
+4023 3 livesIn
+4023 4 isCitizenOf
+4024 2 isAffiliatedTo
+4024 4 created
+4028 1 isCitizenOf
+4028 2 wasBornIn
+4028 3 created
+4028 4 livesIn
+4029 2 wasBornIn
+4029 3 isCitizenOf
+4031 2 ** isLocatedIn **
+4032 2 created
+4032 3 wasBornIn
+4033 2 created
+4033 3 livesIn
+4033 4 isCitizenOf
+4034 2 created
+4034 3 livesIn
+4034 4 isCitizenOf
+4035 1 isLocatedIn
+4035 2 ** isLocatedIn **
+4035 3 ** isLocatedIn **
+4037 1 wasBornIn
+4039 2 ** isLocatedIn **
+4040 2 ** actedIn **
+4041 2 ** isLocatedIn **
+4044 2 isAffiliatedTo
+4044 3 isLeaderOf
+4045 2 isAffiliatedTo
+4045 3 isLeaderOf
+4047 2 livesIn
+4047 3 wasBornIn
+4048 2 ** isLocatedIn **
+4048 4 ** wasBornIn **
+4049 2 created
+4049 3 livesIn
+4049 4 isCitizenOf
+4050 2 created
+4050 3 livesIn
+4050 4 isCitizenOf
+4051 2 created
+4051 3 livesIn
+4051 4 isCitizenOf
+4052 3 ** influences **
+4053 2 ** isLeaderOf **
+4053 3 ** isLocatedIn **
+4054 1 ** directed **
+4054 2 ** actedIn **
+4057 2 livesIn
+4057 3 wasBornIn
+4059 1 wasBornIn
+4059 2 wasBornIn
+4060 4 ** isLocatedIn **
+4063 1 ** directed **
+4063 2 ** actedIn **
+4066 2 wasBornIn
+4067 1 isLocatedIn
+4068 1 isCitizenOf
+4068 2 isCitizenOf
+4068 3 created
+4068 4 livesIn
+4070 1 isAffiliatedTo
+4071 2 created
+4071 3 livesIn
+4071 4 isCitizenOf
+4072 2 ** isLeaderOf **
+4072 3 ** isLocatedIn **
+4073 2 ** isLeaderOf **
+4074 1 isLocatedIn
+4074 2 ** isLeaderOf **
+4075 1 ** directed **
+4075 2 ** actedIn **
+4075 4 ** directed **
+4076 1 ** directed **
+4076 4 ** created **
+4078 2 ** actedIn **
+4081 1 livesIn
+4082 1 created
+4082 3 ** owns **
+4083 1 isLocatedIn
+4084 1 isCitizenOf
+4084 2 livesIn
+4084 3 created
+4084 4 livesIn
+4085 2 isLocatedIn
+4085 3 isLocatedIn
+4086 1 ** isCitizenOf **
+4086 4 ** isLocatedIn **
+4087 2 created
+4087 3 livesIn
+4087 4 isCitizenOf
+4088 2 created
+4088 3 livesIn
+4088 4 isCitizenOf
+4089 2 created
+4089 3 wasBornIn
+4089 4 isCitizenOf
+4090 2 isCitizenOf
+4090 3 created
+4090 4 wasBornIn
+4092 1 ** directed **
+4094 1 created
+4094 2 livesIn
+4095 1 isLocatedIn
+4097 2 isAffiliatedTo
+4097 4 isAffiliatedTo
+4099 3 livesIn
+4099 4 isCitizenOf
+4100 3 isAffiliatedTo
+4102 3 ** isLocatedIn **
+4102 4 isLocatedIn
+4104 4 wasBornIn
+4105 2 ** created **
+4105 3 ** created **
+4106 2 isLocatedIn
+4106 4 ** created **
+4107 1 ** graduatedFrom **
+4109 1 isLocatedIn
+4110 0 isConnectedTo
+4111 4 created
+4113 2 ** isMarriedTo **
+4114 3 created
+4114 4 ** hasChild **
+4117 1 isCitizenOf
+4117 2 wasBornIn
+4117 3 isAffiliatedTo
+4117 4 livesIn
+4119 1 isLocatedIn
+4121 2 created
+4121 3 livesIn
+4121 4 isCitizenOf
+4122 2 created
+4122 3 wasBornIn
+4122 4 isCitizenOf
+4123 2 created
+4123 3 wasBornIn
+4123 4 isCitizenOf
+4125 2 isLocatedIn
+4125 4 isLocatedIn
+4126 1 isCitizenOf
+4126 2 livesIn
+4126 3 isAffiliatedTo
+4126 4 livesIn
+4127 2 ** created **
+4127 3 ** created **
+4128 2 created
+4128 3 livesIn
+4128 4 isCitizenOf
+4130 1 ** isPoliticianOf **
+4130 2 ** created **
+4131 1 ** isPoliticianOf **
+4131 2 ** created **
+4132 1 ** isPoliticianOf **
+4132 2 ** isLocatedIn **
+4133 1 ** isPoliticianOf **
+4133 2 ** created **
+4134 2 created
+4135 0 isConnectedTo
+4138 1 ** isPoliticianOf **
+4138 2 ** created **
+4139 1 ** isPoliticianOf **
+4139 2 ** isLocatedIn **
+4140 1 ** isPoliticianOf **
+4140 2 ** created **
+4141 1 ** isPoliticianOf **
+4141 2 ** created **
+4142 1 ** isPoliticianOf **
+4142 2 ** created **
+4143 1 ** isPoliticianOf **
+4143 2 ** isLocatedIn **
+4144 1 ** isPoliticianOf **
+4144 2 ** created **
+4145 1 ** isPoliticianOf **
+4145 2 ** created **
+4146 1 ** isPoliticianOf **
+4146 2 ** isLocatedIn **
+4147 1 ** isPoliticianOf **
+4147 2 ** created **
+4148 1 ** directed **
+4149 1 ** directed **
+4149 2 ** actedIn **
+4151 1 ** hasChild **
+4151 2 ** hasChild **
+4152 2 worksAt
+4152 3 isAffiliatedTo
+4152 4 created
+4153 2 created
+4153 3 livesIn
+4153 4 isCitizenOf
+4154 1 ** isPoliticianOf **
+4154 2 ** isLocatedIn **
+4155 1 ** isPoliticianOf **
+4155 2 ** isLocatedIn **
+4156 1 ** isPoliticianOf **
+4156 2 ** created **
+4157 1 ** isPoliticianOf **
+4157 2 ** isLocatedIn **
+4158 1 ** isPoliticianOf **
+4158 2 ** isLocatedIn **
+4159 1 ** isPoliticianOf **
+4159 2 ** created **
+4160 1 livesIn
+4160 4 created
+4161 1 ** directed **
+4161 2 ** actedIn **
+4163 3 created
+4164 1 isLocatedIn
+4164 2 owns
+4165 2 ** isLeaderOf **
+4166 1 isLocatedIn
+4166 2 owns
+4168 1 ** isPoliticianOf **
+4168 2 ** created **
+4169 1 ** isPoliticianOf **
+4169 2 ** created **
+4170 1 ** isPoliticianOf **
+4170 2 ** created **
+4171 1 ** isPoliticianOf **
+4171 2 ** created **
+4172 1 ** isPoliticianOf **
+4172 2 ** created **
+4173 1 ** isPoliticianOf **
+4173 2 ** created **
+4174 1 ** isPoliticianOf **
+4174 2 ** created **
+4175 1 ** isPoliticianOf **
+4175 2 ** created **
+4179 1 ** isLocatedIn **
+4181 1 isCitizenOf
+4181 2 wasBornIn
+4181 4 livesIn
+4182 1 ** created **
+4182 2 ** created **
+4183 1 ** directed **
+4183 3 ** created **
+4183 4 ** created **
+4184 1 ** directed **
+4184 4 ** created **
+4186 2 wasBornIn
+4187 2 ** isMarriedTo **
+4187 3 isMarriedTo
+4188 2 isCitizenOf
+4188 3 ** isMarriedTo **
+4189 2 isCitizenOf
+4189 4 created
+4191 2 created
+4191 3 livesIn
+4191 4 isCitizenOf
+4192 2 ** created **
+4192 3 ** created **
+4193 2 isAffiliatedTo
+4193 3 isMarriedTo
+4193 4 isAffiliatedTo
+4195 1 isCitizenOf
+4195 2 wasBornIn
+4195 3 isAffiliatedTo
+4195 4 livesIn
+4198 2 ** isMarriedTo **
+4198 3 worksAt
+4198 4 created
+4201 3 isAffiliatedTo
+4202 1 ** directed **
+4202 2 ** actedIn **
+4202 4 ** created **
+4203 2 ** actedIn **
+4203 3 ** directed **
+4203 4 ** actedIn **
+4204 1 ** isLocatedIn **
+4204 2 ** isLocatedIn **
+4204 3 ** isLocatedIn **
+4204 4 ** isCitizenOf **
+4207 1 isCitizenOf
+4207 3 graduatedFrom
+4208 2 isLocatedIn
+4209 2 ** influences **
+4211 1 isLocatedIn
+4212 1 isCitizenOf
+4212 2 wasBornIn
+4212 4 livesIn
+4213 1 isCitizenOf
+4213 2 wasBornIn
+4213 3 isAffiliatedTo
+4213 4 livesIn
+4214 3 isAffiliatedTo
+4214 4 owns
+4215 1 ** isLeaderOf **
+4217 1 isCitizenOf
+4217 2 livesIn
+4217 3 isAffiliatedTo
+4217 4 livesIn
+4218 2 ** created **
+4218 3 ** created **
+4220 2 ** isLocatedIn **
+4221 1 ** directed **
+4225 1 ** directed **
+4225 2 ** actedIn **
+4227 1 ** directed **
+4228 1 ** directed **
+4229 1 ** directed **
+4230 1 ** actedIn **
+4231 1 ** actedIn **
+4233 1 ** directed **
+4233 2 ** actedIn **
+4234 1 isLocatedIn
+4238 2 ** isLocatedIn **
+4241 3 influences
+4241 4 ** isMarriedTo **
+4244 4 isLocatedIn
+4246 3 created
+4249 4 isLocatedIn
+4250 1 wasBornIn
+4250 3 created
+4254 2 created
+4262 1 ** isAffiliatedTo **
+4263 3 ** wasBornIn **
+4264 2 isLocatedIn
+4264 3 isLocatedIn
+4264 4 isLocatedIn
+4266 2 isLocatedIn
+4266 3 isLocatedIn
+4266 4 isLocatedIn
+4267 2 isLocatedIn
+4267 3 isLocatedIn
+4267 4 isLocatedIn
+4270 4 livesIn
+4271 2 ** wasBornIn **
+4271 3 ** wasBornIn **
+4271 4 ** wasBornIn **
+4272 2 isLocatedIn
+4272 3 isLocatedIn
+4272 4 isLocatedIn
+4275 1 created
+4279 2 ** hasCapital **
+4279 3 isLocatedIn
+4279 4 isLocatedIn
+4280 1 isLocatedIn
+4283 2 ** created **
+4283 3 ** created **
+4283 4 ** created **
+4286 1 isCitizenOf
+4287 1 isMarriedTo
+4287 2 ** isMarriedTo **
+4287 3 isMarriedTo
+4289 4 created
+4292 4 owns
+4295 1 isAffiliatedTo
+4317 1 ** isLocatedIn **
+4321 1 isCitizenOf
+4322 1 isCitizenOf
+4324 3 livesIn
+4324 4 isCitizenOf
+4329 4 isAffiliatedTo
+4330 1 isLocatedIn
+4331 1 isLocatedIn
+4337 1 created
+4337 2 ** owns **
+4337 3 owns
+4339 2 isLocatedIn
+4339 3 isLocatedIn
+4339 4 ** dealsWith **
+4342 1 ** isMarriedTo **
+4343 2 isCitizenOf
+4345 2 ** created **
+4346 2 wasBornIn
+4346 3 ** isMarriedTo **
+4347 2 isAffiliatedTo
+4347 3 isAffiliatedTo
+4349 1 ** isAffiliatedTo **
+4351 3 ** wasBornIn **
+4353 2 ** wasBornIn **
+4353 4 ** wasBornIn **
+4354 2 ** diedIn **
+4355 2 ** wasBornIn **
+4355 3 ** wasBornIn **
+4356 2 ** wasBornIn **
+4358 1 isLocatedIn
+4358 3 isLocatedIn
+4361 2 isLocatedIn
+4362 2 ** created **
+4362 3 ** created **
+4363 2 isLocatedIn
+4363 3 isLocatedIn
+4364 2 created
+4364 3 livesIn
+4364 4 isCitizenOf
+4365 1 livesIn
+4365 2 created
+4367 0 isLocatedIn
+4367 2 isLocatedIn
+4368 1 ** isLocatedIn **
+4368 3 ** isLocatedIn **
+4372 3 created
+4375 2 isCitizenOf
+4375 3 ** influences **
+4375 4 created
+4377 2 ** isLocatedIn **
+4378 1 isCitizenOf
+4378 2 wasBornIn
+4378 3 isAffiliatedTo
+4378 4 livesIn
+4379 1 isLocatedIn
+4379 2 owns
+4380 2 isCitizenOf
+4380 3 created
+4381 1 ** created **
+4384 2 ** created **
+4384 3 ** created **
+4384 4 ** created **
+4386 2 isCitizenOf
+4386 3 isInterestedIn
+4387 1 isCitizenOf
+4387 2 wasBornIn
+4387 4 livesIn
+4388 2 ** created **
+4388 3 ** created **
+4388 4 ** created **
+4389 2 ** created **
+4389 3 ** created **
+4389 4 ** created **
+4390 2 isCitizenOf
+4391 2 ** created **
+4391 3 ** created **
+4391 4 ** created **
+4393 4 hasCapital
+4394 2 created
+4394 3 wasBornIn
+4396 0 isMarriedTo
+4397 1 isLocatedIn
+4397 2 owns
+4397 3 ** isAffiliatedTo **
+4398 1 ** directed **
+4399 1 ** directed **
+4400 1 ** directed **
+4400 2 ** directed **
+4401 1 ** created **
+4402 1 ** directed **
+4403 1 ** directed **
+4403 2 ** actedIn **
+4404 1 ** directed **
+4406 2 wasBornIn
+4408 2 ** created **
+4408 3 ** created **
+4409 1 ** isLocatedIn **
+4410 1 wasBornIn
+4412 1 isMarriedTo
+4414 1 isAffiliatedTo
+4414 3 created
+4417 2 ** isLocatedIn **
+4420 1 isLocatedIn
+4428 3 ** isAffiliatedTo **
+4429 3 ** isAffiliatedTo **
+4430 3 ** isAffiliatedTo **
+4431 3 ** isAffiliatedTo **
+4432 3 ** isAffiliatedTo **
+4433 3 ** isAffiliatedTo **
+4434 3 ** isAffiliatedTo **
+4435 1 ** created **
+4436 1 isLocatedIn
+4439 4 isLocatedIn
+4441 0 isLocatedIn
+4442 2 ** actedIn **
+4442 3 ** actedIn **
+4443 1 ** isLocatedIn **
+4443 2 isLocatedIn
+4443 4 hasOfficialLanguage
+4444 1 hasCapital
+4444 3 hasCapital
+4446 1 isCitizenOf
+4451 2 ** isLocatedIn **
+4451 3 ** isLocatedIn **
+4452 2 owns
+4452 3 isLocatedIn
+4453 2 influences
+4454 2 ** wasBornIn **
+4455 2 ** created **
+4456 4 isAffiliatedTo
+4457 4 isAffiliatedTo
+4458 4 isAffiliatedTo
+4460 4 ** isAffiliatedTo **
+4466 1 isLocatedIn
+4466 2 isLocatedIn
+4468 1 ** created **
+4468 2 ** created **
+4469 4 owns
+4472 2 ** isLocatedIn **
+4474 1 isCitizenOf
+4477 4 isAffiliatedTo
+4478 2 influences
+4482 4 isLocatedIn
+4483 4 owns
+4485 1 ** isMarriedTo **
+4486 1 ** isMarriedTo **
+4487 1 ** isMarriedTo **
+4488 1 ** isMarriedTo **
+4489 4 ** isAffiliatedTo **
+4491 1 created
+4491 3 created
+4494 1 ** isLocatedIn **
+4495 1 ** isLocatedIn **
+4496 4 ** hasChild **
+4497 2 isAffiliatedTo
+4497 3 ** isMarriedTo **
+4497 4 isAffiliatedTo
+4498 2 ** isLocatedIn **
+4498 3 ** isLocatedIn **
+4500 2 isCitizenOf
+4500 3 created
+4501 3 isAffiliatedTo
+4502 4 isLocatedIn
+4504 4 isLocatedIn
+4505 2 isCitizenOf
+4505 3 created
+4505 4 created
+4506 2 ** created **
+4506 3 ** created **
+4507 2 isCitizenOf
+4508 1 isCitizenOf
+4508 2 wasBornIn
+4508 3 created
+4508 4 livesIn
+4510 1 isCitizenOf
+4510 2 wasBornIn
+4510 3 isAffiliatedTo
+4510 4 livesIn
+4512 2 isCitizenOf
+4512 3 created
+4513 1 isLocatedIn
+4515 2 isCitizenOf
+4515 3 created
+4516 1 ** directed **
+4516 2 ** actedIn **
+4516 4 ** created **
+4517 1 ** directed **
+4518 1 ** directed **
+4518 2 ** actedIn **
+4519 1 ** directed **
+4519 2 ** actedIn **
+4520 1 ** directed **
+4520 2 ** actedIn **
+4521 2 ** created **
+4522 1 ** isLocatedIn **
+4524 1 isMarriedTo
+4526 1 isLocatedIn
+4526 2 isLocatedIn
+4530 4 ** isLocatedIn **
+4532 2 ** wasBornIn **
+4532 3 ** wasBornIn **
+4532 4 ** wasBornIn **
+4533 2 isLocatedIn
+4533 3 isLocatedIn
+4533 4 isLocatedIn
+4535 1 ** directed **
+4538 2 ** created **
+4539 3 created
+4540 3 isLocatedIn
+4541 2 isLocatedIn
+4541 3 ** owns **
+4542 1 hasCapital
+4542 3 ** isLocatedIn **
+4543 2 ** created **
+4546 1 isCitizenOf
+4546 3 isAffiliatedTo
+4546 4 livesIn
+4547 2 isLocatedIn
+4547 3 isLocatedIn
+4547 4 isLocatedIn
+4548 2 ** created **
+4548 3 ** created **
+4549 2 ** created **
+4549 3 ** created **
+4553 1 isLocatedIn
+4557 4 isLocatedIn
+4560 2 ** isLocatedIn **
+4563 4 graduatedFrom
+4564 3 actedIn
+4565 4 isLeaderOf
+4566 2 ** actedIn **
+4567 1 isLocatedIn
+4568 4 owns
+4571 2 ** owns **
+4571 3 owns
+4572 1 isConnectedTo
+4572 2 isConnectedTo
+4575 3 ** owns **
+4575 4 isLocatedIn
+4576 4 owns
+4578 3 ** isLocatedIn **
+4581 2 isAffiliatedTo
+4581 3 isMarriedTo
+4581 4 isAffiliatedTo
+4585 1 ** isLeaderOf **
+4585 2 ** isLocatedIn **
+4585 3 isLocatedIn
+4585 4 ** isLocatedIn **
+4586 4 ** hasChild **
+4587 4 ** hasChild **
+4588 2 isPoliticianOf
+4590 2 created
+4592 3 isAffiliatedTo
+4593 1 created
+4593 3 isCitizenOf
+4594 1 created
+4594 2 livesIn
+4597 1 isLocatedIn
+4598 2 wasBornIn
+4599 3 isAffiliatedTo
+4600 2 ** isLocatedIn **
+4601 2 ** isLocatedIn **
+4602 2 ** actedIn **
+4602 4 ** actedIn **
+4603 3 isLocatedIn
+4604 2 isCitizenOf
+4604 3 created
+4606 2 created
+4606 3 livesIn
+4606 4 isCitizenOf
+4612 2 isLocatedIn
+4612 3 isLocatedIn
+4614 2 isCitizenOf
+4614 3 ** influences **
+4615 1 ** directed **
+4616 1 ** directed **
+4619 1 wasBornIn
+4620 2 isLocatedIn
+4620 3 isLocatedIn
+4620 4 isLocatedIn
+4621 1 wasBornIn
+4621 3 ** isMarriedTo **
+4621 4 ** isMarriedTo **
+4622 2 isLocatedIn
+4622 3 isLocatedIn
+4622 4 isLocatedIn
+4625 1 ** isMarriedTo **
+4626 2 ** isCitizenOf **
+4627 1 ** owns **
+4627 2 ** isLocatedIn **
+4629 2 isLocatedIn
+4629 3 isLocatedIn
+4631 4 wasBornIn
+4634 4 isPoliticianOf
+4635 4 isPoliticianOf
+4637 2 isLocatedIn
+4638 1 ** isLocatedIn **
+4639 1 hasCapital
+4639 2 ** isLocatedIn **
+4639 3 ** isLocatedIn **
+4640 3 isLocatedIn
+4640 4 isLocatedIn
+4641 1 isLocatedIn
+4642 2 ** isLocatedIn **
+4642 3 ** isLocatedIn **
+4646 2 isLocatedIn
+4647 2 ** created **
+4647 3 ** created **
+4649 1 isLocatedIn
+4649 2 isLocatedIn
+4650 1 isLocatedIn
+4653 3 isLocatedIn
+4654 1 isMarriedTo
+4654 3 created
+4659 2 isLocatedIn
+4660 3 isLocatedIn
+4664 2 isLocatedIn
+4665 3 ** owns **
+4665 4 isLocatedIn
+4667 2 ** created **
+4669 3 isLocatedIn
+4670 1 ** created **
+4673 1 isLocatedIn
+4675 1 isLocatedIn
+4675 3 isLocatedIn
+4678 1 isCitizenOf
+4678 2 wasBornIn
+4678 3 created
+4678 4 livesIn
+4682 2 isCitizenOf
+4682 3 isInterestedIn
+4685 2 isLeaderOf
+4688 3 livesIn
+4688 4 isCitizenOf
+4689 2 ** actedIn **
+4689 4 ** actedIn **
+4691 2 actedIn
+4691 4 actedIn
+4692 1 ** directed **
+4692 3 ** created **
+4695 1 isMarriedTo
+4695 2 ** hasChild **
+4697 2 isLocatedIn
+4700 1 isLocatedIn
+4700 2 ** owns **
+4701 3 created
+4702 3 ** created **
+4703 1 hasCapital
+4703 3 ** isLocatedIn **
+4703 4 dealsWith
+4704 1 hasCapital
+4704 2 dealsWith
+4704 3 ** isLocatedIn **
+4704 4 dealsWith
+4705 1 ** isMarriedTo **
+4705 2 livesIn
+4708 4 isAffiliatedTo
+4709 0 ** actedIn **
+4712 1 wasBornIn
+4712 3 holdsPoliticalPosition
+4715 1 isLocatedIn
+4721 1 isLocatedIn
+4721 4 ** wasBornIn **
+4722 1 isLocatedIn
+4727 2 isLocatedIn
+4727 3 isLocatedIn
+4728 2 ** actedIn **
+4728 4 ** created **
+4729 2 isCitizenOf
+4729 3 created
+4731 2 isCitizenOf
+4731 3 created
+4734 1 isLocatedIn
+4736 5 isPoliticianOf
+4738 5 wasBornIn
+4741 1 isMarriedTo
+4741 3 created
+4741 4 created
+4744 3 isMarriedTo
+4747 2 wasBornIn
+4748 1 isLocatedIn
+4749 2 isMarriedTo
+4750 2 ** isMarriedTo **
+4750 3 created
+4751 2 ** isLocatedIn **
+4753 2 isLocatedIn
+4754 3 ** created **
+4755 3 ** directed **
+4756 3 ** directed **
+4758 2 isLocatedIn
+4759 1 isLocatedIn
+4761 2 isLocatedIn
+4762 2 isLocatedIn
+4763 2 isLocatedIn
+4764 1 ** created **
+4764 5 ** created **
+4765 1 ** created **
+4765 5 ** created **
+4766 1 created
+4766 2 created
+4766 4 wasBornIn
+4767 3 isCitizenOf
+4767 4 wasBornIn
+4768 3 isCitizenOf
+4768 4 wasBornIn
+4770 2 isCitizenOf
+4770 5 livesIn
+4771 2 isCitizenOf
+4771 5 livesIn
+4772 2 isLocatedIn
+4774 1 isLocatedIn
+4775 1 isLocatedIn
+4776 1 isLocatedIn
+4779 1 isLocatedIn
+4779 2 owns
+4780 1 isLocatedIn
+4781 2 isCitizenOf
+4781 5 livesIn
+4785 1 owns
+4786 1 ** isLocatedIn **
+4790 2 isCitizenOf
+4790 5 livesIn
+4793 2 wasBornIn
+4795 5 livesIn
+4796 5 livesIn
+4797 5 livesIn
+4798 2 owns
+4799 1 ** isAffiliatedTo **
+4800 1 isLocatedIn
+4801 4 isLocatedIn
+4801 5 ** created **
+4806 1 ** created **
+4806 5 ** created **
+4807 1 isLocatedIn
+4809 2 isCitizenOf
+4809 3 ** isMarriedTo **
+4809 5 wasBornIn
+4811 2 isLocatedIn
+4813 1 isLocatedIn
+4813 2 ** graduatedFrom **
+4815 4 isLocatedIn
+4815 5 ** created **
+4817 2 isCitizenOf
+4817 5 livesIn
+4818 2 isCitizenOf
+4818 5 livesIn
+4819 2 isLocatedIn
+4820 1 isLocatedIn
+4821 1 isAffiliatedTo
+4821 2 isMarriedTo
+4821 3 isAffiliatedTo
+4824 1 isLocatedIn
+4827 0 isMarriedTo
+4827 3 created
+4844 5 ** isAffiliatedTo **
+4845 2 ** actedIn **
+4845 4 ** created **
+4846 1 owns
+4847 1 isLocatedIn
+4851 5 isLocatedIn
+4853 5 isAffiliatedTo
+4854 5 isAffiliatedTo
+4855 5 isAffiliatedTo
+4856 5 isAffiliatedTo
+4857 5 isAffiliatedTo
+4863 5 ** isLeaderOf **
+4864 3 ** isLocatedIn **
+4864 5 ** wasBornIn **
+4865 5 ** wasBornIn **
+4866 5 ** wasBornIn **
+4867 3 ** isLocatedIn **
+4867 5 ** wasBornIn **
+4869 4 ** hasChild **
+4871 5 ** isLocatedIn **
+4872 2 ** created **
+4872 3 ** directed **
+4873 2 isLeaderOf
+4876 1 isPoliticianOf
+4876 3 created
+4878 2 ** isLocatedIn **
+4878 3 ** isLocatedIn **
+4879 1 isLocatedIn
+4880 1 isCitizenOf
+4880 2 created
+4881 1 created
+4881 4 isLocatedIn
+4884 2 isCitizenOf
+4884 5 wasBornIn
+4889 1 isLocatedIn
+4889 4 isLocatedIn
+4890 2 ** influences **
+4890 3 influences
+4890 4 influences
+4890 5 isMarriedTo
+4891 1 isLocatedIn
+4892 3 ** created **
+4892 4 ** created **
+4894 3 isLocatedIn
+4896 5 ** isLeaderOf **
+4897 3 ** isLocatedIn **
+4897 5 ** wasBornIn **
+4898 5 ** wasBornIn **
+4899 3 ** directed **
+4901 2 ** directed **
+4902 2 ** created **
+4902 3 ** created **
+4902 4 ** created **
+4904 2 isLocatedIn
+4907 2 isCitizenOf
+4907 5 livesIn
+4908 2 isCitizenOf
+4908 5 livesIn
+4909 1 wasBornIn
+4909 4 ** hasChild **
+4911 2 isCitizenOf
+4912 1 isLocatedIn
+4913 2 ** created **
+4913 3 ** created **
+4913 4 ** created **
+4915 3 wasBornIn
+4916 2 isMarriedTo
+4916 3 isMarriedTo
+4916 4 isMarriedTo
+4917 1 hasCapital
+4917 3 ** isCitizenOf **
+4919 1 isLocatedIn
+4923 1 isLocatedIn
+4924 1 isLocatedIn
+4927 2 isLocatedIn
+4927 3 ** isLocatedIn **
+4928 1 wasBornIn
+4930 4 isLocatedIn
+4930 5 isLocatedIn
+4931 1 isLocatedIn
+4933 5 ** isLocatedIn **
+4935 2 isLocatedIn
+4938 2 ** actedIn **
+4938 5 isLocatedIn
+4939 1 isLocatedIn
+4942 2 isCitizenOf
+4942 5 livesIn
+4943 0 livesIn
+4943 2 isAffiliatedTo
+4945 2 isLocatedIn
+4945 3 isLocatedIn
+4947 3 wasBornIn
+4949 0 ** created **
+4949 3 ** created **
+4949 4 ** created **
+4951 5 ** isLocatedIn **
+4954 1 ** created **
+4954 5 ** created **
+4955 1 isLocatedIn
+4956 2 isCitizenOf
+4957 1 isLocatedIn
+4957 3 ** created **
+4958 2 isCitizenOf
+4958 5 livesIn
+4962 4 ** owns **
+4963 3 ** directed **
+4964 2 isLocatedIn
+4965 2 isLocatedIn
+4965 4 ** isLocatedIn **
+4966 1 isLocatedIn
+4967 4 created
+4968 1 ** created **
+4968 5 ** created **
+4969 2 isCitizenOf
+4969 5 wasBornIn
+4970 2 isCitizenOf
+4970 5 wasBornIn
+4974 2 isCitizenOf
+4974 5 livesIn
+4977 1 ** owns **
+4982 1 isLocatedIn
+4984 2 created
+4984 3 isPoliticianOf
+4988 4 ** isLocatedIn **
+4988 5 isLocatedIn
+4989 1 ** isLocatedIn **
+4989 2 ** isLocatedIn **
+4991 1 ** created **
+4991 3 ** created **
+4992 1 ** isMarriedTo **
+4992 5 ** isMarriedTo **
+4995 2 ** owns **
+4996 1 livesIn
+4996 3 created
+4997 3 isAffiliatedTo
+4998 4 isAffiliatedTo
+4999 4 isAffiliatedTo
+5001 2 isCitizenOf
+5001 5 wasBornIn
+5004 3 ** directed **
+5005 2 isLocatedIn
+5006 3 isLocatedIn
+5006 4 isLocatedIn
+5007 1 ** created **
+5007 5 ** created **
+5008 2 isCitizenOf
+5008 5 livesIn
+5009 5 isLocatedIn
+5010 0 ** created **
+5018 4 isLocatedIn
+5019 1 ** created **
+5019 5 ** created **
+5020 1 isLocatedIn
+5021 2 isLocatedIn
+5022 2 ** isLocatedIn **
+5025 4 livesIn
+5026 5 isAffiliatedTo
+5027 4 wasBornIn
+5028 4 wasBornIn
+5030 4 isAffiliatedTo
+5031 4 isAffiliatedTo
+5032 4 isAffiliatedTo
+5033 5 wasBornIn
+5034 4 wasBornIn
+5035 4 isAffiliatedTo
+5036 4 isAffiliatedTo
+5037 4 wasBornIn
+5038 4 livesIn
+5039 4 isAffiliatedTo
+5040 4 isAffiliatedTo
+5041 5 wasBornIn
+5049 2 isCitizenOf
+5049 5 wasBornIn
+5053 2 isLocatedIn
+5067 5 graduatedFrom
+5068 2 isLocatedIn
+5071 1 ** created **
+5071 5 ** created **
+5072 4 wasBornIn
+5073 4 wasBornIn
+5074 5 wasBornIn
+5075 4 isAffiliatedTo
+5078 4 wasBornIn
+5079 4 wasBornIn
+5080 4 isAffiliatedTo
+5081 4 isAffiliatedTo
+5082 4 wasBornIn
+5083 4 wasBornIn
+5084 4 isAffiliatedTo
+5085 4 wasBornIn
+5086 4 isAffiliatedTo
+5087 4 wasBornIn
+5088 4 isAffiliatedTo
+5089 4 wasBornIn
+5090 4 wasBornIn
+5091 4 isAffiliatedTo
+5092 4 isAffiliatedTo
+5093 5 wasBornIn
+5094 5 isAffiliatedTo
+5095 5 wasBornIn
+5096 5 isAffiliatedTo
+5097 5 wasBornIn
+5098 5 isAffiliatedTo
+5099 5 isAffiliatedTo
+5100 5 wasBornIn
+5101 5 wasBornIn
+5102 5 isAffiliatedTo
+5103 5 wasBornIn
+5104 5 isAffiliatedTo
+5105 1 livesIn
+5105 3 created
+5106 2 isLocatedIn
+5106 3 isLocatedIn
+5106 5 isLocatedIn
+5107 1 isLocatedIn
+5108 2 isAffiliatedTo
+5108 3 wasBornIn
+5108 4 isMarriedTo
+5109 4 isLocatedIn
+5111 4 isAffiliatedTo
+5112 4 wasBornIn
+5113 4 wasBornIn
+5114 4 wasBornIn
+5115 5 isAffiliatedTo
+5116 4 isAffiliatedTo
+5117 4 wasBornIn
+5118 4 wasBornIn
+5119 4 isAffiliatedTo
+5124 2 wasBornIn
+5125 2 ** isLocatedIn **
+5128 5 ** isLocatedIn **
+5130 1 isLocatedIn
+5131 2 ** actedIn **
+5131 3 ** actedIn **
+5133 1 isLocatedIn
+5133 2 isLocatedIn
+5135 5 isLocatedIn
+5137 2 graduatedFrom
+5137 5 wasBornIn
+5138 1 ** created **
+5138 5 ** created **
+5139 2 isLocatedIn
+5140 2 wasBornIn
+5140 3 actedIn
+5145 1 ** isLocatedIn **
+5148 3 isAffiliatedTo
+5150 1 isCitizenOf
+5150 5 created
+5152 2 isCitizenOf
+5152 3 isAffiliatedTo
+5153 4 owns
+5157 2 created
+5157 4 ** created **
+5160 4 ** isLocatedIn **
+5160 5 ** isLocatedIn **
+5161 2 isLocatedIn
+5163 2 ** isLocatedIn **
+5163 3 isLocatedIn
+5164 1 wasBornIn
+5165 0 isLocatedIn
+5165 1 ** isLocatedIn **
+5173 1 wasBornIn
+5173 3 isCitizenOf
+5173 4 holdsPoliticalPosition
+5176 2 ** hasCapital **
+5176 3 isLocatedIn
+5176 4 isLocatedIn
+5177 2 ** isLocatedIn **
+5178 2 isAffiliatedTo
+5179 2 isAffiliatedTo
+5181 1 ** isPoliticianOf **
+5181 2 ** isPoliticianOf **
+5182 5 ** dealsWith **
+5183 2 created
+5184 1 ** created **
+5184 5 ** created **
+5185 1 ** isPoliticianOf **
+5185 2 ** created **
+5186 2 created
+5186 3 wasBornIn
+5189 1 ** created **
+5189 3 created
+5189 5 ** created **
+5190 2 isLocatedIn
+5191 5 isAffiliatedTo
+5197 1 isLocatedIn
+5198 4 created
+5201 3 ** created **
+5203 2 isAffiliatedTo
+5204 2 isAffiliatedTo
+5206 1 ** created **
+5206 3 created
+5206 5 ** created **
+5213 1 isLocatedIn
+5213 2 ** isLocatedIn **
+5218 4 isLocatedIn
+5219 2 livesIn
+5219 5 isMarriedTo
+5220 4 isLocatedIn
+5221 5 isAffiliatedTo
+5228 5 wasBornIn
+5229 4 created
+5230 0 isLeaderOf
+5230 3 isLeaderOf
+5230 4 isMarriedTo
+5232 3 livesIn
+5232 5 ** hasChild **
+5235 4 hasCapital
+5238 1 ** created **
+5243 2 ** isLocatedIn **
+5270 2 ** owns **
+5273 2 isLocatedIn
+5274 2 isLocatedIn
+5275 2 isLocatedIn
+5276 1 isLocatedIn
+5278 1 isLocatedIn
+5279 1 isLocatedIn
+5281 2 ** isMarriedTo **
+5282 5 ** isLocatedIn **
+5284 5 ** isLocatedIn **
+5288 3 ** created **
+5288 4 ** created **
+5291 1 ** created **
+5291 5 ** created **
+5292 3 ** created **
+5292 4 ** created **
+5294 2 isLeaderOf
+5296 1 created
+5297 2 ** isLocatedIn **
+5299 2 isCitizenOf
+5299 3 ** isMarriedTo **
+5299 5 livesIn
+5300 2 isCitizenOf
+5300 3 ** isMarriedTo **
+5300 5 livesIn
+5301 1 wasBornIn
+5302 2 isCitizenOf
+5302 5 wasBornIn
+5303 2 isCitizenOf
+5303 5 livesIn
+5306 1 isCitizenOf
+5306 3 isCitizenOf
+5309 2 ** isLocatedIn **
+5310 2 isCitizenOf
+5311 5 ** isLocatedIn **
+5330 2 isCitizenOf
+5330 5 livesIn
+5348 1 ** isCitizenOf **
+5351 5 wasBornIn
+5353 5 wasBornIn
+5354 1 dealsWith
+5354 2 ** isLocatedIn **
+5354 4 ** isLeaderOf **
+5355 1 ** created **
+5355 5 ** created **
+5356 2 isLocatedIn
+5362 2 livesIn
+5362 3 created
+5363 1 isPoliticianOf
+5368 2 isLocatedIn
+5369 3 isLocatedIn
+5369 4 isLocatedIn
+5369 5 ** owns **
+5370 3 wasBornIn
+5370 4 created
+5374 3 ** created **
+5376 5 livesIn
+5377 1 ** created **
+5378 1 ** isMarriedTo **
+5378 3 actedIn
+5378 4 actedIn
+5379 5 isLocatedIn
+5380 4 isAffiliatedTo
+5386 5 livesIn
+5393 2 ** owns **
+5395 3 ** created **
+5396 1 isLocatedIn
+5396 2 hasCapital
+5397 2 isLocatedIn
+5400 1 isLocatedIn
+5401 5 ** isLocatedIn **
+5402 5 ** isLocatedIn **
+5403 5 ** isLocatedIn **
+5409 3 ** wasBornIn **
+5409 5 ** isLocatedIn **
+5410 2 isCitizenOf
+5410 3 ** isMarriedTo **
+5410 5 livesIn
+5411 2 isCitizenOf
+5411 3 ** isMarriedTo **
+5411 5 wasBornIn
+5416 2 isCitizenOf
+5416 5 wasBornIn
+5417 4 influences
+5424 1 created
+5424 3 isMarriedTo
+5424 4 wasBornIn
+5425 2 isCitizenOf
+5425 5 wasBornIn
+5447 2 isCitizenOf
+5447 5 isPoliticianOf
+5448 5 livesIn
+5449 5 livesIn
+5451 2 ** created **
+5455 0 wasBornIn
+5455 3 livesIn
+5455 4 hasChild
+5456 1 isCitizenOf
+5457 1 isLocatedIn
+5457 4 isLocatedIn
+5460 2 isLocatedIn
+5460 4 ** isLocatedIn **
+5461 1 ** isLocatedIn **
+5465 5 livesIn
+5467 2 created
+5471 5 livesIn
+5472 5 livesIn
+5473 2 ** owns **
+5475 4 isLocatedIn
+5476 1 isLocatedIn
+5478 4 isLocatedIn
+5479 5 wasBornIn
+5485 1 created
+5487 3 ** created **
+5488 3 ** directed **
+5489 2 isLocatedIn
+5490 2 isLocatedIn
+5491 4 ** hasChild **
+5492 5 ** hasChild **
+5495 5 ** isLocatedIn **
+5496 5 isLocatedIn
+5502 1 ** created **
+5502 5 ** created **
+5503 1 created
+5504 4 ** wasBornIn **
+5504 5 ** wasBornIn **
+5505 2 isCitizenOf
+5505 3 ** isMarriedTo **
+5505 5 livesIn
+5506 2 isCitizenOf
+5506 5 livesIn
+5508 2 isCitizenOf
+5508 5 livesIn
+5509 2 isCitizenOf
+5509 5 livesIn
+5510 1 isLocatedIn
+5511 2 isLocatedIn
+5515 3 isLocatedIn
+5519 2 isCitizenOf
+5519 5 livesIn
+5532 5 livesIn
+5538 5 isPoliticianOf
+5540 3 wasBornIn
+5542 5 isPoliticianOf
+5543 1 livesIn
+5543 3 created
+5545 2 isLocatedIn
+5546 3 ** isAffiliatedTo **
+5548 0 ** created **
+5550 1 isLocatedIn
+5550 2 owns
+5552 5 isLocatedIn
+5554 2 ** isLocatedIn **
+5555 3 isLocatedIn
+5556 1 isLocatedIn
+5556 2 isLocatedIn
+5557 3 ** directed **
+5560 2 isLocatedIn
+5561 0 isLocatedIn
+5561 1 isLocatedIn
+5562 5 ** holdsPoliticalPosition **
+5563 5 ** isLocatedIn **
+5565 1 isLocatedIn
+5566 2 isLocatedIn
+5567 1 ** created **
+5567 5 ** created **
+5568 1 ** created **
+5568 5 ** created **
+5569 1 isLocatedIn
+5571 1 isLocatedIn
+5573 2 isCitizenOf
+5573 3 ** isMarriedTo **
+5573 5 livesIn
+5574 2 isCitizenOf
+5574 3 ** isMarriedTo **
+5574 5 livesIn
+5575 1 ** influences **
+5575 3 ** influences **
+5575 4 created
+5575 5 created
+5576 1 isLocatedIn
+5578 2 isCitizenOf
+5578 5 livesIn
+5579 2 isCitizenOf
+5579 5 livesIn
+5582 2 isCitizenOf
+5582 5 livesIn
+5583 2 isCitizenOf
+5595 2 ** actedIn **
+5595 3 ** directed **
+5596 5 livesIn
+5597 5 livesIn
+5600 2 ** actedIn **
+5600 3 ** actedIn **
+5600 4 created
+5600 5 isInterestedIn
+5601 1 isLocatedIn
+5601 2 ** isLocatedIn **
+5601 3 created
+5601 4 ** isLocatedIn **
+5603 1 isLocatedIn
+5605 5 livesIn
+5606 1 isMarriedTo
+5606 3 created
+5606 4 created
+5607 2 ** created **
+5607 3 isLocatedIn
+5608 5 isLocatedIn
+5609 1 isLocatedIn
+5611 1 isLocatedIn
+5612 5 livesIn
+5613 2 isLocatedIn
+5619 5 ** isLocatedIn **
+5621 1 isCitizenOf
+5625 2 ** created **
+5625 3 ** created **
+5626 2 isCitizenOf
+5626 3 ** isMarriedTo **
+5626 5 livesIn
+5627 2 isCitizenOf
+5627 3 ** isMarriedTo **
+5627 5 graduatedFrom
+5628 2 isCitizenOf
+5628 3 ** isMarriedTo **
+5628 5 livesIn
+5629 2 isCitizenOf
+5629 5 wasBornIn
+5631 1 isLocatedIn
+5632 2 isCitizenOf
+5632 5 livesIn
+5634 1 ** owns **
+5635 2 isLocatedIn
+5636 2 isCitizenOf
+5636 5 livesIn
+5646 2 isCitizenOf
+5646 5 livesIn
+5647 2 isCitizenOf
+5647 5 wasBornIn
+5651 2 ** actedIn **
+5651 3 ** actedIn **
+5651 4 created
+5651 5 isInterestedIn
+5652 4 created
+5653 1 ** created **
+5653 5 ** created **
+5654 1 ** created **
+5654 3 created
+5654 5 ** created **
+5655 1 isCitizenOf
+5659 3 isCitizenOf
+5660 1 ** created **
+5662 2 ** created **
+5662 5 isMarriedTo
+5663 1 isLocatedIn
+5663 2 isCitizenOf
+5664 3 ** owns **
+5669 2 isLocatedIn
+5672 1 ** graduatedFrom **
+5672 2 isLocatedIn
+5673 2 isLocatedIn
+5676 1 owns
+5676 3 owns
+5676 5 ** isLocatedIn **
+5679 2 created
+5682 3 isLocatedIn
+5683 2 isLocatedIn
+5683 3 isLocatedIn
+5684 2 isLocatedIn
+5684 3 isLocatedIn
+5686 1 ** isMarriedTo **
+5686 2 graduatedFrom
+5688 1 owns
+5688 3 owns
+5688 5 ** isLocatedIn **
+5693 1 isLocatedIn
+5693 4 ** graduatedFrom **
+5694 2 isMarriedTo
+5695 1 ** created **
+5695 2 ** created **
+5697 6 isAffiliatedTo
+5700 2 ** isLocatedIn **
+5703 1 ** isLocatedIn **
+5705 1 isLocatedIn
+5705 2 ** graduatedFrom **
+5707 2 isCitizenOf
+5707 6 livesIn
+5708 5 ** hasChild **
+5710 2 isCitizenOf
+5711 6 wasBornIn
+5714 1 isLocatedIn
+5715 1 isLocatedIn
+5716 2 isCitizenOf
+5716 3 isAffiliatedTo
+5716 6 isAffiliatedTo
+5718 1 isLocatedIn
+5722 6 livesIn
+5726 6 livesIn
+5727 3 ** directed **
+5727 4 ** created **
+5728 2 isLocatedIn
+5729 4 ** created **
+5733 2 created
+5735 2 wasBornIn
+5735 6 isCitizenOf
+5736 2 wasBornIn
+5736 6 isCitizenOf
+5737 2 wasBornIn
+5737 6 livesIn
+5738 6 livesIn
+5739 6 isCitizenOf
+5740 6 wasBornIn
+5741 6 isCitizenOf
+5742 1 isLocatedIn
+5742 2 isLocatedIn
+5744 2 wasBornIn
+5744 6 isCitizenOf
+5745 2 wasBornIn
+5745 6 livesIn
+5746 2 wasBornIn
+5746 6 isCitizenOf
+5747 1 isLocatedIn
+5748 6 wasBornIn
+5749 6 livesIn
+5750 4 ** actedIn **
+5750 5 ** actedIn **
+5750 6 ** actedIn **
+5751 5 ** wasBornIn **
+5751 6 ** isLocatedIn **
+5752 6 isCitizenOf
+5753 6 isCitizenOf
+5754 1 isLocatedIn
+5755 1 isLocatedIn
+5755 2 isLocatedIn
+5756 6 wasBornIn
+5757 6 wasBornIn
+5758 1 ** isAffiliatedTo **
+5758 5 isLocatedIn
+5760 2 isLocatedIn
+5761 5 created
+5762 2 wasBornIn
+5762 6 isCitizenOf
+5763 6 livesIn
+5764 6 wasBornIn
+5765 6 wasBornIn
+5766 1 isLocatedIn
+5769 6 livesIn
+5770 2 wasBornIn
+5770 6 isCitizenOf
+5772 2 created
+5773 2 isCitizenOf
+5773 6 wasBornIn
+5774 6 isCitizenOf
+5776 1 isLocatedIn
+5777 2 isCitizenOf
+5777 6 wasBornIn
+5778 1 ** isLocatedIn **
+5780 6 isCitizenOf
+5783 1 ** isAffiliatedTo **
+5788 3 ** created **
+5788 5 livesIn
+5789 2 ** isMarriedTo **
+5795 4 created
+5795 6 isLocatedIn
+5798 1 created
+5798 6 isCitizenOf
+5799 2 isLocatedIn
+5800 5 isLocatedIn
+5800 6 isLocatedIn
+5802 6 isAffiliatedTo
+5804 2 isLocatedIn
+5804 3 isLocatedIn
+5811 6 isAffiliatedTo
+5812 4 created
+5812 5 isMarriedTo
+5814 6 wasBornIn
+5815 6 isAffiliatedTo
+5816 6 isAffiliatedTo
+5817 6 isAffiliatedTo
+5818 6 wasBornIn
+5819 6 wasBornIn
+5820 6 isAffiliatedTo
+5821 6 isAffiliatedTo
+5822 6 isAffiliatedTo
+5823 6 isAffiliatedTo
+5824 6 isAffiliatedTo
+5825 6 isAffiliatedTo
+5826 6 wasBornIn
+5827 6 livesIn
+5828 1 ** created **
+5830 1 dealsWith
+5831 3 ** owns **
+5839 1 isLocatedIn
+5839 2 isLocatedIn
+5839 4 owns
+5840 0 isLocatedIn
+5840 6 ** isLocatedIn **
+5844 1 ** created **
+5844 2 ** created **
+5844 3 ** created **
+5844 4 ** created **
+5844 5 ** created **
+5847 5 dealsWith
+5848 3 ** created **
+5848 4 isLocatedIn
+5848 5 isLocatedIn
+5849 0 ** isLocatedIn **
+5850 2 ** wasBornIn **
+5850 3 isLocatedIn
+5850 4 isLocatedIn
+5850 5 ** hasAcademicAdvisor **
+5850 6 isCitizenOf
+5852 1 isLocatedIn
+5853 5 isLocatedIn
+5853 6 isLocatedIn
+5854 2 influences
+5855 0 isLocatedIn
+5855 2 ** hasCapital **
+5855 3 isLocatedIn
+5858 2 isLocatedIn
+5858 3 isLocatedIn
+5859 0 ** isLocatedIn **
+5861 5 ** isLocatedIn **
+5862 1 ** created **
+5864 1 ** created **
+5865 1 ** created **
+5866 2 livesIn
+5866 3 created
+5869 3 ** isLocatedIn **
+5869 6 isLocatedIn
+5870 5 isLocatedIn
+5870 6 isLocatedIn
+5872 4 created
+5872 5 ** holdsPoliticalPosition **
+5873 2 created
+5875 2 created
+5876 2 ** isLocatedIn **
+5877 1 dealsWith
+5879 3 isCitizenOf
+5885 3 isCitizenOf
+5890 1 isLocatedIn
+5890 4 ** owns **
+5891 4 ** owns **
+5892 4 ** created **
+5892 5 ** created **
+5893 4 ** created **
+5893 5 ** created **
+5894 4 ** created **
+5894 5 ** created **
+5895 4 ** created **
+5895 5 ** created **
+5896 4 ** created **
+5896 5 ** created **
+5897 4 ** isLocatedIn **
+5898 1 dealsWith
+5898 4 hasCapital
+5899 1 ** dealsWith **
+5899 4 ** isLocatedIn **
+5900 1 ** hasCapital **
+5900 4 ** isLocatedIn **
+5901 1 ** dealsWith **
+5902 4 ** isLocatedIn **
+5903 1 isLocatedIn
+5903 4 ** isAffiliatedTo **
+5904 6 isLocatedIn
+5911 1 isLocatedIn
+5917 1 ** isLocatedIn **
+5917 3 ** isLocatedIn **
+5919 2 livesIn
+5919 4 created
+5920 2 isLocatedIn
+5921 2 isConnectedTo
+5922 3 ** isLocatedIn **
+5922 6 ** isLocatedIn **
+5923 4 dealsWith
+5935 3 isCitizenOf
+5942 3 ** owns **
+5944 4 ** created **
+5944 5 ** created **
+5945 4 ** created **
+5945 5 ** created **
+5946 4 ** created **
+5946 5 ** created **
+5947 4 ** created **
+5947 5 ** created **
+5948 4 ** created **
+5948 5 ** created **
+5949 4 ** created **
+5949 5 ** created **
+5950 4 ** created **
+5950 5 ** created **
+5951 2 isLocatedIn
+5951 3 isLocatedIn
+5952 1 owns
+5956 2 ** created **
+5956 3 ** created **
+5959 1 ** isLocatedIn **
+5959 2 ** isLocatedIn **
+5965 1 ** happenedIn **
+5965 4 dealsWith
+5965 5 ** isCitizenOf **
+5965 6 dealsWith
+5966 2 isLocatedIn
+5966 3 isLocatedIn
+5967 2 ** isCitizenOf **
+5967 3 ** isLeaderOf **
+5969 5 isLocatedIn
+5974 2 created
+5975 1 isLocatedIn
+5975 4 ** owns **
+5976 4 ** created **
+5976 5 ** created **
+5977 4 ** created **
+5977 5 ** actedIn **
+5978 4 ** created **
+5978 5 ** created **
+5979 4 ** created **
+5979 5 ** actedIn **
+5981 1 isLocatedIn
+5983 1 isLocatedIn
+5984 2 isLocatedIn
+5985 2 isCitizenOf
+5985 4 created
+5990 4 isLocatedIn
+5990 5 isConnectedTo
+5991 2 ** isAffiliatedTo **
+5992 2 livesIn
+5995 1 isLocatedIn
+6003 5 ** isLocatedIn **
+6003 6 isLocatedIn
+6004 1 isCitizenOf
+6006 4 ** isAffiliatedTo **
+6006 5 isLocatedIn
+6011 1 ** graduatedFrom **
+6011 2 isLocatedIn
+6012 2 hasCapital
+6012 3 ** isLocatedIn **
+6012 6 ** isLocatedIn **
+6013 3 isLocatedIn
+6014 1 isLocatedIn
+6018 1 isLocatedIn
+6019 2 created
+6021 1 isLocatedIn
+6022 2 isLocatedIn
+6024 1 isLocatedIn
+6026 2 isLocatedIn
+6027 1 ** isLocatedIn **
+6028 2 isCitizenOf
+6029 2 isCitizenOf
+6034 3 ** isCitizenOf **
+6034 5 ** isLocatedIn **
+6036 2 isLocatedIn
+6036 3 isLocatedIn
+6051 1 isLocatedIn
+6055 3 isCitizenOf
+6055 4 isCitizenOf
+6055 5 wasBornIn
+6056 3 isCitizenOf
+6056 4 isCitizenOf
+6056 5 wasBornIn
+6058 1 ** isMarriedTo **
+6058 3 graduatedFrom
+6060 6 isLocatedIn
+6060 7 isLocatedIn
+6062 1 isLocatedIn
+6064 1 isLocatedIn
+6064 2 isLocatedIn
+6065 2 ** isMarriedTo **
+6065 6 isMarriedTo
+6070 2 ** isLocatedIn **
+6070 4 ** isLocatedIn **
+6070 5 ** isLocatedIn **
+6071 1 isLocatedIn
+6073 1 ** isLocatedIn **
+6073 2 ** isLocatedIn **
+6073 3 ** isLocatedIn **
+6073 5 ** isLocatedIn **
+6075 1 isLocatedIn
+6075 3 ** created **
+6079 4 ** isLocatedIn **
+6080 1 isLocatedIn
+6080 7 ** graduatedFrom **
+6082 2 isLocatedIn
+6082 5 wasBornIn
+6083 1 isLocatedIn
+6083 2 isLocatedIn
+6083 7 ** graduatedFrom **
+6084 1 ** isLocatedIn **
+6084 2 ** isLocatedIn **
+6084 3 ** isLocatedIn **
+6084 6 ** isLocatedIn **
+6085 0 ** dealsWith **
+6085 2 dealsWith
+6085 3 dealsWith
+6085 4 dealsWith
+6085 5 ** dealsWith **
+6085 6 dealsWith
+6085 7 ** dealsWith **
+6088 2 isLocatedIn
+6090 2 isLocatedIn
+6093 1 isCitizenOf
+6093 3 graduatedFrom
+6094 1 ** isLocatedIn **
+6095 3 isLocatedIn
+6096 1 ** isLocatedIn **
+6098 2 isLocatedIn
+6098 3 ** isLocatedIn **
+6098 4 ** isLocatedIn **
+6098 5 diedIn
+6102 1 created
+6103 2 isLocatedIn
+6105 2 ** created **
+6105 3 ** created **
+6106 1 isLocatedIn
+6106 3 isLocatedIn
+6107 1 created
+6107 2 ** isMarriedTo **
+6107 4 created
+6115 2 isLocatedIn
+6115 4 ** isLocatedIn **
+6115 5 isLocatedIn
+6119 1 ** isLocatedIn **
+6121 4 ** isLocatedIn **
+6122 1 isConnectedTo
+6123 1 ** isMarriedTo **
+6123 3 graduatedFrom
+6125 2 ** isLocatedIn **
+6126 2 ** isLocatedIn **
+6126 3 ** isLocatedIn **
+6126 4 ** isLocatedIn **
+6126 5 ** isLocatedIn **
+6126 6 ** isLocatedIn **
+6128 1 ** isLocatedIn **
+6128 2 ** isLocatedIn **
+6135 4 ** isLocatedIn **
+6146 4 ** isLocatedIn **
+6148 5 ** directed **
+6148 6 ** actedIn **
+6155 4 ** created **
+6155 5 ** created **
+6155 6 ** created **
+6156 2 ** isLocatedIn **
+6156 5 ** isLocatedIn **
+6163 1 influences
+6163 3 created
+6163 4 created
+6163 5 created
+6163 6 isAffiliatedTo
+6163 7 ** hasChild **
+6166 5 ** isLocatedIn **
+6167 1 isLocatedIn
+6168 2 isLocatedIn
+6170 2 wasBornIn
+6170 3 hasWonPrize
+6175 1 created
+6175 2 ** influences **
+6175 3 ** isMarriedTo **
+6175 4 ** isMarriedTo **
+6175 5 isMarriedTo
+6175 7 isMarriedTo
+6181 6 diedIn
+6183 2 isLocatedIn
+6185 2 graduatedFrom
+6185 3 wasBornIn
+6185 4 livesIn
+6186 1 isLocatedIn
+6186 2 ** graduatedFrom **
+6187 5 created
+6188 1 isLocatedIn
+6189 7 isLocatedIn
+6192 6 isCitizenOf
+6192 7 isCitizenOf
+6192 8 created
+6193 5 isCitizenOf
+6193 6 isCitizenOf
+6193 7 created
+6194 5 isCitizenOf
+6194 6 isCitizenOf
+6194 7 created
+6195 1 isLocatedIn
+6196 2 isLocatedIn
+6197 2 isLocatedIn
+6198 1 owns
+6198 3 owns
+6198 5 owns
+6198 7 owns
+6199 1 isLocatedIn
+6199 2 isLocatedIn
+6202 1 owns
+6202 3 owns
+6202 5 owns
+6202 7 owns
+6204 2 isLocatedIn
+6205 2 ** created **
+6207 2 isLocatedIn
+6208 2 isLocatedIn
+6208 6 isLocatedIn
+6208 7 owns
+6209 2 isLocatedIn
+6219 5 isLocatedIn
+6220 5 isLocatedIn
+6224 2 isLocatedIn
+6225 3 ** isLocatedIn **
+6228 2 ** isLocatedIn **
+6229 7 wasBornIn
+6230 7 wasBornIn
+6231 7 wasBornIn
+6232 7 wasBornIn
+6233 7 isLocatedIn
+6234 7 wasBornIn
+6242 3 ** created **
+6242 4 ** created **
+6242 5 ** created **
+6242 6 ** created **
+6242 7 ** created **
+6242 8 ** created **
+6244 2 isLocatedIn
+6245 2 isLocatedIn
+6247 1 isAffiliatedTo
+6249 2 isLocatedIn
+6252 2 isLocatedIn
+6252 7 isLocatedIn
+6252 8 isLocatedIn
+6258 2 isLocatedIn
+6259 4 created
+6259 5 wasBornIn
+6259 6 livesIn
+6259 7 isInterestedIn
+6260 2 isLocatedIn
+6261 7 ** created **
+6266 1 ** dealsWith **
+6266 5 hasCapital
+6267 2 isLocatedIn
+6268 1 isLocatedIn
+6268 2 isLocatedIn
+6269 2 isLocatedIn
+6274 3 isLocatedIn
+6274 8 owns
+6275 2 isLocatedIn
+6276 3 wasBornIn
+6276 5 isMarriedTo
+6282 1 created
+6285 1 isLocatedIn
+6286 1 ** actedIn **
+6287 1 ** created **
+6288 1 ** wasBornIn **
+6289 1 ** created **
+6290 2 ** isKnownFor **
+6292 1 isLocatedIn
+6293 1 created
+6294 2 ** created **
+6295 1 isCitizenOf
+6295 3 isCitizenOf
+6296 2 ** created **
+6299 2 ** actedIn **
+6301 2 actedIn
+6301 3 actedIn
+6302 2 ** directed **
+6303 2 livesIn
+6303 3 wasBornIn
+6303 4 worksAt
+6304 1 isLocatedIn
+6307 1 isLocatedIn
+6307 2 owns
+6312 2 isLeaderOf
+6314 2 ** wroteMusicFor **
+6314 3 ** actedIn **
+6314 4 ** wroteMusicFor **
+6314 5 ** created **
+6315 2 ** created **
+6315 3 ** created **
+6316 2 ** created **
+6316 3 ** created **

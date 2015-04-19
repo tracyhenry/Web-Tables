@@ -2,6 +2,7 @@
 #include "Matcher.h"
 #include <vector>
 #include <iomanip>
+#include <fstream>
 #include <iostream>
 #include <algorithm>
 #define IterII unordered_map<int, int>::iterator
@@ -16,28 +17,61 @@ void Bridge::findAllRelation()
 	int nTable = corpus->countTable();
 	colRelation.resize(nTable + 1);
 
-	int goodTables = 0;
 	for (int i = 1; i <= nTable; i ++)
 	{
+		if (i % 1000 == 0)
+			cout << i << endl;
 		Table curTable = corpus->getTable(i);
 		colRelation[i].resize(curTable.nCol);
 
 		for (int c = 0; c < curTable.nCol; c ++)
 			colRelation[i][c] = findRelation(curTable.table_id, c, false);
+	}
 
+/*	//count good tables
+	int goodTables = 0;
+	for (int i = 1; i <= nTable; i ++)
 		for (int c = 0; c < curTable.nCol; c ++)
 			if (colRelation[i][c].size())
 			{
 				goodTables ++;
 				break;
 			}
-	}
 	cout << "Number of good tables: " << goodTables << endl;
+*/
+	//output to a result file
+	ofstream fout("../../../data/Result/colRelation.txt");
+	for (int i = 1; i <= nTable; i ++)
+		for (int c = 0; c < corpus->getTable(i).nCol; c ++)
+			if (colRelation[i][c].size())
+				fout << corpus->getTable(i).table_id << " "
+					<< c << " " << kb->getRelation(colRelation[i][c][0])
+					<< endl;
+	fout.close();
+
+/*	srand(time(0));
+	//randomly select 100 columns
+	ofstream fout("/tmp/colrelation_db.txt");
+	for (int lp = 0; lp < 100; lp ++)
+		while (1)
+		{
+			int tid = rand() % nTable + 1;
+			int nCol = corpus->getTable(tid).nCol;
+			int colId = rand() % nCol;
+
+			if (! colRelation[tid][colId].size())
+				continue;
+			fout << corpus->getTable(tid).table_id << '\t' << colId <<
+				'\t' << kb->getRelation(colRelation[tid][colId][0]) << endl;
+			break;
+		}
+	fout.close();
+*/
 }
 
 /**
 * Given a table id and a column id,
-* return the a ranked list of relationships between 
+* return the a ranked list of relationships between
 * the query column and the entity column
 */
 vector<int> Bridge::findRelation(int tid, int c, bool print)
