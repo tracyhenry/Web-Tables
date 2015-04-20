@@ -42,9 +42,11 @@
 			Table id : {{ table_id }}
 		</p>
 
-		<p id = "change" align = "center">
-			Entity Column : {{ entity_col }}
-		</p>
+		{% block entity_col_id %}
+			<p id = "change" align = "center">
+				Entity Column : {{ entity_col }}
+			</p>
+		{% endblock entity_col_id %}
 
 		<p align = "center">
 			{{ table_url }}

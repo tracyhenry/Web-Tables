@@ -65,7 +65,7 @@ def show_relation(request):
     result_id = request.GET.get('id')
     res = ColRelation.objects.filter(id = result_id)
 
-    if res.count == 0:
+    if res.count() == 0:
         return HttpResponse("No such result!")
 
     # table context
@@ -76,6 +76,7 @@ def show_relation(request):
     context['result_id'] = result_id
     context['result_col'] = res.col_id
     context['result_relation'] = res.relation
+    context['result_verdict'] = res.verdict
 
     return render(request, 'showrelation.html', context)
 

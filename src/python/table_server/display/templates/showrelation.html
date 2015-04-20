@@ -1,8 +1,6 @@
 {% extends "showtable.html" %}
 
-
 {% block script_extension %}
-	<script>
 		$("button#yes").click(function()
 		{
 			$.post("/display/relres/",
@@ -14,7 +12,7 @@
 				{
 					alert("Data: " + data + "\nStatus: " + status);
 				});
-		}
+		});
 
 		$("button#no").click(function()
 		{
@@ -27,7 +25,24 @@
 				{
 					alert("Data: " + data + "\nStatus: " + status);				
 				});
-		}
+		});
+{% endblock %}
+
+
+{% block entity_col_id %}
+	<p align = "center">
+		{% if result_verdict == 1 %}
+			<font size = "5" color = "green"> Correct</font>.
+		{% elif result_verdict == -1 %}
+			<font size = "5" color = "red"> Incorrect</font>.
+		{% else %}
+			<font size = "5" color = "blue"> NULL</font>.
+		{% endif %}
+
+		<p align = "center">
+			<button><a href = "/display/showrelation/?id={{ result_id|add:'1' }}">Next Result</a></button>
+		</p>
+	</p>
 {% endblock %}
 
 
@@ -40,7 +55,7 @@
 			</td>
 		{% elif col.col == result_col %}
 			<td>
-				<b><u> RESULT COLUMN </u></b>
+				<font color = "blue"><b><u> RESULT COLUMN </u></b></font>
 			</td>
 		{% else %}
 			<td></td>
@@ -55,9 +70,9 @@
 	<p align = "center"> The relationship between the entity column and the result column is : </p>
 	<p align = "center"> <font color = "red"> {{ result_relation }} </font> </p>
 	<p align = "center"> 
-	Is this appropriate? <button id = "yes">Yes! </button><br><button id = "no">No! </button>
+	Is this appropriate? <button id = "yes">Yes! </button>&nbsp;<button id = "no">No! </button>
 	</p>
 	<p align = "center">
-		<button href = "{% url 'display:views.show_relation' result_id|add:'1' %}" > Next Result <button>
+		<button><a href = "/display/showrelation?id={{result_id|add:'1'}}" >Next Result</a></button>
 	</p>
 {% endblock %}
