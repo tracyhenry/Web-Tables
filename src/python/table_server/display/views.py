@@ -9,6 +9,7 @@ from random import randint
 from sets import Set
 
 from models import *
+from misc import *
 
 @require_GET
 def show_table(request):
@@ -23,79 +24,11 @@ def show_table(request):
             if TableCells.objects.filter(table_id = table_id).count() > 0:
                 break
 
-    # Get the set of table cells
-    cells =  TableCells.objects.filter(table_id = table_id)
-    if cells.count() == 0:
-        return HttpResponse('No such table!')
+    context = get_table_context(table_id)
+    if context == {}:
+        return HttpResponse("No such table!")
 
-    # Get the schema of this table
-    schemas = TableSchema.objects.filter(table_id = table_id)
-
-    # Ground Truth
-    ground_truths = GoldAnnotation.objects.filter(table_id = table_id)
-
-    # Entity Column
-    entity_col = TableSchema.objects.filter(table_id = table_id).filter(is_entity = 1)
-    if entity_col.count() == 0:
-        entity_col = -1
-    else:
-        entity_col = entity_col[0].att_id
-
-    # Get the url of this table
-    table_url = cells[0].table_url
-
-    # Calculate N and M
-    N = 0
-    M = 0
-    for cell in cells:
-        N = max(N, cell.row)
-        M = max(M, cell.col)
-    N += 1
-    M += 1
-
-    # Row Lists
-    row_list = []
-    for i in range(0, N):
-        row_list.append({"row" : i, "cell" : []})
-
-    table_matches = FuzzyMatch.objects.filter(table_id = cells[0].table_id)
-    have_match = [[False for j in range(M)] for i in range(N)]
-    in_database = [[False for j in range(M)] for i in range(N)]
-    for match in table_matches:
-        have_match[match.row][match.col] = True
-
-    for cell in cells:
-        row_list[cell.row]["cell"].append({"col" : cell.col, "value" : cell.value, "matched" : have_match[cell.row][cell.col]})
-        in_database[cell.row][cell.col] = True
-
-    for i in range(0, N):
-        for j in range(0, M):
-            if in_database[i][j] == False:
-                row_list[i]["cell"].append({"col" : j, "value" : "null", "matched" : False})
-
-    # Schema Lists
-    schema_list = []
-    for col in schemas:
-        schema_list.append({"col" : col.att_id, "value" : col.att_name})
-
-    # Ground Truth Lists
-    gt_list = []
-    for col in ground_truths:
-        gt_list.append({"col" : col.col, "value" : col.gold_type})    
-    for i in range(0, M):
-        appeared = False
-        for col in ground_truths:
-            if col.col == i:
-                appeared = True
-        if appeared == False:
-            gt_list.append({"col" : i, "value" : "NO_GROUND_TRUTH"})
-
-    return render(request, 'showtable.html', {'row_list' : row_list,
-                                              'table_id' : str(table_id),
-                                              'table_url' : table_url,
-                                              'gt_list' : gt_list,
-                                              'entity_col' : entity_col,
-                                              'schema_list' : schema_list})
+    return render(request, 'showtable.html', context)
 
 @require_POST
 @csrf_exempt
@@ -125,3 +58,36 @@ def show_cell(request):
         ans = ans + "\n--------------------------------\n"
 
     return HttpResponse(ans)
+
+@require_GET
+def show_relation(request):
+
+    result_id = request.GET.get('id')
+    res = ColRelation.objects.filter(id = result_id)
+
+    if res.count == 0:
+        return HttpResponse("No such result!")
+
+    # table context
+    res = res[0]
+    context = get_table_context(res.table_id)
+
+    # add result-related things into contxet
+    context['result_id'] = result_id
+    context['result_col'] = res.col_id
+    context['result_relation'] = res.relation
+
+    return render(request, 'showrelation.html', context)
+
+@require_POST
+@csrf_exempt
+def recv_rel_result(request):
+
+    result_id = request.POST.get('result_id')
+    verdict = request.POST.get('verdict')
+
+    res = ColRelation.objects.filter(id = result_id)[0]
+    res.verdict = verdict
+    res.save()
+
+    return HttpResponse("Result received!")

@@ -27,8 +27,12 @@
 						}
 					      );
 				});
+
+				{% block script_extension %}
+				{% endblock script_extension %}
 			});
 		</script>
+
 	</head>
 
 
@@ -48,12 +52,14 @@
 
 		<table border = "1" align = "center">
 			<tr>
-				<td></td>
-				{% for col in gt_list|dictsort:"col" %}
-					<td>
-						<b><u> {{ col.value }} </u></b>
-					</td>
-				{% endfor %}
+				{% block optional_row %}
+					<td></td>
+					{% for col in gt_list|dictsort:"col" %}
+						<td>
+							<b><u> {{ col.value }} </u></b>
+						</td>
+					{% endfor %}
+				{% endblock optional_row %}
 			</tr>
 
 			<tr>
@@ -82,5 +88,9 @@
 				</tr>
 			{% endfor %}
 		</table>
+
+		{% block body_extension %}
+		{% endblock body_extension %}
+
 	</body>
 </html>

@@ -1,0 +1,63 @@
+{% extends "showtable.html" %}
+
+
+{% block script_extension %}
+	<script>
+		$("button#yes").click(function()
+		{
+			$.post("/display/relres/",
+				{
+					result_id : "{{ result_id }}",
+					verdict : "1"
+				},
+				function (data, status)
+				{
+					alert("Data: " + data + "\nStatus: " + status);
+				});
+		}
+
+		$("button#no").click(function()
+		{
+			$.post("/display/relres/",
+				{
+					result_id : "{{ result_id }}",
+					verdict : "-1"
+				},
+				function (data, status)
+				{
+					alert("Data: " + data + "\nStatus: " + status);				
+				});
+		}
+{% endblock %}
+
+
+{% block optional_row %}
+	<td></td>
+	{% for col in gt_list|dictsort:"col" %}
+		{% if col.col == entity_col %}
+			<td>
+				<b><u> ENTITY COLUMN </u></b>
+			</td>
+		{% elif col.col == result_col %}
+			<td>
+				<b><u> RESULT COLUMN </u></b>
+			</td>
+		{% else %}
+			<td></td>
+		{% endif %}
+	{% endfor %}
+		
+{% endblock %}
+
+
+
+{% block body_extension %}
+	<p align = "center"> The relationship between the entity column and the result column is : </p>
+	<p align = "center"> <font color = "red"> {{ result_relation }} </font> </p>
+	<p align = "center"> 
+	Is this appropriate? <button id = "yes">Yes! </button><br><button id = "no">No! </button>
+	</p>
+	<p align = "center">
+		<button href = "{% url 'display:views.show_relation' result_id|add:'1' %}" > Next Result <button>
+	</p>
+{% endblock %}
