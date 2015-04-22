@@ -2,7 +2,6 @@
 	<head>
 		<script type = "text/javascript" src = "/static/jquery-1.11.0.js"></script>
 		<script type = "text/javascript" src = "/static/jquery.validate.min.js"></script> 
-
 		<script type = "text/javascript">
 
 			$(document).ready(function()
@@ -32,11 +31,22 @@
 				{% endblock script_extension %}
 			});
 		</script>
-
+		<link href = "/static/bootstrap.min.css" rel = "stylesheet" />
+		<style>
+			.table
+			{
+				font-family : Verdana;
+			}
+			td
+			{
+				text-align : center;
+				vertical-align : middle;
+			}
+		</style>
 	</head>
 
 
-	<body>
+	<body><section class = "table">
 
 		<p align = "center">
 			Table id : {{ table_id }}
@@ -94,5 +104,5 @@
 		{% block body_extension %}
 		{% endblock body_extension %}
 
-	</body>
+	</section></body>
 </html>
