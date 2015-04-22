@@ -103,7 +103,7 @@ void Bridge::initKbSchema()
 	cout << "Initiliazing kbSchema!!!" << endl;
 
 	int totalConcept = kb->countConcept();
-	int totalEntity = kb->countEntity;
+	int totalEntity = kb->countEntity();
 	int root = kb->getRoot();
 
 	//make the entity schema
@@ -121,9 +121,9 @@ void Bridge::initKbSchema()
 			int k = curPair.second;
 
 			//i <curRelation> k
-			if (! entSchema[i].count(k))
-				entSchema[i][k] = new TaxoPattern();
-			entSchema[i][k]->add(entPattern[k]);
+			if (! entSchema[i].count(curRelation))
+				entSchema[i][curRelation] = new TaxoPattern();
+			entSchema[i][curRelation]->add(entPattern[k]);
 		}
 	}
 

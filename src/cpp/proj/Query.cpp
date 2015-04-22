@@ -124,6 +124,7 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 	}
 
 	sort(simScore.begin(), simScore.end());
+
 	//output
 	if (print)
 	{
