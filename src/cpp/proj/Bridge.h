@@ -17,8 +17,13 @@ private:
 	//Match Result: matches[cellId] = [KBentity1, KBentity2 ...]
 	std::vector<std::vector<int>> matches;
 
-	//schema of kb concepts: kbProperty[conceptId](relationId, TaxoPattern)
-	std::vector<std::unordered_map<int, TaxoPattern *>> kbProperty;
+	//schema of kb concepts: conSchema[conceptId](relationId, TaxoPattern *)
+	//schema of kb entities: entSchema[entityId](RelationId, TaxoPattern *)
+	std::vector<std::unordered_map<int, TaxoPattern *>> conSchema;
+	std::vector<std::unordered_map<int, TaxoPattern *>> entSchema;
+
+	//Taxo patterns of KB entities
+	std::vector<TaxoPattern *> entPattern;
 
 	//Taxo patterns of table cells
 	std::vector<TaxoPattern *> cellPattern;
@@ -35,17 +40,20 @@ private:
 	//Initialize match result
 	void initMatch();
 
-	//Initialize the KB property
-	void initKbProperty();
+	//Initialize KB entity patterns
+	void initEntityPattern();
 
-	//make the KB property recursively
-	void makeSchema(int);
+	//Initialize the KB schema
+	void initKbSchema();
+
+	//make the KB schema recursively
+	void makeConSchema(int);
 
 	//Initialize the taxo pattern of cells
 	void initCellPattern();
 
-	//get kb Property: concept id, relation id, debug or not
-	TaxoPattern *getKbProperty(int, int, bool);
+	//get kb Schema: concept id, relation id, debug or not
+	TaxoPattern *getKbSchema(int, int, bool);
 
 	//get cell pattern : cellId, debug or not
 	TaxoPattern *getCellPattern(int, bool);

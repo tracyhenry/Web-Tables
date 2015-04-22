@@ -103,11 +103,11 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 					continue;
 
 				//if this leaf node doesn't have relation R
-				if (! kbProperty[curConcept].count(r))
+				if (! conSchema[curConcept].count(r))
 					continue;
 
 				//Get the taxoPattern of relation R
-				TaxoPattern *rPattern = kbProperty[curConcept][r];
+				TaxoPattern *rPattern = conSchema[curConcept][r];
 
 				//merge concepts
 				for (IterII it2 = rPattern->c.begin();
@@ -172,11 +172,11 @@ void Bridge::findConcept(int tid, int r)
 	int H = kb->getDepth(kb->getRoot());
 
 	//debug
-//	getKbProperty(70366, kb->getRelationId("created"), true);
-//	getKbProperty(114102, kb->getRelationId("created"), true);
+//	getconSchema(70366, kb->getRelationId("created"), true);
+//	getconSchema(114102, kb->getRelationId("created"), true);
 //	getCellPattern(curTable.cells[r][entityCol].id, true);
 //	for (int i = 1; i <= kb->countRelation(); i ++)
-//		getKbProperty(25431, i, true);
+//		getconSchema(25431, i, true);
 
 	//loop over all concepts
 	for (int i = 1; i <= totalConcept; i ++)
@@ -193,8 +193,8 @@ void Bridge::findConcept(int tid, int r)
 			depthVector sim(H + 1);
 
 			//loop over all properties
-			for (IterIT it1 = kbProperty[i].begin();
-				it1 != kbProperty[i].end(); it1 ++)
+			for (IterIT it1 = conSchema[i].begin();
+				it1 != conSchema[i].end(); it1 ++)
 			{
 				TaxoPattern *cp = cellPattern[curTable.cells[r][c].id];
 				TaxoPattern *pp = it1->second;

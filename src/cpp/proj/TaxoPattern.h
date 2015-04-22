@@ -13,6 +13,9 @@ struct TaxoPattern
 
 	//From entity to weight
 	std::unordered_map<int, int> e;
+
+	//merge
+	void add(TaxoPattern *);
 };
 
 struct depthVector

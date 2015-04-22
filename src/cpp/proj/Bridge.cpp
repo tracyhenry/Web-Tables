@@ -30,8 +30,11 @@ Bridge::Bridge()
 	//initialize match result
 	initMatch();
 
-	//initialize kb property
-	initKbProperty();
+	//initialize KB entity patterns
+	initEntityPattern();
+
+	//initialize kb schema
+	initKbSchema();
 
 	//initialize cell taxo patterns
 	initCellPattern();
@@ -70,59 +73,84 @@ void Bridge::initMatch()
 	}
 }
 
-void Bridge::initKbProperty()
+void Bridge::initEntityPattern()
 {
-	cout << "Initiliazing Bridge::kbProperty!" << endl;
+	int totalEntity = kb->countEntity();
+	entPattern.resize(totalEntity + 1);
 
-	int totalConcept = kb->countConcept();
-	int root = kb->getRoot();
+	for (int i = 1; i <= totalEntity; i ++)
+	{
+		entPattern[i] = new TaxoPattern();
+		entPattern[i]->e[i] = 1;
 
-	//initialize the unorderd_map array
-	kbProperty.resize(totalConcept + 1);
-	for (int i = 1; i <= totalConcept; i ++)
-		kbProperty[i].clear();
-
-	//make the KB property recursively
-	cout << "Starting bridge::makeSchema dfs!" << endl;
-
-	makeSchema(root);
+		int totalBelong = kb->getBelongCount(i);
+		for (int j = 0; j < totalBelong; j ++)
+		{
+			int curConcept = kb->getBelongConcept(i, j);
+			while (1)
+			{
+				entPattern[i]->c[curConcept] ++;
+				if (kb->getPreCount(curConcept) == 0)
+					break;
+				curConcept = kb->getPreNode(curConcept, 0);
+			}
+		}
+	}
 }
 
-void Bridge::makeSchema(int curNode)
+void Bridge::initKbSchema()
+{
+	cout << "Initiliazing kbSchema!!!" << endl;
+
+	int totalConcept = kb->countConcept();
+	int totalEntity = kb->countEntity;
+	int root = kb->getRoot();
+
+	//make the entity schema
+	entSchema.resize(totalEntity + 1);
+	for (int i = 1; i <= totalEntity; i ++)
+		entSchema[i].clear();
+
+	for (int i = 1; i <= totalEntity; i ++)
+	{
+		int totalRelatedFact = kb->getFactCount(i);
+		for (int j = 0; j < totalRelatedFact; j ++)
+		{
+			pair<int, int> curPair = kb->getFactPair(i, j);
+			int curRelation = curPair.first;
+			int k = curPair.second;
+
+			//i <curRelation> k
+			if (! entSchema[i].count(k))
+				entSchema[i][k] = new TaxoPattern();
+			entSchema[i][k]->add(entPattern[k]);
+		}
+	}
+
+	//make the concept Schema recursively
+	conSchema.resize(totalConcept + 1);
+	for (int i = 1; i <= totalConcept; i ++)
+		conSchema[i].clear();
+
+	cout << "Starting bridge::makeConSchema dfs!" << endl;
+	makeConSchema(root);
+}
+
+void Bridge::makeConSchema(int curNode)
 {
 	//instances of curNode
 	int totalPossess = kb->getPossessCount(curNode);
-
 	for (int i = 0; i < totalPossess; i ++)
 	{
-		int entityX = kb->getPossessEntity(curNode, i);
-		int totalRelatedFact = kb->getFactCount(entityX);
+		int curEntity = kb->getPossessEntity(curNode, i);
+		unordered_map<int, TaxoPattern *> &curMap = entSchema[curEntity];
 
-		for (int j = 0; j < totalRelatedFact; j ++)
+		//loop over all relations
+		for (IterIT it = curMap.begin(); it != curMap.end(); it ++)
 		{
-			//entityX <curRelation> entityY
-			pair<int, int> curPair = kb->getFactPair(entityX, j);
-			int curRelation = curPair.first;
-			int entityY = curPair.second;
-
-			//new taxo pattern & add the entity
-			if (! kbProperty[curNode].count(curRelation))
-				kbProperty[curNode][curRelation] = new TaxoPattern();
-			kbProperty[curNode][curRelation]->e[entityY] ++;
-
-			//use the type information of entityY
-			int totalBelong = kb->getBelongCount(entityY);
-			for (int k = 0; k < totalBelong; k ++)
-			{
-				int curConcept = kb->getBelongConcept(entityY, k);
-				while (1)
-				{
-					kbProperty[curNode][curRelation]->c[curConcept] ++;
-					if (kb->getPreCount(curConcept) == 0)
-						break;
-					curConcept = kb->getPreNode(curConcept, 0);
-				}
-			}
+			if (! conSchema[curNode].count(it->first))
+				conSchema[curNode][it->first] = new TaxoPattern();
+			conSchema[curNode][it->first]->add(it->second);
 		}
 	}
 
@@ -131,28 +159,15 @@ void Bridge::makeSchema(int curNode)
 	for (int i = 0; i < totalSuc; i ++)
 	{
 		int curSuc = kb->getSucNode(curNode, i);
-		makeSchema(curSuc);
+		makeConSchema(curSuc);
 
 		//loop over all relations
-		unordered_map<int, TaxoPattern *> &curMap = kbProperty[curSuc];
-		for (IterIT it1 = curMap.begin();
-			it1 != curMap.end(); it1 ++)
+		unordered_map<int, TaxoPattern *> &curMap = conSchema[curSuc];
+		for (IterIT it = curMap.begin(); it != curMap.end(); it ++)
 		{
-			//new taxo pattern
-			if (! kbProperty[curNode].count(it1->first))
-				kbProperty[curNode][it1->first] = new TaxoPattern();
-
-			//merge concepts
-			unordered_map<int, int> &curConceptMap = it1->second->c;
-			for (IterII it2 = curConceptMap.begin();
-				it2 != curConceptMap.end(); it2 ++)
-				kbProperty[curNode][it1->first]->c[it2->first] += it2->second;
-
-			//merge entities
-			unordered_map<int, int> &curEntityMap = it1->second->e;
-			for (IterII it2 = curEntityMap.begin();
-				it2 != curEntityMap.end(); it2 ++)
-				kbProperty[curNode][it1->first]->e[it2->first] += it2->second;
+			if (! conSchema[curNode].count(it->first))
+				conSchema[curNode][it->first] = new TaxoPattern();
+			conSchema[curNode][it->first]->add(it->second);
 		}
 	}
 }
@@ -180,20 +195,7 @@ void Bridge::initCellPattern()
 		for (int j = 0; j < matches[i].size(); j ++)
 		{
 			int curEntity = matches[i][j];
-			cellPattern[i]->e[curEntity] ++;
-
-			int totalBelong = kb->getBelongCount(curEntity);
-			for (int k = 0; k < totalBelong; k ++)
-			{
-				int curConcept = kb->getBelongConcept(curEntity, k);
-				while (1)
-				{
-					cellPattern[i]->c[curConcept] ++;
-					if (kb->getPreCount(curConcept) == 0)
-						break;
-					curConcept = kb->getPreNode(curConcept, 0);
-				}
-			}
+			cellPattern[i]->add(entPattern[curEntity]);
 		}
 	}
 
@@ -216,18 +218,7 @@ void Bridge::initCellPattern()
 				Cell cur = curTable.cells[x][y];
 				if (matches[cur.id].size() == 0)
 					continue;
-
-				//merge concepts
-				unordered_map<int, int> &curConceptMap = cellPattern[cur.id]->c;
-				for (IterII it = curConceptMap.begin();
-					it != curConceptMap.end(); it ++)
-					curColPattern->c[it->first] += it->second;
-
-				//merge entities
-				unordered_map<int, int> &curEntityMap = cellPattern[cur.id]->e;
-				for (IterII it = curEntityMap.begin();
-					it != curEntityMap.end(); it ++)
-					curColPattern->e[it->first] += it->second;
+				curColPattern->add(cellPattern[cur.id]);
 			}
 
 			for (int x = 0; x < nRow; x ++)
@@ -241,9 +232,9 @@ void Bridge::initCellPattern()
 	}
 }
 
-TaxoPattern *Bridge::getKbProperty(int conceptId, int relationId, bool isDebug)
+TaxoPattern *Bridge::getKbSchema(int conceptId, int relationId, bool isDebug)
 {
-	TaxoPattern *ans = kbProperty[conceptId][relationId];
+	TaxoPattern *ans = conSchema[conceptId][relationId];
 	if (isDebug)
 	{
 		for (int i = 1; i <= 10; i ++)
@@ -403,12 +394,12 @@ void Bridge::traverse()
 				break;
 			case 7 :
 				cout << "Size of the schema of this node: " << endl << "  "
-					<< (kbProperty[cur]).size() << endl;
+					<< (conSchema[cur]).size() << endl;
 				break;
 			case 8 :
 				cout << "Sample Relations are: " << endl << endl;
-				for (IterIT it1 = kbProperty[cur].begin();
-					it1 != kbProperty[cur].end(); it1 ++)
+				for (IterIT it1 = conSchema[cur].begin();
+					it1 != conSchema[cur].end(); it1 ++)
 				{
 					cout << kb->getRelation(it1->first) << " : " << endl << "    ";
 					IterII it2 = ((it1->second)->c).begin();

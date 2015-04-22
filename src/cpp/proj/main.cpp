@@ -25,9 +25,9 @@ int main()
 
 	Bridge *bridge = new Bridge();
 	bridge->traverse();
-	bridge->findAllRelation();
+//	bridge->findAllRelation();
 
-/*	while (1)
+	while (1)
 	{
 		cout << endl << "-----------------------------------------" << endl;
 		cout << "Input table_id and row_id :" << endl;
@@ -44,7 +44,6 @@ int main()
 		}
 		cout << endl << "-----------------------------------------" << endl;
 	}
-*/
 
 /*	bridge->tableQuery();
 	bridge->testPattern();

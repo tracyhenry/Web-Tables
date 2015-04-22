@@ -1,11 +1,29 @@
 #include "TaxoPattern.h"
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
+#define IterII unordered_map<int, int>::iterator
+#define IterIT unordered_map<int, TaxoPattern *>::iterator
 using namespace std;
 
 TaxoPattern::TaxoPattern()
 {
 	c.clear(), e.clear();
+}
+
+void TaxoPattern::add(TaxoPattern *o)
+{
+	//merge concepts
+	unordered_map<int, int> &oConceptMap = o->c;
+	for (IterII it = oConceptMap.begin();
+		it != oConceptMap.end(); it ++)
+		c[it->first] += it->second;
+
+	//merge entities
+	unordered_map<int, int> &oEntityMap = o->e;
+	for (IterII it = oEntityMap.begin();
+		it != oEntityMap.end(); it ++)
+		e[it->first] += it->second;
 }
 
 int depthVector::operator < (const depthVector &o) const
@@ -14,7 +32,7 @@ int depthVector::operator < (const depthVector &o) const
 	{
 		if (w[i] > o.w[i] + 1e-9)
 			return 1;
-		if (w[i] + 1e-9  < o.w[i])
+		if (w[i] + 1e-9 < o.w[i])
 			return 0;
 	}
 	return 0;
