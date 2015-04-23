@@ -45,6 +45,7 @@ depthVector::depthVector()
 
 depthVector::depthVector(int totalDepth)
 {
+	w.clear();
 	w.resize(totalDepth);
 }
 

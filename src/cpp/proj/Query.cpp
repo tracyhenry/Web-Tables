@@ -86,45 +86,31 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 	vector<pair<depthVector, int>> simScore;
 	simScore.clear();
 
-	//Frequently-used Taxo Patterns
-	TaxoPattern *entityColPattern = colPattern[id][entityCol];
-	TaxoPattern *queryColPattern = colPattern[id][c];
-
 	for (int r = 1; r <= R; r ++)
 	{
-		TaxoPattern *curRelPattern = new TaxoPattern();
-		//loop over all leaf nodes
-		for (IterII it1 = entityColPattern->c.begin();
-			it1 != entityColPattern->c.end(); it1 ++)
+		depthVector sumSim(H + 1);
+
+		//loop over all row/record
+		for (int row = 0; row < curTable.nRow; row ++)
+		{
+			int cellId = curTable.cells[row][entityCol].id;
+			for (int i = 0; i < matches[cellId].size(); i ++)
 			{
-				//only use leaf nodes
-				int curConcept = it1->first;
-				if (kb->getSucCount(curConcept))
+				int e = matches[cellId][i];
+				if (! entSchema[e].count(r))
 					continue;
 
-				//if this leaf node doesn't have relation R
-				if (! conSchema[curConcept].count(r))
-					continue;
+				TaxoPattern *cp = cellPattern[curTable.cells[row][c].id];
+				TaxoPattern *pp = entSchema[e][r];
+				depthVector curVector = Matcher::dVector(kb, cp, pp);
 
-				//Get the taxoPattern of relation R
-				TaxoPattern *rPattern = conSchema[curConcept][r];
-
-				//merge concepts
-				for (IterII it2 = rPattern->c.begin();
-					it2 != rPattern->c.end(); it2 ++)
-					curRelPattern->c[it2->first] += it2->second * it1->second;
-
-				//merge entities
-				for (IterII it2 = rPattern->e.begin();
-					it2 != rPattern->e.end(); it2 ++)
-					curRelPattern->e[it2->first] += it2->second * it1->second;
+				sumSim.addUpdate(curVector);
 			}
-		simScore.emplace_back(Matcher::dVector(kb, curRelPattern, queryColPattern), r);
-		delete curRelPattern;
+		}
+		simScore.emplace_back(curVector, r);
 	}
 
 	sort(simScore.begin(), simScore.end());
-
 	//output
 	if (print)
 	{
