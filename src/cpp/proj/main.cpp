@@ -24,7 +24,7 @@ int main()
 */
 
 	Bridge *bridge = new Bridge();
-	bridge->traverse();
+//	bridge->traverse();
 //	bridge->findAllRelation();
 
 	while (1)
@@ -45,13 +45,7 @@ int main()
 		cout << endl << "-----------------------------------------" << endl;
 	}
 
-/*	bridge->tableQuery();
-	bridge->testPattern();
-	int totalConcept = bridge->kb->countConcept();
-	int notUnderThing = -1;
-	for (int i = 1; i <= totalConcept; i ++)
-		if (bridge->kb->getPreCount(i) != 1)
-			notUnderThing ++;
-	cout << notUnderThing << endl; */
+//	bridge->tableQuery();
+//	bridge->testPattern();
 	return 0;
 }

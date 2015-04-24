@@ -91,7 +91,7 @@ void genConceptTable()
 
 void genColRelationResultTable()
 {
-	ifstream fin1("../../../data/Result/colRelation_1e57.txt");
+	ifstream fin1("../../../data/Result/colRelation/colRelation_way2_1e57.txt");
 	ofstream fout("/tmp/colRelation_db.txt");
 
 	vector<string> res;

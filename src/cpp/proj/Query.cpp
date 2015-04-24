@@ -65,11 +65,13 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 	int entityCol = curTable.entityCol;
 	int id = curTable.id;
 
-	if (entityCol == c || entityCol == -1)
+	if (c < 0 || c >= curTable.nCol || entityCol == c || entityCol == -1)
 	{
 		if (print)
 		{
-			if (entityCol == -1)
+			if (c < 0 || c >= curTable.nCol)
+				cout << "Sorry, index out of range!" << endl;
+			else if (entityCol == -1)
 				cout << "Sorry, this table dosen't have a given entity column." << endl;
 			else
 				cout << "Sorry, the column you are querying for is the same as the entity column!"
@@ -107,7 +109,7 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 				sumSim.addUpdate(curVector);
 			}
 		}
-		simScore.emplace_back(curVector, r);
+		simScore.emplace_back(sumSim, r);
 	}
 
 	sort(simScore.begin(), simScore.end());
@@ -128,7 +130,7 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 
 	//currently a threshold-based approach
 	for (int i = 0; i < simScore.size(); i ++)
-		if (simScore[i].first.score(1000.0) > 1e55)
+		if (simScore[i].first.score(1000.0) > 1e57)
 			ans.push_back(simScore[i].second);
 
 	return ans;
