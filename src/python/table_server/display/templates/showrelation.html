@@ -55,7 +55,7 @@
 			</td>
 		{% elif col.col == result_col %}
 			<td>
-				<font color = "blue"><b><u> RESULT COLUMN </u></b></font>
+				<b><u> RESULT COLUMN </u></b>
 			</td>
 		{% else %}
 			<td></td>
@@ -64,6 +64,14 @@
 		
 {% endblock %}
 
+
+{% block td_description %}
+	{% if col.col == result_col or col.col == entity_col %}
+		<td class = "cell" id = "{{ table_id }}_{{ row.row }}_{{ col.col }}" bgColor = #BFEFFF>
+	{% else %}
+		<td class = "cell" id = "{{ table_id }}_{{ row.row }}_{{ col.col }}">
+	{% endif %}
+{% endblock %}
 
 
 {% block body_extension %}

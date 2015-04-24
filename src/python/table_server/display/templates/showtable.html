@@ -53,9 +53,9 @@
 		</p>
 
 		{% block entity_col_id %}
-			<p id = "change" align = "center">
-				Entity Column : {{ entity_col }}
-			</p>
+		<p id = "change" align = "center">
+			Entity Column : {{ entity_col }}
+		</p>
 		{% endblock entity_col_id %}
 
 		<p align = "center">
@@ -65,12 +65,12 @@
 		<table border = "1" align = "center">
 			<tr>
 				{% block optional_row %}
-					<td></td>
-					{% for col in gt_list|dictsort:"col" %}
-						<td>
-							<b><u> {{ col.value }} </u></b>
-						</td>
-					{% endfor %}
+				<td></td>
+				{% for col in gt_list|dictsort:"col" %}
+					<td>
+						<b><u> {{ col.value }} </u></b>
+					</td>
+				{% endfor %}
 				{% endblock optional_row %}
 			</tr>
 
@@ -84,12 +84,16 @@
 			</tr>
 
 			{% for row in row_list|dictsort:"row" %}
+				{% block tr_description %}
 				<tr>
+				{% endblock tr_description %}
 					<td>
 						{{ row.row }}
 					</td>
 					{% for col in row.cell|dictsort:"col" %}
+						{% block td_description %}
 						<td class = "cell" id = "{{ table_id }}_{{ row.row }}_{{ col.col }}">
+						{% endblock td_description %}
 							{% if col.matched %}
 								<font color = "red"> {{ col.value }} </font>
 							{% else %}
