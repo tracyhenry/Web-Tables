@@ -51,11 +51,11 @@
 	{% for col in gt_list|dictsort:"col" %}
 		{% if col.col == entity_col %}
 			<td>
-				<b><u> ENTITY COLUMN </u></b>
+				<font color = "blue"><b><u> Entity Column </u></b></font>
 			</td>
 		{% elif col.col == result_col %}
 			<td>
-				<b><u> RESULT COLUMN </u></b>
+				<font color = "blue"><b><u> Attribute Column </u></b></font>
 			</td>
 		{% else %}
 			<td></td>
@@ -75,11 +75,11 @@
 
 
 {% block body_extension %}
-	<p align = "center"> The relationship between the entity column and the result column is : </p>
-	<p align = "center"> <font color = "red"> {{ result_relation }} </font> </p>
-	<p align = "center"> 
+	<p align = "center"><font size = "4">  The relationship between the entity column and the attribute column is : </font></p>
+	<p align = "center"> <font color = "red" size = "4"> {{ result_relation }} </font> </p>
+	<p align = "center"><font size = "4">
 	Is this appropriate? <button id = "yes">Yes! </button>&nbsp;<button id = "no">No! </button>
-	</p>
+	</font></p>
 	<p align = "center">
 		<button><a href = "/display/showrelation?id={{result_id|add:'1'}}" >Next Result</a></button>
 	</p>
