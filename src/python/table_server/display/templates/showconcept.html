@@ -1,0 +1,62 @@
+{% extends "showtable.html" %}
+
+{% block script_extension %}
+		$("button.verdict").click(function()
+		{
+			var rank = $(this).attr("id");
+			var verdict = $(this).attr("type");
+			$.post("/display/conres/",
+				{
+					result_id : "{{ result_id }}",
+					rank : rank,
+					verdict : verdict
+				},
+				function (data, status)
+				{
+					alert("Data: " + data + "\nStatus: " + status);
+				});
+		});
+{% endblock %}
+
+
+{% block entity_col_id %}
+	<p id = "change" align = "center">
+		Entity Column : {{ entity_col }}
+	</p>
+	<p align = "center">
+		<button><a href = "/display/showrelation/?id={{ result_id|add:'1' }}">Next Result</a></button>
+	</p>
+{% endblock %}
+
+
+{% block tr_description %}
+	{% if row.row == row_id %}
+		<tr bgColor = #BFEFFF>
+	{% else %}
+		<tr>
+	{% endif %}
+{% endblock %}
+
+
+{% block body_extension %}
+	<p align = "center"><font size = "4">  Top 5 concepts labelled for the highlighted record are : </font></p>
+	{% for res in result_set|dictsort:"rank" %}
+		<p align = "center"> <font color = "red" size = "4"> {{ res.concept }} </font> </p>
+		<p align = "center">
+			<button type = "2" class = "verdict" id = {{ res.rank }}>
+				Relevant
+			</button>
+			&nbsp;
+			<button type = "1"  class = "verdict" id = {{ res.rank }}>
+				Not that relevant
+			</button>
+			&nbsp;
+			<button type = "0" class = "verdict" id = {{ res.rank }}>
+				Irrelevant
+			</button>
+		</p>
+	{% endfor %}
+	<p align = "center">
+		<button><a href = "/display/showrelation?id={{result_id|add:'1'}}" >Next Result</a></button>
+	</p>
+{% endblock %}

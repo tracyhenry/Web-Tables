@@ -92,3 +92,39 @@ def recv_rel_result(request):
     res.save()
 
     return HttpResponse("Result received!")
+
+@require_GET
+def show_concept(request):
+
+    result_id= request.GET.get('id')
+    result_set = RecConcept.objects.filter(id = result_id)
+
+    if result_set.count() == 0:
+        return HttpResponse("No such result!")
+
+    # table context
+    context = get_table_context(result_set[0].table_id)
+
+    # add result_related things into context
+    context['result_id'] = result_id
+    context['row_id'] = res[0].row_id
+    context['result_set'] = []
+
+    for res in result_set:
+        context['result_set'].append({"rank" : res.rank, "concept" : res.concept})
+
+    return render(request, 'showconcept.html', context)
+
+@require_POST
+@csrf_exempt
+def recv_con_result(request):
+
+    result_id = request.POST.get('result_id')
+    rank = request.POST.get('rank')
+    verdict = request.POST.get('verdict')
+
+    res = RecConcept.objects.filter(res_id = result_id, rank = rank)[0]
+    res.verdict = verdict
+    res.save()
+
+    return HttpResponse("Result Received!")

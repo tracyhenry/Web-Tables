@@ -6,4 +6,6 @@ urlpatterns = patterns('',
     url(r'^showcell/$', views.show_cell, name = 'showcell'),
     url(r'^showrelation/$', views.show_relation, name = 'showrelation'),
     url(r'^relres/$', views.recv_rel_result, name = 'recvrelresult'),
+    url(r'^showconcept/$', views.show_concept, name = 'showconcept'),
+    url(r'^conres/$', views.recv_con_result, name = 'recvconresult'),
 )

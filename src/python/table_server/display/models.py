@@ -96,3 +96,14 @@ class ColRelation(models.Model):
     class Meta:
         db_table = 'col_relation'
 
+class RecConcept(models.Model):
+    id = models.IntegerField(primary_key=True)
+    res_id = models.IntegerField()
+    table_id = models.IntegerField()
+    row_id = models.IntegerField()
+    rank = models.IntegerField()
+    concept = models.CharField(max_length=255)
+    verdict = models.IntegerField()
+
+    class Meta:
+        db_table = 'rec_concept'

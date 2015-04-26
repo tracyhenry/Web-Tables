@@ -124,6 +124,45 @@ void genColRelationResultTable()
 	fout.close();
 }
 
+void genRecConceptResultTable()
+{
+	ifstream fin1("../../../data/Result/recConcept/recConcept_top5_dVector.txt");
+	ofstream fout("/tmp/recConcept_db.txt");
+
+	vector<sring> res;
+	string s;
+	map<pair<int, int>, int> M;
+	M.clear();
+
+	while (getline(fin1, s))
+	{
+		for (int i = 0; i < s.size(); i ++)
+			if (s[i] == ' ')
+				s[i] = '\t';
+		res.push_back(s);
+
+		stringstream sin(s);
+		int table_id, row_id;
+		sin >> table_id >> row_id;
+		M[make_pair(table_id, row_id)] = 0;
+	}
+
+	int total = 0;
+	for (map<pair<int, int>, int>::iterator it = M.begin(); it != M.end(); it ++)
+		it->second = ++ total;
+
+	for (int i = 0; i < res.size(); i ++)
+	{
+		stringstream sin(res[i]);
+		int table_id, row_id;
+		sin >> table_id >> row_id;
+
+		fout << i + 1 << '\t' << M[make_pair(table_id, row_id)] << '\t' << s
+			<< '\t' << -1 << endl;
+	}
+	fout.close();
+}
+
 int main()
 {
 	genYagoEntityTable();
