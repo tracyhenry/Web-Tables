@@ -97,7 +97,7 @@ def recv_rel_result(request):
 def show_concept(request):
 
     result_id= request.GET.get('id')
-    result_set = RecConcept.objects.filter(id = result_id)
+    result_set = RecConcept.objects.filter(res_id = result_id)
 
     if result_set.count() == 0:
         return HttpResponse("No such result!")
@@ -107,7 +107,7 @@ def show_concept(request):
 
     # add result_related things into context
     context['result_id'] = result_id
-    context['row_id'] = res[0].row_id
+    context['row_id'] = result_set[0].row_id
     context['result_set'] = []
 
     for res in result_set:

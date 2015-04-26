@@ -24,7 +24,7 @@
 		Entity Column : {{ entity_col }}
 	</p>
 	<p align = "center">
-		<button><a href = "/display/showrelation/?id={{ result_id|add:'1' }}">Next Result</a></button>
+		<button><a href = "/display/showconcept/?id={{ result_id|add:'1' }}">Next Result</a></button>
 	</p>
 {% endblock %}
 
@@ -55,8 +55,10 @@
 				Irrelevant
 			</button>
 		</p>
+		<br/>
+		<br/>
 	{% endfor %}
 	<p align = "center">
-		<button><a href = "/display/showrelation?id={{result_id|add:'1'}}" >Next Result</a></button>
+		<button><a href = "/display/showconcept?id={{result_id|add:'1'}}" >Next Result</a></button>
 	</p>
 {% endblock %}

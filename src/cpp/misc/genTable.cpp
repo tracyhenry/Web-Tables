@@ -1,4 +1,5 @@
 #include <map>
+#include <set>
 #include <ctime>
 #include <vector>
 #include <cstdio>
@@ -129,10 +130,9 @@ void genRecConceptResultTable()
 	ifstream fin1("../../../data/Result/recConcept/recConcept_top5_dVector.txt");
 	ofstream fout("/tmp/recConcept_db.txt");
 
-	vector<sring> res;
+	vector<string> res;
 	string s;
-	map<pair<int, int>, int> M;
-	M.clear();
+	vector<pair<int, int>> uni, v;
 
 	while (getline(fin1, s))
 	{
@@ -142,33 +142,48 @@ void genRecConceptResultTable()
 		res.push_back(s);
 
 		stringstream sin(s);
-		int table_id, row_id;
-		sin >> table_id >> row_id;
-		M[make_pair(table_id, row_id)] = 0;
+		int table_id, row_id, rank;
+		sin >> table_id >> row_id >> rank;
+
+		v.push_back(make_pair(table_id, row_id));
+		if (rank == 0)
+			uni.push_back(make_pair(table_id, row_id));
 	}
 
-	int total = 0;
-	for (map<pair<int, int>, int>::iterator it = M.begin(); it != M.end(); it ++)
-		it->second = ++ total;
-
-	for (int i = 0; i < res.size(); i ++)
+	set<int> S; S.clear();
+	vector<int> selected;
+	for (int lp = 1; lp <= 100; lp ++)
 	{
-		stringstream sin(res[i]);
-		int table_id, row_id;
-		sin >> table_id >> row_id;
+		int x;
+		while (1)
+		{
+			x = rand() % ((int) uni.size());
+			if (! S.count(x))
+				break;
+		}
+		S.insert(x);
+		selected.push_back(x);
+	}
 
-		fout << i + 1 << '\t' << M[make_pair(table_id, row_id)] << '\t' << s
-			<< '\t' << -1 << endl;
+	int tot = 0;
+	for (int lp = 1; lp <= 100; lp ++)
+	{
+		int id = selected[lp - 1];
+		for (int i = 0; i < res.size(); i ++)
+			if (v[i] == uni[id])
+				fout << ++ tot << '\t' << lp << '\t' << res[i]
+					<< '\t' << -1 << endl;
 	}
 	fout.close();
 }
 
 int main()
 {
-	genYagoEntityTable();
-	genFuzzyMatchTable();
-	genTypeTable();
-	genConceptTable();
-	genColRelationResultTable();
+//	genYagoEntityTable();
+//	genFuzzyMatchTable();
+//	genTypeTable();
+//	genConceptTable();
+//	genColRelationResultTable();
+	genRecConceptResultTable();
 	return 0;
 }
