@@ -94,6 +94,14 @@ int KB::getRelationId(string r)
 	return R[r];
 }
 
+bool KB::checkBelong(int entityId, int conceptId)
+{
+	for (int i = 0; i < belongs[entityId].size(); i ++)
+		if (belongs[entityId][i] == conceptId)
+			return true;
+	return false;
+}
+
 pair<int, int> KB::getFactPair(int entityId, int index)
 {
 	return facts[entityId][index];

@@ -35,6 +35,9 @@ struct depthVector
 	depthVector mAx(depthVector &);
 	int maxUpdate(depthVector &);
 
+	//normalize by a factor
+	void normalize(double);
+
 	//convert to exponential score
 	double score(double);
 

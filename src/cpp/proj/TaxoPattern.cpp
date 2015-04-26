@@ -86,6 +86,14 @@ int depthVector::maxUpdate(depthVector &o)
 	return 0;
 }
 
+void depthVector::normalize(double f)
+{
+	if (fabs(f) <= 1e-9)
+		return ;
+	for (int i = 0; i < w.size(); i ++)
+		w[i] /= f;
+}
+
 double depthVector::score(double coef)
 {
 	double ans = 0;

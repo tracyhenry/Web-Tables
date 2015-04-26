@@ -175,6 +175,14 @@ void Bridge::findConcept(int tid, int r)
 		if (kb->getSucCount(i)) continue;
 		depthVector sumSim(H + 1);
 
+		//extras
+		vector<int> extraEntity;
+		for (int j = 0; j < matches[cid].size(); j ++)
+		{
+			int curEntity = matches[cid][j];
+			if (kb->checkBelong(curEntity, i))
+				extraEntity.push_back(curEntity);
+		}
 		//loop over all attributes
 		for (int c = 0; c < nCol; c ++)
 		{
@@ -188,11 +196,29 @@ void Bridge::findConcept(int tid, int r)
 				TaxoPattern *cp = cellPattern[curTable.cells[r][c].id];
 				TaxoPattern *pp = it1->second;
 
+				//overall matching
 				depthVector curVector = Matcher::dVector(kb, cp, pp);
+				//subtract extra
+				for (int j = 0; j < extraEntity.size(); j ++)
+				{
+					int curEntity = extraEntity[j];
+					if (entSchema[curEntity].count(it1->first))
+					{
+						pp = entSchema[curEntity][it1->first];
+						depthVector sub = Matcher::dVector(kb, cp, pp);
+						sub.normalize(-1);
+						curVector.addUpdate(sub);
+					}
+				}
 				sim.maxUpdate(curVector);
 			}
 			sumSim.addUpdate(sim);
 		}
+		//normalize
+		double f = kb->getPossessCount(i) - (int) extraEntity.size();
+		if (f > 0)
+			sumSim.normalize(kb->getPossessCount(i));
+
 		simScore.emplace_back(sumSim, i);
 	}
 

@@ -85,6 +85,7 @@ public:
 	int getConceptId(std::string);		//by string
 	int getEntityId(std::string);		//by string
 	int getRelationId(std::string);		//by string
+	bool checkBelong(int, int);		//by entityId & conceptId
 	std::pair<int, int> getFactPair(int, int);		//by entity id & index
 	std::string getConcept(int); 		//by id
 	std::string getEntity(int);		//by id
