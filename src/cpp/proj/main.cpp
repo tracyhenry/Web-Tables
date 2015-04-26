@@ -26,8 +26,9 @@ int main()
 	Bridge *bridge = new Bridge();
 //	bridge->traverse();
 //	bridge->findAllRelation();
+	bridge->findAllConcept();
 
-	while (1)
+/*	while (1)
 	{
 		cout << endl << "-----------------------------------------" << endl;
 		cout << "Input table_id and row_id :" << endl;
@@ -36,7 +37,7 @@ int main()
 		switch (t)
 		{
 			case 0:
-				bridge->findConcept(x, y);
+				bridge->findConcept(x, y, true);
 				break;
 			case 1:
 				bridge->findRelation(x, y, true);
@@ -44,7 +45,7 @@ int main()
 		}
 		cout << endl << "-----------------------------------------" << endl;
 	}
-
+*/
 //	bridge->tableQuery();
 //	bridge->testPattern();
 	return 0;

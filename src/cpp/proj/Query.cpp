@@ -28,19 +28,8 @@ void Bridge::findAllRelation()
 			colRelation[i][c] = findRelation(curTable.table_id, c, false);
 	}
 
-/*	//count good tables
-	int goodTables = 0;
-	for (int i = 1; i <= nTable; i ++)
-		for (int c = 0; c < curTable.nCol; c ++)
-			if (colRelation[i][c].size())
-			{
-				goodTables ++;
-				break;
-			}
-	cout << "Number of good tables: " << goodTables << endl;
-*/
 	//output to a result file
-	ofstream fout("../../../data/Result/colRelation.txt");
+	ofstream fout("../../../data/Result/colRelation/colRelation.txt");
 	for (int i = 1; i <= nTable; i ++)
 		for (int c = 0; c < corpus->getTable(i).nCol; c ++)
 			if (colRelation[i][c].size())
@@ -136,13 +125,40 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 	return ans;
 }
 
+/*
+call findConcept for all records
+**/
+void Bridge::findAllConcept()
+{
+	int nTable = corpus->countTable();
+	recConcept.resize(nTable + 1);
+
+	for (int i = 1; i <= nTable; i ++)
+	{
+		Table curTable = corpus->getTable(i);
+		if (curTable.entityCol == -1)
+			continue;
+
+		recConcept[i].resize(curTable.nRow);
+		for (int r = 0; r < curTable.nRow; r ++)
+			recConcept[i][r] = findConcept(curTable.table_id, r, false);
+	}
+	//output to a file
+	ofstream fout("../../../data/Result/recConcept/recConcept.txt");
+	for (int i = 1; i <= nTable; i ++)
+		for (int r = 0; r < recConcept[i].size(); r ++)
+			for (int k = 0; k < recConcept[i][r].size(); k ++)
+				fout << corpus->getTable(i).table_id << " " << r << " " << k
+					<< " " << kb->getConcept(recConcept[i][r][k]) << endl;
+	fout.close();
+}
 
 /**
 * Given a table id and a row id
-* output the a ranked concept list for 
+* output the a ranked concept list for
 * the record represented by the query row
 */
-void Bridge::findConcept(int tid, int r)
+vector<int> Bridge::findConcept(int tid, int r, bool print)
 {
 	//Brute force
 	int totalConcept = kb->countConcept();
@@ -173,6 +189,7 @@ void Bridge::findConcept(int tid, int r)
 		if (! cellPattern[cid]->c.count(i))
 			continue;
 		if (kb->getSucCount(i)) continue;
+
 		depthVector sumSim(H + 1);
 
 		//extras
@@ -221,20 +238,28 @@ void Bridge::findConcept(int tid, int r)
 
 		simScore.emplace_back(sumSim, i);
 	}
-
 	//sort
 	sort(simScore.begin(), simScore.end());
 
 	//output
-	cout << endl << "Top 50 Answers: " << endl;
-	for (int i = 0; i < min((int) simScore.size(), 50); i ++)
+	if (print)
 	{
-		cout << simScore[i].first.score(1000.0) << " " << simScore[i].second
-			<< " " << kb->getConcept(simScore[i].second)
-			<< " " << kb->getDepth(simScore[i].second) << endl;
+		cout << endl << "Top 50 Answers: " << endl;
+		for (int i = 0; i < min((int) simScore.size(), 50); i ++)
+		{
+			cout << simScore[i].first.score(1000.0) << " " << simScore[i].second
+				<< " " << kb->getConcept(simScore[i].second)
+				<< " " << kb->getDepth(simScore[i].second) << endl;
 
-		for (int j = H; j > 16; j --)
-			cout << left << setw(15) << simScore[i].first.w[j] << " ";
-		cout << endl << endl;
+			for (int j = H; j > 16; j --)
+				cout << left << setw(15) << simScore[i].first.w[j] << " ";
+			cout << endl << endl;
+		}
 	}
+	//return top 3 answers
+	vector<int> ans;
+	for (int i = 0; i < min((int) simScore.size(), 5); i ++)
+		ans.push_back(simScore[i].second);
+
+	return ans;
 }

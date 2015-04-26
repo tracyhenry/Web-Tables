@@ -34,6 +34,9 @@ private:
 	//Relations between attr columns and the entity column
 	std::vector<std::vector<std::vector<int>>> colRelation;
 
+	//Concepts for all records
+	std::vector<std::vector<std::vector<int>>> recConcept;
+
 	//debug file
 	std::ofstream debug;
 
@@ -80,14 +83,17 @@ public:
 	//Answer cell pattern queries
 	void tableQuery();
 
-	//Find the most similar concept for a record 
-	void findConcept(int, int);
+	//Find the most similar concept for a record
+	std::vector<int> findConcept(int, int, bool);
 
 	//Find the most possible type of relation for a given column
 	std::vector<int> findRelation(int, int, bool);
 
-	//Find the relations for all 
+	//Find the relations for all attr columns
 	void findAllRelation();
+
+	//Find the most similar concepts for all records
+	void findAllConcept();
 };
 
 #endif
