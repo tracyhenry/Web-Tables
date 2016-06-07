@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <unordered_set>
 #include <unordered_map>
+#include <sys/time.h>
 #define IterII unordered_map<int, int>::iterator
 #define IterIT unordered_map<int, TaxoPattern *>::iterator
 using namespace std;
@@ -20,24 +21,47 @@ Bridge::Bridge()
 {
 	cout << "Initializing Bridge!" << endl;
 
-	//KB and Corpus
+	struct timeval t1, t2;
+
+
+	//KB
+	gettimeofday(&t1, NULL);
 	kb = new YAGO();
+	gettimeofday(&t2, NULL);
+	cout << "KB Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000 << endl;
+
+	//Corpus
+	gettimeofday(&t1, NULL);
 	corpus = new WWT();
+	gettimeofday(&t2, NULL);
+	cout << "Corpus Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000 << endl;
 
 	//debug file
 	debug.open("debug.txt");
 
 	//initialize match result
+	gettimeofday(&t1, NULL);
 	initMatch();
+	gettimeofday(&t2, NULL);
+	cout << "Matcher Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000 << endl;
 
 	//initialize KB entity patterns
+	gettimeofday(&t1, NULL);
 	initEntityPattern();
+	gettimeofday(&t2, NULL);
+	cout << "entityPattern Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000 << endl;
 
 	//initialize kb schema
+	gettimeofday(&t1, NULL);
 	initKbSchema();
+	gettimeofday(&t2, NULL);
+	cout << "schemaPattern Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000 << endl;
 
 	//initialize cell taxo patterns
+	gettimeofday(&t1, NULL);
 	initCellPattern();
+	gettimeofday(&t2, NULL);
+	cout << "cellPattern Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000 << endl;
 }
 
 void Bridge::initMatch()
