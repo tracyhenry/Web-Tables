@@ -28,13 +28,13 @@ Bridge::Bridge()
 	gettimeofday(&t1, NULL);
 	kb = new YAGO();
 	gettimeofday(&t2, NULL);
-	cout << "KB Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000 << endl;
+	cout << "KB Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0 << endl;
 
 	//Corpus
 	gettimeofday(&t1, NULL);
 	corpus = new WWT();
 	gettimeofday(&t2, NULL);
-	cout << "Corpus Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000 << endl;
+	cout << "Corpus Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0 << endl;
 
 	//debug file
 	debug.open("debug.txt");
@@ -43,25 +43,25 @@ Bridge::Bridge()
 	gettimeofday(&t1, NULL);
 	initMatch();
 	gettimeofday(&t2, NULL);
-	cout << "Matcher Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000 << endl;
+	cout << "Matcher Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0 << endl;
 
 	//initialize KB entity patterns
 	gettimeofday(&t1, NULL);
 	initEntityPattern();
 	gettimeofday(&t2, NULL);
-	cout << "entityPattern Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000 << endl;
+	cout << "entityPattern Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0 << endl;
 
 	//initialize kb schema
 	gettimeofday(&t1, NULL);
 	initKbSchema();
 	gettimeofday(&t2, NULL);
-	cout << "schemaPattern Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000 << endl;
+	cout << "schemaPattern Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0 << endl;
 
 	//initialize cell taxo patterns
 	gettimeofday(&t1, NULL);
 	initCellPattern();
 	gettimeofday(&t2, NULL);
-	cout << "cellPattern Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000 << endl;
+	cout << "cellPattern Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0 << endl;
 }
 
 void Bridge::initMatch()
