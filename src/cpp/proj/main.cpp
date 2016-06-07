@@ -66,11 +66,12 @@ int main()
 			int entityCol = bridge->corpus->getTable(curTable).entityCol;
 			if (col >= 0 && col < nCol && col != entityCol)
 				break;
+			col = rand() % nCol;
 		}
 
 		struct timeval t1, t2;
 		gettimeofday(&t1, NULL);
-		bridge->findConcept(bridge->corpus->getTable(curTable).table_id, col, true);
+		bridge->findRelation(bridge->corpus->getTable(curTable).table_id, col, true);
 		gettimeofday(&t2, NULL);
 
 		totalTime += t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
