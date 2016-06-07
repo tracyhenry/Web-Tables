@@ -67,8 +67,10 @@ int main()
 			if (col >= 0 && col < nCol && col != entityCol)
 				break;
 		}
+
+		struct timeval t1, t2;
 		gettimeofday(&t1, NULL);
-		bridge->findConcept(bridge->corpus->getTable(curTable).table_id);
+		bridge->findConcept(bridge->corpus->getTable(curTable).table_id, col, true);
 		gettimeofday(&t2, NULL);
 
 		totalTime += t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
