@@ -1,10 +1,12 @@
 #include "Bridge.h"
 #include <map>
+#include <ctime>
 #include <vector>
 #include <string>
 #include <fstream>
 #include <iostream>
 #include <algorithm>
+#include <sys/time.h>
 using namespace std;
 
 int main()
@@ -27,7 +29,7 @@ int main()
 //	bridge->traverse();
 //	bridge->findAllRelation();
 //	bridge->findAllConcept();
-
+/*
 	while (1)
 	{
 		cout << endl << "-----------------------------------------" << endl;
@@ -45,7 +47,34 @@ int main()
 		}
 		cout << endl << "-----------------------------------------" << endl;
 	}
+*/
 //	bridge->tableQuery();
 //	bridge->testPattern();
+
+	//Test findRelation running time
+	int nTable = bridge->corpus->countTable();
+	double totalTime = 0;
+
+	srand(time(0));
+	for (int lp = 1; lp <= 1000; lp ++)
+	{
+		int curTable = rand() % nTable + 1;
+		int col = -1;
+		for (int t = 0; t < 50; t ++)
+		{
+			int nCol = bridge->corpus->getTable(curTable).nCol;
+			int entityCol = bridge->corpus->getTable(curTable).entityCol;
+			if (col >= 0 && col < nCol && col != entityCol)
+				break;
+		}
+		gettimeofday(&t1, NULL);
+		bridge->findConcept(bridge->corpus->getTable(curTable).table_id);
+		gettimeofday(&t2, NULL);
+
+		totalTime += t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
+		if (lp % 50 == 0)
+			cout << "haha : " << lp / 50 << endl;
+	}
+	cout << "Average findRelation latency: " << totalTime / 1000.0 << endl;
 	return 0;
 }
