@@ -171,6 +171,8 @@ vector<int> Bridge::findConcept(int tid, int r, bool print)
 	Table curTable = corpus->getTableByDataId(tid);
 	int nCol = curTable.nCol;
 	int entityCol = curTable.entityCol;
+	if (entityCol == -1)
+		entityCol = 0;
 	int cid = curTable.cells[r][entityCol].id;
 
 	//depth of kb
