@@ -51,7 +51,7 @@ int main()
 //	bridge->tableQuery();
 //	bridge->testPattern();
 
-	//Test findRelation running time
+/*	//Test findRelation running time
 	int nTable = bridge->corpus->countTable();
 	double totalTime = 0;
 
@@ -79,5 +79,35 @@ int main()
 			cout << "haha : " << lp / 50 << endl;
 	}
 	cout << "Average findRelation latency: " << totalTime / 1000.0 << endl;
+*/
+
+	//Test findConcept running time
+	int nTable = bridge->corpus->countTable();
+	double totalTime = 0;
+
+	srand(time(0));
+	for (int lp = 1; lp <= 1000; lp ++)
+	{
+		int curTable = rand() % nTable + 1;
+		int row = -1;
+		for (int t = 0; t < 50; t ++)
+		{
+			int nRow = bridge->corpus->getTable(curTable).nRol;
+			if (row >= 0 && row < nRow)
+				break;
+			row = rand() % nRow;
+		}
+
+		struct timeval t1, t2;
+		gettimeofday(&t1, NULL);
+		bridge->findConcept(bridge->corpus->getTable(curTable).table_id, row, true);
+		gettimeofday(&t2, NULL);
+
+		totalTime += t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
+		if (lp % 50 == 0)
+			cout << "haha : " << lp / 50 << endl;
+	}
+	cout << "Average findConcept latency: " << totalTime / 1000.0 << endl;
+
 	return 0;
 }
