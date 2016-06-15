@@ -59,12 +59,12 @@ WSGI_APPLICATION = 'table_server.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'wenbo',
-        'USER': 'root',
-        'PASSWORD': 'dd10204',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
