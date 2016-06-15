@@ -29,7 +29,7 @@ int main()
 //	bridge->traverse();
 //	bridge->findAllRelation();
 //	bridge->findAllConcept();
-/*
+
 	while (1)
 	{
 		cout << endl << "-----------------------------------------" << endl;
@@ -47,7 +47,7 @@ int main()
 		}
 		cout << endl << "-----------------------------------------" << endl;
 	}
-*/
+
 //	bridge->tableQuery();
 //	bridge->testPattern();
 
@@ -79,7 +79,7 @@ int main()
 			cout << "haha : " << lp / 50 << endl;
 	}
 	cout << "Average findRelation latency: " << totalTime / 1000.0 << endl;
-*/
+
 
 	//Test findConcept running time
 	int nTable = bridge->corpus->countTable();
@@ -100,5 +100,14 @@ int main()
 	}
 	cout << "Average findConcept latency: " << totalTime / 1000.0 << endl;
 
+	//Output the maximum running time
+	vector<int> nCols;
+	int nTable = bridge->corpus->countTable();
+	for (int i = 0; i < nTable; i ++)
+		nCols.push_back(bridge->corpus->getTable(i + 1).nCol);
+	sort(nCols.begin(), nCols.end());
+	for (int x : nCols)
+		cout << x << endl;
+*/
 	return 0;
 }
