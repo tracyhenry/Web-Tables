@@ -59,7 +59,7 @@ target/
 
 # Huge Data
 data/Table/WWT_xml/
-*.sql
+#*.sql
 result*.txt
 Types.txt
 Types_Tree.txt
