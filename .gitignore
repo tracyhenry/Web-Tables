@@ -59,6 +59,8 @@ target/
 
 # Huge Data
 data/Table/WWT_xml/
+wenbo
+icde14_wwt.sql
 #*.sql
 result*.txt
 Types.txt
