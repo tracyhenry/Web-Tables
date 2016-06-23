@@ -60,8 +60,7 @@ target/
 # Huge Data
 data/Table/WWT_xml/
 wenbo
-icde14_wwt.sql
-#*.sql
+*.sql
 result*.txt
 Types.txt
 Types_Tree.txt
