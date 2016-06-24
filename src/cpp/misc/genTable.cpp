@@ -10,16 +10,34 @@
 #include <unordered_set>
 using namespace std;
 
+const string dir = "../../../data/KB/kb_sqlite.sql";
+
+string make(string s)
+{
+	string ans = "";
+	for (int i = 0; i < s.size(); i ++)
+		if (s[i] != '\'')
+			ans += s[i];
+		else
+			ans += "\'\'";
+	return ans;
+}
+
 void genYagoEntityTable()
 {
 	ifstream fin("../../../data/KB/Entities.txt");
-	ofstream fout("/tmp/yago_entity_db.txt");
+	ofstream fout;
+	fout.open(dir.c_str(), ofstream::out | ofstream::app);
+	fout << "begin;" << endl << endl;
 
 	string value;
 	int cur = 0;
 
 	while (fin >> value)
-		fout << ++ cur << '\t' << value << endl;
+		fout << "INSERT INTO `yago_entity` VALUES ("
+		     << ++ cur << "," << "'" << make(value) << "');" << endl;
+//		fout << ++ cur << '\t' << value << endl;
+	fout << endl;
 	fin.close();
 	fout.close();
 }
@@ -28,7 +46,8 @@ void genFuzzyMatchTable()
 {
 	ifstream fin2("../../../data/fuzzy/result_jaccard_0.8_0.8.txt");
 	ifstream fin1("../../../data/Table/wwt_id");
-	ofstream fout("/tmp/fuzzy_db.txt");
+	ofstream fout;
+	fout.open(dir.c_str(), ofstream::out | ofstream::app);
 
 	//initializations
 	vector<int> row, col, table_id;
@@ -55,11 +74,15 @@ void genFuzzyMatchTable()
 		entityID ++;
 		cellID ++;
 
-		fout << ++id << '\t' << row[cellID] << '\t' << col[cellID] << '\t' << table_id[cellID] << '\t' << entityID << endl;
+		fout << "INSERT INTO `fuzzy_match` VALUES ("
+		     << ++ id << "," << row[cellID] << "," << col[cellID]
+		     << "," << table_id[cellID] << "," << entityID << ");" << endl;
+//		fout << ++id << '\t' << row[cellID] << '\t' << col[cellID] << '\t' << table_id[cellID] << '\t' << entityID << endl;
 
 		for (int i = 1; i <= 3; i ++)
 			getline(fin2, s);
 	}
+	fout << endl;
 
 	fin1.close();
 	fin2.close();
@@ -69,10 +92,16 @@ void genFuzzyMatchTable()
 void genTypeTable()
 {
 	ifstream fin1("../../../data/KB/Types.txt");
-	ofstream fout("/tmp/types_db.txt");
+	ofstream fout;
+	fout.open(dir.c_str(), ofstream::out | ofstream::app);
+
 	int x, y, id = 0;
 	while (fin1 >> x >> y)
-		fout << ++ id << '\t' << x << '\t' << y << endl;
+		fout << "INSERT INTO `yago_type` VALUES ("
+		     << ++ id << "," << x << "," << y << ");" << endl;
+//		fout << ++ id << '\t' << x << '\t' << y << endl;
+	fout << endl;
+
 	fin1.close();
 	fout.close();
 }
@@ -80,12 +109,18 @@ void genTypeTable()
 void genConceptTable()
 {
 	ifstream fin1("../../../data/KB/Concepts.txt");
-	ofstream fout("/tmp/concept_db.txt");
+	ofstream fout;
+	fout.open(dir.c_str(), ofstream::out | ofstream::app);
+
 	string value;
 	int id = 0;
 
 	while (getline(fin1, value))
-		fout << ++ id << '\t' << value << endl;
+		fout << "INSERT INTO `yago_concept` VALUES ("
+		     << ++ id << "," << "'" << make(value) << "');" << endl;
+//		fout << ++ id << '\t' << value << endl;
+	fout << endl << endl << "commit;" << endl;
+
 	fin1.close();
 	fout.close();
 }
@@ -93,7 +128,8 @@ void genConceptTable()
 void genColRelationResultTable()
 {
 	ifstream fin1("../../../data/Result/colRelation/colRelation_way2_1e57.txt");
-	ofstream fout("/tmp/colRelation_db.txt");
+	ofstream fout;
+	fout.open(dir.c_str(), ofstream::out | ofstream::app);
 
 	vector<string> res;
 	string s;
@@ -120,15 +156,21 @@ void genColRelationResultTable()
 				break;
 		}
 		selected.insert(x);
-		fout << lp + 1 << '\t' << res[x] << '\t' << 0 << endl;
+
+		fout << "INSERT INTO `col_relation` VALUES ("
+		     << lp + 1 << "," << "'" << make(res[x]) << "'"
+		     << "," << 0 << ");" << endl;
+//		fout << lp + 1 << '\t' << res[x] << '\t' << 0 << endl;
 	}
+	fout << endl;
 	fout.close();
 }
 
 void genRecConceptResultTable()
 {
 	ifstream fin1("../../../data/Result/recConcept/recConcept_top5_dVector.txt");
-	ofstream fout("/tmp/recConcept_db.txt");
+	ofstream fout;
+	fout.open(dir.c_str(), ofstream::out | ofstream::app);
 
 	vector<string> res;
 	string s;
@@ -171,19 +213,24 @@ void genRecConceptResultTable()
 		int id = selected[lp - 1];
 		for (int i = 0; i < res.size(); i ++)
 			if (v[i] == uni[id])
-				fout << ++ tot << '\t' << lp << '\t' << res[i]
-					<< '\t' << -1 << endl;
+				fout << "INSERT INTO `rec_concept` VALUES ("
+				     << ++ tot << "," << lp << ","
+				     << "'" << make(res[i]) << "'" << ","
+				     << -1 << ");" <<  endl;
+//				fout << ++ tot << '\t' << lp << '\t' << res[i]
+//					<< '\t' << -1 << endl;
 	}
+	fout << endl;
 	fout.close();
 }
 
 int main()
 {
-//	genYagoEntityTable();
+	genYagoEntityTable();
 //	genFuzzyMatchTable();
-//	genTypeTable();
-//	genConceptTable();
+	genTypeTable();
+	genConceptTable();
 //	genColRelationResultTable();
-	genRecConceptResultTable();
+//	genRecConceptResultTable();
 	return 0;
 }
