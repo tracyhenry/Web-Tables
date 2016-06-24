@@ -10,7 +10,7 @@
 #include <unordered_set>
 using namespace std;
 
-const string dir = "../../../data/KB/kb_sqlite.sql";
+const string dir = "../../../data/fuzzy/fuzzy_sqlite.sql";
 
 string make(string s)
 {
@@ -226,10 +226,10 @@ void genRecConceptResultTable()
 
 int main()
 {
-	genYagoEntityTable();
-//	genFuzzyMatchTable();
-	genTypeTable();
-	genConceptTable();
+//	genYagoEntityTable();
+	genFuzzyMatchTable();
+//	genTypeTable();
+//	genConceptTable();
 //	genColRelationResultTable();
 //	genRecConceptResultTable();
 	return 0;
