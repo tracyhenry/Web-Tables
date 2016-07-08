@@ -14,7 +14,7 @@ Bridge *bridge;
 
 void genRandomRecords()
 {
-	int num_records = 150;
+	int num_records = 200;
 	int records_per_table = 5;
 	int nTable = bridge->corpus->countTable();
 	double lucky_rate_threshold = 0.4;
@@ -103,6 +103,7 @@ int main()
 */
 
 	bridge = new Bridge();
+	genRandomRecords();
 //	bridge->traverse();
 //	bridge->findAllRelation();
 //	bridge->findAllConcept();

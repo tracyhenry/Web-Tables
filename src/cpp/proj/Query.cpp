@@ -246,8 +246,8 @@ vector<int> Bridge::findConcept(int tid, int r, bool print)
 	//output
 	if (print)
 	{
-		cout << endl << "Top 50 Answers: " << endl;
-		for (int i = 0; i < min((int) simScore.size(), 50); i ++)
+		cout << endl << "Top 30 Answers: " << endl;
+		for (int i = 0; i < min((int) simScore.size(), 30); i ++)
 		{
 			cout << simScore[i].first.score(1000.0) << " " << simScore[i].second
 				<< " " << kb->getConcept(simScore[i].second)
