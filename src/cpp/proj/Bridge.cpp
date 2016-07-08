@@ -438,3 +438,8 @@ void Bridge::traverse()
 		cout << "-------------------------------------" << endl << endl;
 	}
 }
+
+vector<int>& Bridge::getMatch(int cellId)
+{
+	return matches[cellId];
+}

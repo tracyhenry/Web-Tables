@@ -80,8 +80,8 @@ public:
 	//Knowledge base traversal
 	void traverse();
 
-	//Answer cell pattern queries
-	void tableQuery();
+	//get matches
+	std::vector<int>& getMatch(int cellId);
 
 	//Find the most similar concept for a record
 	std::vector<int> findConcept(int, int, bool);
