@@ -20,6 +20,7 @@ void genRandomRecords()
 	double lucky_rate_threshold = 0.4;
 	string file_name = "../../../data/GT/random_records.txt";
 	unordered_set<int> chosen_tables;
+	srand(time(0));
 
 	//open file
 	ofstream fout(file_name.c_str());
