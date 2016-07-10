@@ -104,7 +104,7 @@ int main()
 */
 
 	bridge = new Bridge();
-	genRandomRecords();
+//	genRandomRecords();
 //	bridge->traverse();
 //	bridge->findAllRelation();
 //	bridge->findAllConcept();
@@ -118,7 +118,7 @@ int main()
 		switch (t)
 		{
 			case 0:
-				bridge->findConcept(x, y, true);
+				bridge->findRecordConcept(x, y, true);
 				break;
 			case 1:
 				bridge->findRelation(x, y, true);

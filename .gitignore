@@ -80,3 +80,6 @@ makeTree
 # Debug
 debug.txt
 
+# Eclipse
+.project
+.cproject

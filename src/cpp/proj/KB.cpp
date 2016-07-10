@@ -102,6 +102,19 @@ bool KB::checkBelong(int entityId, int conceptId)
 	return false;
 }
 
+bool KB::checkRecursiveBelong(int entityId, int conceptId)
+{
+	for (int i = 0; i < belongs[entityId].size(); i ++)
+		if (isDescendant(belongs[entityId][i], conceptId))
+			return true;
+	return false;
+}
+
+bool KB::isDescendant(int ch, int fa)
+{
+	return startTime[fa] <= startTime[ch] && endTime[ch] <= endTime[fa];
+}
+
 pair<int, int> KB::getFactPair(int entityId, int index)
 {
 	return facts[entityId][index];
@@ -157,10 +170,13 @@ void KB::initTaxonomy()
 
 	root = M["owl:Thing"];
 
-	//make depth array
+	//dfs
 	depth.clear();
 	depth.resize(N + 1);
-	makeDepth(root);
+	startTime.resize(N + 1);
+	endTime.resize(N + 1);
+	timeStamp = 0;
+	doDFS(root);
 }
 
 void KB::initType()
@@ -225,15 +241,17 @@ void KB::initFact()
 	}
 }
 
-void KB::makeDepth(int x)
+void KB::doDFS(int x)
 {
-	depth[x] = 1;
+	depth[x] = 1; 
+	startTime[x] = ++ timeStamp;
 	for (int i = 0; i < suc[x].size(); i ++)
 	{
 		int j = suc[x][i];
-		makeDepth(j);
+		doDFS(j);
 		depth[x] = max(depth[x], depth[j] + 1);
 	}
+	endTime[x] = ++ timeStamp;
 }
 
 YAGO::YAGO()

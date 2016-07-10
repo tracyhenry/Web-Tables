@@ -16,8 +16,9 @@ protected:
 	//Adjacent lists
 	std::vector<std::vector<int>> pre, suc;
 
-	//longest depth
-	std::vector<int> depth;
+	//DFS stuff
+	std::vector<int> depth, startTime, endTime;
+	int timeStamp;	
 
 	//number of concepts
 	int N;
@@ -64,8 +65,8 @@ protected:
 	//Init Fact Relationship
 	void initFact();
 
-	//Make the depth array recursively
-	void makeDepth(int);
+	//dfs
+	void doDFS(int);
 
 public:
 	//Public auxiliary functions
@@ -85,7 +86,9 @@ public:
 	int getConceptId(std::string);		//by string
 	int getEntityId(std::string);		//by string
 	int getRelationId(std::string);		//by string
+	bool isDescendant(int, int);	//by childConceptId & fatherConceptId
 	bool checkBelong(int, int);		//by entityId & conceptId
+	bool checkRecursiveBelong(int, int);	//by entityId & conceptId
 	std::pair<int, int> getFactPair(int, int);		//by entity id & index
 	std::string getConcept(int); 		//by id
 	std::string getEntity(int);		//by id
@@ -94,7 +97,7 @@ public:
 	//Constructor
 	KB();
 
-	//Deconstructor
+	//Destructor
 	virtual ~KB() {}
 };
 

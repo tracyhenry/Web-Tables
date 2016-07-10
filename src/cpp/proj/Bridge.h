@@ -84,7 +84,7 @@ public:
 	std::vector<int>& getMatch(int cellId);
 
 	//Find the most similar concept for a record
-	std::vector<int> findConcept(int, int, bool);
+	std::vector<int> findRecordConcept(int, int, bool);
 
 	//Find the most possible type of relation for a given column
 	std::vector<int> findRelation(int, int, bool);
@@ -94,6 +94,9 @@ public:
 
 	//Find the most similar concepts for all records
 	void findAllConcept();
+
+	//Naive method to get column concepts
+	std::vector<int> findColConceptMajority(int, int, bool);
 };
 
 #endif
