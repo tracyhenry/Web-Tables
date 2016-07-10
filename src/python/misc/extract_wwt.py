@@ -42,8 +42,8 @@ for root, dirnames, filenames in os.walk(path):
         matches.append(os.path.join(root, filename))
 
 # parse every xml file and output all GTs to a single txt file
-column_gt_file = open('Column_Concept_GT.txt', 'w')
-rel_gt_file = open('Relationship_GT.txt', 'w')
+column_gt_file = open('../../../data/GT/Column_Concept_GT.txt', 'w')
+rel_gt_file = open('../../../data/GT/Relationship_GT.txt', 'w')
 
 for xml_file in matches:
     table_url = xml_file[xml_file.find('annotation') + 10:]
@@ -57,6 +57,7 @@ for xml_file in matches:
             for j in range(len(root[i])):
                 column_gt_file.write(table_id + ' ')
                 column_gt_file.write(root[i][j].get('col') + ' ')
+                column_gt_file.write(len(root[i][j]) + ' ')
                 for annos in root[i][j]:
                     column_gt_file.write(annos.get('name').encode('UTF-8') + ' ')
                 column_gt_file.write('\n')
