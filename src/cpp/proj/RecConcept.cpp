@@ -141,7 +141,7 @@ void Bridge::findAllConcept()
 
 		recConcept[i].resize(curTable.nRow);
 		for (int r = 0; r < curTable.nRow; r ++)
-			recConcept[i][r] = findConcept(curTable.table_id, r, false);
+			recConcept[i][r] = findRecordConcept(curTable.table_id, r, false);
 	}
 	//output to a file
 	ofstream fout("../../../data/Result/recConcept/recConcept.txt");

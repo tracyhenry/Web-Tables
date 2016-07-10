@@ -1,3 +1,10 @@
+#include "Bridge.h"
+#include "Matcher.h"
+#include <vector>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+
 /**
  * Given a table_id and column number,
  * output top-k concepts describing this column.
@@ -24,7 +31,7 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 			numLuckyCell ++;
 
 	//Loop over all concepts
-	vector<pair<int, int>> ans;
+	vector<pair<int, int>> score;
 	for (int i = 1; i <= totalConcept; i ++)
 	{
 		int numContainedCell = 0;
@@ -41,15 +48,19 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 				}
 		}
 		if ((double) numContainedCell / numLuckyCell >= majorityThreshold)
-			ans.emplace_back(- kb->getDepth(i), i);
+			score.emplace_back(- kb->getDepth(i), i);
 	}
 	//Sort by depth
-	sort(ans.begin(), ans.end());
+	sort(score.begin(), score.end());
 	
 	//print
 	if (print)
-		for (int i = 0; i < ans.size(); i ++)
-			cout << kb->getConcept(ans[i].second) << " " << - ans[i].first << endl;
+		for (int i = 0; i < score.size(); i ++)
+			cout << kb->getConcept(score[i].second) << " " << - score[i].first << endl;
+
+	vector<int> ans;
+	for (int i = 0; i < score.size(); i ++)
+		ans.push_back(score[i].second);
 
 	return ans;
 }
