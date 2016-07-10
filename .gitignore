@@ -67,7 +67,7 @@ Types_Tree.txt
 Facts.txt
 *.ttl
 
-# Linux executable
+# Executables
 stats_wwt
 stats_fuzzy
 genTable
@@ -76,6 +76,7 @@ TransFact
 TransTaxonomy
 main
 makeTree
+main.exe
 
 # Debug
 debug.txt
