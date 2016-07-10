@@ -57,7 +57,7 @@ for xml_file in matches:
             for j in range(len(root[i])):
                 column_gt_file.write(table_id + ' ')
                 column_gt_file.write(root[i][j].get('col') + ' ')
-                column_gt_file.write(len(root[i][j]) + ' ')
+                column_gt_file.write(str(len(root[i][j])) + ' ')
                 for annos in root[i][j]:
                     column_gt_file.write(annos.get('name').encode('UTF-8') + ' ')
                 column_gt_file.write('\n')
