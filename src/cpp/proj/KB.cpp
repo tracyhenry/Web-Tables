@@ -243,7 +243,7 @@ void KB::initFact()
 
 void KB::doDFS(int x)
 {
-	depth[x] = 1; 
+	depth[x] = 1;
 	startTime[x] = ++ timeStamp;
 	for (int i = 0; i < suc[x].size(); i ++)
 	{

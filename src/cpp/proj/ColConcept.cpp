@@ -15,7 +15,7 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 {
 	Table curTable = corpus->getTableByDataId(tid);
 	int totalConcept = kb->countConcept();
-	double majorityThreshold = 0.6;
+	double majorityThreshold = 0.5;
 
 	//check range
 	if (c < 0 || c >= curTable.nCol)
@@ -47,16 +47,16 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 					break;
 				}
 		}
-		if ((double) numContainedCell / numLuckyCell >= majorityThreshold)
-			score.emplace_back(- kb->getDepth(i), i);
+		if ((double) numContainedCell / curTable.nRow  >= majorityThreshold)
+			score.emplace_back(kb->getDepth(i), i);
 	}
 	//Sort by depth
 	sort(score.begin(), score.end());
-	
+
 	//print
 	if (print)
 		for (int i = 0; i < score.size(); i ++)
-			cout << kb->getConcept(score[i].second) << " " << - score[i].first << endl;
+			cout << kb->getConcept(score[i].second) << " " << score[i].first << endl;
 
 	vector<int> ans;
 	for (int i = 0; i < score.size(); i ++)

@@ -105,7 +105,7 @@ int main()
 
 	bridge = new Bridge();
 //	genRandomRecords();
-//	bridge->traverse();
+	bridge->traverse();
 //	bridge->findAllRelation();
 //	bridge->findAllConcept();
 
@@ -122,6 +122,9 @@ int main()
 				break;
 			case 1:
 				bridge->findRelation(x, y, true);
+				break;
+			case 2:
+				bridge->findColConceptMajority(x, y, true);
 				break;
 		}
 		cout << endl << "-----------------------------------------" << endl;
