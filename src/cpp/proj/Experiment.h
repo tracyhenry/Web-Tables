@@ -24,6 +24,12 @@ public:
 	//column concept naive method
 	void runExpColConceptNaive();
 
+	//test the running time of finding relation
+	void runColRelationLatency();
+
+	//test the running time of find record concept
+	void runRecConceptLatency();
+
 };
 
 #endif

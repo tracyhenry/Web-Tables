@@ -23,7 +23,6 @@ Bridge::Bridge()
 
 	struct timeval t1, t2;
 
-
 	//KB
 	gettimeofday(&t1, NULL);
 	kb = new YAGO();

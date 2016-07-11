@@ -149,4 +149,3 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 
 	return ans;
 }
-
