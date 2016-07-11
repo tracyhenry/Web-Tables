@@ -23,6 +23,9 @@ public:
 
 	//Return the intersection as a depthVector
 	static depthVector dVector(KB *, TaxoPattern *, TaxoPattern *);
+
+	//Jaccard version of the dVector
+	static depthVector dVectorJaccard(KB*, TaxoPattern *, TaxoPattern *);
 };
 
 #endif

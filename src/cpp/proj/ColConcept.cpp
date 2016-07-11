@@ -33,8 +33,8 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 
 	//Make candidate set from column pattern
 	unordered_set<int> candidates;
-	for (auto keyValue : colPattern[curTable.id][c]->c)
-		candidates.insert(keyValue.first);
+	for (auto kv : colPattern[curTable.id][c]->c)
+		candidates.insert(kv.first);
 
 	//Loop over all concepts
 	vector<pair<int, int>> score;
@@ -53,7 +53,7 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 					break;
 				}
 		}
-		if ((double) numContainedCell / numLuckyCell  >= majorityThreshold)
+		if ((double) numContainedCell / numLuckyCell >= majorityThreshold)
 			score.emplace_back(kb->getDepth(i), i);
 	}
 	//Sort by depth

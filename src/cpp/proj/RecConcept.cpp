@@ -5,7 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
-#define IterII unordered_map<int, int>::iterator
+#define IterID unordered_map<int, double>::iterator
 #define IterIT unordered_map<int, TaxoPattern *>::iterator
 using namespace std;
 

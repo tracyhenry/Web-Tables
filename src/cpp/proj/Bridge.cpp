@@ -13,7 +13,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <sys/time.h>
-#define IterII unordered_map<int, int>::iterator
+#define IterID unordered_map<int, double>::iterator
 #define IterIT unordered_map<int, TaxoPattern *>::iterator
 using namespace std;
 
@@ -104,7 +104,7 @@ void Bridge::initEntityPattern()
 	for (int i = 1; i <= totalEntity; i ++)
 	{
 		entPattern[i] = new TaxoPattern();
-		entPattern[i]->e[i] = 1;
+		entPattern[i]->e[i] = 1.0;
 
 		int totalBelong = kb->getBelongCount(i);
 		for (int j = 0; j < totalBelong; j ++)
@@ -293,12 +293,12 @@ TaxoPattern *Bridge::getCellPattern(int cellId, bool isDebug)
 void Bridge::printPattern(TaxoPattern *p)
 {
 	int testCid = 0;
-	unordered_map<int, int> &C = p->c;
+	unordered_map<int, double> &C = p->c;
 
 	//concepts
-	vector<pair<int, int>> tmp; tmp.clear();
+	vector<pair<double, int>> tmp; tmp.clear();
 	int sum = 1e-9;
-	for (IterII it = C.begin(); it != C.end(); it ++)
+	for (IterID it = C.begin(); it != C.end(); it ++)
 		if (! testCid || cellPattern[testCid]->c.count(it->first))
 			tmp.emplace_back(- it->second, it->first);
 
@@ -309,8 +309,8 @@ void Bridge::printPattern(TaxoPattern *p)
 			<< " " << kb->getDepth(tmp[i].second) << endl;
 
 	//entities
-	unordered_map<int, int> &E = p->e;
-	for (IterII it = E.begin(); it != E.end(); it ++)
+	unordered_map<int, double> &E = p->e;
+	for (IterID it = E.begin(); it != E.end(); it ++)
 		if (! testCid || cellPattern[testCid]->e.count(it->first))
 			debug << kb->getEntity(it->first) << " : " << it->second << endl;
 }
@@ -425,7 +425,7 @@ void Bridge::traverse()
 					it1 != conSchema[cur].end(); it1 ++)
 				{
 					cout << kb->getRelation(it1->first) << " : " << endl << "    ";
-					IterII it2 = ((it1->second)->c).begin();
+					IterID it2 = ((it1->second)->c).begin();
 					for (int i = 1; i <= 20 && it2 != ((it1->second)->c).end(); i ++, it2 ++)
 						cout << kb->getConcept(it2->first) << "    ";
 					cout << endl;

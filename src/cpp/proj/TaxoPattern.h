@@ -9,10 +9,10 @@ struct TaxoPattern
 	TaxoPattern();
 
 	//From concept to weight
-	std::unordered_map<int, int> c;
+	std::unordered_map<int, double> c;
 
 	//From entity to weight
-	std::unordered_map<int, int> e;
+	std::unordered_map<int, double> e;
 
 	//merge
 	void add(TaxoPattern *);
