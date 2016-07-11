@@ -1,4 +1,4 @@
-#include "Bridge.h"
+#include "Experiment.h"
 #include <map>
 #include <ctime>
 #include <vector>
@@ -104,8 +104,10 @@ int main()
 */
 
 	bridge = new Bridge();
+	Experiment* experiment = new Experiment(bridge);
+	experiment->runAllExp();
 //	genRandomRecords();
-	bridge->traverse();
+//	bridge->traverse();
 //	bridge->findAllRelation();
 //	bridge->findAllConcept();
 

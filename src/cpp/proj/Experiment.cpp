@@ -51,6 +51,8 @@ void Experiment::runExpColConceptNaive()
 	int acQuery = 0;
 	for (int i = 0; i < tids.size(); i ++)
 	{
+//		if (i % 200 == 0)
+//			cout << i << " queries have finished!....." << endl;
 		int tid = tids[i];
 		int cid = cids[i];
 		vector<int> ans = bridge->findColConceptMajority(tid, cid, false);
@@ -71,8 +73,23 @@ void Experiment::runExpColConceptNaive()
 					ac = true;
 			if (ac)
 				acQuery ++;
+			else if (rand() % 100 < 3)
+			{
+				cout << endl << "Wrong sample: " << endl
+				     << "table_id = " << tid
+				     << "  column_id = " << cid << endl;
+				cout << "GT answers: " << endl << '\t';
+				for (auto o : gts[i])
+					cout << o << '\t';
+				cout << endl;
+				cout << "Naive answers: " << endl << '\t';
+				for (auto o : ans)
+					cout << bridge->kb->getConcept(o) << '\t';
+				cout << endl << endl;
+			}
 		}
 	}
+	resultFile.close();
 	cout << "Number of queries: " << numQuery << endl <<
 			"correct queries: " << acQuery << endl <<
 			"Accuracy: " << (double) acQuery / numQuery << endl;

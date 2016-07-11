@@ -2,6 +2,7 @@
 #include "Matcher.h"
 #include <vector>
 #include <algorithm>
+#include <unordered_set>
 #include <iostream>
 using namespace std;
 
@@ -15,12 +16,12 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 {
 	Table curTable = corpus->getTableByDataId(tid);
 	int totalConcept = kb->countConcept();
-	double majorityThreshold = 0.5;
+	double majorityThreshold = 0.8;
 
 	//check range
 	if (c < 0 || c >= curTable.nCol)
 	{
-		cout << "Column index is out of range!" << endl;
+		cout << "Column index is out of range!" << "   " << tid << " " << c << endl;
 		return vector<int>();
 	}
 
@@ -30,14 +31,19 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 		if (! getMatch(curTable.cells[i][c].id).empty())
 			numLuckyCell ++;
 
+	//Make candidate set from column pattern
+	unordered_set<int> candidates;
+	for (auto keyValue : colPattern[curTable.id][c]->c)
+		candidates.insert(keyValue.first);
+
 	//Loop over all concepts
 	vector<pair<int, int>> score;
-	for (int i = 1; i <= totalConcept; i ++)
+	for (int i : candidates)
 	{
 		int numContainedCell = 0;
 		for (int j = 0; j < curTable.nRow; j ++)
 		{
-			vector<int>& curMatches = getMatch(curTable.cells[j][c].id);
+			vector<int>& curMatches = matches[curTable.cells[j][c].id];
 			if (curMatches.empty())
 				continue;
 			for (int entityId : curMatches)
@@ -47,7 +53,7 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 					break;
 				}
 		}
-		if ((double) numContainedCell / curTable.nRow  >= majorityThreshold)
+		if ((double) numContainedCell / numLuckyCell  >= majorityThreshold)
 			score.emplace_back(kb->getDepth(i), i);
 	}
 	//Sort by depth
