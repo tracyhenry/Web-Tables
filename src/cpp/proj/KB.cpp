@@ -94,6 +94,14 @@ int KB::getRelationId(string r)
 	return R[r];
 }
 
+int KB::getReverseRelationId(int relationId)
+{
+    if (relationId <= F / 2)
+        return relationId + F / 2;
+    else
+        return relationId - F / 2;
+}
+
 bool KB::checkBelong(int entityId, int conceptId)
 {
 	for (int i = 0; i < (int) belongs[entityId].size(); i ++)

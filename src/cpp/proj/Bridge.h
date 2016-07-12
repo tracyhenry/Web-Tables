@@ -64,6 +64,12 @@ private:
 	//print the map of a pattern
 	void printPattern(TaxoPattern *);
 
+	//get the number of lucky cells in a column, by curTable and cid
+	int getNumLuckyCells(Table, int);
+
+	//get the number of contained cells in a column by a concept, given by conceptId, curTable, cid
+	int getNumContainedCells(Table, int, int);
+
 public:
 	//Knowledge base
 	KB *kb;
@@ -97,6 +103,9 @@ public:
 
 	//Naive method to get column concepts
 	std::vector<int> findColConceptMajority(int, int, bool);
+
+	//Use taxonomy patterns to find column concepts & relations together
+	std::vector<int> findColConceptAndRelation(int, bool);
 };
 
 #endif

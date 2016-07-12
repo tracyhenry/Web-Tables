@@ -49,7 +49,7 @@ depthVector::depthVector(int totalDepth)
 	w.resize(totalDepth);
 }
 
-depthVector depthVector::add(depthVector &o)
+depthVector depthVector::add(depthVector o)
 {
 	depthVector ans((int) w.size());
 	for (int i = 0; i < (int) ans.w.size(); i ++)
@@ -58,13 +58,13 @@ depthVector depthVector::add(depthVector &o)
 	return ans;
 }
 
-void depthVector::addUpdate(depthVector &o)
+void depthVector::addUpdate(depthVector o)
 {
 	for (int i = 0; i < (int) w.size(); i ++)
 		w[i] += o.w[i];
 }
 
-depthVector depthVector::mAx(depthVector &o)
+depthVector depthVector::mAx(depthVector o)
 {
 	depthVector ans((int) w.size());
 	for (int i = 0; i < (int) ans.w.size(); i ++)
@@ -73,7 +73,7 @@ depthVector depthVector::mAx(depthVector &o)
 	return ans;
 }
 
-int depthVector::maxUpdate(depthVector &o)
+int depthVector::maxUpdate(depthVector o)
 {
 	if (o < (* this))
 	{

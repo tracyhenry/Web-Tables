@@ -55,8 +55,6 @@ void Experiment::runExpColConceptNaive()
 	int acQuery = 0;
 	for (int i = 0; i < (int) tids.size(); i ++)
 	{
-//		if (i % 200 == 0)
-//			cout << i << " queries have finished!....." << endl;
 		int tid = tids[i];
 		int cid = cids[i];
 		vector<int> ans = bridge->findColConceptMajority(tid, cid, false);

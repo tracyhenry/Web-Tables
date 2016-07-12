@@ -28,12 +28,12 @@ struct depthVector
 	depthVector(int);
 
 	//add
-	depthVector add(depthVector &);
-	void addUpdate(depthVector &);
+	depthVector add(depthVector);
+	void addUpdate(depthVector);
 
 	//max
-	depthVector mAx(depthVector &);
-	int maxUpdate(depthVector &);
+	depthVector mAx(depthVector);
+	int maxUpdate(depthVector);
 
 	//normalize by a factor
 	void normalize(double);

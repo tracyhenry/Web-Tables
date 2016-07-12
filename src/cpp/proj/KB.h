@@ -18,7 +18,7 @@ protected:
 
 	//DFS stuff
 	std::vector<int> depth, startTime, endTime;
-	int timeStamp;	
+	int timeStamp;
 
 	//number of concepts
 	int N;
@@ -86,6 +86,7 @@ public:
 	int getConceptId(std::string);		//by string
 	int getEntityId(std::string);		//by string
 	int getRelationId(std::string);		//by string
+	int getReverseRelationId(int id);   //by relation ID;
 	bool isDescendant(int, int);	//by childConceptId & fatherConceptId
 	bool checkBelong(int, int);		//by entityId & conceptId
 	bool checkRecursiveBelong(int, int);	//by entityId & conceptId
