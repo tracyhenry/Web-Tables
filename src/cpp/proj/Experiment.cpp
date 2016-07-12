@@ -27,7 +27,10 @@ void Experiment::runExpColConceptNaive()
 	ifstream gtFile(gtFileName.c_str());
 	string resultFileName = "../../../data/Result/colConcept/colConcept_Majority.txt";
 	ofstream resultFile(resultFileName.c_str());
+	string wrongFileName = "../../../data/Result/colConcept/colConcept_Majority_wrong.txt";
+	ofstream wrongFile(wrongFileName.c_str());
 	int K = 3;
+	srand(time(0));
 
 	//read in the gt file
 	int tid, cid, nGT;
@@ -74,23 +77,24 @@ void Experiment::runExpColConceptNaive()
 					ac = true;
 			if (ac)
 				acQuery ++;
-			else if (rand() % 100 < 3)
+			else
 			{
-				cout << endl << "Wrong sample: " << endl
+				wrongFile << endl << "Wrong sample: " << endl
 				     << "table_id = " << tid
 				     << "  column_id = " << cid << endl;
-				cout << "GT answers: " << endl << '\t';
+				wrongFile << "GT answers: " << endl << '\t';
 				for (auto o : gts[i])
-					cout << o << '\t';
-				cout << endl;
-				cout << "Naive answers: " << endl << '\t';
+					wrongFile << o << '\t';
+				wrongFile << endl;
+				wrongFile << "Naive answers: " << endl << '\t';
 				for (auto o : ans)
-					cout << bridge->kb->getConcept(o) << '\t';
-				cout << endl << endl;
+					wrongFile << bridge->kb->getConcept(o) << '\t';
+				wrongFile << endl << endl;
 			}
 		}
 	}
 	resultFile.close();
+	wrongFile.close();
 	cout << "Number of queries: " << numQuery << endl <<
 			"correct queries: " << acQuery << endl <<
 			"Accuracy: " << (double) acQuery / numQuery << endl;
