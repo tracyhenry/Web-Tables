@@ -30,8 +30,8 @@ void Bridge::findAllConcept()
 	//output to a file
 	ofstream fout("../../../data/Result/recConcept/recConcept.txt");
 	for (int i = 1; i <= nTable; i ++)
-		for (int r = 0; r < recConcept[i].size(); r ++)
-			for (int k = 0; k < recConcept[i][r].size(); k ++)
+		for (int r = 0; r < (int) recConcept[i].size(); r ++)
+			for (int k = 0; k < (int) recConcept[i][r].size(); k ++)
 				fout << corpus->getTable(i).table_id << " " << r << " " << k
 					<< " " << kb->getConcept(recConcept[i][r][k]) << endl;
 	fout.close();
@@ -80,7 +80,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 
 		//extras
 		vector<int> extraEntity;
-		for (int j = 0; j < matches[cid].size(); j ++)
+		for (int j = 0; j < (int) matches[cid].size(); j ++)
 		{
 			int curEntity = matches[cid][j];
 			if (kb->checkBelong(curEntity, i))
@@ -102,7 +102,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 				//overall matching
 				depthVector curVector = Matcher::dVector(kb, cp, pp);
 				//subtract extra
-				for (int j = 0; j < extraEntity.size(); j ++)
+				for (int j = 0; j < (int) extraEntity.size(); j ++)
 				{
 					int curEntity = extraEntity[j];
 					if (entSchema[curEntity].count(it1->first))

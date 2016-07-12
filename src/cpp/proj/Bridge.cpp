@@ -215,7 +215,7 @@ void Bridge::initCellPattern()
 			continue;
 
 		cellPattern[i] = new TaxoPattern();
-		for (int j = 0; j < matches[i].size(); j ++)
+		for (int j = 0; j < (int) matches[i].size(); j ++)
 		{
 			int curEntity = matches[i][j];
 			cellPattern[i]->add(entPattern[curEntity]);
@@ -297,13 +297,12 @@ void Bridge::printPattern(TaxoPattern *p)
 
 	//concepts
 	vector<pair<double, int>> tmp; tmp.clear();
-	int sum = 1e-9;
 	for (IterID it = C.begin(); it != C.end(); it ++)
 		if (! testCid || cellPattern[testCid]->c.count(it->first))
 			tmp.emplace_back(- it->second, it->first);
 
 	sort(tmp.begin(), tmp.end());
-	for (int i = 0; i < tmp.size(); i ++)
+	for (int i = 0; i < (int) tmp.size(); i ++)
 		debug << tmp[i].second << " " << kb->getConcept(tmp[i].second)
 			<< " : " << - tmp[i].first
 			<< " " << kb->getDepth(tmp[i].second) << endl;

@@ -15,7 +15,6 @@ using namespace std;
 vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 {
 	Table curTable = corpus->getTableByDataId(tid);
-	int totalConcept = kb->countConcept();
 	double majorityThreshold = 0.8;
 
 	//check range
@@ -61,11 +60,11 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 
 	//print
 	if (print)
-		for (int i = 0; i < score.size(); i ++)
+		for (int i = 0; i < (int) score.size(); i ++)
 			cout << kb->getConcept(score[i].second) << " " << score[i].first << endl;
 
 	vector<int> ans;
-	for (int i = 0; i < score.size(); i ++)
+	for (int i = 0; i < (int) score.size(); i ++)
 		ans.push_back(score[i].second);
 
 	return ans;

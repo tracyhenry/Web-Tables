@@ -53,7 +53,7 @@ void Experiment::runExpColConceptNaive()
 	//run functions in ColConcept.cpp
 	int numQuery = 0;
 	int acQuery = 0;
-	for (int i = 0; i < tids.size(); i ++)
+	for (int i = 0; i < (int) tids.size(); i ++)
 	{
 //		if (i % 200 == 0)
 //			cout << i << " queries have finished!....." << endl;
@@ -158,21 +158,21 @@ void Experiment::runRecConceptLatency()
 	for (int i = 0; i < nTable; i ++)
 		nCols.push_back(bridge->corpus->getTable(i + 1).nCol);
 	sort(nCols.begin(), nCols.end());
-	for (int i = 0; i < nCols.size(); i ++)
+	for (int i = 0; i < (int) nCols.size(); i ++)
 		cout << nCols[i] << endl;
 }
 
 bool Experiment::isEqualConcept(string c1, string c2)
 {
 	int posLowLine = -1;
-	for (int i = 0; i < c1.size(); i ++)
+	for (int i = 0; i < (int) c1.size(); i ++)
 		if (c1[i] == '_')
 			posLowLine = i;
 	if (posLowLine != -1)
 		c1 = c1.substr(0, posLowLine);
 
 	posLowLine = -1;
-	for (int i = 0; i < c2.size(); i ++)
+	for (int i = 0; i < (int) c2.size(); i ++)
 		if (c2[i] == '_')
 			posLowLine = i;
 	if (posLowLine != -1)

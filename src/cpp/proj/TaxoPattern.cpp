@@ -52,7 +52,7 @@ depthVector::depthVector(int totalDepth)
 depthVector depthVector::add(depthVector &o)
 {
 	depthVector ans((int) w.size());
-	for (int i = 0; i < ans.w.size(); i ++)
+	for (int i = 0; i < (int) ans.w.size(); i ++)
 		ans.w[i] = w[i] + o.w[i];
 
 	return ans;
@@ -60,14 +60,14 @@ depthVector depthVector::add(depthVector &o)
 
 void depthVector::addUpdate(depthVector &o)
 {
-	for (int i = 0; i < w.size(); i ++)
+	for (int i = 0; i < (int) w.size(); i ++)
 		w[i] += o.w[i];
 }
 
 depthVector depthVector::mAx(depthVector &o)
 {
 	depthVector ans((int) w.size());
-	for (int i = 0; i < ans.w.size(); i ++)
+	for (int i = 0; i < (int) ans.w.size(); i ++)
 		ans.w[i] = max(w[i], o.w[i]);
 
 	return ans;
@@ -77,7 +77,7 @@ int depthVector::maxUpdate(depthVector &o)
 {
 	if (o < (* this))
 	{
-		for (int i = 0; i < w.size(); i ++)
+		for (int i = 0; i < (int) w.size(); i ++)
 			w[i] = o.w[i];
 		//updated
 		return 1;
@@ -90,14 +90,14 @@ void depthVector::normalize(double f)
 {
 	if (fabs(f) <= 1e-9)
 		return ;
-	for (int i = 0; i < w.size(); i ++)
+	for (int i = 0; i < (int) w.size(); i ++)
 		w[i] /= f;
 }
 
 double depthVector::score(double coef)
 {
 	double ans = 0;
-	for (int i = 0; i < w.size(); i ++)
+	for (int i = 0; i < (int) w.size(); i ++)
 		ans += w[i] * exp(log(coef) * i);
 
 	return ans;

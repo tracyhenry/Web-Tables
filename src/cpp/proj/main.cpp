@@ -52,10 +52,12 @@ void genRandomRecords()
 						num_lucky_cell ++;
 				double lucky_rate = num_lucky_cell / (double) curTable.nRow;
 				if (lucky_rate >= lucky_rate_threshold)
+                {
 					if (i == curTable.entityCol)
 						has_lucky_entity_col = true;
 					else
 						has_lucky_attr_col = true;
+                }
 			}
 
 			//if there is no lucky attr col nor entity col, continue

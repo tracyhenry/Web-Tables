@@ -17,8 +17,8 @@ struct Cell
 	int operator < (const Cell &o) const
 	{
 		return (table_id < o.table_id ||
-			table_id == o.table_id && row < o.row ||
-			table_id == o.table_id && row == o.row && col < o.col);
+			(table_id == o.table_id && row < o.row) ||
+			(table_id == o.table_id && row == o.row && col < o.col));
 	}
 };
 

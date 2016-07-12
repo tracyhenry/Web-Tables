@@ -96,7 +96,7 @@ int KB::getRelationId(string r)
 
 bool KB::checkBelong(int entityId, int conceptId)
 {
-	for (int i = 0; i < belongs[entityId].size(); i ++)
+	for (int i = 0; i < (int) belongs[entityId].size(); i ++)
 		if (belongs[entityId][i] == conceptId)
 			return true;
 	return false;
@@ -104,7 +104,7 @@ bool KB::checkBelong(int entityId, int conceptId)
 
 bool KB::checkRecursiveBelong(int entityId, int conceptId)
 {
-	for (int i = 0; i < belongs[entityId].size(); i ++)
+	for (int i = 0; i < (int) belongs[entityId].size(); i ++)
 		if (isDescendant(belongs[entityId][i], conceptId))
 			return true;
 	return false;
@@ -245,7 +245,7 @@ void KB::doDFS(int x)
 {
 	depth[x] = 1;
 	startTime[x] = ++ timeStamp;
-	for (int i = 0; i < suc[x].size(); i ++)
+	for (int i = 0; i < (int) suc[x].size(); i ++)
 	{
 		int j = suc[x][i];
 		doDFS(j);
@@ -279,7 +279,7 @@ void YAGO::getConceptWithMostFacts()
 		if (MM[i].substr(0, 4) != "word")
 			continue;
 		int tot = 0;
-		for (int j = 0; j < possess[i].size(); j ++)
+		for (int j = 0; j < (int) possess[i].size(); j ++)
 		{
 			int x = possess[i][j];
 			tot += facts[x].size();

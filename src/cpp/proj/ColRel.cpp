@@ -49,7 +49,6 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 	//Table variables
 	Table curTable = corpus->getTableByDataId(tid);
 	int entityCol = curTable.entityCol;
-	int id = curTable.id;
 
 	if (c < 0 || c >= curTable.nCol || entityCol == c || entityCol == -1)
 	{
@@ -82,7 +81,7 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 		for (int row = 0; row < curTable.nRow; row ++)
 		{
 			int cellId = curTable.cells[row][entityCol].id;
-			for (int i = 0; i < matches[cellId].size(); i ++)
+			for (int i = 0; i < (int) matches[cellId].size(); i ++)
 			{
 				int e = matches[cellId][i];
 				if (! entSchema[e].count(r))
@@ -115,7 +114,7 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 	}
 
 	//currently a threshold-based approach
-	for (int i = 0; i < simScore.size(); i ++)
+	for (int i = 0; i < (int) simScore.size(); i ++)
 		if (simScore[i].first.score(1000.0) > 1e57)
 			ans.push_back(simScore[i].second);
 
