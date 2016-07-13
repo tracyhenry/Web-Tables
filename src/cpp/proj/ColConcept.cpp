@@ -126,7 +126,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 
 	//calculate search space
 	int searchSpace = 1;
-	for (int i = 1; i <= nCol; i ++)
+	for (int i = 0; i < nCol; i ++)
 		searchSpace *= (candidates[i].size() ? numRelation : 1);
 	for (int i = 0; i < nCol; i ++)
 		searchSpace *= max((int) candidates[i].size(), 1);
@@ -138,7 +138,6 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 		if (candidates[i].size())
 		{
 			curState[i] = 0;
-			curState[nCol + i] = 1;
 			if (firstElement == -1)
 				firstElement = i;
 		}
@@ -153,35 +152,41 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 		{
 			if (i == entityCol || curState[i] == -1 || curState[entityCol] == -1)
 				continue;
-			int curRel = curState[i + nCol];
-			int curReverseRel = kb->getReverseRelationId(curRel);
 			int curConceptId = candidates[i][curState[i]];
 			int curEntityColConceptId = candidates[entityCol][curState[entityCol]];
-			//add update
-			if (conSchema[curEntityColConceptId].count(curRel))
-				dvCurState.addUpdate(Matcher::dVectorJaccard(
-										kb,
-										colPattern[curTable.id][i],
-										conSchema[curEntityColConceptId][curRel]));
-			if (conSchema[curConceptId].count(curReverseRel))
-				dvCurState.addUpdate(Matcher::dVectorJaccard(
-										kb,
-										colPattern[curTable.id][entityCol],
-										conSchema[curConceptId][curReverseRel]));
+			depthVector maxSim(H + 1);
+			//enumerate relationships
+            for (int rel = 1; rel <= numRelation; rel ++)
+			{
+				depthVector curSim(H + 1);
+				int reverseRel = kb->getReverseRelationId(rel);
+				if (conSchema[curEntityColConceptId].count(rel))
+					curSim.addUpdate(Matcher::dVectorJaccard(
+											kb,
+											colPattern[curTable.id][i],
+											conSchema[curEntityColConceptId][rel]));
+				if (conSchema[curConceptId].count(reverseRel))
+					curSim.addUpdate(Matcher::dVectorJaccard(
+											kb,
+											colPattern[curTable.id][entityCol],
+											conSchema[curConceptId][reverseRel]));
+				if (curSim < maxSim)
+					maxSim = curSim, curState[i + nCol] = rel;
+			}
+			dvCurState.addUpdate(maxSim);
 		}
 		//update ans
 		if (ans[firstElement] == -1 || dvCurState < dvAns)
 			ans = curState, dvAns = dvCurState;
 		//go to next state
-		int k = nCol * 2 - 1;
+		int k = nCol - 1;
 		while (k >= firstElement)
 		{
 			if (curState[k] == -1)
 			{
 				k --; continue;
 			}
-			int bound = (k >= nCol ? numRelation : (int) candidates[k].size() - 1);
-			if (curState[k] == bound)
+			if (curState[k] == (int) candidates[k].size() - 1)
 				k --;
 			else
 				break;
@@ -189,9 +194,9 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 		if (k < firstElement)
 			break;
 		curState[k] ++;
-		for (int i = k + 1; i < nCol * 2; i ++)
+		for (int i = k + 1; i < nCol; i ++)
 			if (curState[i] != -1)
-				curState[i] = (i >= nCol ? 1 : 0);
+				curState[i] = 0;
 	}
 	//slightly modify ans and return it
 	for (int i = 0; i < nCol; i ++)
