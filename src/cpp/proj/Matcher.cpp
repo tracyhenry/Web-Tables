@@ -131,31 +131,29 @@ double Matcher::weightExpoDepth(KB *kb, TaxoPattern *cell, TaxoPattern *property
 	return sim;
 }
 
-depthVector Matcher::dVector(KB *kb, TaxoPattern *cell, TaxoPattern *property)
+depthVector Matcher::dVector(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 {
 	int H = kb->getDepth(kb->getRoot());
 	depthVector ans(H + 1);
 
-	if (cell == NULL || property == NULL)
+	double w1 = p1->numEntity;
+	double w2 = p2->numEntity;
+	if (p1 == NULL || p2 == NULL || fabs(w1) < 1e-9 || fabs(w2) < 1e-9)
 		return ans;
 
 	//Concept set
-	unordered_map<int, double> &cA = cell->c;
-	unordered_map<int, double> &cB = property->c;
-
-	for (unordered_map<int, double>::iterator it = cA.begin();
-		it != cA.end(); it ++)
-		if (cB.count(it->first))
-			ans.w[H - kb->getDepth(it->first)] += (double) it->second * cB[it->first];
+	unordered_map<int, double> &c1 = p1->c;
+	unordered_map<int, double> &c2 = p2->c;
+	for (auto kv : c1)
+		if (c2.count(kv.first))
+			ans.w[H - kb->getDepth(kv.first)] += kv.second * c2[kv.first] / w1 / w2;
 
 	//Entity set
-	unordered_map<int, double> &eA = cell->e;
-	unordered_map<int, double> &eB = property->e;
-
-	for (unordered_map<int, double>::iterator it = eA.begin();
-		it != eA.end(); it ++)
-		if (eB.count(it->first))
-			ans.w[H] += (double) it->second * eB[it->first];
+	unordered_map<int, double> &e1 = p1->e;
+	unordered_map<int, double> &e2 = p2->e;
+	for (auto kv : e1)
+		if (e2.count(kv.first))
+			ans.w[H] += kv.second * e2[kv.first] / w1 / w2;
 
 	return ans;
 }

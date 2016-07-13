@@ -161,15 +161,27 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 				depthVector curSim(H + 1);
 				int reverseRel = kb->getReverseRelationId(rel);
 				if (conSchema[curEntityColConceptId].count(rel))
-					curSim.addUpdate(Matcher::dVector(
+				{
+					depthVector t = Matcher::dVector(
 											kb,
 											colPattern[curTable.id][i],
-											conSchema[curEntityColConceptId][rel]));
+											conSchema[curEntityColConceptId][rel]);
+					double factor = kb->getRecursivePossessCount(curEntityColConceptId);
+					if (fabs(factor) >= 1e-9)
+						t.normalize(factor);
+					curSim.addUpdate(t);
+				}
 				if (conSchema[curConceptId].count(reverseRel))
-					curSim.addUpdate(Matcher::dVector(
+				{
+					depthVector t = Matcher::dVector(
 											kb,
 											colPattern[curTable.id][entityCol],
-											conSchema[curConceptId][reverseRel]));
+											conSchema[curConceptId][reverseRel]);
+					double factor = kb->getRecursivePossessCount(curConceptId);
+					if (fabs(factor) >= 1e-9)
+						t.normalize(factor);
+					curSim.addUpdate(t);
+				}
 				if (curSim < maxSim)
 					maxSim = curSim, curState[i + nCol] = rel;
 			}

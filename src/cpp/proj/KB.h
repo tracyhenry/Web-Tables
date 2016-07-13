@@ -18,6 +18,7 @@ protected:
 
 	//DFS stuff
 	std::vector<int> depth, startTime, endTime;
+	std::vector<int> recursivePossess;
 	int timeStamp;
 
 	//number of concepts
@@ -81,6 +82,7 @@ public:
 	int getBelongCount(int);		//by entity id
 	int getBelongConcept(int, int);		//by entity id & index
 	int getPossessCount(int);		//by concept id
+	int getRecursivePossessCount(int);	//by concept id
 	int getPossessEntity(int, int);		//by concept id & index
 	int getFactCount(int);		//by entity id
 	int getConceptId(std::string);		//by string
