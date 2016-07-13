@@ -131,7 +131,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
     for (int i = 0; i < nCol; i ++)
         searchSpace *= max((int) candidates[i].size(), 1);
     if (print)
-    cout << "Total search space : " << searchSpace << endl;
+        cout << "Total search space : " << searchSpace << endl;
 
     //brute-force
     for (int i = 0; i < nCol; i ++)
@@ -197,5 +197,16 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
     for (int i = 0; i < nCol; i ++)
         if (ans[i] != -1)
             ans[i] = candidates[i][ans[i]];
+
+    //print
+    if (print)
+    {
+        cout << endl << "Entity Column : " << entityCol << endl << endl;
+        for (int i = 0; i < nCol; i ++)
+            cout << "Column " << i << " : " << endl
+                << '\t' << (ans[i] == -1 ? "No Concept" : kb->getConcept(ans[i])) << endl
+                << '\t' << (ans[i + nCol] == -1 ? "No Relation" : kb->getRelation(ans[i + nCol])) << endl;
+        cout <<endl;
+    }
     return ans;
 }

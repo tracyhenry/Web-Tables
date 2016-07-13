@@ -95,18 +95,24 @@ void interactiveQuery()
 		cout << endl << "-----------------------------------------" << endl;
 		cout << "Input table_id and row_id :" << endl;
 		int t, x, y;
-		cin >> t >> x >> y;
+		cin >> t;
 		switch (t)
 		{
 			case 0:
+			    cin >> x >> y;
 				bridge->findRecordConcept(x, y, true);
 				break;
 			case 1:
+			    cin >> x >> y;
 				bridge->findRelation(x, y, true);
 				break;
 			case 2:
+			    cin >> x >> y;
 				bridge->findColConceptMajority(x, y, true);
 				break;
+            case 4:
+                cin >> x;
+                bridge->findColConceptAndRelation(x, true);
 		}
 		cout << endl << "-----------------------------------------" << endl;
 	}
