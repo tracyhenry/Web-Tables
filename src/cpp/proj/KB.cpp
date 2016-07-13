@@ -96,10 +96,10 @@ int KB::getRelationId(string r)
 
 int KB::getReverseRelationId(int relationId)
 {
-    if (relationId <= F / 2)
-        return relationId + F / 2;
-    else
-        return relationId - F / 2;
+	if (relationId <= F / 2)
+		return relationId + F / 2;
+	else
+		return relationId - F / 2;
 }
 
 bool KB::checkBelong(int entityId, int conceptId)

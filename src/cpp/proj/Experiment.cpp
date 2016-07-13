@@ -78,8 +78,8 @@ void Experiment::runExpColConceptNaive()
 			else
 			{
 				wrongFile << endl << "Wrong sample: " << endl
-				     << "table_id = " << tid
-				     << "  column_id = " << cid << endl;
+						  << "table_id = " << tid
+						  << "  column_id = " << cid << endl;
 				wrongFile << "GT answers: " << endl << '\t';
 				for (auto o : gts[i])
 					wrongFile << o << '\t';

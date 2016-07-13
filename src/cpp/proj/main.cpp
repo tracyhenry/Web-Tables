@@ -52,12 +52,12 @@ void genRandomRecords()
 						num_lucky_cell ++;
 				double lucky_rate = num_lucky_cell / (double) curTable.nRow;
 				if (lucky_rate >= lucky_rate_threshold)
-                {
+				{
 					if (i == curTable.entityCol)
 						has_lucky_entity_col = true;
 					else
 						has_lucky_attr_col = true;
-                }
+				}
 			}
 
 			//if there is no lucky attr col nor entity col, continue
@@ -99,20 +99,20 @@ void interactiveQuery()
 		switch (t)
 		{
 			case 0:
-			    cin >> x >> y;
+				cin >> x >> y;
 				bridge->findRecordConcept(x, y, true);
 				break;
 			case 1:
-			    cin >> x >> y;
+				cin >> x >> y;
 				bridge->findRelation(x, y, true);
 				break;
 			case 2:
-			    cin >> x >> y;
+				cin >> x >> y;
 				bridge->findColConceptMajority(x, y, true);
 				break;
-            case 4:
-                cin >> x;
-                bridge->findColConceptAndRelation(x, true);
+			case 4:
+				cin >> x;
+				bridge->findColConceptAndRelation(x, true);
 		}
 		cout << endl << "-----------------------------------------" << endl;
 	}
@@ -121,8 +121,8 @@ void interactiveQuery()
 int main()
 {
 	bridge = new Bridge();
-	Experiment* experiment = new Experiment(bridge);
-	experiment->runAllExp();
+//	Experiment* experiment = new Experiment(bridge);
+//	experiment->runAllExp();
 	interactiveQuery();
 
 	return 0;

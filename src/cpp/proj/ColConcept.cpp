@@ -9,29 +9,29 @@ using namespace std;
 
 int Bridge::getNumLuckyCells(Table curTable, int c)
 {
-    int numLuckyCell = 0;
+	int numLuckyCell = 0;
 	for (int i = 0; i < curTable.nRow; i ++)
 		if (matches[curTable.cells[i][c].id].size())
 			numLuckyCell ++;
-    return numLuckyCell;
+	return numLuckyCell;
 }
 
 int Bridge::getNumContainedCells(Table curTable, int c, int conceptId)
 {
-    int numContainedCell = 0;
-    for (int j = 0; j < curTable.nRow; j ++)
-    {
-        vector<int>& curMatches = matches[curTable.cells[j][c].id];
-        if (curMatches.empty())
-            continue;
-        for (int entityId : curMatches)
-            if (kb->checkRecursiveBelong(entityId, conceptId))
-            {
-                numContainedCell ++;
-                break;
-            }
-    }
-    return numContainedCell;
+	int numContainedCell = 0;
+	for (int j = 0; j < curTable.nRow; j ++)
+	{
+		vector<int>& curMatches = matches[curTable.cells[j][c].id];
+		if (curMatches.empty())
+			continue;
+		for (int entityId : curMatches)
+			if (kb->checkRecursiveBelong(entityId, conceptId))
+			{
+				numContainedCell ++;
+				break;
+			}
+	}
+	return numContainedCell;
 }
 
 /**
@@ -48,7 +48,7 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 	//check range
 	if (c < 0 || c >= curTable.nCol)
 	{
-        cout << "Column index is out of range!" << "   " << tid << " " << c << endl;
+		cout << "Column index is out of range!" << "   " << tid << " " << c << endl;
 		return vector<int>();
 	}
 
@@ -93,120 +93,120 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 
 vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 {
-    Table curTable = corpus->getTableByDataId(tid);
-    int nCol = curTable.nCol;
-    int numRelation = kb->countRelation();
-    int entityCol = curTable.entityCol;
-    int H = kb->getDepth(kb->getRoot());
-    int firstElement = -1;
-    double majorityThreshold = 0.7;
-    vector<int> ans(nCol * 2, -1), curState(nCol * 2, -1);
-    depthVector dvAns(H + 1), dvCurState(H + 1);
+	Table curTable = corpus->getTableByDataId(tid);
+	int nCol = curTable.nCol;
+	int numRelation = kb->countRelation();
+	int entityCol = curTable.entityCol;
+	int H = kb->getDepth(kb->getRoot());
+	int firstElement = -1;
+	double majorityThreshold = 0.7;
+	vector<int> ans(nCol * 2, -1), curState(nCol * 2, -1);
+	depthVector dvAns(H + 1), dvCurState(H + 1);
 
-    //check if there is a given entity column
-    if (entityCol == -1)
-    {
-        cout << "There is no entity column given! Quit..." << endl;
-        return ans;
-    }
+	//check if there is a given entity column
+	if (entityCol == -1)
+	{
+		cout << "There is no entity column given! Quit..." << endl;
+		return ans;
+	}
 
-    //make a candidate concept set for each column
-    vector<vector<int>> candidates(nCol);
-    for (int i = 0; i < nCol; i ++)
-    {
-        int numLuckyCell = getNumLuckyCells(curTable, i);
-        for (auto kv : colPattern[curTable.id][i]->c)
-        {
-            int conceptId = kv.first;
-            int numContainedCell = getNumContainedCells(curTable, i, conceptId);
-            if ((double) numContainedCell / numLuckyCell >= majorityThreshold)
-                candidates[i].push_back(conceptId);
-        }
-    }
+	//make a candidate concept set for each column
+	vector<vector<int>> candidates(nCol);
+	for (int i = 0; i < nCol; i ++)
+	{
+		int numLuckyCell = getNumLuckyCells(curTable, i);
+		for (auto kv : colPattern[curTable.id][i]->c)
+		{
+			int conceptId = kv.first;
+			int numContainedCell = getNumContainedCells(curTable, i, conceptId);
+			if ((double) numContainedCell / numLuckyCell >= majorityThreshold)
+				candidates[i].push_back(conceptId);
+		}
+	}
 
-    //calculate search space
-    int searchSpace = 1;
-    for (int i = 1; i <= nCol; i ++)
-        searchSpace *= (candidates[i].size() ? numRelation : 1);
-    for (int i = 0; i < nCol; i ++)
-        searchSpace *= max((int) candidates[i].size(), 1);
-    if (print)
-        cout << "Total search space : " << searchSpace << endl;
+	//calculate search space
+	int searchSpace = 1;
+	for (int i = 1; i <= nCol; i ++)
+		searchSpace *= (candidates[i].size() ? numRelation : 1);
+	for (int i = 0; i < nCol; i ++)
+		searchSpace *= max((int) candidates[i].size(), 1);
+	if (print)
+		cout << "Total search space : " << searchSpace << endl;
 
-    //brute-force
-    for (int i = 0; i < nCol; i ++)
-        if (candidates[i].size())
-        {
-            curState[i] = 0;
-            curState[nCol + i] = 1;
-            if (firstElement == -1)
-                firstElement = i;
-        }
-    if (firstElement == -1)
-        return ans;
-    while (1)
-    {
-        //calculate score
-        dvCurState.w.clear();
-        dvCurState.w.resize(H + 1);
-        for (int i = 0; i < nCol; i ++)
-        {
-            if (i == entityCol || curState[i] == -1 || curState[entityCol] == -1)
-                continue;
-            int curRel = curState[i + nCol];
-            int curReverseRel = kb->getReverseRelationId(curRel);
-            int curConceptId = candidates[i][curState[i]];
-            int curEntityColConceptId = candidates[entityCol][curState[entityCol]];
-            //add update
-            if (conSchema[curEntityColConceptId].count(curRel))
-                dvCurState.addUpdate(Matcher::dVectorJaccard(
-                                        kb,
-                                        colPattern[curTable.id][i],
-                                        conSchema[curEntityColConceptId][curRel]));
-            if (conSchema[curConceptId].count(curReverseRel))
-                dvCurState.addUpdate(Matcher::dVectorJaccard(
-                                        kb,
-                                        colPattern[curTable.id][entityCol],
-                                        conSchema[curConceptId][curReverseRel]));
-        }
-        //update ans
-        if (ans[firstElement] == -1 || dvCurState < dvAns)
-            ans = curState, dvAns = dvCurState;
-        //go to next state
-        int k = nCol * 2 - 1;
-        while (k >= firstElement)
-        {
-            if (curState[k] == -1)
-            {
-                k --; continue;
-            }
-            int bound = (k >= nCol ? numRelation : (int) candidates[k].size() - 1);
-            if (curState[k] == bound)
-                k --;
-            else
-                break;
-        }
-        if (k < firstElement)
-            break;
-        curState[k] ++;
-        for (int i = k + 1; i < nCol * 2; i ++)
-            if (curState[i] != -1)
-                curState[i] = (i >= nCol ? 1 : 0);
-    }
-    //slightly modify ans and return it
-    for (int i = 0; i < nCol; i ++)
-        if (ans[i] != -1)
-            ans[i] = candidates[i][ans[i]];
+	//brute-force
+	for (int i = 0; i < nCol; i ++)
+		if (candidates[i].size())
+		{
+			curState[i] = 0;
+			curState[nCol + i] = 1;
+			if (firstElement == -1)
+				firstElement = i;
+		}
+	if (firstElement == -1)
+		return ans;
+	while (1)
+	{
+		//calculate score
+		dvCurState.w.clear();
+		dvCurState.w.resize(H + 1);
+		for (int i = 0; i < nCol; i ++)
+		{
+			if (i == entityCol || curState[i] == -1 || curState[entityCol] == -1)
+				continue;
+			int curRel = curState[i + nCol];
+			int curReverseRel = kb->getReverseRelationId(curRel);
+			int curConceptId = candidates[i][curState[i]];
+			int curEntityColConceptId = candidates[entityCol][curState[entityCol]];
+			//add update
+			if (conSchema[curEntityColConceptId].count(curRel))
+				dvCurState.addUpdate(Matcher::dVectorJaccard(
+										kb,
+										colPattern[curTable.id][i],
+										conSchema[curEntityColConceptId][curRel]));
+			if (conSchema[curConceptId].count(curReverseRel))
+				dvCurState.addUpdate(Matcher::dVectorJaccard(
+										kb,
+										colPattern[curTable.id][entityCol],
+										conSchema[curConceptId][curReverseRel]));
+		}
+		//update ans
+		if (ans[firstElement] == -1 || dvCurState < dvAns)
+			ans = curState, dvAns = dvCurState;
+		//go to next state
+		int k = nCol * 2 - 1;
+		while (k >= firstElement)
+		{
+			if (curState[k] == -1)
+			{
+				k --; continue;
+			}
+			int bound = (k >= nCol ? numRelation : (int) candidates[k].size() - 1);
+			if (curState[k] == bound)
+				k --;
+			else
+				break;
+		}
+		if (k < firstElement)
+			break;
+		curState[k] ++;
+		for (int i = k + 1; i < nCol * 2; i ++)
+			if (curState[i] != -1)
+				curState[i] = (i >= nCol ? 1 : 0);
+	}
+	//slightly modify ans and return it
+	for (int i = 0; i < nCol; i ++)
+		if (ans[i] != -1)
+			ans[i] = candidates[i][ans[i]];
 
-    //print
-    if (print)
-    {
-        cout << endl << "Entity Column : " << entityCol << endl << endl;
-        for (int i = 0; i < nCol; i ++)
-            cout << "Column " << i << " : " << endl
-                << '\t' << (ans[i] == -1 ? "No Concept" : kb->getConcept(ans[i])) << endl
-                << '\t' << (ans[i + nCol] == -1 ? "No Relation" : kb->getRelation(ans[i + nCol])) << endl;
-        cout <<endl;
-    }
-    return ans;
+	//print
+	if (print)
+	{
+		cout << endl << "Entity Column : " << entityCol << endl << endl;
+		for (int i = 0; i < nCol; i ++)
+			cout << "Column " << i << " : " << endl
+				<< '\t' << (ans[i] == -1 ? "No Concept" : kb->getConcept(ans[i])) << endl
+				<< '\t' << (ans[i + nCol] == -1 ? "No Relation" : kb->getRelation(ans[i + nCol])) << endl;
+		cout <<endl;
+	}
+	return ans;
 }
