@@ -1,4 +1,5 @@
 #include "Experiment.h"
+#include "Matcher.h"
 #include <map>
 #include <ctime>
 #include <vector>
@@ -121,6 +122,28 @@ void interactiveQuery()
 int main()
 {
 	bridge = new Bridge();
+	TaxoPattern *p1, *p2, *p3;
+	p1 = bridge->getKbSchema(bridge->kb->getConceptId("wikicategory_Argentine_expatriates_in_Austria"),
+			bridge->kb->getRelationId("playsFor"), true);
+	p2 = bridge->getKbSchema(bridge->kb->getConceptId("wikicategory_La_Liga_footballers"),
+			bridge->kb->getRelationId("playsFor"), true);
+	p3 = bridge->colPattern[bridge->corpus->getTableByDataId(1356).id][2];
+	bridge->printPattern(p3);
+
+	depthVector sim1 = Matcher::dVectorJaccard(bridge->kb, p1, p3);
+	depthVector sim2 = Matcher::dVectorJaccard(bridge->kb, p2, p3);
+	cout << endl;
+	cout << "Similarity for wikicategory_Argentine_expatriates_in_Austria : " << endl;
+	cout << '\t';
+	for (int i = (int) sim1.w.size() - 1; i >= 0; i --)
+		cout << sim1.w[i] << " ";
+	cout << endl << endl;
+	cout << "Similarity for wikicategory_La_Liga_footballers : " << endl;
+	cout << '\t';
+	for (int i = (int) sim2.w.size() - 1; i >= 0; i --)
+		cout << sim2.w[i] << " ";
+	cout << endl << endl;
+
 //	Experiment* experiment = new Experiment(bridge);
 //	experiment->runAllExp();
 	interactiveQuery();

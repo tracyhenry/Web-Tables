@@ -43,7 +43,7 @@ int Bridge::getNumContainedCells(Table curTable, int c, int conceptId)
 vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 {
 	Table curTable = corpus->getTableByDataId(tid);
-	double majorityThreshold = 0.8;
+	double majorityThreshold = 0.5;
 
 	//check range
 	if (c < 0 || c >= curTable.nCol)
@@ -99,7 +99,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	int entityCol = curTable.entityCol;
 	int H = kb->getDepth(kb->getRoot());
 	int firstElement = -1;
-	double majorityThreshold = 0.7;
+	double majorityThreshold = 0.5;
 	vector<int> ans(nCol * 2, -1), curState(nCol * 2, -1);
 	depthVector dvAns(H + 1), dvCurState(H + 1);
 

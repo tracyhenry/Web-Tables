@@ -13,7 +13,7 @@
 
 class Bridge
 {
-private:
+public:
 	//Match Result: matches[cellId] = [KBentity1, KBentity2 ...]
 	std::vector<std::vector<int>> matches;
 
