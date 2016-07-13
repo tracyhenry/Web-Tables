@@ -70,9 +70,6 @@ private:
 	//get the number of contained cells in a column by a concept, given by conceptId, curTable, cid
 	int getNumContainedCells(Table, int, int);
 
-	//a function for debugging
-	void letsDebug();
-
 public:
 	//Knowledge base
 	KB *kb;
@@ -88,6 +85,9 @@ public:
 
 	//Knowledge base traversal
 	void traverse();
+
+	//a function for debugging
+	void letsDebug();
 
 	//get matches
 	std::vector<int>& getMatch(int cellId);

@@ -163,9 +163,11 @@ depthVector Matcher::dVector(KB *kb, TaxoPattern *cell, TaxoPattern *property)
 depthVector Matcher::dVectorJaccard(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 {
 	int H = kb->getDepth(kb->getRoot());
+	double w1 = p1->numEntity;
+	double w2 = p2->numEntity;
 	depthVector ans(H + 1);
 
-	if (p1 == NULL || p2 == NULL)
+	if (p1 == NULL || p2 == NULL || fabs(w1) < 1e-9 || fabs(w2) < 1e-9)
 		return ans;
 
 	//a map mapping from depth to set
@@ -173,15 +175,15 @@ depthVector Matcher::dVectorJaccard(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 
 	//concept set
 	for (auto kv : p1->c)
-		M1[H - kb->getDepth(kv.first)][kv.first] += kv.second;
+		M1[H - kb->getDepth(kv.first)][kv.first] += kv.second / w1;
 	for (auto kv : p2->c)
-		M2[H - kb->getDepth(kv.first)][kv.first] += kv.second;
+		M2[H - kb->getDepth(kv.first)][kv.first] += kv.second / w2;
 
 	//entity set
 	for (auto kv : p1->e)
-		M1[H][kv.first] += kv.second;
+		M1[H][kv.first] += kv.second / w1;
 	for (auto kv : p2->e)
-		M2[H][kv.first] += kv.second;
+		M2[H][kv.first] += kv.second / w2;
 
 	//compute ans
 	for (int h = H; h >= 0; h --)
@@ -197,7 +199,7 @@ depthVector Matcher::dVectorJaccard(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 		for (auto kv : M1[h])
 			if (M2[h].count(kv.first))
 				intersectWeight += min(kv.second, M2[h][kv.first]);
-		ans.w[h] = intersectWeight / unionWeight;
+		ans.w[h] = (fabs(unionWeight) >= 1e-9 ? intersectWeight / unionWeight : 0);
 	}
 	return ans;
 }

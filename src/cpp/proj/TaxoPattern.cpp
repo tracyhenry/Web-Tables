@@ -13,47 +13,16 @@ TaxoPattern::TaxoPattern()
 
 void TaxoPattern::add(TaxoPattern *o)
 {
-	double totalEntity = numEntity + o->numEntity;
-
 	//merge concepts
 	unordered_map<int, double> &oConceptMap = o->c;
-	for (auto& kv : c)
-	{
-		kv.second *= numEntity;
-        if (oConceptMap.count(kv.first))
-			kv.second += oConceptMap[kv.first] * o->numEntity;
-		if (fabs(totalEntity) > 1e-9)
-			kv.second /= totalEntity;
-		else
-			kv.second = 0;
-	}
 	for (auto kv : oConceptMap)
-	{
-		if (c.count(kv.first))
-			continue;
-		if (fabs(totalEntity) > 1e-9)
-			c[kv.first] = kv.second * o->numEntity / totalEntity;
-	}
+		c[kv.first] += kv.second;
 
 	//merge entities
 	unordered_map<int, double> &oEntityMap = o->e;
-	for (auto& kv : e)
-	{
-		kv.second *= numEntity;
-		if (oEntityMap.count(kv.first))
-			kv.second += oEntityMap[kv.first] * o->numEntity;
-		if (fabs(totalEntity) > 1e-9)
-			kv.second /= totalEntity;
-		else
-			kv.second = 0;
-	}
 	for (auto kv : oEntityMap)
-	{
-        if (e.count(kv.first))
-			continue;
-		if (fabs(totalEntity >1e-9))
-            e[kv.first] = kv.second * o->numEntity / totalEntity;
-	}
+		e[kv.first] = kv.second;
+
 	//add numentity
 	numEntity += o->numEntity;
 }

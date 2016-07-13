@@ -103,18 +103,17 @@ void Bridge::initEntityPattern()
 
 	for (int i = 1; i <= totalEntity; i ++)
 	{
-		entPattern[i] = new TaxoPattern();
-		entPattern[i]->e[i] = 1.0;
-
 		int totalBelong = kb->getBelongCount(i);
-		double weight = 1.0 / totalBelong;
+
+		entPattern[i] = new TaxoPattern();
+		entPattern[i]->e[i] = (double) totalBelong;
 		entPattern[i]->numEntity = (double) totalBelong;
 		for (int j = 0; j < totalBelong; j ++)
 		{
 			int curConcept = kb->getBelongConcept(i, j);
 			while (1)
 			{
-				entPattern[i]->c[curConcept] += weight;
+				entPattern[i]->c[curConcept] += 1.0;
 				if (kb->getPreCount(curConcept) == 0)
 					break;
 				curConcept = kb->getPreNode(curConcept, 0);
@@ -446,7 +445,9 @@ vector<int>& Bridge::getMatch(int cellId)
 
 void Bridge::letsDebug()
 {
-	TaxoPattern *p1, *p2, *p3;
+	TaxoPattern *p0, *p1, *p2, *p3;
+	p0 = getKbSchema(kb->getConceptId("wikicategory_The_Strongest_managers"),
+			kb->getRelationId("playsFor"), true);
 	p1 = getKbSchema(kb->getConceptId("wikicategory_Argentine_expatriates_in_Austria"),
 			kb->getRelationId("playsFor"), true);
 	p2 = getKbSchema(kb->getConceptId("wikicategory_La_Liga_footballers"),
@@ -454,17 +455,24 @@ void Bridge::letsDebug()
 	p3 = colPattern[corpus->getTableByDataId(1356).id][2];
 	printPattern(p3);
 
-	depthVector sim1 = Matcher::dVectorJaccard(kb, p1, p3);
-	depthVector sim2 = Matcher::dVectorJaccard(kb, p2, p3);
-	cout << endl;
-	cout << "Similarity for wikicategory_Argentine_expatriates_in_Austria : " << endl;
-	cout << '\t';
+	depthVector sim0 = Matcher::dVector(kb, p0, p3);
+	depthVector sim1 = Matcher::dVector(kb, p1, p3);
+	depthVector sim2 = Matcher::dVector(kb, p2, p3);
+
+	debug << endl;
+	debug << "Similarity for wikicategory_The_Strongest_managers : " << endl;
+	debug << '\t';
+	for (int i = (int) sim0.w.size() - 1; i >= 0; i --)
+		debug << sim0.w[i] << " ";
+	debug << endl << endl;
+	debug << "Similarity for wikicategory_Argentine_expatriates_in_Austria : " << endl;
+	debug << '\t';
 	for (int i = (int) sim1.w.size() - 1; i >= 0; i --)
-		cout << sim1.w[i] << " ";
-	cout << endl << endl;
-	cout << "Similarity for wikicategory_La_Liga_footballers : " << endl;
-	cout << '\t';
+		debug << sim1.w[i] << " ";
+	debug << endl << endl;
+	debug << "Similarity for wikicategory_La_Liga_footballers : " << endl;
+	debug << '\t';
 	for (int i = (int) sim2.w.size() - 1; i >= 0; i --)
-		cout << sim2.w[i] << " ";
-	cout << endl << endl;
+		debug << sim2.w[i] << " ";
+	debug << endl << endl;
 }
