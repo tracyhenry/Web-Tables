@@ -13,7 +13,7 @@
 
 class Bridge
 {
-public:
+private:
 	//Match Result: matches[cellId] = [KBentity1, KBentity2 ...]
 	std::vector<std::vector<int>> matches;
 
@@ -69,6 +69,9 @@ public:
 
 	//get the number of contained cells in a column by a concept, given by conceptId, curTable, cid
 	int getNumContainedCells(Table, int, int);
+
+	//a function for debugging
+	void letsDebug();
 
 public:
 	//Knowledge base

@@ -8,22 +8,54 @@ using namespace std;
 
 TaxoPattern::TaxoPattern()
 {
-	c.clear(), e.clear();
+	c.clear(), e.clear(); numEntity = 0;
 }
 
 void TaxoPattern::add(TaxoPattern *o)
 {
+	double totalEntity = numEntity + o->numEntity;
+
 	//merge concepts
 	unordered_map<int, double> &oConceptMap = o->c;
-	for (IterID it = oConceptMap.begin();
-		it != oConceptMap.end(); it ++)
-		c[it->first] += it->second;
+	for (auto& kv : c)
+	{
+		kv.second *= numEntity;
+        if (oConceptMap.count(kv.first))
+			kv.second += oConceptMap[kv.first] * o->numEntity;
+		if (fabs(totalEntity) > 1e-9)
+			kv.second /= totalEntity;
+		else
+			kv.second = 0;
+	}
+	for (auto kv : oConceptMap)
+	{
+		if (c.count(kv.first))
+			continue;
+		if (fabs(totalEntity) > 1e-9)
+			c[kv.first] = kv.second * o->numEntity / totalEntity;
+	}
 
 	//merge entities
 	unordered_map<int, double> &oEntityMap = o->e;
-	for (IterID it = oEntityMap.begin();
-		it != oEntityMap.end(); it ++)
-		e[it->first] += it->second;
+	for (auto& kv : e)
+	{
+		kv.second *= numEntity;
+		if (oEntityMap.count(kv.first))
+			kv.second += oEntityMap[kv.first] * o->numEntity;
+		if (fabs(totalEntity) > 1e-9)
+			kv.second /= totalEntity;
+		else
+			kv.second = 0;
+	}
+	for (auto kv : oEntityMap)
+	{
+        if (e.count(kv.first))
+			continue;
+		if (fabs(totalEntity >1e-9))
+            e[kv.first] = kv.second * o->numEntity / totalEntity;
+	}
+	//add numentity
+	numEntity += o->numEntity;
 }
 
 int depthVector::operator < (const depthVector &o) const

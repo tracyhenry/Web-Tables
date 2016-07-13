@@ -107,12 +107,14 @@ void Bridge::initEntityPattern()
 		entPattern[i]->e[i] = 1.0;
 
 		int totalBelong = kb->getBelongCount(i);
+		double weight = 1.0 / totalBelong;
+		entPattern[i]->numEntity = (double) totalBelong;
 		for (int j = 0; j < totalBelong; j ++)
 		{
 			int curConcept = kb->getBelongConcept(i, j);
 			while (1)
 			{
-				entPattern[i]->c[curConcept] ++;
+				entPattern[i]->c[curConcept] += weight;
 				if (kb->getPreCount(curConcept) == 0)
 					break;
 				curConcept = kb->getPreNode(curConcept, 0);
@@ -234,7 +236,6 @@ void Bridge::initCellPattern()
 		{
 			colPattern[i].push_back(new TaxoPattern());
 			TaxoPattern *curColPattern = colPattern[i][y];
-			curColPattern->c[kb->getRoot()] = 1;
 
 			for (int x = 0; x < nRow; x ++)
 			{
@@ -301,6 +302,7 @@ void Bridge::printPattern(TaxoPattern *p)
 		if (! testCid || cellPattern[testCid]->c.count(it->first))
 			tmp.emplace_back(- it->second, it->first);
 
+	debug << endl << "Total Entity : " << p->numEntity << endl;
 	sort(tmp.begin(), tmp.end());
 	for (int i = 0; i < (int) tmp.size(); i ++)
 		debug << tmp[i].second << " " << kb->getConcept(tmp[i].second)
@@ -440,4 +442,29 @@ void Bridge::traverse()
 vector<int>& Bridge::getMatch(int cellId)
 {
 	return matches[cellId];
+}
+
+void Bridge::letsDebug()
+{
+	TaxoPattern *p1, *p2, *p3;
+	p1 = getKbSchema(kb->getConceptId("wikicategory_Argentine_expatriates_in_Austria"),
+			kb->getRelationId("playsFor"), true);
+	p2 = getKbSchema(kb->getConceptId("wikicategory_La_Liga_footballers"),
+			kb->getRelationId("playsFor"), true);
+	p3 = colPattern[corpus->getTableByDataId(1356).id][2];
+	printPattern(p3);
+
+	depthVector sim1 = Matcher::dVectorJaccard(kb, p1, p3);
+	depthVector sim2 = Matcher::dVectorJaccard(kb, p2, p3);
+	cout << endl;
+	cout << "Similarity for wikicategory_Argentine_expatriates_in_Austria : " << endl;
+	cout << '\t';
+	for (int i = (int) sim1.w.size() - 1; i >= 0; i --)
+		cout << sim1.w[i] << " ";
+	cout << endl << endl;
+	cout << "Similarity for wikicategory_La_Liga_footballers : " << endl;
+	cout << '\t';
+	for (int i = (int) sim2.w.size() - 1; i >= 0; i --)
+		cout << sim2.w[i] << " ";
+	cout << endl << endl;
 }

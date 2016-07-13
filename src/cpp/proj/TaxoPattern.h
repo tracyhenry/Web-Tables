@@ -14,6 +14,9 @@ struct TaxoPattern
 	//From entity to weight
 	std::unordered_map<int, double> e;
 
+	//total number of entities, use double to avoid extra type casting
+	double numEntity;
+
 	//merge
 	void add(TaxoPattern *);
 };
