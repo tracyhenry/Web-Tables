@@ -509,50 +509,6 @@ void Bridge::letsDebug()
 
 	p0 = getKbSchema(albumId, reverseRel, true);
 	p1 = getKbSchema(owlThingId, reverseRel, true);
-	p2 = colPattern[corpus->getTableByDataId(3297).id][3];
-	printPattern(p2);
-
-	sim0 = Matcher::dVector(kb, p0, p2);
-	sim1 = Matcher::dVector(kb, p1, p2);
-
-	debug << endl << endl;
-	debug << "Similarity for albums : " << endl << '\t';
-	for (int i = (int) sim0.w.size() - 1; i >= 0; i --)
-		debug << sim0.w[i] << " ";
-	debug << endl << endl;
-	debug << "Similarity for owl:Thing : " << endl << '\t';
-	for (int i = (int) sim1.w.size() - 1; i >= 0; i --)
-		debug << sim1.w[i] << " ";
-	debug << endl;
-
-	debug << "Debugging for table with table_id = 2843..." << endl;
-	rel = kb->getRelationId("actedIn");
-	reverseRel = kb->getReverseRelationId(rel);
-	owlThingId = kb->getConceptId("owl:Thing");
-	int actorId = kb->getConceptId("wordnet_actor_109765278");
-	int peopleId = kb->getConceptId("wikicategory_Living_people");
-
-	debug << "actedIn relationId : " << rel << endl
-			<< "owl:Thing conceptId : " << owlThingId << endl
-			<< "actor conceptId : " << actorId << endl
-			<< "people conceptId : " << peopleId << endl;
-
-	p0 = getKbSchema(actorId, rel, true);
-	p1 = getKbSchema(peopleId, rel, true);
-	p2 = colPattern[corpus->getTableByDataId(2843).id][2];
-	printPattern(p2);
-
-	sim0 = Matcher::dVector(kb, p0, p2);
-	sim1 = Matcher::dVector(kb, p1, p2);
-
-	debug << endl << endl;
-	debug << "Similarity for actor : " << endl << '\t';
-	for (int i = (int) sim0.w.size() - 1; i >= 0; i --)
-			debug << sim0.w[i] << '\t';
-	debug << endl << endl;
-	debug << "Similarity for living people : " << endl << '\t';
-	for (int i = (int) sim1.w.size() - 1; i >= 0; i --)
-			debug << sim1.w[i] << '\t';
-	debug << endl;
+	p2 = colPattern[corpus->getTableByDataId(3297).id
 
 }

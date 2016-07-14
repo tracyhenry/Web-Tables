@@ -151,6 +151,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	{
 		depthVector sumDv(H + 1);
 		vector<int> curState(nCol * 2, -1);
+		curState[entityCol] = entityColConcept;
 		for (int i = 0; i < nCol; i ++)
 		{
 			if (i == entityCol) continue;
