@@ -99,7 +99,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	int entityCol = curTable.entityCol;
 	int H = kb->getDepth(kb->getRoot());
 	int firstElement = -1;
-	double majorityThreshold = 0.5;
+	double minThreshold = 0.4;
 	vector<int> ans(nCol * 2, -1), curState(nCol * 2, -1);
 	depthVector dvAns(H + 1), dvCurState(H + 1);
 
@@ -115,21 +115,23 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	for (int i = 0; i < nCol; i ++)
 	{
 		int numLuckyCell = getNumLuckyCells(curTable, i);
+		double luckyRate = (double) numLuckyCell / nCol;
 		for (auto kv : colPattern[curTable.id][i]->c)
 		{
 			int conceptId = kv.first;
 			int numContainedCell = getNumContainedCells(curTable, i, conceptId);
-			if ((double) numContainedCell / numLuckyCell >= majorityThreshold)
+			double threshold = minThreshold + (1 - minThreshold) * luckyRate;
+			if ((double) numContainedCell / numLuckyCell >= threshold)
 				candidates[i].push_back(conceptId);
 		}
 	}
 
 	//calculate search space
-	int searchSpace = 1;
+	long long searchSpace = 1;
 	for (int i = 0; i < nCol; i ++)
-		searchSpace *= (candidates[i].size() ? numRelation : 1);
+		searchSpace *= (long long) (candidates[i].size() ? numRelation : 1);
 	for (int i = 0; i < nCol; i ++)
-		searchSpace *= max((int) candidates[i].size(), 1);
+		searchSpace *= (long long) max((int) candidates[i].size(), 1);
 	if (print)
 		cout << "Total search space : " << searchSpace << endl;
 
@@ -166,9 +168,6 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 											kb,
 											colPattern[curTable.id][i],
 											conSchema[curEntityColConceptId][rel]);
-					double factor = kb->getRecursivePossessCount(curEntityColConceptId);
-//					if (fabs(factor) >= 1e-9)
-//						t.normalize(factor);
 					curSim.addUpdate(t);
 				}
 				if (conSchema[curConceptId].count(reverseRel))
@@ -177,9 +176,6 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 											kb,
 											colPattern[curTable.id][entityCol],
 											conSchema[curConceptId][reverseRel]);
-					double factor = kb->getRecursivePossessCount(curConceptId);
-//					if (fabs(factor) >= 1e-9)
-//						t.normalize(factor);
 					curSim.addUpdate(t);
 				}
 				if (curSim < maxSim)

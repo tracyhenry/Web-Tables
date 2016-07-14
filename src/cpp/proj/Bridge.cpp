@@ -94,6 +94,25 @@ void Bridge::initMatch()
 		for (int i = 1; i <= 3; i ++)
 			getline(matchFile, s);
 	}
+
+	//special check for exact matches
+	for (int i = 1; i <= totalCell; i ++)
+	{
+		string curValue = corpus->getCell(i).value;
+		bool hasExactMatch = false;
+		int exactEntity = -1;
+		for (int entityId : matches[i])
+			if (kb->getEntity(entityId) == curValue)
+			{
+				hasExactMatch = true;
+				exactEntity = entityId;
+			}
+		if (hasExactMatch)
+		{
+			matches[i].clear();
+			matches[i].push_back(exactEntity);
+		}
+	}
 }
 
 void Bridge::initEntityPattern()
