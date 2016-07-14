@@ -7,29 +7,37 @@
 #include <iostream>
 using namespace std;
 
-int Bridge::getNumLuckyCells(Table curTable, int c)
+double Bridge::getNumLuckyCells(Table curTable, int c)
 {
-	int numLuckyCell = 0;
+	double numLuckyCell = 0;
 	for (int i = 0; i < curTable.nRow; i ++)
 		if (matches[curTable.cells[i][c].id].size())
-			numLuckyCell ++;
+		{
+			if (matches[curTable.cells[i][c].id][0].second == 1.0)
+				numLuckyCell += 1.0;
+			else
+				numLuckyCell += WT_SEMILUCKY;
+		}
 	return numLuckyCell;
 }
 
-int Bridge::getNumContainedCells(Table curTable, int c, int conceptId)
+double Bridge::getNumContainedCells(Table curTable, int c, int conceptId)
 {
-	int numContainedCell = 0;
+	double numContainedCell = 0;
 	for (int j = 0; j < curTable.nRow; j ++)
 	{
-		vector<int>& curMatches = matches[curTable.cells[j][c].id];
+		vector<pair<int, double>>& curMatches = matches[curTable.cells[j][c].id];
 		if (curMatches.empty())
 			continue;
-		for (int entityId : curMatches)
+		for (auto kv: curMatches)
+		{
+			int entityId = kv.first;
 			if (kb->checkRecursiveBelong(entityId, conceptId))
 			{
-				numContainedCell ++;
+				numContainedCell += (curMatches[0].second == 1.0 ? 1.0 : WT_SEMILUCKY);
 				break;
 			}
+		}
 	}
 	return numContainedCell;
 }
@@ -53,7 +61,7 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 	}
 
 	//Compute total lucky cell in this column
-	int numLuckyCell = getNumLuckyCells(curTable, c);
+	double numLuckyCell = getNumLuckyCells(curTable, c);
 
 	//Make candidate set from column pattern
 	unordered_set<int> candidates;
@@ -64,8 +72,8 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 	vector<pair<int, int>> score;
 	for (int conceptId : candidates)
 	{
-		int numContainedCell = getNumContainedCells(curTable, c, conceptId);
-		if ((double) numContainedCell / numLuckyCell >= majorityThreshold)
+		double numContainedCell = getNumContainedCells(curTable, c, conceptId);
+		if (numContainedCell / numLuckyCell >= majorityThreshold)
 			score.emplace_back(kb->getDepth(conceptId), conceptId);
 	}
 	//Sort by depth
@@ -94,11 +102,11 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 {
 	Table curTable = corpus->getTableByDataId(tid);
+	int nRow = curTable.nRow;
 	int nCol = curTable.nCol;
 	int numRelation = kb->countRelation();
 	int entityCol = curTable.entityCol;
 	int H = kb->getDepth(kb->getRoot());
-	double minThreshold = 0.45;
 	vector<int> ans(nCol * 2, -1);
 	depthVector ansDv(H + 1);
 
@@ -113,16 +121,18 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	vector<vector<int>> candidates(nCol);
 	for (int i = 0; i < nCol; i ++)
 	{
-		int numLuckyCell = getNumLuckyCells(curTable, i);
-		double luckyRate = (double) numLuckyCell / nCol;
+		double numLuckyCell = getNumLuckyCells(curTable, i);
+		double luckyRate = (double) numLuckyCell / nRow;
+		double threshold = TMIN + (TMAX - TMIN) * luckyRate;
+		cout << "Threshold for column " << i <<" : " << threshold << endl;
 		for (auto kv : colPattern[curTable.id][i]->c)
 		{
 			int conceptId = kv.first;
-			int numContainedCell = getNumContainedCells(curTable, i, conceptId);
-			double threshold = minThreshold + (1 - minThreshold) * luckyRate;
-			if ((double) numContainedCell / numLuckyCell >= threshold)
+			double numContainedCell = getNumContainedCells(curTable, i, conceptId);
+			if (numContainedCell / numLuckyCell >= threshold)
 				candidates[i].push_back(conceptId);
 		}
+		cout << "Candidate size for column " << i << " : " << candidates[i].size() << endl;
 	}
 
 	//calculate search space

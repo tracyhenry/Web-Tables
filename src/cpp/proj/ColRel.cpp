@@ -83,7 +83,7 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 			int cellId = curTable.cells[row][entityCol].id;
 			for (int i = 0; i < (int) matches[cellId].size(); i ++)
 			{
-				int e = matches[cellId][i];
+				int e = matches[cellId][i].first;
 				if (! entSchema[e].count(r))
 					continue;
 

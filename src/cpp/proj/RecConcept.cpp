@@ -82,7 +82,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 		vector<int> extraEntity;
 		for (int j = 0; j < (int) matches[cid].size(); j ++)
 		{
-			int curEntity = matches[cid][j];
+			int curEntity = matches[cid][j].first;
 			if (kb->checkBelong(curEntity, i))
 				extraEntity.push_back(curEntity);
 		}

@@ -88,7 +88,7 @@ void Bridge::initMatch()
 		sin >> sim >> entityId >> cellId;
 		entityId ++;
 		cellId ++;
-		matches[cellId].push_back(entityId);
+		matches[cellId].emplace_back(entityId, sim);
 
 		//line 2~4
 		for (int i = 1; i <= 3; i ++)
@@ -101,16 +101,16 @@ void Bridge::initMatch()
 		string curValue = corpus->getCell(i).value;
 		bool hasExactMatch = false;
 		int exactEntity = -1;
-		for (int entityId : matches[i])
-			if (kb->getEntity(entityId) == curValue)
+		for (auto kv : matches[i])
+			if (kv.second == 1.0)
 			{
 				hasExactMatch = true;
-				exactEntity = entityId;
+				exactEntity = kv.first;
 			}
 		if (hasExactMatch)
 		{
 			matches[i].clear();
-			matches[i].push_back(exactEntity);
+			matches[i].emplace_back(exactEntity, 1.0);
 		}
 	}
 }
@@ -237,7 +237,7 @@ void Bridge::initCellPattern()
 		cellPattern[i] = new TaxoPattern();
 		for (int j = 0; j < (int) matches[i].size(); j ++)
 		{
-			int curEntity = matches[i][j];
+			int curEntity = matches[i][j].first;
 			cellPattern[i]->add(entPattern[curEntity]);
 		}
 	}
@@ -457,7 +457,7 @@ void Bridge::traverse()
 	}
 }
 
-vector<int>& Bridge::getMatch(int cellId)
+vector<pair<int, double>>& Bridge::getMatch(int cellId)
 {
 	return matches[cellId];
 }

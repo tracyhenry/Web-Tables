@@ -14,8 +14,18 @@
 class Bridge
 {
 private:
+
+	//The weight for semi-lucky cells
+	const double WT_SEMILUCKY = 0.25;
+
+	//The maximum threshold for the proportion of lucky cells
+	const double TMAX = 0.8;
+
+	//The minimum threshold for the proportion of lucky cells
+	const double TMIN = 0.4;
+
 	//Match Result: matches[cellId] = [KBentity1, KBentity2 ...]
-	std::vector<std::vector<int>> matches;
+	std::vector<std::vector<std::pair<int, double>>> matches;
 
 	//schema of kb concepts: conSchema[conceptId](relationId, TaxoPattern *)
 	//schema of kb entities: entSchema[entityId](RelationId, TaxoPattern *)
@@ -65,10 +75,10 @@ private:
 	void printPattern(TaxoPattern *);
 
 	//get the number of lucky cells in a column, by curTable and cid
-	int getNumLuckyCells(Table, int);
+	double getNumLuckyCells(Table, int);
 
 	//get the number of contained cells in a column by a concept, given by conceptId, curTable, cid
-	int getNumContainedCells(Table, int, int);
+	double getNumContainedCells(Table, int, int);
 
 public:
 	//Knowledge base
@@ -90,7 +100,7 @@ public:
 	void letsDebug();
 
 	//get matches
-	std::vector<int>& getMatch(int cellId);
+	std::vector<std::pair<int, double>>& getMatch(int cellId);
 
 	//Find the most similar concept for a record
 	std::vector<int> findRecordConcept(int, int, bool);
