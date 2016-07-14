@@ -98,10 +98,9 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	int numRelation = kb->countRelation();
 	int entityCol = curTable.entityCol;
 	int H = kb->getDepth(kb->getRoot());
-	int firstElement = -1;
-	double minThreshold = 0.4;
-	vector<int> ans(nCol * 2, -1), curState(nCol * 2, -1);
-	depthVector dvAns(H + 1), dvCurState(H + 1);
+	double minThreshold = 0.45;
+	vector<int> ans(nCol * 2, -1);
+	depthVector ansDv(H + 1);
 
 	//check if there is a given entity column
 	if (entityCol == -1)
@@ -127,89 +126,59 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	}
 
 	//calculate search space
-	long long searchSpace = 1;
+	long long searchSpace = (long long) candidates[entityCol].size();
+	long long sumCandSize = 0;
 	for (int i = 0; i < nCol; i ++)
-		searchSpace *= (long long) (candidates[i].size() ? numRelation : 1);
-	for (int i = 0; i < nCol; i ++)
-		searchSpace *= (long long) max((int) candidates[i].size(), 1);
+		if (i != entityCol)
+			sumCandSize += (long long) candidates[i].size();
+	searchSpace *= (long long) numRelation;
+	searchSpace *= sumCandSize;
 	if (print)
 		cout << "Total search space : " << searchSpace << endl;
 
 	//brute-force
-	for (int i = 0; i < nCol; i ++)
-		if (candidates[i].size())
-		{
-			curState[i] = 0;
-			if (firstElement == -1)
-				firstElement = i;
-		}
-	if (firstElement == -1)
-		return ans;
-	while (1)
+	for (int entityColConcept : candidates[entityCol])
 	{
-		//calculate score
-		dvCurState.w.clear();
-		dvCurState.w.resize(H + 1);
+		depthVector sumDv(H + 1);
+		vector<int> curState(nCol * 2, -1);
 		for (int i = 0; i < nCol; i ++)
 		{
-			if (i == entityCol || curState[i] == -1 || curState[entityCol] == -1)
-				continue;
-			int curConceptId = candidates[i][curState[i]];
-			int curEntityColConceptId = candidates[entityCol][curState[entityCol]];
-			depthVector maxSim(H + 1);
-			//enumerate relationships
-			for (int rel = 1; rel <= numRelation; rel ++)
-			{
-				depthVector curSim(H + 1);
-				int reverseRel = kb->getReverseRelationId(rel);
-				if (conSchema[curEntityColConceptId].count(rel))
+			if (i == entityCol) continue;
+			depthVector bestDv(H + 1);
+			for (int curConcept : candidates[i])
+				for (int rel = 1; rel <= numRelation; rel ++)
 				{
-					depthVector t = Matcher::dVector(
-											kb,
-											colPattern[curTable.id][i],
-											conSchema[curEntityColConceptId][rel]);
-					curSim.addUpdate(t);
+					depthVector curDv(H + 1);
+					int reverseRel = kb->getReverseRelationId(rel);
+					if (conSchema[entityColConcept].count(rel))
+					{
+						depthVector t = Matcher::dVector(kb,
+														 conSchema[entityColConcept][rel],
+														 colPattern[curTable.id][i]);
+						curDv.addUpdate(t);
+					}
+					if (conSchema[curConcept].count(reverseRel))
+					{
+						depthVector t = Matcher::dVector(kb,
+														 conSchema[curConcept][reverseRel],
+														 colPattern[curTable.id][entityCol]);
+						curDv.addUpdate(t);
+					}
+					if (curDv < bestDv)
+					{
+						bestDv = curDv;
+						curState[i] = curConcept;
+						curState[i + nCol] = rel;
+					}
 				}
-				if (conSchema[curConceptId].count(reverseRel))
-				{
-					depthVector t = Matcher::dVector(
-											kb,
-											colPattern[curTable.id][entityCol],
-											conSchema[curConceptId][reverseRel]);
-					curSim.addUpdate(t);
-				}
-				if (curSim < maxSim)
-					maxSim = curSim, curState[i + nCol] = rel;
-			}
-			dvCurState.addUpdate(maxSim);
+			sumDv.addUpdate(bestDv);
 		}
-		//update ans
-		if (ans[firstElement] == -1 || dvCurState < dvAns)
-			ans = curState, dvAns = dvCurState;
-		//go to next state
-		int k = nCol - 1;
-		while (k >= firstElement)
+		if (sumDv < ansDv)
 		{
-			if (curState[k] == -1)
-			{
-				k --; continue;
-			}
-			if (curState[k] == (int) candidates[k].size() - 1)
-				k --;
-			else
-				break;
+			ansDv = sumDv;
+			ans = curState;
 		}
-		if (k < firstElement)
-			break;
-		curState[k] ++;
-		for (int i = k + 1; i < nCol; i ++)
-			if (curState[i] != -1)
-				curState[i] = 0;
 	}
-	//slightly modify ans and return it
-	for (int i = 0; i < nCol; i ++)
-		if (ans[i] != -1)
-			ans[i] = candidates[i][ans[i]];
 
 	//print
 	if (print)
