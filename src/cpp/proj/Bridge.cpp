@@ -106,14 +106,14 @@ void Bridge::initEntityPattern()
 		int totalBelong = kb->getBelongCount(i);
 
 		entPattern[i] = new TaxoPattern();
-		entPattern[i]->e[i] = (double) totalBelong;
-		entPattern[i]->numEntity = (double) totalBelong;
+		entPattern[i]->e[i] = 1.0;
+		entPattern[i]->numEntity = 1.0;
 		for (int j = 0; j < totalBelong; j ++)
 		{
 			int curConcept = kb->getBelongConcept(i, j);
 			while (1)
 			{
-				entPattern[i]->c[curConcept] += 1.0;
+				entPattern[i]->c[curConcept] = 1.0;
 				if (kb->getPreCount(curConcept) == 0)
 					break;
 				curConcept = kb->getPreNode(curConcept, 0);

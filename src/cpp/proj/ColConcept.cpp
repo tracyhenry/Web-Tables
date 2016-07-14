@@ -156,7 +156,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 			int curEntityColConceptId = candidates[entityCol][curState[entityCol]];
 			depthVector maxSim(H + 1);
 			//enumerate relationships
-            for (int rel = 1; rel <= numRelation; rel ++)
+			for (int rel = 1; rel <= numRelation; rel ++)
 			{
 				depthVector curSim(H + 1);
 				int reverseRel = kb->getReverseRelationId(rel);
@@ -167,8 +167,8 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 											colPattern[curTable.id][i],
 											conSchema[curEntityColConceptId][rel]);
 					double factor = kb->getRecursivePossessCount(curEntityColConceptId);
-					if (fabs(factor) >= 1e-9)
-						t.normalize(factor);
+//					if (fabs(factor) >= 1e-9)
+//						t.normalize(factor);
 					curSim.addUpdate(t);
 				}
 				if (conSchema[curConceptId].count(reverseRel))
@@ -178,8 +178,8 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 											colPattern[curTable.id][entityCol],
 											conSchema[curConceptId][reverseRel]);
 					double factor = kb->getRecursivePossessCount(curConceptId);
-					if (fabs(factor) >= 1e-9)
-						t.normalize(factor);
+//					if (fabs(factor) >= 1e-9)
+//						t.normalize(factor);
 					curSim.addUpdate(t);
 				}
 				if (curSim < maxSim)

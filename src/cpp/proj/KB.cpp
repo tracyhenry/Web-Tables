@@ -182,15 +182,6 @@ void KB::initTaxonomy()
 		pre[x].push_back(y), suc[y].push_back(x);
 
 	root = M["owl:Thing"];
-
-	//dfs
-	depth.clear();
-	depth.resize(N + 1);
-	startTime.resize(N + 1);
-	endTime.resize(N + 1);
-	recursivePossess.resize(N + 1);
-	timeStamp = 0;
-	doDFS(root);
 }
 
 void KB::initType()
@@ -218,6 +209,15 @@ void KB::initType()
 		belongs[i].clear();
 	while (fscanf(typeFile, "%d%d", &x, &y) == 2)
 		belongs[x].push_back(y), possess[y].push_back(x);
+
+	//dfs
+	depth.clear();
+	depth.resize(N + 1);
+	startTime.resize(N + 1);
+	endTime.resize(N + 1);
+	recursivePossess.resize(N + 1);
+	timeStamp = 0;
+	doDFS(root);
 }
 
 void KB::initFact()

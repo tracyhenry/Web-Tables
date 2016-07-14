@@ -147,7 +147,6 @@ depthVector Matcher::dVector(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 	for (auto kv : c1)
 		if (c2.count(kv.first))
 			ans.w[H - kb->getDepth(kv.first)] += kv.second * c2[kv.first] / w1 / w2;
-
 	//Entity set
 	unordered_map<int, double> &e1 = p1->e;
 	unordered_map<int, double> &e2 = p2->e;
