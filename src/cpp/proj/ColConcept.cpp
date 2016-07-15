@@ -133,6 +133,12 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 				candidates[i].push_back(conceptId);
 		}
 		cout << "Candidate size for column " << i << " : " << candidates[i].size() << endl;
+		if (candidates[i].size() <= 15)
+		{
+			cout << "Candidates for this column : " << endl;
+			for (int conceptId : candidates[i])
+				cout << '\t' << kb->getConcept(conceptId) << endl;
+		}
 	}
 
 	//calculate search space

@@ -168,6 +168,8 @@ void Bridge::initKbSchema()
 				entSchema[i][curRelation] = new TaxoPattern();
 			entSchema[i][curRelation]->add(entPattern[k]);
 		}
+		for (auto& kv : entSchema[i])
+			kv.second->numEntity -= 1.0;
 	}
 
 	//make the concept Schema recursively
@@ -177,6 +179,17 @@ void Bridge::initKbSchema()
 
 	cout << "Starting bridge::makeConSchema dfs!" << endl;
 	makeConSchema(root);
+
+	//add back
+	for (int i = 1; i <= totalEntity; i ++)
+		for (auto& kv : entSchema[i])
+			kv.second->numEntity += 1.0;
+	for (int i = 1; i <= totalConcept; i ++)
+	{
+		double possessCount = kb->getRecursivePossessCount(i);
+		for (auto& kv : conSchema[i])
+			kv.second->numEntity += possessCount;
+	}
 }
 
 void Bridge::makeConSchema(int curNode)
@@ -555,4 +568,31 @@ void Bridge::letsDebug()
 			debug << sim1.w[i] << '\t';
 	debug << endl;
 
+	debug << "Debugging for table with table_id = 3317..." << endl;
+	rel = kb->getRelationId("isLocatedIn");
+	reverseRel = kb->getReverseRelationId(rel);
+	int areaId = kb->getConceptId("wordnet_geographical_area_108574314");
+	int villageId = kb->getConceptId("wordnet_village_108672738");
+
+	debug << "isLocatedIn relationId : " << rel << endl
+			<< "area conceptId : " << areaId << endl
+			<< "village conceptId : " << villageId << endl;
+
+	p0 = getKbSchema(areaId, rel, true);
+	p1 = getKbSchema(villageId, rel, true);
+	p2 = colPattern[corpus->getTableByDataId(3317).id][1];
+	printPattern(p2);
+
+	sim0 = Matcher::dVector(kb, p0, p2);
+	sim1 = Matcher::dVector(kb, p1, p2);
+
+	debug << endl << endl;
+	debug << "Similarity for area : " << endl << '\t';
+	for (int i = (int) sim0.w.size() - 1; i >= 0; i --)
+			debug << sim0.w[i] << '\t';
+	debug << endl << endl;
+	debug << "Similarity for village : " << endl << '\t';
+	for (int i = (int) sim1.w.size() - 1; i >= 0; i --)
+			debug << sim1.w[i] << '\t';
+	debug << endl;
 }
