@@ -18,7 +18,7 @@ protected:
 
 	//DFS stuff
 	std::vector<int> depth, startTime, endTime;
-	std::vector<int> recursivePossess;
+	std::vector<int> recursivePossess, level;
 	int timeStamp;
 
 	//number of concepts
@@ -97,6 +97,7 @@ public:
 	std::string getEntity(int);		//by id
 	std::string getRelation(int);		//by id
 	int getDepth(int);		//by concept id
+	int getLevel(int);
 	//Constructor
 	KB();
 

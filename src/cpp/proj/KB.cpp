@@ -153,6 +153,10 @@ int KB::getDepth(int x)
 	return depth[x];
 }
 
+int KB::getLevel(int x)
+{
+	return level[x];
+}
 void KB::initTaxonomy()
 {
 
@@ -211,12 +215,13 @@ void KB::initType()
 		belongs[x].push_back(y), possess[y].push_back(x);
 
 	//dfs
-	depth.clear();
-	depth.resize(N + 1);
-	startTime.resize(N + 1);
-	endTime.resize(N + 1);
+	depth.clear(), level.clear();
+	startTime.clear(), endTime.clear();
+	recursivePossess.clear();
+	depth.resize(N + 1), level.resize(N + 1);
+	startTime.resize(N + 1), endTime.resize(N + 1);
 	recursivePossess.resize(N + 1);
-	timeStamp = 0;
+	timeStamp = 0; level[root] = 0;
 	doDFS(root);
 }
 
@@ -263,6 +268,7 @@ void KB::doDFS(int x)
 	for (int i = 0; i < (int) suc[x].size(); i ++)
 	{
 		int j = suc[x][i];
+		level[j] = level[x] + 1;
 		doDFS(j);
 		depth[x] = max(depth[x], depth[j] + 1);
 		recursivePossess[x] += recursivePossess[j];

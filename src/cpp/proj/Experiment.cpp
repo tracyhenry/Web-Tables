@@ -1,4 +1,5 @@
 #include "Experiment.h"
+#include <cmath>
 #include <cctype>
 #include <vector>
 #include <fstream>
@@ -72,17 +73,17 @@ vector<double> Experiment::runExpColConceptGood()
 					<< label << '\t' << endl;
 
 		//update metrics
-		bool ac = false;
-		for (string conceptId : gts[i])
-			if (isEqualConcept(conceptId, label))
-				ac = true;
-		if (ac)
+		double score = -1;
+		for (string concept : gts[i])
+			score = max(score, getScore(concept, label));
+		if (score == 1.0)
 			acQuery ++;
 		else
 		{
 			wrongFile << endl << "Wrong sample: " << endl
 						<< "table_id = " << tid
-						<< "  column_id = " << cid << endl;
+						<< "column_id = " << cid
+						<< "score = " << score << endl;
 			wrongFile << "GT answers: " << endl << '\t';
 			for (auto o : gts[i])
 				wrongFile << o << '\t';
@@ -151,11 +152,10 @@ vector<double> Experiment::runExpColConceptNaive()
 		resultFile << endl;
 
 		//update accuracy
-		bool ac = false;
-		for (string conceptId : gts[i])
-			if (isEqualConcept(bridge->kb->getConcept(ans[0]), conceptId))
-				ac = true;
-		if (ac)
+		double score = -1;
+		for (string concept : gts[i])
+			score = max(score, getScore(concept, bridge->kb->getConcept(ans[0])));
+		if (score == 1.0)
 			acQuery ++;
 		else
 		{
@@ -169,7 +169,7 @@ vector<double> Experiment::runExpColConceptNaive()
 			wrongFile << "Naive answers: " << endl << '\t';
 			for (auto o : ans)
 				wrongFile << bridge->kb->getConcept(o) << '\t';
-			wrongFile << endl << endl;
+			wrongFile << "score : " << score << endl << endl;
 		}
 	}
 	resultFile.close();
@@ -258,6 +258,30 @@ bool Experiment::isEqualConcept(string c1, string c2)
 	return c1 == c2;
 }
 
+double Experiment::getScore(string concept, string label)
+{
+	//if not labeled, return -1
+	if (label == "NULL")
+		return -1;
+	//if they are equal, return 1
+	if (isEqualConcept(concept, label))
+		return 1;
+	//get concept ids
+	int conceptId = bridge->kb->getConceptId(concept);
+	int labelId = bridge->kb->getConceptId(label);
+	//if one of them is not a concept in the kb, return -1
+	if (conceptId == 0 || labelId == 0)
+		return -1;
+	//if neither of them is the other's ancestor, return 0
+	if (! bridge->kb->isDescendant(conceptId, labelId) &&
+		! bridge->kb->isDescendant(labelId, conceptId))
+		return 0;
+	//else return exp(-x), where x is the steps between them
+	int conceptLevel = bridge->kb->getLevel(conceptId);
+	int labelLevel = bridge->kb->getLevel(labelId);
+	return exp(-(double)abs(conceptLevel - labelLevel));
+}
+
 vector<double> Experiment::calculateMetrics(int ac, int numOut, int total)
 {
 	double precision = (double) ac / numOut;
@@ -265,9 +289,9 @@ vector<double> Experiment::calculateMetrics(int ac, int numOut, int total)
 	double fvalue = 2.0 * precision * recall  / (precision + recall);
 
 	cout << ac << " " << numOut << " " << total << endl;
-	printf("Precision : %.2f\n\%", precision / 100.0);
-	printf("Recall : %.2f\n\%", recall / 100.0);
-	printf("F-Value %.2f\n\%", fvalue / 100.0);
+	printf("Precision : %.2f%%\n", precision * 100.0);
+	printf("Recall : %.2f%%\n", recall * 100.0);
+	printf("F-Value %.2f%%\n", fvalue * 100.0);
 
 	vector<double> ans;
 	ans.push_back(precision);
