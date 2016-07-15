@@ -13,6 +13,9 @@ private:
 	//a function checking whether two string representing the same concept
 	bool isEqualConcept(std::string, std::string);
 
+	//a function to calculate precision, recall and f value
+	std::vector<double> calculateMetrics(int, int, int);
+
 public:
 
 	//Constructor

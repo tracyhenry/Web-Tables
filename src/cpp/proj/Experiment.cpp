@@ -65,7 +65,7 @@ vector<double> Experiment::runExpColConceptGood()
 		int labelId = outputAns[tid][cid];
 		string label = "NULL";
 		if (labelId != -1)
-			label = bridge->kb->getConcept(labelId);
+			label = bridge->kb->getConcept(labelId), numOutput ++;
 
 		//output to file
 		resultFile << tid << '\t' << cid << '\t' << 1 << '\t'
@@ -80,8 +80,6 @@ vector<double> Experiment::runExpColConceptGood()
 			acQuery ++;
 		else
 		{
-			if (label != "NULL")
-				numOutput ++;
 			wrongFile << endl << "Wrong sample: " << endl
 						<< "table_id = " << tid
 						<< "  column_id = " << cid << endl;
@@ -95,21 +93,8 @@ vector<double> Experiment::runExpColConceptGood()
 	}
 	resultFile.close();
 	wrongFile.close();
-	double precision = (double) acQuery / numOutput;
-	double recall = (double) acQuery / (double) tids.size();
-	double fvalue = 2.0 * precision * recall  / (precision + recall);
 
-	cout << acQuery << " " << numOutput << " " << tids.size() << endl;
-	printf("Precision : %.2f\n", precision);
-	printf("Recall : %.2f\n", recall);
-	printf("F-Value %.2f\n", fvalue);
-
-	vector<double> ans;
-	ans.push_back(precision);
-	ans.push_back(recall);
-	ans.push_back(fvalue);
-
-	return ans;
+	return calculateMetrics(acQuery, numOutput, (int) tids.size());
 }
 
 vector<double> Experiment::runExpColConceptNaive()
@@ -156,6 +141,8 @@ vector<double> Experiment::runExpColConceptNaive()
 		int tid = tids[i];
 		int cid = cids[i];
 		vector<int> ans = bridge->findColConceptMajority(tid, cid, false);
+		if (ans[0] != -1)
+			numOutput ++;
 
 		//output to file
 		resultFile << tid << " " << cid << " " << min((int) ans.size(), K) << " ";
@@ -172,8 +159,6 @@ vector<double> Experiment::runExpColConceptNaive()
 			acQuery ++;
 		else
 		{
-			if (ans[0] != -1)
-				numOutput ++;
 			wrongFile << endl << "Wrong sample: " << endl
 					  << "table_id = " << tid
 					  << "  column_id = " << cid << endl;
@@ -189,21 +174,8 @@ vector<double> Experiment::runExpColConceptNaive()
 	}
 	resultFile.close();
 	wrongFile.close();
-	double precision = (double) acQuery / numOutput;
-	double recall = (double) acQuery / (double) tids.size();
-	double fvalue = 2.0 * precision * recall  / (precision + recall);
 
-	cout << acQuery << " " << numOutput << " " << tids.size() << endl;
-	printf("Precision : %.2f\n", precision);
-	printf("Recall : %.2f\n", recall);
-	printf("F-Value %.2f\n", fvalue);
-
-	vector<double> ans;
-	ans.push_back(precision);
-	ans.push_back(recall);
-	ans.push_back(fvalue);
-
-	return ans;
+	return calculateMetrics(acQuery, numOutput, (int) tids.size());
 }
 
 void Experiment::runColRelationLatency()
@@ -284,4 +256,23 @@ bool Experiment::isEqualConcept(string c1, string c2)
 	if (posLowLine != -1)
 		c2 = c2.substr(0, posLowLine);
 	return c1 == c2;
+}
+
+vector<double> Experiment::calculateMetrics(int ac, int numOut, int total)
+{
+	double precision = (double) ac / numOut;
+	double recall = (double) ac / (double) total;
+	double fvalue = 2.0 * precision * recall  / (precision + recall);
+
+	cout << ac << " " << numOut << " " << total << endl;
+	printf("Precision : %.2f\n\%", precision / 100.0);
+	printf("Recall : %.2f\n\%", recall / 100.0);
+	printf("F-Value %.2f\n\%", fvalue / 100.0);
+
+	vector<double> ans;
+	ans.push_back(precision);
+	ans.push_back(recall);
+	ans.push_back(fvalue);
+
+	return ans;
 }
