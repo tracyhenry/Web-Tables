@@ -11,13 +11,14 @@ Experiment::Experiment(Bridge *b) : bridge(b) {}
 
 void Experiment::runAllExp()
 {
-	runExpColConceptNaive();
+//	runExpColConceptNaive();
+	runExpColConceptGood();
 }
 
-void Experiment::runExpColConceptNaive()
+vector<double> Experiment::runExpColConceptGood()
 {
 	cout << endl
-		 << "Current Experiment: running the naive majority method of column concept determination..."
+		 << "Current Experiment: running the column concept & rel algorithm to get column concept labels."
 		 << endl;
 
 	//some variables
@@ -25,11 +26,10 @@ void Experiment::runExpColConceptNaive()
 	vector<vector<string>> gts;
 	string gtFileName = "../../../data/GT/Column_Concept_GT.txt";
 	ifstream gtFile(gtFileName.c_str());
-	string resultFileName = "../../../data/Result/colConcept/colConcept_Majority.txt";
+	string resultFileName = "../../../data/Result/colConcept/colConcept_Good.txt";
 	ofstream resultFile(resultFileName.c_str());
-	string wrongFileName = "../../../data/Result/colConcept/colConcept_Majority_wrong.txt";
+	string wrongFileName = "../../../data/Result/colConcept/colConcept_Good_wrong.txt";
 	ofstream wrongFile(wrongFileName.c_str());
-	int K = 3;
 	srand(time(0));
 
 	//read in the gt file
@@ -51,7 +51,105 @@ void Experiment::runExpColConceptNaive()
 	gtFile.close();
 
 	//run functions in ColConcept.cpp
-	int numQuery = 0;
+	int acQuery = 0;
+	int numOutput = 0;
+	unordered_map<int, vector<int>> outputAns;
+	for (int i = 0; i < (int) tids.size(); i ++)
+		if (! outputAns.count(tids[i]))
+			outputAns[tids[i]] = bridge->findColConceptAndRelation(tids[i], false);
+
+	for (int i = 0; i < (int) tids.size(); i ++)
+	{
+		int tid = tids[i];
+		int cid = cids[i];
+		int labelId = outputAns[tid][cid];
+		string label = "NULL";
+		if (labelId != -1)
+			label = bridge->kb->getConcept(labelId);
+
+		//output to file
+		resultFile << tid << '\t' << cid << '\t' << 1 << '\t'
+					<< label << '\t' << endl;
+
+		//update metrics
+		bool ac = false;
+		for (string conceptId : gts[i])
+			if (isEqualConcept(conceptId, label))
+				ac = true;
+		if (ac)
+			acQuery ++;
+		else
+		{
+			if (label != "NULL")
+				numOutput ++;
+			wrongFile << endl << "Wrong sample: " << endl
+						<< "table_id = " << tid
+						<< "  column_id = " << cid << endl;
+			wrongFile << "GT answers: " << endl << '\t';
+			for (auto o : gts[i])
+				wrongFile << o << '\t';
+			wrongFile << endl;
+			wrongFile << "Algo answers: " << endl << '\t';
+			wrongFile << label << endl << endl;
+		}
+	}
+	resultFile.close();
+	wrongFile.close();
+	double precision = (double) acQuery / numOutput;
+	double recall = (double) acQuery / (double) tids.size();
+	double fvalue = 2.0 * precision * recall  / (precision + recall);
+
+	cout << acQuery << " " << numOutput << " " << tids.size() << endl;
+	printf("Precision : %.2f\n", precision);
+	printf("Recall : %.2f\n", recall);
+	printf("F-Value %.2f\n", fvalue);
+
+	vector<double> ans;
+	ans.push_back(precision);
+	ans.push_back(recall);
+	ans.push_back(fvalue);
+
+	return ans;
+}
+
+vector<double> Experiment::runExpColConceptNaive()
+{
+	cout << endl
+		 << "Current Experiment: running the naive majority method of column concept determination..."
+		 << endl;
+
+	//some variables
+	vector<int> tids, cids, nGTs;
+	vector<vector<string>> gts;
+	string gtFileName = "../../../data/GT/Column_Concept_GT.txt";
+	ifstream gtFile(gtFileName.c_str());
+	string resultFileName = "../../../data/Result/colConcept/colConcept_Majority.txt";
+	ofstream resultFile(resultFileName.c_str());
+	string wrongFileName = "../../../data/Result/colConcept/colConcept_Majority_wrong.txt";
+	ofstream wrongFile(wrongFileName.c_str());
+	int K = 1;
+	srand(time(0));
+
+	//read in the gt file
+	int tid, cid, nGT;
+	string gt;
+	while (gtFile >> tid >> cid >> nGT)
+	{
+		tids.push_back(tid);
+		cids.push_back(cid);
+		nGTs.push_back(nGT);
+		gts.push_back(vector<string>());
+
+		for (int i = 0; i < nGT; i ++)
+		{
+			gtFile >> gt;
+			gts[gts.size() - 1].push_back(gt);
+		}
+	}
+	gtFile.close();
+
+	//run functions in ColConcept.cpp
+	int numOutput = 0;
 	int acQuery = 0;
 	for (int i = 0; i < (int) tids.size(); i ++)
 	{
@@ -66,36 +164,46 @@ void Experiment::runExpColConceptNaive()
 		resultFile << endl;
 
 		//update accuracy
-		if (nGTs[i] == 1)
+		bool ac = false;
+		for (string conceptId : gts[i])
+			if (isEqualConcept(bridge->kb->getConcept(ans[0]), conceptId))
+				ac = true;
+		if (ac)
+			acQuery ++;
+		else
 		{
-			numQuery ++;
-			bool ac = false;
-			for (int j = 0; j < min((int) ans.size(), K); j ++)
-				if (isEqualConcept(bridge->kb->getConcept(ans[j]), gts[i][0]))
-					ac = true;
-			if (ac)
-				acQuery ++;
-			else
-			{
-				wrongFile << endl << "Wrong sample: " << endl
-						  << "table_id = " << tid
-						  << "  column_id = " << cid << endl;
-				wrongFile << "GT answers: " << endl << '\t';
-				for (auto o : gts[i])
-					wrongFile << o << '\t';
-				wrongFile << endl;
-				wrongFile << "Naive answers: " << endl << '\t';
-				for (auto o : ans)
-					wrongFile << bridge->kb->getConcept(o) << '\t';
-				wrongFile << endl << endl;
-			}
+			if (ans[0] != -1)
+				numOutput ++;
+			wrongFile << endl << "Wrong sample: " << endl
+					  << "table_id = " << tid
+					  << "  column_id = " << cid << endl;
+			wrongFile << "GT answers: " << endl << '\t';
+			for (auto o : gts[i])
+				wrongFile << o << '\t';
+			wrongFile << endl;
+			wrongFile << "Naive answers: " << endl << '\t';
+			for (auto o : ans)
+				wrongFile << bridge->kb->getConcept(o) << '\t';
+			wrongFile << endl << endl;
 		}
 	}
 	resultFile.close();
 	wrongFile.close();
-	cout << "Number of queries: " << numQuery << endl <<
-			"correct queries: " << acQuery << endl <<
-			"Accuracy: " << (double) acQuery / numQuery << endl;
+	double precision = (double) acQuery / numOutput;
+	double recall = (double) acQuery / (double) tids.size();
+	double fvalue = 2.0 * precision * recall  / (precision + recall);
+
+	cout << acQuery << " " << numOutput << " " << tids.size() << endl;
+	printf("Precision : %.2f\n", precision);
+	printf("Recall : %.2f\n", recall);
+	printf("F-Value %.2f\n", fvalue);
+
+	vector<double> ans;
+	ans.push_back(precision);
+	ans.push_back(recall);
+	ans.push_back(fvalue);
+
+	return ans;
 }
 
 void Experiment::runColRelationLatency()

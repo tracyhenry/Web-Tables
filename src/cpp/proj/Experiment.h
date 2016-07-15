@@ -1,6 +1,7 @@
 #ifndef EXP_H
 #define EXP_H
 #include "Bridge.h"
+#include <vector>
 #include <string>
 
 
@@ -22,7 +23,10 @@ public:
 	void runAllExp();
 
 	//column concept naive method
-	void runExpColConceptNaive();
+	std::vector<double> runExpColConceptNaive();
+
+	//column concept good method, returning precision, recall and F-measure
+	std::vector<double> runExpColConceptGood();
 
 	//test the running time of finding relation
 	void runColRelationLatency();

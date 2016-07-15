@@ -1,6 +1,5 @@
 #include "Bridge.h"
 #include "Matcher.h"
-#include <vector>
 #include <cstring>
 #include <algorithm>
 #include <unordered_set>
@@ -124,7 +123,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 		double numLuckyCell = getNumLuckyCells(curTable, i);
 		double luckyRate = (double) numLuckyCell / nRow;
 		double threshold = TMIN + (TMAX - TMIN) * luckyRate;
-		cout << "Threshold for column " << i <<" : " << threshold << endl;
+//		cout << "Threshold for column " << i <<" : " << threshold << endl;
 		for (auto kv : colPattern[curTable.id][i]->c)
 		{
 			int conceptId = kv.first;
@@ -132,13 +131,14 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 			if (numContainedCell / numLuckyCell >= threshold)
 				candidates[i].push_back(conceptId);
 		}
-		cout << "Candidate size for column " << i << " : " << candidates[i].size() << endl;
+/*		cout << "Candidate size for column " << i << " : " << candidates[i].size() << endl;
 		if (candidates[i].size() <= 15)
 		{
 			cout << "Candidates for this column : " << endl;
 			for (int conceptId : candidates[i])
 				cout << '\t' << kb->getConcept(conceptId) << endl;
 		}
+*/
 	}
 
 	//calculate search space
