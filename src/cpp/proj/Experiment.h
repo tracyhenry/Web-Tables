@@ -17,7 +17,7 @@ private:
 	double getScore(std::string, std::string);
 
 	//a function to calculate precision, recall and f value
-	std::vector<double> calculateMetrics(int, int, int);
+	std::vector<double> calculateMetrics(double, double, double);
 
 public:
 

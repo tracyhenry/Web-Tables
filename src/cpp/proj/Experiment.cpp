@@ -12,7 +12,7 @@ Experiment::Experiment(Bridge *b) : bridge(b) {}
 
 void Experiment::runAllExp()
 {
-//	runExpColConceptNaive();
+	runExpColConceptNaive();
 	runExpColConceptGood();
 }
 
@@ -52,8 +52,8 @@ vector<double> Experiment::runExpColConceptGood()
 	gtFile.close();
 
 	//run functions in ColConcept.cpp
-	int acQuery = 0;
-	int numOutput = 0;
+	double acQuery = 0;
+	double numOutput = 0;
 	unordered_map<int, vector<int>> outputAns;
 	for (int i = 0; i < (int) tids.size(); i ++)
 		if (! outputAns.count(tids[i]))
@@ -76,13 +76,12 @@ vector<double> Experiment::runExpColConceptGood()
 		double score = -1;
 		for (string concept : gts[i])
 			score = max(score, getScore(concept, label));
-		if (score == 1.0)
-			acQuery ++;
-		else
+		acQuery += score;
+		if (score < 1.0)
 		{
 			wrongFile << endl << "Wrong sample: " << endl
-						<< "table_id = " << tid
-						<< "column_id = " << cid
+						<< "table_id = " << tid << " "
+						<< "column_id = " << cid << " "
 						<< "score = " << score << endl;
 			wrongFile << "GT answers: " << endl << '\t';
 			for (auto o : gts[i])
@@ -95,7 +94,7 @@ vector<double> Experiment::runExpColConceptGood()
 	resultFile.close();
 	wrongFile.close();
 
-	return calculateMetrics(acQuery, numOutput, (int) tids.size());
+	return calculateMetrics(acQuery, numOutput, (double) tids.size());
 }
 
 vector<double> Experiment::runExpColConceptNaive()
@@ -135,8 +134,8 @@ vector<double> Experiment::runExpColConceptNaive()
 	gtFile.close();
 
 	//run functions in ColConcept.cpp
-	int numOutput = 0;
-	int acQuery = 0;
+	double numOutput = 0;
+	double acQuery = 0;
 	for (int i = 0; i < (int) tids.size(); i ++)
 	{
 		int tid = tids[i];
@@ -155,13 +154,13 @@ vector<double> Experiment::runExpColConceptNaive()
 		double score = -1;
 		for (string concept : gts[i])
 			score = max(score, getScore(concept, bridge->kb->getConcept(ans[0])));
-		if (score == 1.0)
-			acQuery ++;
-		else
+		acQuery += score;
+		if (score < 1.0)
 		{
 			wrongFile << endl << "Wrong sample: " << endl
-					  << "table_id = " << tid
-					  << "  column_id = " << cid << endl;
+					  << "table_id = " << tid << " "
+					  << "column_id = " << cid << " "
+					  << "score = " << score << endl;
 			wrongFile << "GT answers: " << endl << '\t';
 			for (auto o : gts[i])
 				wrongFile << o << '\t';
@@ -169,13 +168,12 @@ vector<double> Experiment::runExpColConceptNaive()
 			wrongFile << "Naive answers: " << endl << '\t';
 			for (auto o : ans)
 				wrongFile << bridge->kb->getConcept(o) << '\t';
-			wrongFile << "score : " << score << endl << endl;
 		}
 	}
 	resultFile.close();
 	wrongFile.close();
 
-	return calculateMetrics(acQuery, numOutput, (int) tids.size());
+	return calculateMetrics(acQuery, numOutput, (double) tids.size());
 }
 
 void Experiment::runColRelationLatency()
@@ -282,7 +280,7 @@ double Experiment::getScore(string concept, string label)
 	return exp(-(double)abs(conceptLevel - labelLevel));
 }
 
-vector<double> Experiment::calculateMetrics(int ac, int numOut, int total)
+vector<double> Experiment::calculateMetrics(double ac, double numOut, double total)
 {
 	double precision = (double) ac / numOut;
 	double recall = (double) ac / (double) total;

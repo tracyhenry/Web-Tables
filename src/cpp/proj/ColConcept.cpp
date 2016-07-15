@@ -117,6 +117,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	}
 
 	//make a candidate concept set for each column
+	cout << "Table_id = " << tid << endl;
 	vector<vector<int>> candidates(nCol);
 	for (int i = 0; i < nCol; i ++)
 	{
@@ -150,7 +151,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	searchSpace *= (long long) numRelation;
 	searchSpace *= sumCandSize;
 	if (print)
-		cout << "Total search space : " << searchSpace << endl;
+		cout << "Total search space : " << searchSpace << endl << endl;
 
 	//brute-force
 	for (int entityColConcept : candidates[entityCol])
