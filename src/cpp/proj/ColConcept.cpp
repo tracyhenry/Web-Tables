@@ -198,6 +198,29 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 		}
 	}
 
+	//go down
+	for (int i = 0; i < nCol; i ++)
+	{
+		if (ans[i] == -1)
+			continue;
+		unordered_set<int> s(candidates[i].begin(), candidates[i].end());
+		while (1)
+		{
+			int sucCount = kb->getSucCount(ans[i]);
+			int totalNext = 0;
+			int next = -1;
+			for (int j = 0; j < sucCount; j ++)
+			{
+				int ch = kb->getSucNode(ans[i], j);
+				if (s.count(ch))
+					totalNext ++, next = ch;
+			}
+			if (totalNext != 1)
+				break;
+			ans[i] = next;
+		}
+	}
+
 	//print
 	if (print)
 	{

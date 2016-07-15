@@ -271,8 +271,7 @@ double Experiment::getScore(string concept, string label)
 	if (conceptId == 0 || labelId == 0)
 		return -1;
 	//if neither of them is the other's ancestor, return 0
-	if (! bridge->kb->isDescendant(conceptId, labelId) &&
-		! bridge->kb->isDescendant(labelId, conceptId))
+	if (! bridge->kb->isDescendant(conceptId, labelId))
 		return 0;
 	//else return exp(-x), where x is the steps between them
 	int conceptLevel = bridge->kb->getLevel(conceptId);
