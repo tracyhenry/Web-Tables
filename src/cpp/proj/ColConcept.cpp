@@ -50,8 +50,6 @@ double Bridge::getNumContainedCells(Table curTable, int c, int conceptId)
 vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 {
 	Table curTable = corpus->getTableByDataId(tid);
-	double majorityThreshold = 0.5;
-
 	//check range
 	if (c < 0 || c >= curTable.nCol)
 	{
@@ -150,12 +148,36 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	for (int i = 0; i < nCol; i ++)
 		if (i != entityCol)
 			sumCandSize += (long long) candidates[i].size();
-	searchSpace *= (long long) numRelation;
-	searchSpace *= sumCandSize;
+	searchSpace *= (long long) numRelation * (long long) (nCol - 1);
+	searchSpace += (long long) sumCandSize * (long long) numRelation;
 	if (print)
 		cout << "Total search space : " << searchSpace << endl << endl;
 
-	//brute-force
+	//preprocess something
+	vector<vector<int>> attrConcepts(nCol, vector<int>(numRelation + 1, -1));
+	vector<vector<depthVector>> bestDvs(nCol, vector<depthVector>(numRelation + 1));
+	for (int i = 0; i < nCol; i ++)
+	{
+		if (i == entityCol)
+			continue;
+		for (int rel = 1; rel <= numRelation; rel ++)
+		{
+			attrConcepts[i][rel] = -1;
+			bestDvs[i][rel].w.resize(H + 1);
+			for (int conceptId : candidates[i])
+			{
+				TaxoPattern *p1 = colPattern[curTable.id][entityCol];
+				TaxoPattern *p2 = conSchema[conceptId][rel];
+				depthVector cur = Matcher::dVector(kb, p1, p2);
+				if (cur < bestDvs[i][rel])
+				{
+					bestDvs[i][rel] = cur;
+					attrConcepts[i][rel] = conceptId;
+				}
+			}
+		}
+	}
+
 	for (int entityColConcept : candidates[entityCol])
 	{
 		depthVector sumDv(H + 1);
@@ -165,32 +187,20 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 		{
 			if (i == entityCol) continue;
 			depthVector bestDv(H + 1);
-			for (int curConcept : candidates[i])
-				for (int rel = 1; rel <= numRelation; rel ++)
+			for (int rel = 1; rel <= numRelation; rel ++)
+			{
+				int reverseRel = kb->getReverseRelationId(rel);
+				TaxoPattern *p1 = colPattern[curTable.id][i];
+				TaxoPattern *p2 = conSchema[entityColConcept][rel];
+				depthVector curDv = Matcher::dVector(kb, p1, p2);
+				curDv.addUpdate(bestDvs[i][reverseRel]);
+				if (curDv < bestDv)
 				{
-					depthVector curDv(H + 1);
-					int reverseRel = kb->getReverseRelationId(rel);
-					if (conSchema[entityColConcept].count(rel))
-					{
-						depthVector t = Matcher::dVector(kb,
-														 conSchema[entityColConcept][rel],
-														 colPattern[curTable.id][i]);
-						curDv.addUpdate(t);
-					}
-					if (conSchema[curConcept].count(reverseRel))
-					{
-						depthVector t = Matcher::dVector(kb,
-														 conSchema[curConcept][reverseRel],
-														 colPattern[curTable.id][entityCol]);
-						curDv.addUpdate(t);
-					}
-					if (curDv < bestDv)
-					{
-						bestDv = curDv;
-						curState[i] = curConcept;
-						curState[i + nCol] = rel;
-					}
+					bestDv = curDv;
+					curState[i] = attrConcepts[i][reverseRel];
+					curState[i + nCol] = rel;
 				}
+			}
 			sumDv.addUpdate(bestDv);
 		}
 		if (sumDv < ansDv)
