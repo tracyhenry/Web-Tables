@@ -36,13 +36,15 @@ int depthVector::operator < (const depthVector &o) const
 		if (w[i] + 1e-9 < o.w[i])
 			return 0;
 	}
-*/
+
 	double sum0 = 0, sum1 = 0;
 	for (double x : w)
 		sum0 += x;
 	for (double x : o.w)
 		sum1 += x;
 	return sum0 > sum1;
+*/
+	return score(5) > o.score(5);
 }
 
 depthVector::depthVector()
@@ -101,7 +103,7 @@ void depthVector::normalize(double f)
 		w[i] /= f;
 }
 
-double depthVector::score(double coef)
+double depthVector::score(double coef) const
 {
 	double ans = 0;
 	for (int i = 0; i < (int) w.size(); i ++)

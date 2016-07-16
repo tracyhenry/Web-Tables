@@ -72,7 +72,9 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 	for (int conceptId : candidates)
 	{
 		double numContainedCell = getNumContainedCells(curTable, c, conceptId);
-		if (numContainedCell / numLuckyCell >= majorityThreshold)
+		double luckyRate = numLuckyCell / curTable.nRow;
+		double threshold = TMIN + (TMAX - TMIN) * luckyRate;
+		if (numContainedCell / numLuckyCell >= threshold)
 			score.emplace_back(kb->getDepth(conceptId), conceptId);
 	}
 	//Sort by depth

@@ -42,7 +42,7 @@ struct depthVector
 	void normalize(double);
 
 	//convert to exponential score
-	double score(double);
+	double score(double) const;
 
 	//From depth to weight
 	std::vector<double> w;
