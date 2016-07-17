@@ -127,7 +127,6 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 		double luckyRate = (double) numLuckyCell / nRow;
 		double threshold = TMIN + (TMAX - TMIN) * luckyRate;
 		if (! numLuckyCell) continue;
-//		cout << "Threshold for column " << i <<" : " << threshold << endl;
 		for (auto kv : colPattern[curTable.id][i]->c)
 		{
 			int conceptId = kv.first;
@@ -137,14 +136,6 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 			if (numContainedCell / numLuckyCell >= threshold)
 				candidates[i].push_back(conceptId);
 		}
-/*		cout << "Candidate size for column " << i << " : " << candidates[i].size() << endl;
-		if (candidates[i].size() <= 15)
-		{
-			cout << "Candidates for this column : " << endl;
-			for (int conceptId : candidates[i])
-				cout << '\t' << kb->getConcept(conceptId) << endl;
-		}
-*/
 	}
 
 	//calculate search space
@@ -158,7 +149,27 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	if (print)
 		cout << "Total search space : " << searchSpace << endl << endl;
 
-	//preprocess something
+	//preprocess column utility
+	vector<double> columnUtility(nCol);
+	for (int i = 0; i < nCol; i ++)
+	{
+		if (i == entityCol)
+			continue;
+		columnUtility[i] = getNumLuckyCells(curTable, i);
+		columnUtility[i] /= (double) nRow;
+		columnUtility[i] /= (double) candidates[i].size();
+	}
+
+	//preprocess concept utility
+	vector<unordered_map<int, double>> conceptUtility(nCol);
+	for (int i = 0; i < nCol; i ++)
+		for (int conceptId : candidates[i])
+		{
+			conceptUtility[i][conceptId] = colPattern[curTable.id][i]->c[conceptId];
+            conceptUtility[i][conceptId] /= (double) (kb->getDepth(conceptId) + 1);
+		}
+
+	//share computation
 	vector<vector<int>> attrConcepts(nCol, vector<int>(numRelation + 1, -1));
 	vector<vector<depthVector>> bestDvs(nCol, vector<depthVector>(numRelation + 1));
 	for (int i = 0; i < nCol; i ++)
@@ -199,20 +210,23 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 				if (! conSchema[entityColConcept].count(rel))
 					continue;
 				int reverseRel = kb->getReverseRelationId(rel);
+				int curConcept = attrConcepts[i][reverseRel];
 				TaxoPattern *p1 = colPattern[curTable.id][i];
 				TaxoPattern *p2 = conSchema[entityColConcept][rel];
 				depthVector curDv = Matcher::dVector(kb, p1, p2);
-				curDv.normalize((double) nRow / getNumLuckyCells(curTable, i));
 				curDv.addUpdate(bestDvs[i][reverseRel]);
+				curDv.normalize(1.0 / columnUtility[i]);
+				curDv.normalize(1.0 / conceptUtility[i][curConcept]);
 				if (curDv < bestDv)
 				{
 					bestDv = curDv;
-					curState[i] = attrConcepts[i][reverseRel];
+					curState[i] = curConcept;
 					curState[i + nCol] = rel;
 				}
 			}
 			sumDv.addUpdate(bestDv);
 		}
+		sumDv.normalize(conceptUtility[entityCol][entityColConcept]);
 		if (sumDv < ansDv)
 		{
 			ansDv = sumDv;
