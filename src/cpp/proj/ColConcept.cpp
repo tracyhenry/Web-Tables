@@ -157,7 +157,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 			continue;
 		columnUtility[i] = getNumLuckyCells(curTable, i);
 		columnUtility[i] /= (double) nRow;
-		columnUtility[i] /= (double) candidates[i].size();
+		columnUtility[i] /= (double) (candidates[i].size() + 1);
 	}
 
 	//preprocess concept utility
@@ -166,7 +166,8 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 		for (int conceptId : candidates[i])
 		{
 			conceptUtility[i][conceptId] = colPattern[curTable.id][i]->c[conceptId];
-            conceptUtility[i][conceptId] /= (double) (kb->getDepth(conceptId) + 1);
+			conceptUtility[i][conceptId] /= colPattern[curTable.id][i]->numEntity;
+			conceptUtility[i][conceptId] /= ((kb->getDepth(conceptId) + 1) / H);
 		}
 
 	//share computation
@@ -226,7 +227,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 			}
 			sumDv.addUpdate(bestDv);
 		}
-		sumDv.normalize(conceptUtility[entityCol][entityColConcept]);
+		sumDv.normalize(1.0 / conceptUtility[entityCol][entityColConcept]);
 		if (sumDv < ansDv)
 		{
 			ansDv = sumDv;
