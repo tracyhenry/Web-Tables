@@ -23,4 +23,26 @@
 3317	0	1	wikicategory_Gay_villages
 3317	1	1	wordnet_country_108544813
 3317	2	1	wordnet_city_108524735
-
+2215	0	1	wikicategory_Ice_hockey_teams_in_Sweden
+2215	1	3	wikicategory_Coastal_cities_and_towns_in_Sweden	wikicategory_Port_cities_in_Sweden	wikicategory_Swedish_municipal_seats
+2215	2	2	wikicategory_Ice_hockey_venues_in_Sweden	wikicategory_Indoor_ice_hockey_venues_in_Sweden
+3884	1	1	wordnet_movie_106613686
+3884	3	1	wordnet_film_director_110088200
+3884	4	1	wikicategory_20th-century_actors
+4807	0	1	wordnet_university_108286569
+4807	1	1	wordnet_administrative_district_108491826
+4495	0	1	wordnet_city_108524735
+4495	1	1	wikicategory_Football_venues_in_Ukraine
+4495	3	1	wikicategory_Football_clubs_in_Ukraine
+3585	0	1	wikicategory_La_Liga_footballers
+3585	3	2	wikicategory_Football_clubs_in_Spain	wikicategory_La_Liga_clubs
+4346	0	2	wikicategory_Chief_Justices_of_the_Tennessee_Supreme_Court	wikicategory_Tennessee_lawyers
+4346	2	1	wordnet_site_108651247
+4346	3	1	wikicategory_Governors_of_Tennessee
+5006	1	2	wordnet_stadium_104295881	wordnet_venue_108677628
+5006	3	1	wordnet_city_108524735
+5006	4	1	wikicategory_Oceanian_countries
+5647	0	1	wordnet_basketball_player_109842047
+5647	2	1	wordnet_country_108544813
+5647	3	1	wikicategory_Basketball_positions
+5647	5	1	wordnet_university_108286569
