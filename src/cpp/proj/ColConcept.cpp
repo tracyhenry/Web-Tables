@@ -166,6 +166,8 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 			bestDvs[i][rel].w.resize(H + 1);
 			for (int conceptId : candidates[i])
 			{
+				if (! conSchema[conceptId].count(rel))
+					continue;
 				TaxoPattern *p1 = colPattern[curTable.id][entityCol];
 				TaxoPattern *p2 = conSchema[conceptId][rel];
 				depthVector cur = Matcher::dVector(kb, p1, p2);
@@ -189,6 +191,8 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 			depthVector bestDv(H + 1);
 			for (int rel = 1; rel <= numRelation; rel ++)
 			{
+				if (! conSchema[entityColConcept].count(rel))
+					continue;
 				int reverseRel = kb->getReverseRelationId(rel);
 				TaxoPattern *p1 = colPattern[curTable.id][i];
 				TaxoPattern *p2 = conSchema[entityColConcept][rel];
