@@ -59,6 +59,7 @@ target/
 
 # Huge Data
 data/Table/WWT_xml/
+data/Result/
 wenbo
 *.sql
 result*.txt

@@ -35,7 +35,7 @@
 4495	1	1	wikicategory_Football_venues_in_Ukraine
 4495	3	1	wikicategory_Football_clubs_in_Ukraine
 3585	0	1	wikicategory_La_Liga_footballers
-3585	3	2	wikicategory_Football_clubs_in_Spain	wikicategory_La_Liga_clubs
+3585	4	2	wikicategory_Football_clubs_in_Spain	wikicategory_La_Liga_clubs
 4346	0	2	wikicategory_Chief_Justices_of_the_Tennessee_Supreme_Court	wikicategory_Tennessee_lawyers
 4346	2	1	wordnet_site_108651247
 4346	3	1	wikicategory_Governors_of_Tennessee

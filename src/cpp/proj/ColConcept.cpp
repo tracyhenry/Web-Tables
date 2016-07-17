@@ -59,6 +59,8 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 
 	//Compute total lucky cell in this column
 	double numLuckyCell = getNumLuckyCells(curTable, c);
+	if (! numLuckyCell)
+		return vector<int>();
 
 	//Make candidate set from column pattern
 	unordered_set<int> candidates;
@@ -124,10 +126,13 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 		double numLuckyCell = getNumLuckyCells(curTable, i);
 		double luckyRate = (double) numLuckyCell / nRow;
 		double threshold = TMIN + (TMAX - TMIN) * luckyRate;
+		if (! numLuckyCell) continue;
 //		cout << "Threshold for column " << i <<" : " << threshold << endl;
 		for (auto kv : colPattern[curTable.id][i]->c)
 		{
 			int conceptId = kv.first;
+			if (kb->getDepth(conceptId) > TH_DEPTH)
+				continue;
 			double numContainedCell = getNumContainedCells(curTable, i, conceptId);
 			if (numContainedCell / numLuckyCell >= threshold)
 				candidates[i].push_back(conceptId);
@@ -197,6 +202,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 				TaxoPattern *p1 = colPattern[curTable.id][i];
 				TaxoPattern *p2 = conSchema[entityColConcept][rel];
 				depthVector curDv = Matcher::dVector(kb, p1, p2);
+				curDv.normalize((double) nRow / getNumLuckyCells(curTable, i));
 				curDv.addUpdate(bestDvs[i][reverseRel]);
 				if (curDv < bestDv)
 				{
