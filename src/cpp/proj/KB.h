@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 #include <string>
-
+#include <unordered_map>
 
 class KB
 {
@@ -57,6 +57,10 @@ protected:
 	std::string typeFileName, subclassFileName;
 	std::string relationFileName, factFileName;
 
+	//For KATARA
+	std::vector<int> relTripleCount;
+	std::vector<std::unordered_map<int, int>> entPairTripleCount;
+
 	//Init SubClassOf Relationship
 	void initTaxonomy();
 
@@ -98,6 +102,10 @@ public:
 	std::string getRelation(int);		//by id
 	int getDepth(int);		//by concept id
 	int getLevel(int);
+
+	//For KATARA
+	int getRelTripleCount(int);	//by relation id
+	int getEntPairTripleCount(int, int);	//by ent1, ent2
 	//Constructor
 	KB();
 

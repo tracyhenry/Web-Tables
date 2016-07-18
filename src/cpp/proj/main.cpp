@@ -114,6 +114,9 @@ void interactiveQuery()
 			case 4:
 				cin >> x;
 				bridge->findColConceptAndRelation(x, true);
+			case 5:
+				cin >> x;
+				bridge->kataraFindColConceptAndRelation(x, true);
 		}
 		cout << endl << "-----------------------------------------" << endl;
 	}
@@ -122,9 +125,9 @@ void interactiveQuery()
 int main()
 {
 	bridge = new Bridge();
-	bridge->letsDebug();
-	Experiment* experiment = new Experiment(bridge);
-	experiment->runAllExp();
+//	bridge->letsDebug();
+//	Experiment* experiment = new Experiment(bridge);
+//	experiment->runAllExp();
 	interactiveQuery();
 
 	return 0;

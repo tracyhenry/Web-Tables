@@ -10,6 +10,21 @@
 #include <utility>
 #include <fstream>
 #include <unordered_map>
+#include <unordered_set>
+
+struct KataraListEntry
+{
+	std::string type;
+	int x, y;
+	std::vector<std::pair<double, int>> candidates;
+
+	KataraListEntry() {}
+	KataraListEntry(std::string t, int _x, int _y) :
+		type(t), x(_x), y(_y)
+	{
+		candidates.clear();
+	}
+};
 
 class Bridge
 {
@@ -53,6 +68,13 @@ private:
 	//debug file
 	std::ofstream debug;
 
+	//For KATARA
+	std::vector<KataraListEntry> rankedLists;
+	std::vector<std::vector<double>> relSC;
+	std::vector<std::vector<double>> p3;
+	std::vector<double> p1, p2;
+	std::vector<std::unordered_set<int>> entRels;
+
 	//Initialize match result
 	void initMatch();
 
@@ -83,6 +105,9 @@ private:
 	//get the number of contained cells in a column by a concept, given by conceptId, curTable, cid
 	double getNumContainedCells(Table, int, int);
 
+	//katara private functions
+	void kataraDfs(int);
+
 public:
 	//Knowledge base
 	KB *kb;
@@ -105,23 +130,39 @@ public:
 	//get matches
 	std::vector<std::pair<int, double>>& getMatch(int cellId);
 
+	/**
+	* Our methods to find tuple concepts.
+	*/
 	//Find the most similar concept for a record
 	std::vector<int> findRecordConcept(int, int, bool);
 
+	//Find the most similar concepts for all records
+	void findAllConcept();
+
+	/**
+	* Our methods to find column relationships.
+	*/
 	//Find the most possible type of relation for a given column
 	std::vector<int> findRelation(int, int, bool);
 
 	//Find the relations for all attr columns
 	void findAllRelation();
 
-	//Find the most similar concepts for all records
-	void findAllConcept();
-
+	/**
+	* Our methods to find column concepts.
+	*/
 	//Naive method to get column concepts
 	std::vector<int> findColConceptMajority(int, int, bool);
 
 	//Use taxonomy patterns to find column concepts & relations together
 	std::vector<int> findColConceptAndRelation(int, bool);
+
+	/**
+	* KATARA related.
+	*/
+	void initRankedLists(int);
+	void initCoherenceScores();
+	std::vector<int> kataraFindColConceptAndRelation(int, bool);
 };
 
 #endif

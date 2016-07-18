@@ -157,6 +157,17 @@ int KB::getLevel(int x)
 {
 	return level[x];
 }
+
+int KB::getRelTripleCount(int relationId)
+{
+	return relTripleCount[relationId];
+}
+
+int KB::getEntPairTripleCount(int e1, int e2)
+{
+	return entPairTripleCount[e1][e2];
+}
+
 void KB::initTaxonomy()
 {
 
@@ -253,10 +264,19 @@ void KB::initFact()
 	facts.resize(K + 1);
 	for (int i = 1; i <= K; i ++)
 		facts[i].clear();
+	relTripleCount.clear();
+	relTripleCount.resize(F + 1);
+	entPairTripleCount.clear();
+	entPairTripleCount.resize(K + 1);
 	while (fscanf(factFile, "%d%d%d", &x, &z, &y) == 3)
 	{
 		facts[x].emplace_back(z, y);
 		facts[y].emplace_back(z + F / 2, x);
+		//for katara
+		relTripleCount[z] ++;
+		relTripleCount[z + F / 2] ++;
+		entPairTripleCount[x][y] ++;
+		entPairTripleCount[y][x] ++;
 	}
 }
 
