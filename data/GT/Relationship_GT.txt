@@ -1,24 +1,24 @@
 1356	2	2	playsFor	isAffiliatedTo
 5104	5	2	playsFor	isAffiliatedTo
 2896	2	1	isAffiliatedTo
-3297	3	1	** created **
-4506	2	1	** created **
-4506	3	1	** created **
+3297	3	1	**_created_**
+4506	2	1	**_created_**
+4506	3	1	**_created_**
 3792	2	1	isCitizenOf
 3792	4	2	isAffiliatedTo	playsFor
 2843	2	1	actedIn
 4931	1	1	isLocatedIn
-4175	1	1	** isPoliticianOf **	isAffiliatedTo
-1283	2	1	** isPoliticianOf **	isAffiliatedTo
+4175	1	2	**_isPoliticianOf_**	isAffiliatedTo
+1283	2	2	**_isPoliticianOf_**	isAffiliatedTo
 3317	1	1	isLocatedIn
 3317	2	1	isLocatedIn
 2215	1	1	isLocatedIn
 2215	2	1	owns
-3884	3	1	** directed **
-3884	4	1	** actedIn **
+3884	3	1	**_directed_**
+3884	4	1	**_actedIn_**
 4807	1	1	isLocatedIn
-4495	1	1	** isLocatedIn **
-4495	3	1	** isLocatedIn **
+4495	1	1	**_isLocatedIn_**
+4495	3	1	**_isLocatedIn_**
 3585	4	1	playsFor
 4346	2	1	wasBornIn
 4346	3	1	influences

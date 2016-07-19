@@ -12,7 +12,7 @@ Experiment::Experiment(Bridge *b) : bridge(b) {}
 
 void Experiment::runAllExp()
 {
-	vector<string> methods = {"naive", "katara", "ours"};
+	vector<string> methods = {"baseline", "katara", "ours"};
 	//column concepts experiments
 	for (string method : methods)
 		runExpColConcept(method);
@@ -83,7 +83,7 @@ vector<double> Experiment::runExpColConcept(string method)
 					<< label << '\t' << endl;
 
 		//update metrics
-		double score = -1;
+		double score = 0;
 		for (string concept : gts[i])
 			score = max(score, getScore(concept, label));
 		acQuery += score;
@@ -134,6 +134,9 @@ vector<double> Experiment::runExpColRelation(string method)
 		for (int i = 0; i < nGT; i ++)
 		{
 			gtFile >> gt;
+			for (int it = 0; it < (int) gt.size(); it ++)
+				if (gt[it] == '_')
+					gt[it] = ' ';
 			gts[gts.size() - 1].push_back(gt);
 		}
 	}
@@ -153,7 +156,6 @@ vector<double> Experiment::runExpColRelation(string method)
 			else if (method == "ours")
 				outputAns[tids[i]] = bridge->findColConceptAndRelation(tids[i], false);
 		}
-
 	for (int i = 0; i < (int) tids.size(); i ++)
 	{
 		int tid = tids[i];
@@ -168,9 +170,10 @@ vector<double> Experiment::runExpColRelation(string method)
 					<< label << '\t' << endl;
 
 		//update metrics
-		double score = -1;
-		for (string concept : gts[i])
-			score = max(score, getScore(concept, label));
+		double score = 0;
+		for (string rel : gts[i])
+			if (rel == label)
+				score = 1.0;
 		acQuery += score;
 		if (score < 1.0)
 		{

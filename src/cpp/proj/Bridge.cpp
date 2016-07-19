@@ -50,12 +50,12 @@ Bridge::Bridge()
 	gettimeofday(&t2, NULL);
 	cout << "entityPattern Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0 << endl;
 
-/*	//initialize kb schema
+	//initialize kb schema
 	gettimeofday(&t1, NULL);
 	initKbSchema();
 	gettimeofday(&t2, NULL);
 	cout << "schemaPattern Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0 << endl;
-*/
+
 	//initialize cell taxo patterns
 	gettimeofday(&t1, NULL);
 	initCellPattern();
