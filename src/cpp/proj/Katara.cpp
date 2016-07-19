@@ -30,9 +30,15 @@ void Bridge::initRankedLists(int tid)
 	for (int i = 0; i < nCol; i ++)
 	{
 		rankedLists.push_back(KataraListEntry("col", i, -1));
+		double numLuckyCell = getNumLuckyCells(curTable, i);
+		double luckyRate = (double) numLuckyCell / nRow;
+		double threshold = TMIN + (TMAX - TMIN) * luckyRate;
 		for (auto kv : colPattern[curTable.id][i]->c)
 		{
 			int c = kv.first;
+			double numContainedCell = getNumContainedCells(curTable, i, c);
+			if (numContainedCell / numLuckyCell < threshold)
+				continue;
 			double tfIdf = 0;
 			for (int j = 0; j < nRow; j ++)
 			{
@@ -169,14 +175,14 @@ void Bridge::initCoherenceScores()
 			p3[i][j] /= (double) totalEntity, p3[i][j] += 1e-9;
 
 	//compute coherence score
-    relSC.clear(), relSC.resize(totalConcept + 1);
-    for (int i = 1; i <= totalConcept; i ++)
+	relSC.clear(), relSC.resize(totalConcept + 1);
+	for (int i = 1; i <= totalConcept; i ++)
 	{
 		relSC[i].resize(totalRelation + 1);
 		for (int j = 1; j <= totalRelation; j ++)
 		{
 			relSC[i][j] = log(p3[i][j] / p1[i] / p2[j]);
-			relSC[i][j] /= -p3[i][j];
+			relSC[i][j] /= -log(p3[i][j]);
 			relSC[i][j] = (relSC[i][j] + 1) / 2.0;
 		}
 	}
