@@ -70,10 +70,13 @@ private:
 
 	//For KATARA
 	std::vector<KataraListEntry> rankedLists;
+	std::vector<double> ubs, sumUbs;
+	std::vector<int> curState, ansState;
 	std::vector<std::vector<double>> relSC;
 	std::vector<std::vector<double>> p3;
 	std::vector<double> p1, p2;
 	std::vector<std::unordered_set<int>> entRels;
+	double maxScore;
 
 	//Initialize match result
 	void initMatch();
@@ -107,6 +110,7 @@ private:
 
 	//katara private functions
 	void kataraDfs(int);
+	void kataraBackTrace(int, int, double);
 
 public:
 	//Knowledge base

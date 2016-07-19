@@ -211,16 +211,59 @@ vector<int> Bridge::kataraFindColConceptAndRelation(int tid, bool print)
 	int entityCol = curTable.entityCol;
 
 	initRankedLists(tid);
-
-	vector<int> ans(nCol * 2);
-	//col
-	for (int i = 0; i < nCol; i ++)
-	{
-		if (rankedLists[i].candidates.empty())
-			ans[i] = -1;
+	//make upper bounds
+	ubs.clear(), ubs.resize(rankedLists.size());
+	sumUbs.clear(), sumUbs.resize(rankedLists.size());
+	for(int i = (int) ubs.size() - 1; i >= 0; i --)
+		if (rankedLists[i].type == "rel")
+		{
+			ubs[i] = 0;
+			int x = rankedLists[i].x;
+			int y = rankedLists[i].y;
+			for (auto kv : rankedLists[i].candidates)
+			{
+				double maxv;
+				double score = kv.first;
+				int rel = kv.second;
+				int reverseRel = kb->getReverseRelationId(rel);
+				//find max for x
+				maxv = 0;
+				for (auto it : rankedLists[x].candidates)
+					maxv = max(maxv, relSC[it.second][rel]);
+				score += maxv;
+				//find max for y
+				maxv = 0;
+				for (auto it : rankedLists[y].candidates)
+					maxv = max(maxv, relSC[it.second][reverseRel]);
+				score += maxv;
+				ubs[i] = max(ubs[i], score);
+			}
+			sumUbs[i] = ubs[i];
+			if (i + 1 < (int) sumUbs.size())
+				sumUbs[i] += sumUbs[i + 1];
+		}
 		else
-			ans[i] = rankedLists[i].candidates[0].second;
-	}
+		{
+			ubs[i] = 0;
+			if (rankedLists[i].candidates.size())
+				ubs[i] = rankedLists[i].candidates[0].first;
+			sumUbs[i] = ubs[i];
+			if (i + 1 < (int) sumUbs.size())
+				sumUbs[i] += sumUbs[i + 1];
+		}
+
+	//backtrace
+	maxScore = 0;
+	curState.clear(), curState.resize(rankedLists.size());
+	ansState.clear(), ansState.resize(rankedLists.size());
+	for (int i = 0; i < (int) rankedLists.size(); i ++)
+		curState[i] = ansState[i] = -1;
+	kataraBackTrace(0, nCol, 0.0);
+
+	//col
+	vector<int> ans(nCol * 2, -1);
+	for (int i = 0; i < nCol; i ++)
+		ans[i] = ansState[i];
 	//rel
 	for (int i = 0; i < nCol; i ++)
 	{
@@ -230,12 +273,7 @@ vector<int> Bridge::kataraFindColConceptAndRelation(int tid, bool print)
 		int y = max(i, entityCol);
 		for (int j = nCol; j < (int) rankedLists.size(); j ++)
 			if (rankedLists[j].x == x && rankedLists[j].y == y)
-			{
-				if (rankedLists[j].candidates.empty())
-					ans[i + nCol] = -1;
-				else
-					ans[i + nCol] = rankedLists[j].candidates[0].second;
-			}
+				ans[i + nCol] = ansState[j];
 	}
 	if (print)
 	{
@@ -246,6 +284,46 @@ vector<int> Bridge::kataraFindColConceptAndRelation(int tid, bool print)
 				<< '\t' << (ans[i + nCol] == -1 ? "No Relation" : kb->getRelation(ans[i + nCol])) << endl;
 		cout <<endl;
 	}
-	//todo implement the complete version
 	return ans;
+}
+
+void Bridge::kataraBackTrace(int x, int nCol, double s)
+{
+	if (x == nCol)
+	{
+		//add rel scores to s
+		for (int i = nCol; i < (int) rankedLists.size(); i ++)
+		{
+			double maxv = 0;
+			int x = rankedLists[i].x;
+			int y = rankedLists[i].y;
+			curState[i] = -1;
+			for (auto kv : rankedLists[i].candidates)
+			{
+				double score = kv.first;
+				int rel = kv.second;
+				int reverseRel = kb->getReverseRelationId(rel);
+				if (curState[x] != -1)
+					score += relSC[curState[x]][rel];
+				if (curState[y] != -1)
+					score += relSC[curState[y]][reverseRel];
+				if (score > maxv)
+					maxv = score, curState[i] = rel;
+			}
+			s += maxv;
+		}
+		if (s > maxScore)
+			maxScore = s, ansState = curState;
+		return ;
+	}
+	//prune
+	if (s + sumUbs[x] <= maxScore)
+		return ;
+	for (auto kv : rankedLists[x].candidates)
+	{
+		curState[x] = kv.second;
+		kataraBackTrace(x + 1, nCol, s + kv.first);
+		curState[x] = -1;
+	}
+	kataraBackTrace(x + 1, nCol, s);
 }
