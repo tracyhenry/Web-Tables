@@ -59,11 +59,11 @@ void Bridge::initRankedLists(int tid)
 		//sort and normalize
 		sort(rankedLists[i].candidates.begin(), rankedLists[i].candidates.end());
 		reverse(rankedLists[i].candidates.begin(), rankedLists[i].candidates.end());
-		double sum = 0;
+		double maxs = 0;
 		for (auto kv : rankedLists[i].candidates)
-			sum += kv.first;
+			maxs = max(maxs, kv.first);
 		for (auto& kv : rankedLists[i].candidates)
-			kv.first /= sum;
+			kv.first /= maxs;
 	}
 
 	for (int i = 0; i < nCol; i ++)
@@ -114,13 +114,13 @@ void Bridge::initRankedLists(int tid)
 					rankedLists[idx].candidates.emplace_back(tfIdf, rel);
 			}
 			//sort and normalize
-        	sort(rankedLists[idx].candidates.begin(), rankedLists[idx].candidates.end());
-        	reverse(rankedLists[idx].candidates.begin(), rankedLists[idx].candidates.end());
-			double sum = 0;
+			sort(rankedLists[idx].candidates.begin(), rankedLists[idx].candidates.end());
+			reverse(rankedLists[idx].candidates.begin(), rankedLists[idx].candidates.end());
+			double maxs = 0;
 			for (auto kv : rankedLists[idx].candidates)
-				sum += kv.first;
+				maxs = max(maxs, kv.first);
 			for (auto& kv : rankedLists[idx].candidates)
-				kv.first /= sum;
+				kv.first /= maxs;
 		}
 }
 

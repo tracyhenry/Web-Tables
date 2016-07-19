@@ -57,7 +57,7 @@ vector<double> Experiment::runExpColConceptGood()
 	unordered_map<int, vector<int>> outputAns;
 	for (int i = 0; i < (int) tids.size(); i ++)
 		if (! outputAns.count(tids[i]))
-			outputAns[tids[i]] = bridge->findColConceptAndRelation(tids[i], false);
+			outputAns[tids[i]] = bridge->kataraFindColConceptAndRelation(tids[i], false);
 
 	for (int i = 0; i < (int) tids.size(); i ++)
 	{
