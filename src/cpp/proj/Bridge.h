@@ -161,6 +161,9 @@ public:
 	//Use taxonomy patterns to find column concepts & relations together
 	std::vector<int> findColConceptAndRelation(int, bool);
 
+	//Baseline
+	std::vector<int> baselineFindColConceptAndRelation(int, bool);
+
 	/**
 	* KATARA related.
 	*/

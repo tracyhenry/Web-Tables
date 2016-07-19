@@ -28,11 +28,11 @@ public:
 	//run a set of experiments
 	void runAllExp();
 
-	//column concept naive method
-	std::vector<double> runExpColConceptNaive();
+	//column concept experiments
+	std::vector<double> runExpColConcept(std::string);
 
-	//column concept good method, returning precision, recall and F-measure
-	std::vector<double> runExpColConceptGood();
+	//column relation experiments
+	std::vector<double> runExpColRelation(std::string);
 
 	//test the running time of finding relation
 	void runColRelationLatency();

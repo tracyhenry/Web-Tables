@@ -111,12 +111,15 @@ void interactiveQuery()
 				cin >> x >> y;
 				bridge->findColConceptMajority(x, y, true);
 				break;
+			case 3:
+				cin >> x;
+				bridge->baselineFindColConceptAndRelation(x, true);
 			case 4:
 				cin >> x;
-				bridge->findColConceptAndRelation(x, true);
+				bridge->kataraFindColConceptAndRelation(x, true);
 			case 5:
 				cin >> x;
-				bridge->kataraFindColConceptAndRelation(x, true);
+				bridge->findColConceptAndRelation(x, true);
 		}
 		cout << endl << "-----------------------------------------" << endl;
 	}

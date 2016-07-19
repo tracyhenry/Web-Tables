@@ -12,26 +12,29 @@ Experiment::Experiment(Bridge *b) : bridge(b) {}
 
 void Experiment::runAllExp()
 {
-	runExpColConceptNaive();
-	runExpColConceptGood();
+	vector<string> methods = {"naive", "katara", "ours"};
+	//column concepts experiments
+	for (string method : methods)
+		runExpColConcept(method);
+
+	//column relationship experiments
+	for (string method : methods)
+		runExpColRelation(method);
 }
 
-vector<double> Experiment::runExpColConceptGood()
+vector<double> Experiment::runExpColConcept(string method)
 {
-	cout << endl
-		 << "Current Experiment: running the column concept & rel algorithm to get column concept labels."
-		 << endl;
-
 	//some variables
 	vector<int> tids, cids, nGTs;
 	vector<vector<string>> gts;
 	string gtFileName = "../../../data/GT/Column_Concept_GT.txt";
 	ifstream gtFile(gtFileName.c_str());
-	string resultFileName = "../../../data/Result/colConcept/colConcept_Good.txt";
+	string resultFileName = "../../../data/Result/colConcept/colConcept_" + method + ".txt";
 	ofstream resultFile(resultFileName.c_str());
-	string wrongFileName = "../../../data/Result/colConcept/colConcept_Good_wrong.txt";
+	string wrongFileName = "../../../data/Result/colConcept/colConcept_" + method + "_wrong.txt";
 	ofstream wrongFile(wrongFileName.c_str());
 	srand(time(0));
+	cout << "The " << method << " method of column concept determination is running......" << endl;
 
 	//read in the gt file
 	int tid, cid, nGT;
@@ -57,7 +60,14 @@ vector<double> Experiment::runExpColConceptGood()
 	unordered_map<int, vector<int>> outputAns;
 	for (int i = 0; i < (int) tids.size(); i ++)
 		if (! outputAns.count(tids[i]))
-			outputAns[tids[i]] = bridge->kataraFindColConceptAndRelation(tids[i], false);
+		{
+			if (method == "baseline")
+				outputAns[tids[i]] = bridge->baselineFindColConceptAndRelation(tids[i], false);
+			else if (method == "katara")
+				outputAns[tids[i]] = bridge->kataraFindColConceptAndRelation(tids[i], false);
+			else if (method == "ours")
+				outputAns[tids[i]] = bridge->findColConceptAndRelation(tids[i], false);
+		}
 
 	for (int i = 0; i < (int) tids.size(); i ++)
 	{
@@ -97,23 +107,19 @@ vector<double> Experiment::runExpColConceptGood()
 	return calculateMetrics(acQuery, numOutput, (double) tids.size());
 }
 
-vector<double> Experiment::runExpColConceptNaive()
+vector<double> Experiment::runExpColRelation(string method)
 {
-	cout << endl
-		 << "Current Experiment: running the naive majority method of column concept determination..."
-		 << endl;
-
 	//some variables
 	vector<int> tids, cids, nGTs;
 	vector<vector<string>> gts;
-	string gtFileName = "../../../data/GT/Column_Concept_GT.txt";
+	string gtFileName = "../../../data/GT/Relationship_GT.txt";
 	ifstream gtFile(gtFileName.c_str());
-	string resultFileName = "../../../data/Result/colConcept/colConcept_Majority.txt";
+	string resultFileName = "../../../data/Result/colRelation/colRelation_" + method + ".txt";
 	ofstream resultFile(resultFileName.c_str());
-	string wrongFileName = "../../../data/Result/colConcept/colConcept_Majority_wrong.txt";
+	string wrongFileName = "../../../data/Result/colRelation/colRelation_" + method + "_wrong.txt";
 	ofstream wrongFile(wrongFileName.c_str());
-	int K = 1;
 	srand(time(0));
+	cout << "The " << method << " method of binary relationship determination is running......" << endl;
 
 	//read in the gt file
 	int tid, cid, nGT;
@@ -134,40 +140,50 @@ vector<double> Experiment::runExpColConceptNaive()
 	gtFile.close();
 
 	//run functions in ColConcept.cpp
-	double numOutput = 0;
 	double acQuery = 0;
+	double numOutput = 0;
+	unordered_map<int, vector<int>> outputAns;
+	for (int i = 0; i < (int) tids.size(); i ++)
+		if (! outputAns.count(tids[i]))
+		{
+			if (method == "baseline")
+				outputAns[tids[i]] = bridge->baselineFindColConceptAndRelation(tids[i], false);
+			else if (method == "katara")
+				outputAns[tids[i]] = bridge->kataraFindColConceptAndRelation(tids[i], false);
+			else if (method == "ours")
+				outputAns[tids[i]] = bridge->findColConceptAndRelation(tids[i], false);
+		}
+
 	for (int i = 0; i < (int) tids.size(); i ++)
 	{
 		int tid = tids[i];
 		int cid = cids[i];
-		vector<int> ans = bridge->findColConceptMajority(tid, cid, false);
-		if (ans[0] != -1)
-			numOutput ++;
+		int labelId = outputAns[tid][cid + (int) outputAns[tid].size() / 2];
+		string label = "NULL";
+		if (labelId != -1)
+			label = bridge->kb->getRelation(labelId), numOutput ++;
 
 		//output to file
-		resultFile << tid << " " << cid << " " << min((int) ans.size(), K) << " ";
-		for (int j = 0; j < min((int) ans.size(), K); j ++)
-			resultFile << bridge->kb->getConcept(ans[j]) << " ";
-		resultFile << endl;
+		resultFile << tid << '\t' << cid << '\t' << 1 << '\t'
+					<< label << '\t' << endl;
 
-		//update accuracy
+		//update metrics
 		double score = -1;
 		for (string concept : gts[i])
-			score = max(score, getScore(concept, bridge->kb->getConcept(ans[0])));
+			score = max(score, getScore(concept, label));
 		acQuery += score;
 		if (score < 1.0)
 		{
 			wrongFile << endl << "Wrong sample: " << endl
-					  << "table_id = " << tid << " "
-					  << "column_id = " << cid << " "
-					  << "score = " << score << endl;
+						<< "table_id = " << tid << " "
+						<< "column_id = " << cid << " "
+						<< "score = " << score << endl;
 			wrongFile << "GT answers: " << endl << '\t';
 			for (auto o : gts[i])
 				wrongFile << o << '\t';
 			wrongFile << endl;
-			wrongFile << "Naive answers: " << endl << '\t';
-			for (auto o : ans)
-				wrongFile << bridge->kb->getConcept(o) << '\t';
+			wrongFile << "Algo answers: " << endl << '\t';
+			wrongFile << label << endl << endl;
 		}
 	}
 	resultFile.close();

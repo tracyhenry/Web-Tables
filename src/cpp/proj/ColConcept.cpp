@@ -92,6 +92,22 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 	return ans;
 }
 
+vector<int> Bridge::baselineFindColConceptAndRelation(int tid, bool print)
+{
+	Table curTable = corpus->getTableByDataId(tid);
+	int nCol = curTable.nCol;
+	vector<int> ans(nCol * 2, - 1);
+	vector<int> ansColConcept;
+	for (int i = 0; i < nCol; i ++)
+	{
+		vector<int> curAns = findColConceptMajority(tid, i, print);
+		ans[i] = (curAns.size() ? curAns[0] : -1);
+		curAns = findRelation(tid, i, print);
+		ans[i + nCol] = (curAns.size() ? curAns[0] : -1);
+	}
+	return ans;
+}
+
 /**
 * Given a table id,
 * output a vector of int with the first nCol elements being
