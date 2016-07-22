@@ -100,11 +100,20 @@ vector<int> Bridge::baselineFindColConceptAndRelation(int tid, bool print)
 	vector<int> ansColConcept;
 	for (int i = 0; i < nCol; i ++)
 	{
-		vector<int> curAns = findColConceptMajority(tid, i, print);
+		vector<int> curAns = findColConceptMajority(tid, i, false);
 		ans[i] = (curAns.size() ? curAns[0] : -1);
-		curAns = findRelation(tid, i, print);
+		curAns = findRelation(tid, i, false);
 		ans[i + nCol] = (curAns.size() ? curAns[0] : -1);
 	}
+        if (print)
+        {
+                cout << endl << "Entity Column : " << curTable.entityCol << endl << endl;
+                for (int i = 0; i < nCol; i ++)
+                        cout << "Column " << i << " : " << endl
+                                << '\t' << (ans[i] == -1 ? "No Concept" : kb->getConcept(ans[i])) << endl
+                                << '\t' << (ans[i + nCol] == -1 ? "No Relation" : kb->getRelation(ans[i + nCol])) << endl;
+                cout <<endl;
+        }
 	return ans;
 }
 

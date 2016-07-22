@@ -114,12 +114,15 @@ void interactiveQuery()
 			case 3:
 				cin >> x;
 				bridge->baselineFindColConceptAndRelation(x, true);
+				break;
 			case 4:
 				cin >> x;
 				bridge->kataraFindColConceptAndRelation(x, true);
+				break;
 			case 5:
 				cin >> x;
 				bridge->findColConceptAndRelation(x, true);
+				break;
 		}
 		cout << endl << "-----------------------------------------" << endl;
 	}
