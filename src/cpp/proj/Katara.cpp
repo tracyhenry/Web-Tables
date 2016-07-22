@@ -308,12 +308,12 @@ void Bridge::kataraBackTrace(int x, int nCol, double s)
 			{
 				double score = kv.first;
 				int rel = kv.second;
-				int reverseRel = kb->getReverseRelationId(rel);
+/*				int reverseRel = kb->getReverseRelationId(rel);
 				if (curState[x] != -1)
 					score += relSC[curState[x]][rel];
 				if (curState[y] != -1)
 					score += relSC[curState[y]][reverseRel];
-				if (score > maxv)
+*/				if (score > maxv)
 					maxv = score, curState[i] = rel;
 			}
 			s += maxv;
@@ -323,8 +323,8 @@ void Bridge::kataraBackTrace(int x, int nCol, double s)
 		return ;
 	}
 	//prune
-	if (s + sumUbs[x] <= maxScore)
-		return ;
+//	if (s + sumUbs[x] <= maxScore)
+//		return ;
 	for (auto kv : rankedLists[x].candidates)
 	{
 		curState[x] = kv.second;

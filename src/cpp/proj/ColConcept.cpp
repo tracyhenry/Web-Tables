@@ -135,7 +135,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	}
 
 	//make a candidate concept set for each column
-	cout << "Table_id = " << tid << endl;
+//	cout << "Table_id = " << tid << endl;
 	vector<vector<int>> candidates(nCol);
 	for (int i = 0; i < nCol; i ++)
 	{
