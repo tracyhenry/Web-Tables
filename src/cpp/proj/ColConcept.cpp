@@ -260,6 +260,15 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 		}
 	}
 
+	//special check
+	bool noAns = true;
+	for (int i = 0; i < nCol * 2; i ++)
+		if (ans[i] != -1)
+			noAns = false;
+	if (noAns)
+		for (int i = 0; i < nCol; i ++)
+			if (candidates[i].size())
+				ans[i] = candidates[i][0];
 	//go down
 	for (int i = 0; i < nCol; i ++)
 	{

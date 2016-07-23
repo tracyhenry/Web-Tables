@@ -72,13 +72,11 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 	//loop over all concepts
 	for (int i = 1; i <= totalConcept; i ++)
 	{
-		if (! cellPattern[cid]->c.count(i))
-			continue;
+//		int i = kv.first;
 		if (kb->getSucCount(i)) continue;
-
 		depthVector sumSim(H + 1);
 
-		//extras
+/*		//extras
 		vector<int> extraEntity;
 		for (int j = 0; j < (int) matches[cid].size(); j ++)
 		{
@@ -86,7 +84,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 			if (kb->checkBelong(curEntity, i))
 				extraEntity.push_back(curEntity);
 		}
-		//loop over all attributes
+*/		//loop over all attributes
 		for (int c = 0; c < nCol; c ++)
 		{
 			if (c == entityCol) continue;
@@ -96,13 +94,15 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 			for (IterIT it1 = conSchema[i].begin();
 				it1 != conSchema[i].end(); it1 ++)
 			{
+				if (it1->first!= kb->getRelationId("isLocatedIn"))
+					continue;
 				TaxoPattern *cp = cellPattern[curTable.cells[r][c].id];
 				TaxoPattern *pp = it1->second;
 
 				//overall matching
 				depthVector curVector = Matcher::dVector(kb, cp, pp);
 				//subtract extra
-				for (int j = 0; j < (int) extraEntity.size(); j ++)
+/*				for (int j = 0; j < (int) extraEntity.size(); j ++)
 				{
 					int curEntity = extraEntity[j];
 					if (entSchema[curEntity].count(it1->first))
@@ -113,16 +113,17 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 						curVector.addUpdate(sub);
 					}
 				}
-				sim.maxUpdate(curVector);
+*/				sim.maxUpdate(curVector);
 			}
 			sumSim.addUpdate(sim);
 		}
 		//normalize
-		double f = kb->getPossessCount(i) - (int) extraEntity.size();
+/*		double f = kb->getPossessCount(i) - (int) extraEntity.size();
 		if (f > 0)
 			sumSim.normalize(kb->getPossessCount(i));
-
+*/
 		simScore.emplace_back(sumSim, i);
+
 	}
 	//sort
 	sort(simScore.begin(), simScore.end());
@@ -133,7 +134,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 		cout << endl << "Top 30 Answers: " << endl;
 		for (int i = 0; i < min((int) simScore.size(), 30); i ++)
 		{
-			cout << simScore[i].first.score(1000.0) << " " << simScore[i].second
+			cout << simScore[i].first.score(5.0) << " " << simScore[i].second
 				<< " " << kb->getConcept(simScore[i].second)
 				<< " " << kb->getDepth(simScore[i].second) << endl;
 

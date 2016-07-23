@@ -37,8 +37,8 @@ void Bridge::initRankedLists(int tid)
 		{
 			int c = kv.first;
 			double numContainedCell = getNumContainedCells(curTable, i, c);
-			if (numContainedCell / numLuckyCell < threshold)
-				continue;
+//			if (numContainedCell / numLuckyCell < threshold)
+//				continue;
 			double tfIdf = 0;
 			for (int j = 0; j < nRow; j ++)
 			{
@@ -308,12 +308,12 @@ void Bridge::kataraBackTrace(int x, int nCol, double s)
 			{
 				double score = kv.first;
 				int rel = kv.second;
-/*				int reverseRel = kb->getReverseRelationId(rel);
+				int reverseRel = kb->getReverseRelationId(rel);
 				if (curState[x] != -1)
 					score += relSC[curState[x]][rel];
 				if (curState[y] != -1)
 					score += relSC[curState[y]][reverseRel];
-*/				if (score > maxv)
+				if (score > maxv)
 					maxv = score, curState[i] = rel;
 			}
 			s += maxv;
@@ -323,8 +323,8 @@ void Bridge::kataraBackTrace(int x, int nCol, double s)
 		return ;
 	}
 	//prune
-//	if (s + sumUbs[x] <= maxScore)
-//		return ;
+	if (s + sumUbs[x] <= maxScore)
+		return ;
 	for (auto kv : rankedLists[x].candidates)
 	{
 		curState[x] = kv.second;

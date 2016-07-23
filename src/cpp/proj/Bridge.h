@@ -34,7 +34,7 @@ private:
 	const double WT_SEMILUCKY = 0.25;
 
 	//The threshold for the depth of a candidate concept
-	const double TH_DEPTH = 5;
+	const double TH_DEPTH = 10;
 
 	//The maximum threshold for the proportion of lucky cells
 	const double TMAX = 0.8;
