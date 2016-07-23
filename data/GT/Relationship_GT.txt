@@ -26,3 +26,25 @@
 5006	4	1	isLocatedIn
 5647	2	1	isCitizenOf
 5647	5	1	isAffiliatedTo
+1917	1	1	**_actedIn_**
+3865	2	1	isLocatedIn
+958	2	2	playsFor	isAffiliatedTo
+3218	2	2	isPoliticianOf	isAffiliatedTo
+1363	2	2	playsFor	isAffiliatedTo
+1611	0	1	isLocatedIn
+2091	2	1	isCitizenOf
+2091	3	1	isKnownFor
+809	2	2	playsFor	isAffiliatedTo
+1767	1	1	owns
+5574	2	1	isCitizenOf
+1511	2	2	playsFor	isAffiliatedTo
+876	1	1	isCitizenOf
+1971	2	1	actedIn
+4901	2	1	**_directed_**
+5704	1	1	isLocatedIn
+5576	1	1	isLocatedIn
+1109	2	2	isPoliticianOf	isAffiliatedTo
+4468	1	1	created
+3684	2	1	**_created_**
+5839	2	1	isLocatedIn
+1044	2	1	actedIn
