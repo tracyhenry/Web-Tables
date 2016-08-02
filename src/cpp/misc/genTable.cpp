@@ -10,7 +10,7 @@
 #include <unordered_set>
 using namespace std;
 
-const string dir = "../../../data/fuzzy/fuzzy_sqlite.sql";
+const string dir = "../../../data/KB/concept_sqlite.sql";
 
 string make(string s)
 {
@@ -37,7 +37,7 @@ void genYagoEntityTable()
 		fout << "INSERT INTO `yago_entity` VALUES ("
 		     << ++ cur << "," << "'" << make(value) << "');" << endl;
 //		fout << ++ cur << '\t' << value << endl;
-	fout << endl;
+	fout << endl << endl << "commit; " << endl;
 	fin.close();
 	fout.close();
 }
@@ -48,6 +48,8 @@ void genFuzzyMatchTable()
 	ifstream fin1("../../../data/Table/wwt_id");
 	ofstream fout;
 	fout.open(dir.c_str(), ofstream::out | ofstream::app);
+
+	fout << "begin ; " << endl << endl;
 
 	//initializations
 	vector<int> row, col, table_id;
@@ -82,7 +84,7 @@ void genFuzzyMatchTable()
 		for (int i = 1; i <= 3; i ++)
 			getline(fin2, s);
 	}
-	fout << endl;
+	fout << endl << endl << "commit ;" << endl;
 
 	fin1.close();
 	fin2.close();
@@ -91,16 +93,17 @@ void genFuzzyMatchTable()
 
 void genTypeTable()
 {
-	ifstream fin1("../../../data/KB/Types.txt");
+	ifstream fin1("../../../data/KB/Types_Tree.txt");
 	ofstream fout;
 	fout.open(dir.c_str(), ofstream::out | ofstream::app);
+	fout << "begin ; " << endl << endl;
 
 	int x, y, id = 0;
 	while (fin1 >> x >> y)
 		fout << "INSERT INTO `yago_type` VALUES ("
 		     << ++ id << "," << x << "," << y << ");" << endl;
 //		fout << ++ id << '\t' << x << '\t' << y << endl;
-	fout << endl;
+	fout << endl << endl << "commit ; " << endl;
 
 	fin1.close();
 	fout.close();
@@ -111,6 +114,7 @@ void genConceptTable()
 	ifstream fin1("../../../data/KB/Concepts.txt");
 	ofstream fout;
 	fout.open(dir.c_str(), ofstream::out | ofstream::app);
+	fout << "begin ; " << endl << endl;
 
 	string value;
 	int id = 0;
@@ -227,9 +231,9 @@ void genRecConceptResultTable()
 int main()
 {
 //	genYagoEntityTable();
-	genFuzzyMatchTable();
+//	genFuzzyMatchTable();
 //	genTypeTable();
-//	genConceptTable();
+	genConceptTable();
 //	genColRelationResultTable();
 //	genRecConceptResultTable();
 	return 0;

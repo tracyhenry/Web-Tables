@@ -192,7 +192,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 		{
 			conceptUtility[i][conceptId] = colPattern[curTable.id][i]->c[conceptId];
 			conceptUtility[i][conceptId] /= colPattern[curTable.id][i]->numEntity;
-			conceptUtility[i][conceptId] /= ((kb->getDepth(conceptId) + 1) / H);
+			conceptUtility[i][conceptId] /= ((double) (kb->getDepth(conceptId) + 1) / H);
 		}
 
 	//share computation
@@ -241,8 +241,8 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 				TaxoPattern *p2 = conSchema[entityColConcept][rel];
 				depthVector curDv = Matcher::dVector(kb, p1, p2);
 				curDv.addUpdate(bestDvs[i][reverseRel]);
-				curDv.normalize(1.0 / columnUtility[i]);
-				curDv.normalize(1.0 / conceptUtility[i][curConcept]);
+//				curDv.normalize(1.0 / columnUtility[i]);
+//				curDv.normalize(1.0 / conceptUtility[i][curConcept]);
 				if (curDv < bestDv)
 				{
 					bestDv = curDv;
@@ -252,7 +252,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 			}
 			sumDv.addUpdate(bestDv);
 		}
-		sumDv.normalize(1.0 / conceptUtility[entityCol][entityColConcept]);
+//		sumDv.normalize(1.0 / conceptUtility[entityCol][entityColConcept]);
 		if (sumDv < ansDv)
 		{
 			ansDv = sumDv;
