@@ -33,6 +33,9 @@ private:
 
 	//Jaccard version of the dVector
 	static depthVector dVectorJaccard(KB*, TaxoPattern *, TaxoPattern *);
+
+	//Difference-based
+	static depthVector dVectorDiff(KB *, TaxoPattern *, TaxoPattern *);
 };
 
 #endif

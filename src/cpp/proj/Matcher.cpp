@@ -148,15 +148,15 @@ depthVector Matcher::dVector(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 	if (p1 == NULL || p2 == NULL || fabs(w1) < 1e-9 || fabs(w2) < 1e-9)
 		return ans;
 
-	//Concept set
 	unordered_map<int, double> &c1 = p1->c;
 	unordered_map<int, double> &c2 = p2->c;
+	unordered_map<int, double> &e1 = p1->e;
+	unordered_map<int, double> &e2 = p2->e;
+	//Concept set
 	for (auto kv : c1)
 		if (c2.count(kv.first))
 			ans.w[H - kb->getDepth(kv.first)] += kv.second * c2[kv.first] / w1 / w2;
 	//Entity set
-	unordered_map<int, double> &e1 = p1->e;
-	unordered_map<int, double> &e2 = p2->e;
 	for (auto kv : e1)
 		if (e2.count(kv.first))
 			ans.w[H] += kv.second * e2[kv.first] / w1 / w2;
@@ -174,36 +174,95 @@ depthVector Matcher::dVectorJaccard(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 	if (p1 == NULL || p2 == NULL || fabs(w1) < 1e-9 || fabs(w2) < 1e-9)
 		return ans;
 
-	//a map mapping from depth to set
-	vector<unordered_map<int, double>> M1(H + 1), M2(H + 1);
-
-	//concept set
-	for (auto kv : p1->c)
-		M1[H - kb->getDepth(kv.first)][kv.first] += kv.second / w1;
-	for (auto kv : p2->c)
-		M2[H - kb->getDepth(kv.first)][kv.first] += kv.second / w2;
-
-	//entity set
-	for (auto kv : p1->e)
-		M1[H][kv.first] += kv.second / w1;
-	for (auto kv : p2->e)
-		M2[H][kv.first] += kv.second / w2;
-
+	unordered_map<int, double> &c1 = p1->c;
+	unordered_map<int, double> &c2 = p2->c;
+	unordered_map<int, double> &e1 = p1->e;
+	unordered_map<int, double> &e2 = p2->e;
+	vector<double> iWeight(H + 1), uWeight(H + 1);
+	//concepts
+	for (auto kv : c1)
+	{
+		int level = H - kb->getDepth(kv.first);
+		//union
+		double cur = (c2.count(kv.first) ? c2[kv.first] / w2 : 0);
+		cur = max(cur, kv.second / w1);
+		uWeight[level] += cur;
+		//intersection
+		if (c2.count(kv.first))
+			iWeight[level] += min(kv.second / w1, c2[kv.first] / w2);
+	}
+	for (auto kv : c2)
+	{
+		int level = H - kb->getDepth(kv.first);
+		if (c1.count(kv.first))
+			continue;
+		uWeight[level] += kv.second / w2;
+	}
+	//entities
+	for (auto kv : e1)
+	{
+		//union
+		double cur = (e2.count(kv.first) ? e2[kv.first] / w2 : 0);
+		cur = max(cur, kv.second / w1);
+		uWeight[H] += cur;
+		//intersection
+		if (e2.count(kv.first))
+			iWeight[H] += min(kv.second / w1, e2[kv.first] / w2);
+	}
+    for (auto kv : e2)
+	{
+		if (e1.count(kv.first))
+			continue;
+		uWeight[H] += kv.second / w2;
+	}
 	//compute ans
 	for (int h = H; h >= 0; h --)
+		ans.w[h] = (fabs(uWeight[h]) >= 1e-9 ? iWeight[h] / uWeight[h] : 0);
+	return ans;
+}
+
+depthVector Matcher::dVectorDiff(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
+{
+	int H = kb->getDepth(kb->getRoot());
+	depthVector ans(H + 1);
+
+	double w1 = p1->numEntity;
+	double w2 = p2->numEntity;
+	if (p1 == NULL || p2 == NULL || fabs(w1) < 1e-9 || fabs(w2) < 1e-9)
+		return ans;
+
+	unordered_map<int, double> &c1 = p1->c;
+	unordered_map<int, double> &c2 = p2->c;
+	unordered_map<int, double> &e1 = p1->e;
+	unordered_map<int, double> &e2 = p2->e;
+	//concepts
+	for (auto kv : c1)
 	{
-		double unionWeight = 0, intersectWeight = 0;
-		//union
-		for (auto kv : M1[h])
-			unionWeight += max(kv.second, (M2[h].count(kv.first) ? M2[h][kv.first] : 0));
-		for (auto kv : M2[h])
-			if (! M1[h].count(kv.first))
-				unionWeight += kv.second;
-		//intersect
-		for (auto kv : M1[h])
-			if (M2[h].count(kv.first))
-				intersectWeight += min(kv.second, M2[h][kv.first]);
-		ans.w[h] = (fabs(unionWeight) >= 1e-9 ? intersectWeight / unionWeight : 0);
+		int level = H - kb->getDepth(kv.first);
+		double diff = (c2.count(kv.first) ? c2[kv.first] / w2 : 0);
+		diff = 1.0 - abs(diff - kv.second / w1);
+		ans.w[level] += diff;
 	}
+	for (auto kv : c2)
+	{
+		int level = H - kb->getDepth(kv.first);
+		if (c1.count(kv.first))
+			continue;
+		ans.w[level] += 1.0 - kv.second / w2;
+	}
+	//entities
+	for (auto kv : e1)
+	{
+		double diff = (e2.count(kv.first) ? e2[kv.first] / w2 : 0);
+		diff = 1.0 - abs(diff - kv.second / w1);
+		ans.w[H] += diff;
+	}
+	for (auto kv : e2)
+	{
+		if (e1.count(kv.first))
+			continue;
+		ans.w[H] += 1.0 - kv.second / w2;
+	}
+
 	return ans;
 }
