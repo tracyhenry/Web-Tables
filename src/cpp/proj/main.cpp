@@ -131,7 +131,7 @@ void interactiveQuery()
 int main()
 {
 	bridge = new Bridge();
-//	bridge->letsDebug();
+	bridge->letsDebug();
 	Experiment* experiment = new Experiment(bridge);
 	experiment->runAllExp();
 	interactiveQuery();

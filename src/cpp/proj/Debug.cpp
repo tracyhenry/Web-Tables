@@ -9,6 +9,15 @@ using namespace std;
 
 void Bridge::letsDebug()
 {
+
+	debug << "Debugging for katara relSC arrays..." << endl << endl;
+	string conceptStr = "wordnet_actor_109765278";
+	int curConcept = kb->getConceptId(conceptStr);
+	debug << "Concept : " << conceptStr  << "  id : " << curConcept << endl;
+	for (int i = 1; i <= kb->countRelation(); i ++)
+		debug << kb->getRelation(i) << " : " << relSC[curConcept][i] << endl;
+	debug << endl << endl;
+
 	TaxoPattern *p0, *p1, *p2, *p3;
 
 	debug << "Debugging for table with table_id = 1356..." << endl;
