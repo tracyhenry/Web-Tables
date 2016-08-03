@@ -102,8 +102,7 @@ vector<int> Bridge::baselineFindColConceptAndRelation(int tid, bool print)
 	{
 		vector<int> curAns = findColConceptMajority(tid, i, false);
 		ans[i] = (curAns.size() ? curAns[0] : -1);
-		curAns = findRelation(tid, i, false);
-		ans[i + nCol] = (curAns.size() ? curAns[0] : -1);
+		ans[i + nCol] = naiveFindRelation(tid, i, false);
 	}
         if (print)
         {
@@ -134,7 +133,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	int entityCol = curTable.entityCol;
 	int H = kb->getDepth(kb->getRoot());
 	vector<int> ans(nCol * 2, -1);
-	depthVector ansDv(H + 1);
+	double ansSim = 0;
 
 	//check if there is a given entity column
 	if (entityCol == -1)
@@ -197,7 +196,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 
 	//share computation
 	vector<vector<int>> attrConcepts(nCol, vector<int>(numRelation + 1, -1));
-	vector<vector<depthVector>> bestDvs(nCol, vector<depthVector>(numRelation + 1));
+	vector<vector<double>> bestSims(nCol, vector<double>(numRelation + 1));
 	for (int i = 0; i < nCol; i ++)
 	{
 		if (i == entityCol)
@@ -205,17 +204,17 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 		for (int rel = 1; rel <= numRelation; rel ++)
 		{
 			attrConcepts[i][rel] = -1;
-			bestDvs[i][rel].w.resize(H + 1);
+			bestSims[i][rel] = 0;
 			for (int conceptId : candidates[i])
 			{
 				if (! conSchema[conceptId].count(rel))
 					continue;
 				TaxoPattern *p1 = colPattern[curTable.id][entityCol];
 				TaxoPattern *p2 = conSchema[conceptId][rel];
-				depthVector cur = Matcher::dVector(kb, p1, p2);
-				if (cur < bestDvs[i][rel])
+				double curSim = Matcher::patternSim(kb, p1, p2);
+				if (curSim > bestSims[i][rel])
 				{
-					bestDvs[i][rel] = cur;
+					bestSims[i][rel] = curSim;
 					attrConcepts[i][rel] = conceptId;
 				}
 			}
@@ -224,13 +223,13 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 
 	for (int entityColConcept : candidates[entityCol])
 	{
-		depthVector sumDv(H + 1);
+		double sumSim = 0;
 		vector<int> curState(nCol * 2, -1);
 		curState[entityCol] = entityColConcept;
 		for (int i = 0; i < nCol; i ++)
 		{
 			if (i == entityCol) continue;
-			depthVector bestDv(H + 1);
+			double bestSim = 0;
 			for (int rel = 1; rel <= numRelation; rel ++)
 			{
 				if (! conSchema[entityColConcept].count(rel))
@@ -239,23 +238,23 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 				int curConcept = attrConcepts[i][reverseRel];
 				TaxoPattern *p1 = colPattern[curTable.id][i];
 				TaxoPattern *p2 = conSchema[entityColConcept][rel];
-				depthVector curDv = Matcher::dVector(kb, p1, p2);
-				curDv.addUpdate(bestDvs[i][reverseRel]);
+				double curSim = Matcher::patternSim(kb, p1, p2);
+				curSim += bestSims[i][reverseRel];
 //				curDv.normalize(1.0 / columnUtility[i]);
 //				curDv.normalize(1.0 / conceptUtility[i][curConcept]);
-				if (curDv < bestDv)
+				if (curSim > bestSim)
 				{
-					bestDv = curDv;
+					bestSim = curSim;
 					curState[i] = curConcept;
 					curState[i + nCol] = rel;
 				}
 			}
-			sumDv.addUpdate(bestDv);
+			sumSim += bestSim;
 		}
 //		sumDv.normalize(1.0 / conceptUtility[entityCol][entityColConcept]);
-		if (sumDv < ansDv)
+		if (sumSim > ansSim)
 		{
-			ansDv = sumDv;
+			ansSim = sumSim;
 			ans = curState;
 		}
 	}

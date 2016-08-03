@@ -48,7 +48,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 	int totalConcept = kb->countConcept();
 
 	//Similarity Array
-	vector<pair<depthVector, int>> simScore;
+	vector<pair<double, int>> simScore;
 	simScore.clear();
 
 	//information about the current record
@@ -57,38 +57,18 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 	int entityCol = curTable.entityCol;
 	if (entityCol == -1)
 		entityCol = 0;
-	int cid = curTable.cells[r][entityCol].id;
-
-	//depth of kb
-	int H = kb->getDepth(kb->getRoot());
-
-	//debug
-//	getconSchema(70366, kb->getRelationId("created"), true);
-//	getconSchema(114102, kb->getRelationId("created"), true);
-//	getCellPattern(curTable.cells[r][entityCol].id, true);
-//	for (int i = 1; i <= kb->countRelation(); i ++)
-//		getconSchema(25431, i, true);
 
 	//loop over all concepts
 	for (int i = 1; i <= totalConcept; i ++)
 	{
-//		int i = kv.first;
 		if (kb->getSucCount(i)) continue;
-		depthVector sumSim(H + 1);
+		double sumSim = 0;
 
-/*		//extras
-		vector<int> extraEntity;
-		for (int j = 0; j < (int) matches[cid].size(); j ++)
-		{
-			int curEntity = matches[cid][j].first;
-			if (kb->checkBelong(curEntity, i))
-				extraEntity.push_back(curEntity);
-		}
-*/		//loop over all attributes
+		//loop over all attributes
 		for (int c = 0; c < nCol; c ++)
 		{
 			if (c == entityCol) continue;
-			depthVector sim(H + 1);
+			double sim = 0;
 
 			//loop over all properties
 			for (IterIT it1 = conSchema[i].begin();
@@ -100,30 +80,12 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 				TaxoPattern *pp = it1->second;
 
 				//overall matching
-				depthVector curVector = Matcher::dVector(kb, cp, pp);
-				//subtract extra
-/*				for (int j = 0; j < (int) extraEntity.size(); j ++)
-				{
-					int curEntity = extraEntity[j];
-					if (entSchema[curEntity].count(it1->first))
-					{
-						pp = entSchema[curEntity][it1->first];
-						depthVector sub = Matcher::dVector(kb, cp, pp);
-						sub.normalize(-1);
-						curVector.addUpdate(sub);
-					}
-				}
-*/				sim.maxUpdate(curVector);
+				double curSim = Matcher::patternSim(kb, cp, pp);
+				sim = max(sim, curSim);
 			}
-			sumSim.addUpdate(sim);
+			sumSim += sim;
 		}
-		//normalize
-/*		double f = kb->getPossessCount(i) - (int) extraEntity.size();
-		if (f > 0)
-			sumSim.normalize(kb->getPossessCount(i));
-*/
-		simScore.emplace_back(sumSim, i);
-
+		simScore.emplace_back(-sumSim, i);
 	}
 	//sort
 	sort(simScore.begin(), simScore.end());
@@ -134,13 +96,10 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 		cout << endl << "Top 30 Answers: " << endl;
 		for (int i = 0; i < min((int) simScore.size(), 30); i ++)
 		{
-			cout << simScore[i].first.score(5.0) << " " << simScore[i].second
+			cout << - simScore[i].first << " " << simScore[i].second
 				<< " " << kb->getConcept(simScore[i].second)
 				<< " " << kb->getDepth(simScore[i].second) << endl;
-
-			for (int j = H; j > 16; j --)
-				cout << left << setw(15) << simScore[i].first.w[j] << " ";
-			cout << endl << endl;
+			cout << endl;
 		}
 	}
 	//return top 3 answers

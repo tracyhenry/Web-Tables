@@ -1,13 +1,20 @@
 #ifndef MATCHER__H
 #define MATCHER__H
 
-#include "TaxoPattern.h"
-#include "KB.h"
+#include "Bridge.h"
 #include <unordered_map>
 
 class Matcher
 {
 public:
+	//general sim function
+	static double patternSim(KB *, TaxoPattern*, TaxoPattern *);
+
+	friend void Bridge::letsDebug();
+
+private:
+	//an exponential weight
+	static double M;
 
 	//using weighted jaccard
 	static double weightedJaccard(KB *, TaxoPattern *, TaxoPattern *);
@@ -29,4 +36,3 @@ public:
 };
 
 #endif
-

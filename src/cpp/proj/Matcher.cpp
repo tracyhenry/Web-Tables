@@ -7,6 +7,13 @@
 #include <algorithm>
 using namespace std;
 
+double Matcher::M = 5.0;
+
+double Matcher::patternSim(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
+{
+	depthVector dv = dVector(kb, p1, p2);
+	return dv.score(M);
+}
 
 double Matcher::weightedJaccard(KB *kb, TaxoPattern *cell, TaxoPattern *property)
 {

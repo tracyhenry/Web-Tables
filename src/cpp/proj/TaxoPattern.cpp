@@ -29,7 +29,7 @@ void TaxoPattern::add(TaxoPattern *o)
 
 int depthVector::operator < (const depthVector &o) const
 {
-/*	for (int i = (int) w.size() - 1; i >= 0; i --)
+	for (int i = (int) w.size() - 1; i >= 0; i --)
 	{
 		if (w[i] > o.w[i] + 1e-9)
 			return 1;
@@ -43,8 +43,7 @@ int depthVector::operator < (const depthVector &o) const
 	for (double x : o.w)
 		sum1 += x;
 	return sum0 > sum1;
-*/
-	return score(5) > o.score(5);
+
 }
 
 depthVector::depthVector()

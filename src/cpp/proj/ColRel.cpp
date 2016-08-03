@@ -135,17 +135,15 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 	}
 
 	//KB constants
-	int H = kb->getDepth(kb->getRoot());
 	int R = kb->countRelation();
 
 	//Similarity Array
-	vector<pair<depthVector, int>> simScore;
+	vector<pair<double, int>> simScore;
 	simScore.clear();
 
 	for (int r = 1; r <= R; r ++)
 	{
-		depthVector sumSim(H + 1);
-
+		double sumSim = 0;
 		//loop over all row/record
 		for (int row = 0; row < curTable.nRow; row ++)
 		{
@@ -158,12 +156,12 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 
 				TaxoPattern *cp = cellPattern[curTable.cells[row][c].id];
 				TaxoPattern *pp = entSchema[e][r];
-				depthVector curVector = Matcher::dVector(kb, cp, pp);
+				double curSim = Matcher::patternSim(kb, cp, pp);
 
-				sumSim.addUpdate(curVector);
+				sumSim += curSim;
 			}
 		}
-		simScore.emplace_back(sumSim, r);
+		simScore.emplace_back(-sumSim, r);
 	}
 
 	sort(simScore.begin(), simScore.end());
@@ -173,18 +171,18 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 		cout << endl << "Top 10 Answers: " << endl;
 		for (int i = 0; i < min((int) simScore.size(), 10); i ++)
 		{
-			cout << simScore[i].first.score(1000.0) << " " << simScore[i].second
+			cout << - simScore[i].first << " " << simScore[i].second
 				<< " " << kb->getRelation(simScore[i].second) << endl;
 
-			for (int j = H; j > 16; j --)
-				cout << left << setw(15) << simScore[i].first.w[j] << " ";
+//			for (int j = H; j > 16; j --)
+//				cout << left << setw(15) << simScore[i].first.w[j] << " ";
 			cout << endl << endl;
 		}
 	}
 
 	//currently a threshold-based approach
 	for (int i = 0; i < (int) simScore.size(); i ++)
-		if (simScore[i].first.score(1000.0) > 1e57)
+		if (- simScore[i].first > 1e16)
 			ans.push_back(simScore[i].second);
 
 	return ans;
