@@ -37,8 +37,8 @@ void Bridge::initRankedLists(int tid)
 		{
 			int c = kv.first;
 			double numContainedCell = getNumContainedCells(curTable, i, c);
-//			if (numContainedCell / numLuckyCell < threshold)
-//				continue;
+			if (numContainedCell / numLuckyCell < threshold)
+				continue;
 			double tfIdf = 0;
 			for (int j = 0; j < nRow; j ++)
 			{

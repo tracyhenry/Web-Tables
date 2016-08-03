@@ -41,6 +41,75 @@ void Bridge::findAllRelation()
 * return the a ranked list of relationships between
 * the query column and the entity column
 */
+int Bridge::naiveFindRelation(int tid, int c, bool print)
+{
+	//Table variables
+	Table curTable = corpus->getTableByDataId(tid);
+	int entityCol = curTable.entityCol;
+	int nRow = curTable.nRow;
+
+	if (c < 0 || c >= curTable.nCol || entityCol == c || entityCol == -1)
+	{
+		if (print)
+		{
+			if (c < 0 || c >= curTable.nCol)
+				cout << "Sorry, index out of range!" << endl;
+			else if (entityCol == -1)
+				cout << "Sorry, this table dosen't have a given entity column." << endl;
+			else
+				cout << "Sorry, the column you are querying for is the same as the entity column!"
+					<< endl;
+		}
+		return -1;
+	}
+
+	//KB constants
+	int R = kb->countRelation();
+
+	//majority
+	int ans = -1, maxHit = -1;
+	for (int rel = 1; rel <= R; rel ++)
+	{
+		int totalHit = 0;
+		for (int i = 0; i < nRow; i ++)
+		{
+			int c1 = curTable.cells[i][entityCol].id;
+			int c2 = curTable.cells[i][c].id;
+			unordered_set<int> ent1, ent2;
+			for (auto kv : matches[c1])
+				ent1.insert(kv.first);
+			for (auto kv : matches[c2])
+				ent2.insert(kv.first);
+			bool hit = false;
+			for (int e1 : ent1)
+			{
+				int totalFactCount = kb->getFactCount(e1);
+				for (int k = 0; k < totalFactCount; k ++)
+				{
+					pair<int, int> cp = kb->getFactPair(e1, k);
+					if (cp.first == rel && ent2.count(cp.second))
+					{
+						hit = true;
+						break;
+					}
+				}
+				if (hit)
+					break;
+			}
+			if (hit)
+				totalHit ++;
+		}
+		if (totalHit > maxHit)
+			maxHit = totalHit, ans = rel;
+	}
+	return ans;
+}
+
+/**
+* Given a table id and a column id,
+* return the a ranked list of relationships between
+* the query column and the entity column
+*/
 vector<int> Bridge::findRelation(int tid, int c, bool print)
 {
 	//answer

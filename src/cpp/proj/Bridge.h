@@ -135,7 +135,7 @@ public:
 	std::vector<std::pair<int, double>>& getMatch(int cellId);
 
 	/**
-	* Our methods to find tuple concepts.
+	* Methods to find tuple concepts.
 	*/
 	//Find the most similar concept for a record
 	std::vector<int> findRecordConcept(int, int, bool);
@@ -144,16 +144,19 @@ public:
 	void findAllConcept();
 
 	/**
-	* Our methods to find column relationships.
+	* Methods to find column relationships.
 	*/
-	//Find the most possible type of relation for a given column
+	//Baseline, most naive version
+	int naiveFindRelation(int, int, bool);
+
+	//Baseline using concept schema patterns
 	std::vector<int> findRelation(int, int, bool);
 
 	//Find the relations for all attr columns
 	void findAllRelation();
 
 	/**
-	* Our methods to find column concepts.
+	* Methods to find column concepts.
 	*/
 	//Naive method to get column concepts
 	std::vector<int> findColConceptMajority(int, int, bool);
