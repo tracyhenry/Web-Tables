@@ -20,6 +20,37 @@ void Bridge::letsDebug()
 
 	TaxoPattern *p0, *p1, *p2, *p3;
 
+	debug << "Debugging for table with table_id = 4125..." << endl;
+	p0 = getKbSchema(kb->getConceptId("wikicategory_Bridges_on_the_National_Register_of_Historic_Places_in_Georgia_(U.S._state)"),
+			kb->getRelationId("isLocatedIn"), true);
+	p1 = getKbSchema(kb->getConceptId("wikicategory_Road_bridges_in_Oregon"),
+			kb->getRelationId("isLocatedIn"), true);
+	p2 = getKbSchema(kb->getConceptId("wikicategory_Bridges_in_Portland,_Oregon"),
+			kb->getRelationId("isLocatedIn"), true);
+	p3 = cellPattern[302231];
+	printPattern(p3);
+
+	depthVector sim0 = Matcher::dVector(kb, p0, p3);
+	depthVector sim1 = Matcher::dVector(kb, p1, p3);
+	depthVector sim2 = Matcher::dVector(kb, p2, p3);
+
+	debug << endl;
+	debug << "Similarity for wikicategory_Bridges_on_the_National_Register_of_Historic_Places_in_Georgia_(U.S._state) : " << sim0.score(Matcher::M) << endl;
+	debug << '\t';
+	for (int i = (int) sim0.w.size() - 1; i >= 0; i --)
+		debug << sim0.w[i] << " ";
+	debug << endl << endl;
+	debug << "Similarity for wikicategory_Road_bridges_in_Oregon : " << sim1.score(Matcher::M) << endl;
+	debug << '\t';
+	for (int i = (int) sim1.w.size() - 1; i >= 0; i --)
+		debug << sim1.w[i] << " ";
+	debug << endl << endl;
+	debug << "Similarity for wikicategory_Bridges_in_Portland,_Oregon : " << sim2.score(Matcher::M) << endl;
+	debug << '\t';
+	for (int i = (int) sim2.w.size() - 1; i >= 0; i --)
+		debug << sim2.w[i] << " ";
+	debug << endl << endl;
+
 	debug << "Debugging for table with table_id = 1356..." << endl;
 	p0 = getKbSchema(kb->getConceptId("wikicategory_The_Strongest_managers"),
 			kb->getRelationId("playsFor"), true);
@@ -30,9 +61,9 @@ void Bridge::letsDebug()
 	p3 = colPattern[corpus->getTableByDataId(1356).id][2];
 	printPattern(p3);
 
-	depthVector sim0 = Matcher::dVector(kb, p0, p3);
-	depthVector sim1 = Matcher::dVector(kb, p1, p3);
-	depthVector sim2 = Matcher::dVector(kb, p2, p3);
+	sim0 = Matcher::dVector(kb, p0, p3);
+	sim1 = Matcher::dVector(kb, p1, p3);
+	sim2 = Matcher::dVector(kb, p2, p3);
 
 	debug << endl;
 	debug << "Similarity for wikicategory_The_Strongest_managers : " << endl;

@@ -57,6 +57,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 	int entityCol = curTable.entityCol;
 	if (entityCol == -1)
 		entityCol = 0;
+	int entityCellId = curTable.cells[r][entityCol].id;
 
 	//column concepts and relationships
 	vector<int> labels = findColConceptAndRelation(tid, false);
@@ -64,9 +65,22 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 	//loop over all concepts
 	for (int c = 1; c <= totalConcept; c ++)
 	{
-		if (kb->getSucCount(i)) continue;
+		if (kb->getSucCount(c)) continue;
 		double sumSim = 0;
 
+		//LCA dis
+		int dis = 0;
+		for (int lca = c; kb->getPreCount(lca); )
+			if (! cellPattern[entityCellId]->c.count(lca))
+				dis ++, lca = kb->getPreNode(lca, 0);
+			else
+				break;
+		if (labels[entityCol] != -1)
+			for (int lca = labels[entityCol]; kb->getPreCount(lca); )
+				if (! kb->isDescendant(c, lca))
+					dis ++, lca = kb->getPreNode(lca, 0);
+				else
+					break;
 		//loop over all attributes
 		for (int j = 0; j < nCol; j ++)
 		{
@@ -75,21 +89,13 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 				! conSchema[c].count(labels[j + nCol]))
 					continue;
 			//patternSim
-			TaxoPattern *p1 = cellPattern[curTable.cells[r][c].id];
+			TaxoPattern *p1 = cellPattern[curTable.cells[r][j].id];
 			TaxoPattern *p2 = conSchema[c][labels[j + nCol]];
 			double sim = Matcher::patternSim(kb, p1, p2);
-			//LCA dis
-			int dis = 0;
-			if (labels[j] != -1)
-				for (int lca = labels[j]; ; )
-					if (! kb->isDescendant(c, lca))
-						dis ++, lca = kb->getPreNode(lca, 0);
-					else
-						break;
 			//combine
-			sumSim += sim / (dis + 1);
+			sumSim += sim / exp(log(10) * dis);
 		}
-		simScore.emplace_back(-sumSim, i);
+		simScore.emplace_back(-sumSim, c);
 	}
 	//sort
 	sort(simScore.begin(), simScore.end());
@@ -97,10 +103,10 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 	//output
 	if (print)
 	{
-		cout << endl << "Top 30 Answers: " << endl;
-		for (int i = 0; i < min((int) simScore.size(), 30); i ++)
+		cout << endl << "Top 20 Answers: " << endl;
+		for (int i = 0; i < min((int) simScore.size(), 20); i ++)
 		{
-			cout << - simScore[i].first << " " << simScore[i].second
+			cout << i << ":\t" << - simScore[i].first << " " << simScore[i].second
 				<< " " << kb->getConcept(simScore[i].second)
 				<< " " << kb->getDepth(simScore[i].second) << endl;
 			cout << endl;
