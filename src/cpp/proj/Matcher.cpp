@@ -238,31 +238,35 @@ depthVector Matcher::dVectorDiff(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 	//concepts
 	for (auto kv : c1)
 	{
+		if (! c2.count(kv.first))
+			continue;
 		int level = H - kb->getDepth(kv.first);
 		double diff = (c2.count(kv.first) ? c2[kv.first] / w2 : 0);
 		diff = 1.0 - abs(diff - kv.second / w1);
 		ans.w[level] += diff;
 	}
-	for (auto kv : c2)
+/*	for (auto kv : c2)
 	{
 		int level = H - kb->getDepth(kv.first);
 		if (c1.count(kv.first))
 			continue;
 		ans.w[level] += 1.0 - kv.second / w2;
 	}
-	//entities
+*/	//entities
 	for (auto kv : e1)
 	{
+		if (! e2.count(kv.first))
+			continue;
 		double diff = (e2.count(kv.first) ? e2[kv.first] / w2 : 0);
 		diff = 1.0 - abs(diff - kv.second / w1);
 		ans.w[H] += diff;
 	}
-	for (auto kv : e2)
+/*	for (auto kv : e2)
 	{
 		if (e1.count(kv.first))
 			continue;
 		ans.w[H] += 1.0 - kv.second / w2;
 	}
-
+*/
 	return ans;
 }
