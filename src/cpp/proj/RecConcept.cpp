@@ -51,39 +51,43 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 	vector<pair<double, int>> simScore;
 	simScore.clear();
 
-	//information about the current record
+	//current table
 	Table curTable = corpus->getTableByDataId(tid);
 	int nCol = curTable.nCol;
 	int entityCol = curTable.entityCol;
 	if (entityCol == -1)
 		entityCol = 0;
 
+	//column concepts and relationships
+	vector<int> labels = findColConceptAndRelation(tid, false);
+
 	//loop over all concepts
-	for (int i = 1; i <= totalConcept; i ++)
+	for (int c = 1; c <= totalConcept; c ++)
 	{
 		if (kb->getSucCount(i)) continue;
 		double sumSim = 0;
 
 		//loop over all attributes
-		for (int c = 0; c < nCol; c ++)
+		for (int j = 0; j < nCol; j ++)
 		{
-			if (c == entityCol) continue;
-			double sim = 0;
-
-			//loop over all properties
-			for (IterIT it1 = conSchema[i].begin();
-				it1 != conSchema[i].end(); it1 ++)
-			{
-				if (it1->first!= kb->getRelationId("isLocatedIn"))
+			if (j == entityCol) continue;
+			if (labels[j + nCol] == -1 ||
+				! conSchema[c].count(labels[j + nCol]))
 					continue;
-				TaxoPattern *cp = cellPattern[curTable.cells[r][c].id];
-				TaxoPattern *pp = it1->second;
-
-				//overall matching
-				double curSim = Matcher::patternSim(kb, cp, pp);
-				sim = max(sim, curSim);
-			}
-			sumSim += sim;
+			//patternSim
+			TaxoPattern *p1 = cellPattern[curTable.cells[r][c].id];
+			TaxoPattern *p2 = conSchema[c][labels[j + nCol]];
+			double sim = Matcher::patternSim(kb, p1, p2);
+			//LCA dis
+			int dis = 0;
+			if (labels[j] != -1)
+				for (int lca = labels[j]; ; )
+					if (! kb->isDescendant(c, lca))
+						dis ++, lca = kb->getPreNode(lca, 0);
+					else
+						break;
+			//combine
+			sumSim += sim / (dis + 1);
 		}
 		simScore.emplace_back(-sumSim, i);
 	}
@@ -102,7 +106,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 			cout << endl;
 		}
 	}
-	//return top 3 answers
+	//return top k answers
 	vector<int> ans;
 	for (int i = 0; i < min((int) simScore.size(), 5); i ++)
 		ans.push_back(simScore[i].second);
