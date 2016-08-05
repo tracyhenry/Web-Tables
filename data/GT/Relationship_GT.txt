@@ -48,3 +48,10 @@
 3684	2	1	**_created_**
 5839	2	1	isLocatedIn
 1044	2	1	actedIn
+3641	2	1	isCitizenOf
+4125	4	1	isLocatedIn
+3627	1	1	isLocatedIn
+3079	2	1	**_owns_**
+3079	3	1	owns
+2409	2	1	**_created_**
+3379	1	2	isPoliticianOf	isAffiliatedTo

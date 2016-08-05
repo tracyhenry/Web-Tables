@@ -91,3 +91,16 @@
 5839	2	2	wordnet_city_108524735	wordnet_municipality_108626283
 1044	1	1	wordnet_actor_109765278
 1044	2	1	wordnet_event_100029378
+3641	1	1	wikicategory_Nobel_laureates_in_Literature
+3641	2	1	wordnet_country_108544813
+4125	0	1	wordnet_bridge_102898711
+4125	2	1	wordnet_river_109411430
+4125	4	1	wikicategory_States_of_the_United_States
+3627	0	1	wikicategory_Universities_and_colleges_in_Tennessee
+3627	1	2	wikicategory_County_seats_in_Tennessee	wikicategory_Cities_in_Tennessee
+3079	0	1	wordnet_club_108227214
+3079	2	1	wordnet_league_108231184
+3079	3	1	wordnet_stadium_104295881
+2409	1	1	wikicategory_1983_singles
+3379	0	1	wikicategory_Australian_Labor_Party_politicians
+3379	1	1	wikicategory_Political_parties_in_Australia
