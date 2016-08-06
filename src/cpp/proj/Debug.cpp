@@ -9,6 +9,10 @@ using namespace std;
 
 void Bridge::letsDebug()
 {
+	long long totalRecursivePossessCount = 0;
+	for (int i = 1; i <= kb->countConcept(); i ++)
+		totalRecursivePossessCount += kb->getRecursivePossessCount(i);
+	debug << "Total recursive possess count: " << totalRecursivePossessCount << endl << endl;
 
 	debug << "Debugging for katara relSC arrays..." << endl << endl;
 	string conceptStr = "wordnet_actor_109765278";

@@ -72,13 +72,13 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 		int dis = 0;
 		for (int lca = c; kb->getPreCount(lca); )
 			if (! cellPattern[entityCellId]->c.count(lca))
-				dis ++, lca = kb->getPreNode(lca, 0);
+				dis += 1, lca = kb->getPreNode(lca, 0);
 			else
 				break;
 		if (labels[entityCol] != -1)
 			for (int lca = labels[entityCol]; kb->getPreCount(lca); )
 				if (! kb->isDescendant(c, lca))
-					dis ++, lca = kb->getPreNode(lca, 0);
+					dis += 1, lca = kb->getPreNode(lca, 0);
 				else
 					break;
 		//loop over all attributes

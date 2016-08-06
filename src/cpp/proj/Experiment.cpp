@@ -144,7 +144,7 @@ vector<double> Experiment::runExpRecConcept(string method)
 	}
 	gtFile.close();
 
-	int arrayKs[] = {1, 3, 5, 10, 20, 30};
+	int arrayKs[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 	vector<int> Ks(arrayKs, arrayKs + sizeof(arrayKs) / sizeof(int));
 	vector<double> avgPrecision(Ks.size());
 	vector<double> avgRecall(Ks.size());
@@ -152,7 +152,7 @@ vector<double> Experiment::runExpRecConcept(string method)
 	vector<double> avgNDCG(Ks.size());
 
 	//run functions in RecConcept.cpp
-	vector<vector<int>> output;
+	vector<vector<int>> output(tids.size());
 	for (int i = 0; i < (int) tids.size(); i ++)
 		if (method == "ours")
 			output[i] = bridge->findRecordConcept(tids[i], rids[i], Ks.back(), false);
@@ -215,7 +215,7 @@ vector<double> Experiment::runExpRecConcept(string method)
 		avgPrecision[i] /= (double) gts.size();
 		avgRecall[i] /= (double) gts.size();
 		avgFValue[i] /= (double) gts.size();
-		avgNDCG[i] /= (double)gts.size();
+		avgNDCG[i] /= (double) gts.size();
 	}
 	cout << "Ks :" << endl;
 	for (int i = 0; i < (int) Ks.size(); i ++)
@@ -223,19 +223,19 @@ vector<double> Experiment::runExpRecConcept(string method)
 	cout << endl;
 	cout << "Presision:  " << endl;
 	for (int i = 0; i < (int) Ks.size(); i ++)
-		printf("\t%.2f%%\n", avgPrecision[i] * 100.0);
+		printf("\t%.2f%%", avgPrecision[i] * 100.0);
 	cout << endl;
 	cout << "Recall:  " << endl;
 	for (int i = 0; i < (int) Ks.size(); i ++)
-		printf("\t%.2f%%\n", avgRecall[i] * 100.0);
+		printf("\t%.2f%%", avgRecall[i] * 100.0);
 	cout << endl;
 	cout << "FValue:  " << endl;
 	for (int i = 0; i < (int) Ks.size(); i ++)
-		printf("\t%.2f%%\n", avgFValue[i] * 100.0);
+		printf("\t%.2f%%", avgFValue[i] * 100.0);
 	cout << endl;
 	cout << "NDCG:  " << endl;
 	for (int i = 0; i < (int) Ks.size(); i ++)
-		printf("\t%.2f%%\n", avgNDCG[i] * 100.0);
+		printf("\t%.2f%%", avgNDCG[i] * 100.0);
 	cout << endl;
 	//return
 	vector<double> ans;
@@ -445,8 +445,12 @@ double Experiment::getScore(string concept, string label)
 vector<double> Experiment::calculatePRF(double ac, double numOut, double total, bool print)
 {
 	double precision = (double) ac / numOut;
-	double recall = (double) ac / (double) total;
-	double fvalue = 2.0 * precision * recall  / (precision + recall);
+	double recall = (double) ac / total;
+	double fvalue;
+	if (fabs(precision + recall) > 1e-9)
+		fvalue = 2.0 * precision * recall  / (precision + recall);
+	else
+		fvalue = 0;
 
 	if (print)
 	{
