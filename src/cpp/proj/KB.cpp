@@ -79,6 +79,11 @@ int KB::getRecursivePossessCount(int conceptId)
 	return recursivePossess[conceptId].size();
 }
 
+unordered_set<int>& KB::getRecursivePossessEntities(int conceptId)
+{
+	return recursivePossess[conceptId];
+}
+
 int KB::getFactCount(int entityId)
 {
 	return facts[entityId].size();

@@ -169,10 +169,16 @@ void Bridge::initCoherenceScores()
 	p3.clear(), p3.resize(totalConcept + 1);
 	for (int i = 1; i <= totalConcept; i ++)
 		p3[i].resize(totalRelation + 1);
-	kataraDfs(kb->getRoot());
+
 	for (int i = 1; i <= totalConcept; i ++)
+	{
+		unordered_set<int> &entities = kb->getRecursivePossessEntities(i);
+		for (int e : entities)
+			for (int rel : entRels[e])
+				p3[i][rel] += 1.0;
 		for (int j = 1; j <= totalRelation; j ++)
 			p3[i][j] /= (double) totalEntity, p3[i][j] += 1e-9;
+	}
 
 	//compute coherence score
 	relSC.clear(), relSC.resize(totalConcept + 1);
@@ -185,28 +191,6 @@ void Bridge::initCoherenceScores()
 			relSC[i][j] /= -log(p3[i][j]);
 			relSC[i][j] = (relSC[i][j] + 1) / 2.0;
 		}
-	}
-}
-
-void Bridge::kataraDfs(int x)
-{
-	int totalChild = kb->getSucCount(x);
-	int directPossessCount = kb->getPossessCount(x);
-	//my own entities
-	for (int i = 0; i < directPossessCount; i ++)
-	{
-		int e = kb->getPossessEntity(x, i);
-		for (int rel : entRels[e])
-			p3[x][rel] += 1.0;
-	}
-
-	//recursion
-	for (int i = 0; i < totalChild; i ++)
-	{
-		int j = kb->getSucNode(x, i);
-		kataraDfs(j);
-		for (int rel = 1; rel < (int) p3[x].size(); rel ++)
-			p3[x][rel] += p3[j][rel];
 	}
 }
 

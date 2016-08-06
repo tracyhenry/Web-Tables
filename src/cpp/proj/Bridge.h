@@ -87,9 +87,6 @@ private:
 	//Initialize the KB schema
 	void initKbSchema();
 
-	//make the KB schema recursively
-	void makeConSchema(int);
-
 	//Initialize the taxo pattern of cells
 	void initCellPattern();
 
@@ -109,7 +106,6 @@ private:
 	double getNumContainedCells(Table, int, int);
 
 	//katara private functions
-	void kataraDfs(int);
 	void kataraBackTrace(int, int, double);
 
 public:

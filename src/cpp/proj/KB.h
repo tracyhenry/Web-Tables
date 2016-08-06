@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 class KB
 {
@@ -19,7 +20,7 @@ protected:
 	//DFS stuff
 	std::vector<int> depth, startTime, endTime;
 	std::vector<int> level;
-	std::vector<unordered_set<int>> recursivePossess;
+	std::vector<std::unordered_set<int>> recursivePossess;
 	int timeStamp;
 
 	//number of concepts
@@ -87,8 +88,8 @@ public:
 	int getBelongCount(int);		//by entity id
 	int getBelongConcept(int, int);		//by entity id & index
 	int getPossessCount(int);		//by concept id
-	int getRecursivePossessCount(int);	//by concept id
 	int getPossessEntity(int, int);		//by concept id & index
+	int getRecursivePossessCount(int);	//by concept id
 	int getFactCount(int);		//by entity id
 	int getConceptId(std::string);		//by string
 	int getEntityId(std::string);		//by string
@@ -101,6 +102,7 @@ public:
 	std::string getConcept(int); 		//by id
 	std::string getEntity(int);		//by id
 	std::string getRelation(int);		//by id
+	std::unordered_set<int>& getRecursivePossessEntities(int);	//by conceptId
 	int getDepth(int);		//by concept id
 	int getLevel(int);
 

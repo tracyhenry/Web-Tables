@@ -154,7 +154,6 @@ void Bridge::initKbSchema()
 
 	int totalConcept = kb->countConcept();
 	int totalEntity = kb->countEntity();
-	int root = kb->getRoot();
 
 	//make the entity schema
 	entSchema.resize(totalEntity + 1);
@@ -175,64 +174,30 @@ void Bridge::initKbSchema()
 				entSchema[i][curRelation] = new TaxoPattern();
 			entSchema[i][curRelation]->add(entPattern[k]);
 		}
-		for (auto& kv : entSchema[i])
+		for (auto &kv : entSchema[i])
 			kv.second->numEntity -= 1.0;
 	}
 
-	//make the concept Schema recursively
+	//make the concept Schemas
 	conSchema.resize(totalConcept + 1);
 	for (int i = 1; i <= totalConcept; i ++)
+	{
 		conSchema[i].clear();
-
-	cout << "Starting bridge::makeConSchema dfs!" << endl;
-	makeConSchema(root);
-
+		unordered_set<int> &entities = kb->getRecursivePossessEntities(i);
+		for (int e : entities)
+			for (auto kv : entSchema[e])
+			{
+				if (! conSchema[i].count(kv.first))
+					conSchema[i][kv.first] = new TaxoPattern();
+				conSchema[i][kv.first]->add(kv.second);
+			}
+		for (auto &kv : conSchema[i])
+			kv.second->numEntity += entities.size();
+	}
 	//add back
 	for (int i = 1; i <= totalEntity; i ++)
-		for (auto& kv : entSchema[i])
+		for (auto &kv : entSchema[i])
 			kv.second->numEntity += 1.0;
-	for (int i = 1; i <= totalConcept; i ++)
-	{
-		double possessCount = kb->getRecursivePossessCount(i);
-		for (auto& kv : conSchema[i])
-			kv.second->numEntity += possessCount;
-	}
-}
-
-void Bridge::makeConSchema(int curNode)
-{
-	//instances of curNode
-	int totalPossess = kb->getPossessCount(curNode);
-	for (int i = 0; i < totalPossess; i ++)
-	{
-		int curEntity = kb->getPossessEntity(curNode, i);
-		unordered_map<int, TaxoPattern *> &curMap = entSchema[curEntity];
-
-		//loop over all relations
-		for (IterIT it = curMap.begin(); it != curMap.end(); it ++)
-		{
-			if (! conSchema[curNode].count(it->first))
-				conSchema[curNode][it->first] = new TaxoPattern();
-			conSchema[curNode][it->first]->add(it->second);
-		}
-	}
-
-	//Children
-	int totalSuc = kb->getSucCount(curNode);
-	for (int i = 0; i < totalSuc; i ++)
-	{
-		int curSuc = kb->getSucNode(curNode, i);
-		makeConSchema(curSuc);
-
-		//loop over all relations
-		unordered_map<int, TaxoPattern *> &curMap = conSchema[curSuc];
-		for (IterIT it = curMap.begin(); it != curMap.end(); it ++)
-		{
-			if (! conSchema[curNode].count(it->first))
-				conSchema[curNode][it->first] = new TaxoPattern();
-			conSchema[curNode][it->first]->add(it->second);
-		}
-	}
 }
 
 void Bridge::initCellPattern()
