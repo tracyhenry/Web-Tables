@@ -137,8 +137,8 @@ public:
 	/**
 	* Methods to find tuple concepts.
 	*/
-	//Find the most similar concept for a record
-	std::vector<int> findRecordConcept(int, int, bool);
+	//Find the top-K similar concepts for a record
+	std::vector<int> findRecordConcept(int, int, int, bool);
 
 	//Find the most similar concepts for all records
 	void findAllConcept();

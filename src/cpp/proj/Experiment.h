@@ -17,7 +17,7 @@ private:
 	double getScore(std::string, std::string);
 
 	//a function to calculate precision, recall and f value
-	std::vector<double> calculateMetrics(double, double, double);
+	std::vector<double> calculatePRF(double, double, double, bool);
 
 public:
 
@@ -33,6 +33,9 @@ public:
 
 	//column relation experiments
 	std::vector<double> runExpColRelation(std::string);
+
+	//record concept experiments
+	std::vector<double> runExpRecConcept(std::string);
 
 	//test the running time of finding relation
 	void runColRelationLatency();

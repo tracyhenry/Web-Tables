@@ -12,14 +12,19 @@ Experiment::Experiment(Bridge *b) : bridge(b) {}
 
 void Experiment::runAllExp()
 {
-	vector<string> methods = {"baseline", "katara", "ours"};
+	vector<string> col_methods = {"baseline", "katara", "ours"};
+	vector<string> rec_methods = {"ours"};
 	//column concepts experiments
-	for (string method : methods)
+	for (string method : col_methods)
 		runExpColConcept(method);
 
 	//column relationship experiments
-	for (string method : methods)
+	for (string method : col_methods)
 		runExpColRelation(method);
+
+	//record concepts experiments
+	for (string method : rec_methods)
+		runExpRecConcept(method);
 }
 
 vector<double> Experiment::runExpColConcept(string method)
@@ -55,8 +60,6 @@ vector<double> Experiment::runExpColConcept(string method)
 	gtFile.close();
 
 	//run functions in ColConcept.cpp
-	double acQuery = 0;
-	double numOutput = 0;
 	unordered_map<int, vector<int>> outputAns;
 	for (int i = 0; i < (int) tids.size(); i ++)
 		if (! outputAns.count(tids[i]))
@@ -69,6 +72,8 @@ vector<double> Experiment::runExpColConcept(string method)
 				outputAns[tids[i]] = bridge->findColConceptAndRelation(tids[i], false);
 		}
 
+	double acQuery = 0;
+	double numOutput = 0;
 	for (int i = 0; i < (int) tids.size(); i ++)
 	{
 		int tid = tids[i];
@@ -104,7 +109,145 @@ vector<double> Experiment::runExpColConcept(string method)
 	resultFile.close();
 	wrongFile.close();
 
-	return calculateMetrics(acQuery, numOutput, (double) tids.size());
+	return calculatePRF(acQuery, numOutput, (double) tids.size(), true);
+}
+
+vector<double> Experiment::runExpRecConcept(string method)
+{
+	//some variables
+	vector<int> tids, rids, nGTs;
+	vector<unordered_map<int, double>> gts;
+	string gtFileName = "../../../data/GT/Record_Concept_GT.txt";
+	ifstream gtFile(gtFileName.c_str());
+	string resultFileName = "../../../data/Result/recConcept/recConcept_" + method + ".txt";
+	ofstream resultFile(resultFileName.c_str());
+	srand(time(0));
+	cout << "The " << method << " method of record concept determination is running......" << endl;
+
+	//read in the gt file
+	int tid, rid, nGT;
+	string gt;
+	double gtScore;
+	while (gtFile >> tid >> rid >> nGT)
+	{
+		tids.push_back(tid);
+		rids.push_back(rid);
+		nGTs.push_back(nGT);
+		gts.push_back(unordered_map<int, double>());
+		unordered_map<int, double> &curGT = gts[(int) gts.size() - 1];
+		for (int i = 0; i < nGT; i ++)
+		{
+			gtFile >> gt >> gtScore;
+			int gtId = bridge->kb->getConceptId(gt);
+			curGT[gtId] = gtScore;
+		}
+	}
+	gtFile.close();
+
+	int arrayKs[] = {1, 3, 5, 10, 20, 30};
+	vector<int> Ks(arrayKs, arrayKs + sizeof(arrayKs) / sizeof(int));
+	vector<double> avgPrecision(Ks.size());
+	vector<double> avgRecall(Ks.size());
+	vector<double> avgFValue(Ks.size());
+	vector<double> avgNDCG(Ks.size());
+
+	//run functions in RecConcept.cpp
+	vector<vector<int>> output;
+	for (int i = 0; i < (int) tids.size(); i ++)
+		if (method == "ours")
+			output[i] = bridge->findRecordConcept(tids[i], rids[i], Ks.back(), false);
+
+	for (int i = 0; i < (int) tids.size(); i ++)
+	{
+		int tid = tids[i];
+		int rid = rids[i];
+		for (int j = 0; j < (int) Ks.size(); j ++)
+		{
+			int K = Ks[j];
+			double ac = 0;
+			for (int k = 0; k < K; k ++)
+				if (gts[i].count(output[i][k]))
+					ac ++;
+			//prf
+			vector<double> prf = calculatePRF(ac, K, gts[i].size(), false);
+			avgPrecision[j] += prf[0];
+			avgRecall[j] += prf[1];
+			avgFValue[j] += prf[2];
+			//dcg
+			double dcg = (gts[i].count(output[i][0]) ? gts[i][output[i][0]] : 0);
+			for (int k = 1; k < K; k ++)
+			{
+				double curScore = 0;
+				if (gts[i].count(output[i][k]))
+					curScore = gts[i][output[i][k]];
+				curScore /= log2(k + 1);
+				dcg += curScore;
+			}
+			//idcg
+			vector<int> gtScores;
+			for (auto kv : gts[i])
+				gtScores.push_back(- kv.second);
+			sort(gtScores.begin(), gtScores.end());
+			double idcg = - gtScores[0];
+			for (int k = 1; k < K; k ++)
+			{
+				double curScore = 0;
+				if (k < (int) gtScores.size())
+					curScore = - gtScores[k];
+				curScore /= log2(k + 1);
+				idcg += curScore;
+			}
+			//ndcg
+			double ndcg = dcg / idcg;
+			avgNDCG[j] += ndcg;
+		}
+		//output to result file
+		resultFile << "Table_id = " << tid << " " << "Row_id = " << rid << endl << endl;
+		for (int c : output[i])
+			resultFile << '\t' << bridge->kb->getConcept(c) << '\t' <<
+				(gts[i].count(c) ? gts[i][c] : 0) << endl;
+		resultFile << endl;
+	}
+	resultFile.close();
+	//output
+	for (int i = 0; i < (int) Ks.size(); i ++)
+	{
+		avgPrecision[i] /= (double) gts.size();
+		avgRecall[i] /= (double) gts.size();
+		avgFValue[i] /= (double) gts.size();
+		avgNDCG[i] /= (double)gts.size();
+	}
+	cout << "Ks :" << endl;
+	for (int i = 0; i < (int) Ks.size(); i ++)
+		cout << '\t' << Ks[i];
+	cout << endl;
+	cout << "Presision:  " << endl;
+	for (int i = 0; i < (int) Ks.size(); i ++)
+		printf("\t%.2f%%\n", avgPrecision[i] * 100.0);
+	cout << endl;
+	cout << "Recall:  " << endl;
+	for (int i = 0; i < (int) Ks.size(); i ++)
+		printf("\t%.2f%%\n", avgRecall[i] * 100.0);
+	cout << endl;
+	cout << "FValue:  " << endl;
+	for (int i = 0; i < (int) Ks.size(); i ++)
+		printf("\t%.2f%%\n", avgFValue[i] * 100.0);
+	cout << endl;
+	cout << "NDCG:  " << endl;
+	for (int i = 0; i < (int) Ks.size(); i ++)
+		printf("\t%.2f%%\n", avgNDCG[i] * 100.0);
+	cout << endl;
+	//return
+	vector<double> ans;
+	for (int p : avgPrecision)
+		ans.push_back(p);
+	for (int r : avgRecall)
+		ans.push_back(r);
+	for (int f : avgFValue)
+		ans.push_back(f);
+	for (int ndcg : avgNDCG)
+		ans.push_back(ndcg);
+	return ans;
 }
 
 vector<double> Experiment::runExpColRelation(string method)
@@ -143,8 +286,6 @@ vector<double> Experiment::runExpColRelation(string method)
 	gtFile.close();
 
 	//run functions in ColConcept.cpp
-	double acQuery = 0;
-	double numOutput = 0;
 	unordered_map<int, vector<int>> outputAns;
 	for (int i = 0; i < (int) tids.size(); i ++)
 		if (! outputAns.count(tids[i]))
@@ -156,6 +297,9 @@ vector<double> Experiment::runExpColRelation(string method)
 			else if (method == "ours")
 				outputAns[tids[i]] = bridge->findColConceptAndRelation(tids[i], false);
 		}
+
+	double acQuery = 0;
+	double numOutput = 0;
 	for (int i = 0; i < (int) tids.size(); i ++)
 	{
 		int tid = tids[i];
@@ -192,7 +336,7 @@ vector<double> Experiment::runExpColRelation(string method)
 	resultFile.close();
 	wrongFile.close();
 
-	return calculateMetrics(acQuery, numOutput, (double) tids.size());
+	return calculatePRF(acQuery, numOutput, (double) tids.size(), true);
 }
 
 void Experiment::runColRelationLatency()
@@ -241,7 +385,7 @@ void Experiment::runRecConceptLatency()
 		cout << curTable << " " << row << endl;
 		struct timeval t1, t2;
 		gettimeofday(&t1, NULL);
-		bridge->findRecordConcept(bridge->corpus->getTable(curTable).table_id, row, true);
+		bridge->findRecordConcept(bridge->corpus->getTable(curTable).table_id, row, 10, true);
 		gettimeofday(&t2, NULL);
 
 		totalTime += t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
@@ -298,17 +442,19 @@ double Experiment::getScore(string concept, string label)
 	return exp(-(double)abs(conceptLevel - labelLevel));
 }
 
-vector<double> Experiment::calculateMetrics(double ac, double numOut, double total)
+vector<double> Experiment::calculatePRF(double ac, double numOut, double total, bool print)
 {
 	double precision = (double) ac / numOut;
 	double recall = (double) ac / (double) total;
 	double fvalue = 2.0 * precision * recall  / (precision + recall);
 
-	cout << ac << " " << numOut << " " << total << endl;
-	printf("Precision : %.2f%%\n", precision * 100.0);
-	printf("Recall : %.2f%%\n", recall * 100.0);
-	printf("F-Value %.2f%%\n", fvalue * 100.0);
-
+	if (print)
+	{
+		cout << ac << " " << numOut << " " << total << endl;
+		printf("Precision : %.2f%%\n", precision * 100.0);
+		printf("Recall : %.2f%%\n", recall * 100.0);
+		printf("F-Value %.2f%%\n", fvalue * 100.0);
+	}
 	vector<double> ans;
 	ans.push_back(precision);
 	ans.push_back(recall);

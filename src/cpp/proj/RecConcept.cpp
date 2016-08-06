@@ -25,7 +25,7 @@ void Bridge::findAllConcept()
 
 		recConcept[i].resize(curTable.nRow);
 		for (int r = 0; r < curTable.nRow; r ++)
-			recConcept[i][r] = findRecordConcept(curTable.table_id, r, false);
+			recConcept[i][r] = findRecordConcept(curTable.table_id, r, 30, false);
 	}
 	//output to a file
 	ofstream fout("../../../data/Result/recConcept/recConcept.txt");
@@ -42,7 +42,7 @@ void Bridge::findAllConcept()
 * output the a ranked concept list for
 * the record represented by the query row
 */
-vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
+vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 {
 	//Brute force
 	int totalConcept = kb->countConcept();
@@ -103,8 +103,8 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 	//output
 	if (print)
 	{
-		cout << endl << "Top 20 Answers: " << endl;
-		for (int i = 0; i < min((int) simScore.size(), 20); i ++)
+		cout << endl << "Top " << K << " Answers: " << endl;
+		for (int i = 0; i < min((int) simScore.size(), K); i ++)
 		{
 			cout << i << ":\t" << - simScore[i].first << " " << simScore[i].second
 				<< " " << kb->getConcept(simScore[i].second)
@@ -114,7 +114,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, bool print)
 	}
 	//return top k answers
 	vector<int> ans;
-	for (int i = 0; i < min((int) simScore.size(), 5); i ++)
+	for (int i = 0; i < min((int) simScore.size(), K); i ++)
 		ans.push_back(simScore[i].second);
 
 	return ans;

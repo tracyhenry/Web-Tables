@@ -101,7 +101,7 @@ void interactiveQuery()
 		{
 			case 0:
 				cin >> x >> y;
-				bridge->findRecordConcept(x, y, true);
+				bridge->findRecordConcept(x, y, 20, true);
 				break;
 			case 1:
 				cin >> x >> y;
