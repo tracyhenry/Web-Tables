@@ -27,6 +27,15 @@ void TaxoPattern::add(TaxoPattern *o)
 	numEntity += o->numEntity;
 }
 
+void TaxoPattern::mult(double lambda)
+{
+	numEntity *= lambda;
+	for (auto &kv : c)
+		kv.second *= lambda;
+	for (auto &kv : e)
+		kv.second *= lambda;
+}
+
 int depthVector::operator < (const depthVector &o) const
 {
 	for (int i = (int) w.size() - 1; i >= 0; i --)

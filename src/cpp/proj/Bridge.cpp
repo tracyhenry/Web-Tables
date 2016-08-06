@@ -220,10 +220,13 @@ void Bridge::initCellPattern()
 			continue;
 
 		cellPattern[i] = new TaxoPattern();
+		double wt = (matches[i][0].second < 1.0 ? WT_SEMILUCKY : 1.0);
 		for (int j = 0; j < (int) matches[i].size(); j ++)
 		{
 			int curEntity = matches[i][j].first;
-			cellPattern[i]->add(entPattern[curEntity]);
+			TaxoPattern curPattern = *entPattern[curEntity];
+			curPattern.mult(wt / (double) matches[i].size());
+			cellPattern[i]->add(&curPattern);
 		}
 	}
 

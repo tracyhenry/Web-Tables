@@ -19,6 +19,9 @@ struct TaxoPattern
 
 	//merge
 	void add(TaxoPattern *);
+
+	//scalar product
+	void mult(double);
 };
 
 struct depthVector

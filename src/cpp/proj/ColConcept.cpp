@@ -156,8 +156,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 			int conceptId = kv.first;
 			if (kb->getDepth(conceptId) > TH_DEPTH)
 				continue;
-			double numContainedCell = getNumContainedCells(curTable, i, conceptId);
-			if (numContainedCell / numLuckyCell >= threshold)
+			if (kv.second / colPattern[curTable.id][i]->numEntity >= threshold)
 				candidates[i].push_back(conceptId);
 		}
 	}
