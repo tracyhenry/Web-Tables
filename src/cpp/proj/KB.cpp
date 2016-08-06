@@ -69,14 +69,14 @@ int KB::getPossessCount(int conceptId)
 	return possess[conceptId].size();
 }
 
-int KB::getRecursivePossessCount(int conceptId)
-{
-	return recursivePossess[conceptId];
-}
-
 int KB::getPossessEntity(int conceptId, int index)
 {
 	return possess[conceptId][index];
+}
+
+int KB::getRecursivePossessCount(int conceptId)
+{
+	return recursivePossess[conceptId].size();
 }
 
 int KB::getFactCount(int entityId)
@@ -284,14 +284,14 @@ void KB::doDFS(int x)
 {
 	depth[x] = 1;
 	startTime[x] = ++ timeStamp;
-	recursivePossess[x] = getPossessCount(x);
+	recursivePossess[x].insert(possess[x].begin(), possess[x].end());
 	for (int i = 0; i < (int) suc[x].size(); i ++)
 	{
 		int j = suc[x][i];
 		level[j] = level[x] + 1;
 		doDFS(j);
 		depth[x] = max(depth[x], depth[j] + 1);
-		recursivePossess[x] += recursivePossess[j];
+		recursivePossess[x].insert(recursivePossess[j].begin(),	recursivePossess[j].end());
 	}
 	endTime[x] = ++ timeStamp;
 }

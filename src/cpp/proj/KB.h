@@ -18,7 +18,8 @@ protected:
 
 	//DFS stuff
 	std::vector<int> depth, startTime, endTime;
-	std::vector<int> recursivePossess, level;
+	std::vector<int> level;
+	std::vector<unordered_set<int>> recursivePossess;
 	int timeStamp;
 
 	//number of concepts
