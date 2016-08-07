@@ -23,6 +23,30 @@ void Bridge::letsDebug()
 	debug << endl << endl;
 
 	TaxoPattern *p0, *p1, *p2, *p3;
+	depthVector sim0, sim1, sim2;
+
+	debug << "Debugging for table with table_id = 3177..." << endl;
+	p0 = getKbSchema(kb->getConceptId("wikicategory_Young-Sprinters_Hockey_Club_players"),
+			kb->getRelationId("isAffiliatedTo"), true);
+	p1 = getKbSchema(kb->getConceptId("wikicategory_Belfast_Giants_players"),
+			kb->getRelationId("isAffiliatedTo"), true);
+	p3 = cellPattern[224501];
+	printPattern(p3);
+
+	sim0 = Matcher::dVector(kb, p0, p3);
+	sim1 = Matcher::dVector(kb, p1, p3);
+
+	debug << endl;
+	debug << "Similarity for wikicategory_Young-Sprinters_Hockey_Club_players : " << sim0.score(Matcher::M) << endl;
+	debug << '\t';
+	for (int i = (int) sim0.w.size() - 1; i >= 0; i --)
+		debug << sim0.w[i] << " ";
+	debug << endl << endl;
+	debug << "Similarity for wikicategory_Belfast_Giants_players : " << sim1.score(Matcher::M) << endl;
+	debug << '\t';
+	for (int i = (int) sim1.w.size() - 1; i >= 0; i --)
+		debug << sim1.w[i] << " ";
+	debug << endl << endl;
 
 	debug << "Debugging for table with table_id = 4125..." << endl;
 	p0 = getKbSchema(kb->getConceptId("wikicategory_Bridges_on_the_National_Register_of_Historic_Places_in_Georgia_(U.S._state)"),
@@ -34,9 +58,9 @@ void Bridge::letsDebug()
 	p3 = cellPattern[302231];
 	printPattern(p3);
 
-	depthVector sim0 = Matcher::dVector(kb, p0, p3);
-	depthVector sim1 = Matcher::dVector(kb, p1, p3);
-	depthVector sim2 = Matcher::dVector(kb, p2, p3);
+	sim0 = Matcher::dVector(kb, p0, p3);
+	sim1 = Matcher::dVector(kb, p1, p3);
+	sim2 = Matcher::dVector(kb, p2, p3);
 
 	debug << endl;
 	debug << "Similarity for wikicategory_Bridges_on_the_National_Register_of_Historic_Places_in_Georgia_(U.S._state) : " << sim0.score(Matcher::M) << endl;

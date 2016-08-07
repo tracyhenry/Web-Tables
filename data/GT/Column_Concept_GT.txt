@@ -104,3 +104,5 @@
 2409	1	1	wikicategory_1983_singles
 3379	0	1	wikicategory_Australian_Labor_Party_politicians
 3379	1	1	wikicategory_Political_parties_in_Australia
+3177	1	1	wordnet_player_110439851 5
+3177	2	1	wordnet_hockey_team_108080386
