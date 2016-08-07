@@ -148,7 +148,6 @@ vector<double> Experiment::runExpRecConcept(string method)
 	vector<int> Ks(arrayKs, arrayKs + sizeof(arrayKs) / sizeof(int));
 	vector<double> avgPrecision(Ks.size());
 	vector<double> avgRecall(Ks.size());
-	vector<double> avgFValue(Ks.size());
 	vector<double> avgNDCG(Ks.size());
 
 	//run functions in RecConcept.cpp
@@ -170,9 +169,11 @@ vector<double> Experiment::runExpRecConcept(string method)
 					ac ++;
 			//prf
 			vector<double> prf = calculatePRF(ac, K, gts[i].size(), false);
-			avgPrecision[j] += prf[0];
-			avgRecall[j] += prf[1];
-			avgFValue[j] += prf[2];
+			if (K <= (int) gts[i].size())
+				avgPrecision[j] += prf[0];
+			if (K == (int) gts[i].size())
+				avgRecall[j] += prf[1];
+
 			//dcg
 			double dcg = (gts[i].count(output[i][0]) ? gts[i][output[i][0]] : 0);
 			for (int k = 1; k < K; k ++)
@@ -212,10 +213,13 @@ vector<double> Experiment::runExpRecConcept(string method)
 	//output
 	for (int i = 0; i < (int) Ks.size(); i ++)
 	{
-		avgPrecision[i] /= (double) gts.size();
-		avgRecall[i] /= (double) gts.size();
-		avgFValue[i] /= (double) gts.size();
-		avgNDCG[i] /= (double) gts.size();
+		int K = Ks[i];
+		int total = 0;
+		for (int j = 0; j < (int) gts.size(); j ++)
+			if (K <= (int) gts[j].size())
+				total ++;
+		avgPrecision[i] /= (double) total;
+		avgNDCG[i] /= (double) (int) tids.size();
 	}
 	cout << "Ks :" << endl;
 	for (int i = 0; i < (int) Ks.size(); i ++)
@@ -225,22 +229,14 @@ vector<double> Experiment::runExpRecConcept(string method)
 	for (int i = 0; i < (int) Ks.size(); i ++)
 		printf("\t%.2f%%", avgPrecision[i] * 100.0);
 	cout << endl;
-/*	cout << "Recall:  " << endl;
-	for (int i = 0; i < (int) Ks.size(); i ++)
-		printf("\t%.2f%%", avgRecall[i] * 100.0);
-	cout << endl;
-	cout << "FValue:  " << endl;
-	for (int i = 0; i < (int) Ks.size(); i ++)
-		printf("\t%.2f%%", avgFValue[i] * 100.0);
-	cout << endl;
-*/	cout << "NDCG:  " << endl;
+	cout << "NDCG: " << endl;
 	for (int i = 0; i < (int) Ks.size(); i ++)
 		printf("\t%.2f%%", avgNDCG[i] * 100.0);
 	cout << endl;
 	cout << "Recall: " << endl;
 	double harmonyRecall = 0;
-	for (int i = 0; i < (int) gts.size(); i ++)
-		harmonyRecall += avgRecall[gts[i].size()];
+	for (int i = 0; i < (int) Ks.size(); i ++)
+		harmonyRecall += avgRecall[i];
 	harmonyRecall /= (double) gts.size();
 	printf("\t%.2f%%", harmonyRecall * 100.0);
 
@@ -250,8 +246,6 @@ vector<double> Experiment::runExpRecConcept(string method)
 		ans.push_back(p);
 	for (int r : avgRecall)
 		ans.push_back(r);
-	for (int f : avgFValue)
-		ans.push_back(f);
 	for (int ndcg : avgNDCG)
 		ans.push_back(ndcg);
 	return ans;
