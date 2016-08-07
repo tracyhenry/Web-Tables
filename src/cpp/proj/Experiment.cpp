@@ -225,7 +225,7 @@ vector<double> Experiment::runExpRecConcept(string method)
 	for (int i = 0; i < (int) Ks.size(); i ++)
 		printf("\t%.2f%%", avgPrecision[i] * 100.0);
 	cout << endl;
-	cout << "Recall:  " << endl;
+/*	cout << "Recall:  " << endl;
 	for (int i = 0; i < (int) Ks.size(); i ++)
 		printf("\t%.2f%%", avgRecall[i] * 100.0);
 	cout << endl;
@@ -233,10 +233,17 @@ vector<double> Experiment::runExpRecConcept(string method)
 	for (int i = 0; i < (int) Ks.size(); i ++)
 		printf("\t%.2f%%", avgFValue[i] * 100.0);
 	cout << endl;
-	cout << "NDCG:  " << endl;
+*/	cout << "NDCG:  " << endl;
 	for (int i = 0; i < (int) Ks.size(); i ++)
 		printf("\t%.2f%%", avgNDCG[i] * 100.0);
 	cout << endl;
+	cout << "Recall: " << endl;
+	double harmonyRecall = 0;
+	for (int i = 0; i < (int) gts.size(); i ++)
+		harmonyRecall += avgRecall[gts[i].size()];
+	harmonyRecall /= (double) gts.size();
+	printf("\t%.2f%%", harmonyRecall * 100.0);
+
 	//return
 	vector<double> ans;
 	for (int p : avgPrecision)
