@@ -25,6 +25,30 @@ void Bridge::letsDebug()
 	TaxoPattern *p0, *p1, *p2, *p3;
 	depthVector sim0, sim1, sim2;
 
+        debug << "Debugging for table with table_id = 5716..." << endl;
+        p0 = getKbSchema(kb->getConceptId("wikicategory_American_cyclists"),
+                        kb->getRelationId("isCitizenOf"), true);
+        p1 = getKbSchema(kb->getConceptId("wikicategory_Paralympic_cyclists_of_Australia"),
+                        kb->getRelationId("isCitizenOf"), true);
+        p3 = cellPattern[460239];
+        printPattern(p3);
+
+        sim0 = Matcher::dVector(kb, p0, p3);
+        sim1 = Matcher::dVector(kb, p1, p3);
+
+        debug << endl;
+        debug << "Similarity for wikicategory_American_cyclists : " << sim0.score(Matcher::M) << endl;
+        debug << '\t';
+        for (int i = (int) sim0.w.size() - 1; i >= 0; i --)
+                debug << sim0.w[i] << " ";
+        debug << endl << endl;
+        debug << "Similarity for wikicategory_Paralympic_cyclists_of_Australia : " << sim1.score(Matcher::M) << endl;
+        debug << '\t';
+        for (int i = (int) sim1.w.size() - 1; i >= 0; i --)
+                debug << sim1.w[i] << " ";
+        debug << endl << endl;
+
+
 	debug << "Debugging for table with table_id = 3177..." << endl;
 	p0 = getKbSchema(kb->getConceptId("wikicategory_Young-Sprinters_Hockey_Club_players"),
 			kb->getRelationId("isAffiliatedTo"), true);
@@ -211,6 +235,8 @@ TaxoPattern *Bridge::getKbSchema(int conceptId, int relationId, bool isDebug)
 
 		if (ans != NULL)
 			printPattern(ans);
+		else
+			debug << "EMPTY SCHEMA!!!" << endl;
 	}
 	return ans;
 }

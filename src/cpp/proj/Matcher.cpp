@@ -142,10 +142,10 @@ depthVector Matcher::dVector(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 {
 	int H = kb->getDepth(kb->getRoot());
 	depthVector ans(H + 1);
+	double w1, w2;
 
-	double w1 = p1->numEntity;
-	double w2 = p2->numEntity;
-	if (p1 == NULL || p2 == NULL || fabs(w1) < 1e-9 || fabs(w2) < 1e-9)
+	if (p1 == NULL || p2 == NULL
+		|| fabs(w1 = p1->numEntity) < 1e-9 || fabs(w2 = p2->numEntity) < 1e-9)
 		return ans;
 
 	unordered_map<int, double> &c1 = p1->c;
@@ -167,11 +167,11 @@ depthVector Matcher::dVector(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 depthVector Matcher::dVectorJaccard(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 {
 	int H = kb->getDepth(kb->getRoot());
-	double w1 = p1->numEntity;
-	double w2 = p2->numEntity;
 	depthVector ans(H + 1);
+	double w1, w2;
 
-	if (p1 == NULL || p2 == NULL || fabs(w1) < 1e-9 || fabs(w2) < 1e-9)
+	if (p1 == NULL || p2 == NULL
+		|| fabs(w1 = p1->numEntity) < 1e-9 || fabs(w2 = p2->numEntity) < 1e-9)
 		return ans;
 
 	unordered_map<int, double> &c1 = p1->c;
@@ -225,10 +225,10 @@ depthVector Matcher::dVectorDiff(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 {
 	int H = kb->getDepth(kb->getRoot());
 	depthVector ans(H + 1);
+	double w1, w2;
 
-	double w1 = p1->numEntity;
-	double w2 = p2->numEntity;
-	if (p1 == NULL || p2 == NULL || fabs(w1) < 1e-9 || fabs(w2) < 1e-9)
+	if (p1 == NULL || p2 == NULL
+		|| fabs(w1 = p1->numEntity) < 1e-9 || fabs(w2 = p2->numEntity) < 1e-9)
 		return ans;
 
 	unordered_map<int, double> &c1 = p1->c;

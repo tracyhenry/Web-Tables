@@ -21,7 +21,7 @@ void TaxoPattern::add(TaxoPattern *o)
 	//merge entities
 	unordered_map<int, double> &oEntityMap = o->e;
 	for (auto kv : oEntityMap)
-		e[kv.first] = kv.second;
+		e[kv.first] += kv.second;
 
 	//add numentity
 	numEntity += o->numEntity;
