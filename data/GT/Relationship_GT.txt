@@ -19,7 +19,7 @@
 4807	1	1	isLocatedIn
 4495	1	1	**_isLocatedIn_**
 4495	3	1	**_isLocatedIn_**
-3585	4	1	playsFor
+3585	4	2	playsFor	isAffiliatedTo
 4346	2	1	wasBornIn
 4346	3	1	influences
 5006	3	1	isLocatedIn

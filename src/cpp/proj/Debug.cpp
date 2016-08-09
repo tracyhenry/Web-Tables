@@ -50,10 +50,10 @@ void Bridge::letsDebug()
 
 
 	debug << "Debugging for table with table_id = 3177..." << endl;
-	p0 = getKbSchema(kb->getConceptId("wikicategory_Young-Sprinters_Hockey_Club_players"),
-			kb->getRelationId("isAffiliatedTo"), true);
+	p0 = getKbSchema(kb->getConceptId("wikicategory_MHK_Kežmarok_players"),
+			kb->getRelationId("playsFor"), true);
 	p1 = getKbSchema(kb->getConceptId("wikicategory_Belfast_Giants_players"),
-			kb->getRelationId("isAffiliatedTo"), true);
+			kb->getRelationId("playsFor"), true);
 	p3 = cellPattern[224501];
 	printPattern(p3);
 
@@ -61,7 +61,10 @@ void Bridge::letsDebug()
 	sim1 = Matcher::dVector(kb, p1, p3);
 
 	debug << endl;
-	debug << "Similarity for wikicategory_Young-Sprinters_Hockey_Club_players : " << sim0.score(Matcher::M) << endl;
+	debug << "Total number of entities wikicategory_Belfast_Giants_players has : "
+		<< kb->getRecursivePossessEntities(kb->getConceptId("wikicategory_Belfast_Giants_players")).size()
+		<< endl << endl;
+	debug << "Similarity for wikicategory_MHK_Kežmarok_players : " << sim0.score(Matcher::M) << endl;
 	debug << '\t';
 	for (int i = (int) sim0.w.size() - 1; i >= 0; i --)
 		debug << sim0.w[i] << " ";

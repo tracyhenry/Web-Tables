@@ -1,7 +1,6 @@
 #ifndef KB__H
 #define KB__H
 
-#include <map>
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -36,16 +35,16 @@ protected:
 	int root;
 
 	//Transformation between concept id and string
-	std::map<std::string, int> M;
-	std::map<int, std::string> MM;
+	std::unordered_map<std::string, int> M;
+	std::unordered_map<int, std::string> MM;
 
 	//Transformation between entity id and string
-	std::map<std::string, int> E;
-	std::map<int, std::string> EE;
+	std::unordered_map<std::string, int> E;
+	std::unordered_map<int, std::string> EE;
 
 	//Transformation between relation id and string
-	std::map<std::string, int> R;
-	std::map<int, std::string> RR;
+	std::unordered_map<std::string, int> R;
+	std::unordered_map<int, std::string> RR;
 
 	//Type relationship
 	std::vector<std::vector<int>> belongs;
@@ -102,6 +101,7 @@ public:
 	std::string getConcept(int); 		//by id
 	std::string getEntity(int);		//by id
 	std::string getRelation(int);		//by id
+	std::string toLower(std::string);
 	std::unordered_set<int>& getRecursivePossessEntities(int);	//by conceptId
 	int getDepth(int);		//by concept id
 	int getLevel(int);
@@ -122,8 +122,12 @@ public:
 	//Constructor
 	YAGO();
 
+private:
 	//Generate supplementary facts
 	void initSupFacts();
+
+	//lowercase M
+	std::unordered_map<std::string, int> lowerM;
 };
 
 #endif

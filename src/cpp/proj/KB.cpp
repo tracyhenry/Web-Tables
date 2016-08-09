@@ -1,5 +1,6 @@
 #include "KB.h"
 #include <map>
+#include <cctype>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -87,6 +88,15 @@ unordered_set<int>& KB::getRecursivePossessEntities(int conceptId)
 int KB::getFactCount(int entityId)
 {
 	return facts[entityId].size();
+}
+
+string KB::toLower(string s)
+{
+	string ans = s;
+	for (int i = 0; i < (int) ans.size(); i ++)
+		if (isalpha(ans[i]) && ans[i] < 97)
+			ans[i] += 32;
+	return ans;
 }
 
 int KB::getConceptId(string c)
@@ -189,7 +199,7 @@ void KB::initTaxonomy()
 	string c;
 	while (getline(conceptFile, c))
 		M[c] = ++ N, MM[N] = c;
- 	conceptFile.close();
+	conceptFile.close();
 
 	//make graph
 	pre.clear(), suc.clear();
@@ -320,22 +330,36 @@ YAGO::YAGO()
 
 void YAGO::initSupFacts()
 {
+	//init lower M
+	lowerM.clear();
+	for (auto kv : M)
+		lowerM[toLower(kv.first)] = kv.second;
+
 	//playsFor
-	int clubRoot = M["wordnet_club_108227214"];
+	int clubRoot = lowerM["wordnet_club_108227214"];
 	unordered_set<int> &clubs = recursivePossess[clubRoot];
 	cout << "Total number of clubs: " << endl << '\t' << clubs.size() << endl;
 	for (int club : clubs)
 	{
 		string clubName = EE[club];
 		string conceptName = "wikicategory_" + clubName + "_players";
-		if (! M.count(conceptName))
+		if (! lowerM.count(conceptName))
 			continue;
-		int conceptId = M[conceptName];
+		int conceptId = lowerM[conceptName];
 		unordered_set<int> players = recursivePossess[conceptId];
-		cout << conceptName << " : " << players.size() << endl;
+//		cout << conceptName << " : " << players.size() << endl;
 		for (int player : players)
 		{
 			int x = player, y = club, z = R["playsFor"];
+			facts[x].emplace_back(z, y);
+			facts[y].emplace_back(z + F / 2, x);
+			//for katara
+			relTripleCount[z] ++;
+			relTripleCount[z + F / 2] ++;
+			entPairTripleCount[x][y] ++;
+			entPairTripleCount[y][x] ++;
+
+			x = player, y = club, z = R["isAffiliatedTo"];
 			facts[x].emplace_back(z, y);
 			facts[y].emplace_back(z + F / 2, x);
 			//for katara

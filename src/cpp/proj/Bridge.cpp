@@ -175,7 +175,7 @@ void Bridge::initKbSchema()
 			entSchema[i][curRelation]->add(entPattern[k]);
 		}
 		for (auto &kv : entSchema[i])
-			kv.second->numEntity -= 1.0;
+			kv.second->numEntity --;
 	}
 
 	//make the concept Schemas
@@ -197,7 +197,7 @@ void Bridge::initKbSchema()
 	//add back
 	for (int i = 1; i <= totalEntity; i ++)
 		for (auto &kv : entSchema[i])
-			kv.second->numEntity += 1.0;
+			kv.second->numEntity ++;
 }
 
 void Bridge::initCellPattern()
