@@ -56,3 +56,6 @@
 2409	2	1	**_created_**
 3379	1	2	isPoliticianOf	isAffiliatedTo
 3317	2	2	playsFor	isAffiliatedTo
+2584	1	1	isLocatedIn
+2584	2	1	owns
+5716	2	1	isCitizenOf

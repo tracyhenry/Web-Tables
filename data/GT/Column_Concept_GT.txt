@@ -106,3 +106,13 @@
 3379	1	1	wikicategory_Political_parties_in_Australia
 3177	1	1	wordnet_player_110439851 5
 3177	2	1	wordnet_hockey_team_108080386
+5445	1	1	wordnet_congressman_109955781
+3290	1	1	wikicategory_Mayors_of_Edmonton
+2064	0	1	wikicategory_Football_clubs_in_the_Democratic_Republic_of_the_Congo
+795	1	1	wikicategory_All-American_college_football_players
+795	2	1	wordnet_university_108286569
+2584	0	1	wikicategory_Football_clubs_in_Italy
+2584	1	1	wordnet_city_108524735
+2584	2	1	wikicategory_Football_venues_in_Italy
+5716	0	1	wordnet_cyclist_109986189
+5716	2	3	wikicategory_Member_states_of_the_United_Nations	wikicategory_Member_states_of_NATO	wordnet_country_108544813
