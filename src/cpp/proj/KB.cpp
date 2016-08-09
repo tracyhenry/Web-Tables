@@ -395,7 +395,6 @@ void YAGO::initSupFacts()
 				demonym[i] = '_';
 
 		demonymMap[demonym] = country;
-		cout << country << '\t' << demonym << endl;
 	}
 
 	int personRoot = M["wordnet_person_100007846"];

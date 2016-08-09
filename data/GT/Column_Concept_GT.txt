@@ -116,3 +116,16 @@
 2584	2	1	wikicategory_Football_venues_in_Italy
 5716	0	1	wordnet_cyclist_109986189
 5716	2	3	wikicategory_Member_states_of_the_United_Nations	wikicategory_Member_states_of_NATO	wordnet_country_108544813
+3694	0	1	wordnet_movie_106613686
+3694	1	1	wikicategory_American_film_directors
+4381	0	1	wikicategory_Virtual_Console_games
+4381	1	1	wikicategory_Video_game_companies_of_Japan
+3217	0	1	wordnet_politician_110451263
+3217	3	1	wikicategory_Political_parties_in_Argentina
+4697	0	1	wikicategory_National_parks_in_Madhya_Pradesh
+4697	2	1	wordnet_city_108524735
+4703	0	2	wikicategory_Member_states_of_the_United_Nations	wordnet_country_108544813
+3400	1	1	wordnet_actor_109765278
+4790	0	2	wikicategory_Utah_Jazz_players	wikicategory_American_basketball_players
+4790	2	3	wordnet_country_108544813	wikicategory_Countries_bordering_the_Pacific_Ocean	wikicategory_Countries_bordering_the_Arctic_Ocean
+4790	3	1	wikicategory_Basketball_positions
