@@ -374,7 +374,7 @@ void YAGO::initSupFacts()
 	string demonymFileName = dirPath + "Demonyms.txt";
 	ifstream demonymFile(demonymFileName.c_str());
 	string inputLine;
-	while (demonymFile >> inputLine)
+	while (getline(demonymFile, inputLine))
 	{
 		string country, demonym;
 		int pos;
@@ -382,11 +382,17 @@ void YAGO::initSupFacts()
 		pos = inputLine.find('\t');
 		country = inputLine.substr(0, pos);
 		country = toLower(country);
+		for (int i = 0; i < (int) country.size(); i ++)
+			if (country[i] == ' ')
+				country[i] = '_';
 		inputLine.erase(0, pos + 1);
 		//second tab
 		pos = inputLine.find('\t');
 		demonym = inputLine.substr(0, pos);
 		demonym = toLower(demonym);
+		for (int i = 0; i < (int) demonym.size(); i ++)
+			if (demonym[i] == ' ')
+				demonym[i] = '_';
 
 		demonymMap[demonym] = country;
 		cout << country << '\t' << demonym << endl;
@@ -400,14 +406,20 @@ void YAGO::initSupFacts()
 		string conceptName = toLower(MM[i]);
 		string curCountry = "";
 		for (auto kv : demonymMap)
-			if (conceptName.find(kv.first) != string::npos)
-			{
-				curCountry = kv.second;
-				break;
-			}
+		{
+			int pos = conceptName.find(kv.first);
+			if (pos == string::npos) continue;
+			if (pos && conceptName[pos - 1] != '_')
+				continue;
+			if (pos + kv.first.size() == conceptName.size())
+				continue;
+			if (conceptName[pos + kv.first.size()] != '_')
+				continue;
+			curCountry = kv.second;
+			break;
+		}
 		if (! E.count(curCountry))
 			continue;
-		cout << conceptName << " " << curCountry << endl;
 		unordered_set<int> people = recursivePossess[i];
 		for (int person : people)
 		{

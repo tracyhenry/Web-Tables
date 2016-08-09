@@ -63,6 +63,7 @@ Mauritania	Mauritanian	a Mauritanian
 Mexico	Mexican	a Mexican* (may be offensive in the USA. Use "someone from Mexico" instead.)
 Morocco	Moroccan	a Moroccan
 Namibia	Namibian	a Namibian
+Netherlands	Dutch	a Dutchman/Dutchwoman
 New Zealand	New Zealand	a New Zealander
 Nicaragua	Nicaraguan	a Nicaraguan
 Niger	Nigerien	a Nigerien
@@ -98,7 +99,7 @@ Turkey	Turkish	a Turk
 Turkmenistan	Turkmen	a Turkmen / the Turkmens
 Ukraine	Ukranian	a Ukranian
 The United Arab Emirates	Emirati	an Emirati
-The United States	American	an American
+United States	American	an American
 Uruguay	Uruguayan	a Uruguayan
 Vietnam	Vietnamese	a Vietnamese person
 Wales	Welsh	a Welshman/Welshwoman
