@@ -315,25 +315,34 @@ YAGO::YAGO()
 	initTaxonomy();
 	initType();
 	initFact();
+	initSupFacts();
 }
 
-void YAGO::getConceptWithMostFacts()
+void YAGO::initSupFacts()
 {
-	vector<pair<int, string>> mmm;
-	mmm.clear();
-	for (int i = 1; i <= N; i ++)
+	//playsFor
+	int clubRoot = M["wordnet_club_108227214"];
+	unordered_set<int> &clubs = recursivePossess[clubRoot];
+	cout << "Total number of clubs: " << endl << '\t' << clubs.size() << endl;
+	for (int club : clubs)
 	{
-		if (MM[i].substr(0, 4) != "word")
+		string clubName = EE[club];
+		string conceptName = "wikicategory_" + clubName + "_players";
+		if (! M.count(conceptName))
 			continue;
-		int tot = 0;
-		for (int j = 0; j < (int) possess[i].size(); j ++)
+		int conceptId = M[conceptName];
+		unordered_set<int> players = recursivePossess[conceptId];
+		cout << conceptName << " : " << players.size() << endl;
+		for (int player : players)
 		{
-			int x = possess[i][j];
-			tot += facts[x].size();
+			int x = player, y = club, z = R["playsFor"];
+			facts[x].emplace_back(z, y);
+			facts[y].emplace_back(z + F / 2, x);
+			//for katara
+			relTripleCount[z] ++;
+			relTripleCount[z + F / 2] ++;
+			entPairTripleCount[x][y] ++;
+			entPairTripleCount[y][x] ++;
 		}
-		mmm.emplace_back(-tot, MM[i]);
 	}
-	sort(mmm.begin(), mmm.end());
-	for (int i = 0; i < 20; i ++)
-		cout << mmm[i].second << " : " << -mmm[i].first << endl;
 }

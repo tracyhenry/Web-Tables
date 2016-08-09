@@ -122,8 +122,8 @@ public:
 	//Constructor
 	YAGO();
 
-	//Auxiliary function to get concepts with most facts associated
-	void getConceptWithMostFacts();
+	//Generate supplementary facts
+	void initSupFacts();
 };
 
 #endif
