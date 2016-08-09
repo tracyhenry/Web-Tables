@@ -188,7 +188,6 @@ void KB::initTaxonomy()
 
 	//YAGO's Input File
 	ifstream conceptFile(conceptFileName.c_str());
-
 	FILE *subclassFile = fopen(subclassFileName.c_str(), "r");
 
 	//make the maps
@@ -217,7 +216,6 @@ void KB::initTaxonomy()
 void KB::initType()
 {
 	ifstream entityFile(entityFileName.c_str());
-
 	FILE *typeFile = fopen(typeFileName.c_str(), "r");
 
 	//Get entity strings
@@ -254,7 +252,6 @@ void KB::initType()
 void KB::initFact()
 {
 	ifstream relationFile(relationFileName.c_str());
-
 	FILE *factFile = fopen(factFileName.c_str(), "r");
 
 	//Get relation names
@@ -330,6 +327,8 @@ YAGO::YAGO()
 
 void YAGO::initSupFacts()
 {
+	int totalAdded = 0;
+
 	//init lower M
 	lowerM.clear();
 	for (auto kv : M)
@@ -347,9 +346,9 @@ void YAGO::initSupFacts()
 			continue;
 		int conceptId = lowerM[conceptName];
 		unordered_set<int> players = recursivePossess[conceptId];
-//		cout << conceptName << " : " << players.size() << endl;
 		for (int player : players)
 		{
+			totalAdded += 2;
 			int x = player, y = club, z = R["playsFor"];
 			facts[x].emplace_back(z, y);
 			facts[y].emplace_back(z + F / 2, x);
@@ -369,4 +368,70 @@ void YAGO::initSupFacts()
 			entPairTripleCount[y][x] ++;
 		}
 	}
+
+	//isCitizenOf
+	unordered_map<string, string> demonymMap;
+	string demonymFileName = dirPath + "Demonyms.txt";
+	ifstream demonymFile(demonymFileName.c_str());
+	string inputLine;
+	while (demonymFile >> inputLine)
+	{
+		string country, demonym;
+		int pos;
+		//first tab
+		pos = inputLine.find('\t');
+		country = inputLine.substr(0, pos);
+		country = toLower(country);
+		inputLine.erase(0, pos + 1);
+		//second tab
+		pos = inputLine.find('\t');
+		demonym = inputLine.substr(0, pos);
+		demonym = toLower(demonym);
+
+		demonymMap[demonym] = country;
+		cout << country << '\t' << demonym << endl;
+	}
+
+	int personRoot = M["wordnet_person_100007846"];
+	for (int i = 1; i <= N; i ++)
+	{
+		if (! isDescendant(i, personRoot))
+			continue;
+		string conceptName = toLower(MM[i]);
+		string curCountry = "";
+		for (auto kv : demonymMap)
+			if (conceptName.find(kv.first) != string::npos)
+			{
+				curCountry = kv.second;
+				break;
+			}
+		if (! E.count(curCountry))
+			continue;
+		cout << conceptName << " " << curCountry << endl;
+		unordered_set<int> people = recursivePossess[i];
+		for (int person : people)
+		{
+			bool hasCitizenship = false;
+			for (auto kv : facts[person])
+				if (kv.first == R["isCitizenOf"])
+				{
+					hasCitizenship = true; break;
+				}
+			if (hasCitizenship)
+				continue;
+
+			totalAdded ++;
+			int x = person, y = E[curCountry], z = R["isCitizenOf"];
+			facts[x].emplace_back(z, y);
+			facts[y].emplace_back(z + F / 2, x);
+			//for katara
+			relTripleCount[z] ++;
+			relTripleCount[z + F / 2] ++;
+			entPairTripleCount[x][y] ++;
+			entPairTripleCount[y][x] ++;
+		}
+	}
+
+	cout << "Supplementary facts generated. Total number of added facts: "
+		<< '\t' << totalAdded << endl;
 }
