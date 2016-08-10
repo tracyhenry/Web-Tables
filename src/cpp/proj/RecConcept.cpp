@@ -91,7 +91,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 			//patternSim
 			TaxoPattern *p1 = cellPattern[curTable.cells[r][j].id];
 			TaxoPattern *p2 = conSchema[c][labels[j + nCol]];
-			double sim = Matcher::patternSim(kb, p1, p2);
+			double sim = Matcher::patternSim(kb, p1, p2, Param::recConceptSim);
 			//combine
 			sumSim += sim / exp(log(10) * dis);
 		}

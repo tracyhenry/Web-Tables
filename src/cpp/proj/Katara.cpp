@@ -32,7 +32,7 @@ void Bridge::initRankedLists(int tid)
 		rankedLists.push_back(KataraListEntry("col", i, -1));
 		double numLuckyCell = getNumLuckyCells(curTable, i);
 		double luckyRate = (double) numLuckyCell / nRow;
-		double threshold = TMIN + (TMAX - TMIN) * luckyRate;
+		double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
 		for (auto kv : colPattern[curTable.id][i]->c)
 		{
 			int c = kv.first;

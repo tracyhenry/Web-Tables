@@ -156,7 +156,7 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 
 				TaxoPattern *cp = cellPattern[curTable.cells[row][c].id];
 				TaxoPattern *pp = entSchema[e][r];
-				double curSim = Matcher::patternSim(kb, cp, pp);
+				double curSim = Matcher::patternSim(kb, cp, pp, Param::colConceptSim);
 
 				sumSim += curSim;
 			}

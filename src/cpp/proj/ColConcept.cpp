@@ -15,7 +15,7 @@ double Bridge::getNumLuckyCells(Table curTable, int c)
 			if (matches[curTable.cells[i][c].id][0].second == 1.0)
 				numLuckyCell += 1.0;
 			else
-				numLuckyCell += WT_SEMILUCKY;
+				numLuckyCell += Param::WT_SEMILUCKY;
 		}
 	return numLuckyCell;
 }
@@ -33,7 +33,7 @@ double Bridge::getNumContainedCells(Table curTable, int c, int conceptId)
 			int entityId = kv.first;
 			if (kb->checkRecursiveBelong(entityId, conceptId))
 			{
-				numContainedCell += (curMatches[0].second == 1.0 ? 1.0 : WT_SEMILUCKY);
+				numContainedCell += (curMatches[0].second == 1.0 ? 1.0 : Param::WT_SEMILUCKY);
 				break;
 			}
 		}
@@ -73,7 +73,7 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 	{
 		double numContainedCell = getNumContainedCells(curTable, c, conceptId);
 		double luckyRate = numLuckyCell / curTable.nRow;
-		double threshold = TMIN + (TMAX - TMIN) * luckyRate;
+		double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
 		if (numContainedCell / numLuckyCell >= threshold)
 			score.emplace_back(kb->getDepth(conceptId), conceptId);
 	}
@@ -149,12 +149,12 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	{
 		double numLuckyCell = getNumLuckyCells(curTable, i);
 		double luckyRate = (double) numLuckyCell / nRow;
-		double threshold = TMIN + (TMAX - TMIN) * luckyRate;
+		double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
 		if (! numLuckyCell) continue;
 		for (auto kv : colPattern[curTable.id][i]->c)
 		{
 			int conceptId = kv.first;
-			if (kb->getDepth(conceptId) > TH_DEPTH)
+			if (kb->getDepth(conceptId) > Param::TH_DEPTH)
 				continue;
 			if (kv.second / colPattern[curTable.id][i]->numEntity >= threshold)
 				candidates[i].push_back(conceptId);
@@ -210,7 +210,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 					continue;
 				TaxoPattern *p1 = colPattern[curTable.id][entityCol];
 				TaxoPattern *p2 = conSchema[conceptId][rel];
-				double curSim = Matcher::patternSim(kb, p1, p2);
+				double curSim = Matcher::patternSim(kb, p1, p2, Param::colConceptSim);
 				if (curSim > bestSims[i][rel])
 				{
 					bestSims[i][rel] = curSim;
@@ -237,7 +237,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 				int curConcept = attrConcepts[i][reverseRel];
 				TaxoPattern *p1 = colPattern[curTable.id][i];
 				TaxoPattern *p2 = conSchema[entityColConcept][rel];
-				double curSim = Matcher::patternSim(kb, p1, p2);
+				double curSim = Matcher::patternSim(kb, p1, p2, Param::colConceptSim);
 				curSim += bestSims[i][reverseRel];
 //				curDv.normalize(1.0 / columnUtility[i]);
 //				curDv.normalize(1.0 / conceptUtility[i][curConcept]);

@@ -29,19 +29,6 @@ struct KataraListEntry
 class Bridge
 {
 private:
-
-	//The weight for semi-lucky cells
-	const double WT_SEMILUCKY = 0.25;
-
-	//The threshold for the depth of a candidate concept
-	const double TH_DEPTH = 12;
-
-	//The maximum threshold for the proportion of lucky cells
-	const double TMAX = 0.8;
-
-	//The minimum threshold for the proportion of lucky cells
-	const double TMIN = 0.4;
-
 	//Match Result: matches[cellId] = [KBentity1, KBentity2 ...]
 	std::vector<std::vector<std::pair<int, double>>> matches;
 

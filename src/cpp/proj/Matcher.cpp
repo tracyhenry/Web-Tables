@@ -7,16 +7,45 @@
 #include <algorithm>
 using namespace std;
 
-double Matcher::M = 5.0;
-
-double Matcher::patternSim(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
+double Matcher::patternSim(KB *kb, TaxoPattern *p1, TaxoPattern *p2, Similarity measure)
 {
-	depthVector dv = dVectorDice(kb, p1, p2);
+	double maxSimDotProduct = 0, maxSimJaccard = 0, maxSimDice = 0;
 	int H = kb->getDepth(kb->getRoot());
-	double maxSim = 0;
-	for (int h = 0; h < H; h ++)
-		maxSim += 1.0 * exp(log(M) * h);
-	return dv.score(M) / maxSim;
+	depthVector dv;
+	double sim = 0;
+
+	//calculate maxSim
+	for (int h = 0; h <= H; h ++)
+	{
+		maxSimJaccard += exp(log(Param::M_Jaccard) * h);
+		maxSimDice += exp(log(Param::M_Dice) * h);
+	}
+
+	//case by case
+	switch (measure)
+	{
+		case DotProduct :
+			dv = dVector(kb, p1, p2);
+			sim = dv.score(Param::M_DotProduct);
+//			if (Param::normalized)
+//				sim /= maxSimDotProduct;
+			break;
+
+		case Jaccard :
+			dv = dVectorJaccard(kb, p1, p2);
+			sim = dv.score(Param::M_Jaccard);
+			if (Param::normalized)
+				sim /= maxSimJaccard;
+			break;
+
+		case Dice :
+			dv = dVectorDice(kb, p1, p2);
+			sim = dv.score(Param::M_Dice);
+			if (Param::normalized)
+				sim /= maxSimDice;
+			break;
+	}
+	return sim;
 }
 
 double Matcher::weightedJaccard(KB *kb, TaxoPattern *p1, TaxoPattern *p2)

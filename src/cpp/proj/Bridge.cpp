@@ -220,7 +220,7 @@ void Bridge::initCellPattern()
 			continue;
 
 		cellPattern[i] = new TaxoPattern();
-		double wt = (matches[i][0].second < 1.0 ? WT_SEMILUCKY : 1.0);
+		double wt = (matches[i][0].second < 1.0 ? Param::WT_SEMILUCKY : 1.0);
 		for (int j = 0; j < (int) matches[i].size(); j ++)
 		{
 			int curEntity = matches[i][j].first;

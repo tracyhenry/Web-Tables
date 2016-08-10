@@ -1,3 +1,4 @@
+#include "Param.h"
 #include "Bridge.h"
 #include "Matcher.h"
 #include <iostream>
@@ -37,12 +38,12 @@ void Bridge::letsDebug()
         sim1 = Matcher::dVector(kb, p1, p3);
 
         debug << endl;
-        debug << "Similarity for wikicategory_American_cyclists : " << sim0.score(Matcher::M) << endl;
+        debug << "Similarity for wikicategory_American_cyclists : " << sim0.score(Param::M_DotProduct) << endl;
         debug << '\t';
         for (int i = (int) sim0.w.size() - 1; i >= 0; i --)
                 debug << sim0.w[i] << " ";
         debug << endl << endl;
-        debug << "Similarity for wikicategory_Paralympic_cyclists_of_Australia : " << sim1.score(Matcher::M) << endl;
+        debug << "Similarity for wikicategory_Paralympic_cyclists_of_Australia : " << sim1.score(Param::M_DotProduct) << endl;
         debug << '\t';
         for (int i = (int) sim1.w.size() - 1; i >= 0; i --)
                 debug << sim1.w[i] << " ";
@@ -64,12 +65,12 @@ void Bridge::letsDebug()
 	debug << "Total number of entities wikicategory_Belfast_Giants_players has : "
 		<< kb->getRecursivePossessEntities(kb->getConceptId("wikicategory_Belfast_Giants_players")).size()
 		<< endl << endl;
-	debug << "Similarity for wikicategory_MHK_Kežmarok_players : " << sim0.score(Matcher::M) << endl;
+	debug << "Similarity for wikicategory_MHK_Kežmarok_players : " << sim0.score(Param::M_DotProduct) << endl;
 	debug << '\t';
 	for (int i = (int) sim0.w.size() - 1; i >= 0; i --)
 		debug << sim0.w[i] << " ";
 	debug << endl << endl;
-	debug << "Similarity for wikicategory_Belfast_Giants_players : " << sim1.score(Matcher::M) << endl;
+	debug << "Similarity for wikicategory_Belfast_Giants_players : " << sim1.score(Param::M_DotProduct) << endl;
 	debug << '\t';
 	for (int i = (int) sim1.w.size() - 1; i >= 0; i --)
 		debug << sim1.w[i] << " ";
@@ -90,17 +91,17 @@ void Bridge::letsDebug()
 	sim2 = Matcher::dVector(kb, p2, p3);
 
 	debug << endl;
-	debug << "Similarity for wikicategory_Bridges_on_the_National_Register_of_Historic_Places_in_Georgia_(U.S._state) : " << sim0.score(Matcher::M) << endl;
+	debug << "Similarity for wikicategory_Bridges_on_the_National_Register_of_Historic_Places_in_Georgia_(U.S._state) : " << sim0.score(Param::M_DotProduct) << endl;
 	debug << '\t';
 	for (int i = (int) sim0.w.size() - 1; i >= 0; i --)
 		debug << sim0.w[i] << " ";
 	debug << endl << endl;
-	debug << "Similarity for wikicategory_Road_bridges_in_Oregon : " << sim1.score(Matcher::M) << endl;
+	debug << "Similarity for wikicategory_Road_bridges_in_Oregon : " << sim1.score(Param::M_DotProduct) << endl;
 	debug << '\t';
 	for (int i = (int) sim1.w.size() - 1; i >= 0; i --)
 		debug << sim1.w[i] << " ";
 	debug << endl << endl;
-	debug << "Similarity for wikicategory_Bridges_in_Portland,_Oregon : " << sim2.score(Matcher::M) << endl;
+	debug << "Similarity for wikicategory_Bridges_in_Portland,_Oregon : " << sim2.score(Param::M_DotProduct) << endl;
 	debug << '\t';
 	for (int i = (int) sim2.w.size() - 1; i >= 0; i --)
 		debug << sim2.w[i] << " ";

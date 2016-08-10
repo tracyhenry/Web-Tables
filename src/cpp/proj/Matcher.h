@@ -1,6 +1,7 @@
 #ifndef MATCHER__H
 #define MATCHER__H
 
+#include "Param.h"
 #include "Bridge.h"
 #include <unordered_map>
 
@@ -8,14 +9,11 @@ class Matcher
 {
 public:
 	//general sim function
-	static double patternSim(KB *, TaxoPattern*, TaxoPattern *);
+	static double patternSim(KB *, TaxoPattern*, TaxoPattern *, Similarity);
 
 	friend void Bridge::letsDebug();
 
 private:
-	//an exponential weight
-	static double M;
-
 	//using weighted jaccard
 	static double weightedJaccard(KB *, TaxoPattern *, TaxoPattern *);
 
