@@ -11,8 +11,12 @@ double Matcher::M = 5.0;
 
 double Matcher::patternSim(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 {
-	depthVector dv = dVector(kb, p1, p2);
-	return dv.score(M);
+	depthVector dv = dVectorJaccard(kb, p1, p2);
+	int H = kb->getDepth(kb->getRoot());
+	double maxSim = 0;
+	for (int h = 0; h < H; h ++)
+		maxSim += 1.0 * exp(log(M) * h);
+	return dv.score(M) / maxSim;
 }
 
 double Matcher::weightedJaccard(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
@@ -247,14 +251,14 @@ depthVector Matcher::dVectorDiff(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 		diff = 1.0 - abs(diff - kv.second / w1);
 		ans.w[level] += diff;
 	}
-/*	for (auto kv : c2)
+	for (auto kv : c2)
 	{
 		int level = H - kb->getDepth(kv.first);
 		if (c1.count(kv.first))
 			continue;
 		ans.w[level] += 1.0 - kv.second / w2;
 	}
-*/	//entities
+	//entities
 	for (auto kv : e1)
 	{
 		if (! e2.count(kv.first))
@@ -263,12 +267,12 @@ depthVector Matcher::dVectorDiff(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 		diff = 1.0 - abs(diff - kv.second / w1);
 		ans.w[H] += diff;
 	}
-/*	for (auto kv : e2)
+	for (auto kv : e2)
 	{
 		if (e1.count(kv.first))
 			continue;
 		ans.w[H] += 1.0 - kv.second / w2;
 	}
-*/
+
 	return ans;
 }
