@@ -36,6 +36,9 @@ private:
 
 	//Difference-based
 	static depthVector dVectorDiff(KB *, TaxoPattern *, TaxoPattern *);
+
+	//Dice similarity
+	static depthVector dVectorDice(KB *, TaxoPattern *, TaxoPattern *);
 };
 
 #endif

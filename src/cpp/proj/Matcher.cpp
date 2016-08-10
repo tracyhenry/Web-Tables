@@ -11,7 +11,7 @@ double Matcher::M = 5.0;
 
 double Matcher::patternSim(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 {
-	depthVector dv = dVectorJaccard(kb, p1, p2);
+	depthVector dv = dVectorDice(kb, p1, p2);
 	int H = kb->getDepth(kb->getRoot());
 	double maxSim = 0;
 	for (int h = 0; h < H; h ++)
@@ -21,11 +21,11 @@ double Matcher::patternSim(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 
 double Matcher::weightedJaccard(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 {
-        double w1, w2;
+	double w1, w2;
 
-        if (p1 == NULL || p2 == NULL
-                || fabs(w1 = p1->numEntity) < 1e-9 || fabs(w2 = p2->numEntity) < 1e-9)
-                return 0;
+	if (p1 == NULL || p2 == NULL
+		|| fabs(w1 = p1->numEntity) < 1e-9 || fabs(w2 = p2->numEntity) < 1e-9)
+		return 0;
 
 	//two sets
 	unordered_map<int, double> &c1 = p1->c;
@@ -274,5 +274,52 @@ depthVector Matcher::dVectorDiff(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 		ans.w[H] += 1.0 - kv.second / w2;
 	}
 
+	return ans;
+}
+
+depthVector Matcher::dVectorDice(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
+{
+	int H = kb->getDepth(kb->getRoot());
+	depthVector ans(H + 1);
+	double w1, w2;
+
+	if (p1 == NULL || p2 == NULL
+		|| fabs(w1 = p1->numEntity) < 1e-9 || fabs(w2 = p2->numEntity) < 1e-9)
+		return ans;
+
+	unordered_map<int, double> &c1 = p1->c;
+	unordered_map<int, double> &c2 = p2->c;
+	unordered_map<int, double> &e1 = p1->e;
+	unordered_map<int, double> &e2 = p2->e;
+	vector<double> iWeight(H + 1), uWeight(H + 1);
+	//concepts
+	for (auto kv : c1)
+	{
+		int level = H - kb->getDepth(kv.first);
+		//union
+		uWeight[level] += kv.second / w1;
+		//intersection
+		if (c2.count(kv.first))
+			iWeight[level] += min(kv.second / w1, c2[kv.first] / w2);
+	}
+	for (auto kv : c2)
+	{
+		int level = H - kb->getDepth(kv.first);
+		uWeight[level] += kv.second / w2;
+	}
+	//entities
+	for (auto kv : e1)
+	{
+		//union
+		uWeight[H] += kv.second / w1;
+		//intersection
+		if (e2.count(kv.first))
+			iWeight[H] += min(kv.second / w1, e2[kv.first] / w2);
+	}
+    for (auto kv : e2)
+		uWeight[H] += kv.second / w2;
+	//compute ans
+	for (int h = H; h >= 0; h --)
+		ans.w[h] = (fabs(uWeight[h]) >= 1e-9 ? 2 * iWeight[h] / uWeight[h] : 0);
 	return ans;
 }

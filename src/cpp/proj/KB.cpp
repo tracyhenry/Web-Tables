@@ -407,7 +407,7 @@ void YAGO::initSupFacts()
 		for (auto kv : demonymMap)
 		{
 			int pos = conceptName.find(kv.first);
-			if (pos == string::npos) continue;
+			if (pos == (int) string::npos) continue;
 			if (pos && conceptName[pos - 1] != '_')
 				continue;
 			if (pos + kv.first.size() == conceptName.size())
