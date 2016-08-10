@@ -15,51 +15,53 @@ double Matcher::patternSim(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 	return dv.score(M);
 }
 
-double Matcher::weightedJaccard(KB *kb, TaxoPattern *cell, TaxoPattern *property)
+double Matcher::weightedJaccard(KB *kb, TaxoPattern *p1, TaxoPattern *p2)
 {
-	if (cell == NULL || property == NULL)
-		return 0;
+        double w1, w2;
+
+        if (p1 == NULL || p2 == NULL
+                || fabs(w1 = p1->numEntity) < 1e-9 || fabs(w2 = p2->numEntity) < 1e-9)
+                return 0;
+
 	//two sets
-	unordered_map<int, double> &setA = cell->c;
-	unordered_map<int, double> &setB = property->c;
+	unordered_map<int, double> &c1 = p1->c;
+	unordered_map<int, double> &c2 = p2->c;
+	unordered_map<int, double> &e1 = p1->e;
+	unordered_map<int, double> &e2 = p2->e;
 
 	//union and intersect
 	double intersectWeight = 0;
 	double unionWeight = 1e-9;
 
-	//union setA
-	for (unordered_map<int, double>::iterator it2 = setA.begin();
-		it2 != setA.end(); it2 ++)
+	//c1
+	for (auto kv : c1)
+		if (! c2.count(kv.first))
+			unionWeight += kv.second / w1;
+		else
 		{
-			if (kb->getSucCount(it2->first))
-				continue;
-			if (! setB.count(it2->first))
-				unionWeight += it2->second;
-			else
-				unionWeight += max(it2->second, setB[it2->second]);
+			unionWeight += max(kv.second / w1, c2[kv.first] / w2);
+			intersectWeight += min(kv.second / w1, c2[kv.first] / w2);
 		}
-
-	//union setB
-	for (unordered_map<int, double>::iterator it2 = setB.begin();
-		it2 != setB.end(); it2 ++)
+	//c2
+	for (auto kv : c2)
+		if (! c1.count(kv.first))
+			unionWeight += kv.second / w2;
+	//e1
+	for (auto kv : e1)
+		if (! e2.count(kv.first))
+			unionWeight += kv.second / w1;
+		else
 		{
-			if (kb->getSucCount(it2->first))
-				continue;
-			if (! setA.count(it2->first))
-				unionWeight += it2->second;
+			unionWeight += max(kv.second / w1, e2[kv.first] / w2);
+			intersectWeight += min(kv.second / w1, e2[kv.first] / w2);
 		}
+	//e2
+	for (auto kv : e2)
+		if (! e1.count(kv.first))
+			unionWeight += kv.second / w2;
 
-	//intersect
-	for (unordered_map<int, double>::iterator it2 = setA.begin();
-		it2 != setA.end(); it2 ++)
-		{
-			if (kb->getSucCount(it2->first))
-				continue;
-			if (setB.count(it2->first))
-				intersectWeight += min(it2->second, setB[it2->first]);
-		}
 
-	return (double) intersectWeight / unionWeight;
+	return intersectWeight / unionWeight;
 }
 
 double Matcher::dotProduct(KB *kb, TaxoPattern *cell, TaxoPattern *property)
