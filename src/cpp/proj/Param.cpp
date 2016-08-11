@@ -4,7 +4,7 @@ using namespace std;
 double Param::M_DotProduct = 5.0;
 double Param::M_Jaccard = 10.0;
 double Param::M_Dice = 5.0;
-bool Param::normalized = true;
+bool Param::normalized = false;
 Similarity Param::colConceptSim = DotProduct;
 Similarity Param::recConceptSim = DotProduct;
 double Param::WT_SEMILUCKY = 0.25;

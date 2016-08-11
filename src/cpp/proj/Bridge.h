@@ -5,6 +5,7 @@
 #include "Corpus.h"
 #include "TaxoPattern.h"
 #include <map>
+#include <queue>
 #include <vector>
 #include <string>
 #include <utility>
@@ -58,6 +59,9 @@ private:
 	//debug file
 	std::ofstream debug;
 
+	//For pruning algorithm
+	std::priority_queue<std::pair<std::pair<double, double>, int>> heap;
+
 	//For KATARA
 	std::vector<KataraListEntry> rankedLists;
 	std::vector<double> ubs, sumUbs;
@@ -98,6 +102,12 @@ private:
 	//katara private functions
 	void kataraBackTrace(int, int, double);
 
+	//recursive function for fast finding record concepts
+	void dfsPrune(int, int, int, Table);
+
+	//distance function which quantifies how far a concept deviates
+	double distance(int, int, TaxoPattern *);
+
 public:
 	//Knowledge base
 	KB *kb;
@@ -125,6 +135,9 @@ public:
 	*/
 	//Find the top-K similar concepts for a record
 	std::vector<int> findRecordConcept(int, int, int, bool);
+
+	//pruning algorithm
+	std::vector<int> fastFindRecordConcept(int, int, int, bool);
 
 	//Baseline find record concept
 	std::vector<int> baselineFindRecordConcept(int, int, int, bool);
