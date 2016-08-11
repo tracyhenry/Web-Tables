@@ -13,7 +13,8 @@ Experiment::Experiment(Bridge *b) : bridge(b) {}
 void Experiment::runAllExp()
 {
 	vector<string> col_methods = {"baseline", "katara", "ours"};
-	vector<string> rec_methods = {"ours"};
+	vector<string> rec_methods = {"baseline", "ours"};
+
 	//column concepts experiments
 	for (string method : col_methods)
 	{
@@ -175,7 +176,9 @@ vector<double> Experiment::runExpRecConcept(string method)
 	//run functions in RecConcept.cpp
 	vector<vector<int>> output(tids.size());
 	for (int i = 0; i < (int) tids.size(); i ++)
-		if (method == "ours")
+		if (method == "baseline")
+			output[i] = bridge->baselineFindRecordConcept(tids[i], rids[i], Ks.back(), false);
+		else if (method == "ours")
 			output[i] = bridge->findRecordConcept(tids[i], rids[i], Ks.back(), false);
 
 	for (int i = 0; i < (int) tids.size(); i ++)

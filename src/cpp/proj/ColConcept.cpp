@@ -126,6 +126,11 @@ vector<int> Bridge::baselineFindColConceptAndRelation(int tid, bool print)
 
 vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 {
+	//cache lookup
+	if (labelCache.count(tid))
+		return labelCache[tid];
+
+	//current table
 	Table curTable = corpus->getTableByDataId(tid);
 	int nRow = curTable.nRow;
 	int nCol = curTable.nCol;
@@ -300,5 +305,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 				<< '\t' << (ans[i + nCol] == -1 ? "No Relation" : kb->getRelation(ans[i + nCol])) << endl;
 		cout <<endl;
 	}
-	return ans;
+
+	//cache and return
+	return labelCache[tid] = ans;
 }

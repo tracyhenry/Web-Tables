@@ -52,6 +52,9 @@ private:
 	//Concepts for all records
 	std::vector<std::vector<std::vector<int>>> recConcept;
 
+	//col concept & relation cache
+	std::unordered_map<int, std::vector<int>> labelCache;
+
 	//debug file
 	std::ofstream debug;
 
@@ -118,10 +121,13 @@ public:
 	std::vector<std::pair<int, double>>& getMatch(int cellId);
 
 	/**
-	* Methods to find tuple concepts.
+	* Methods to find record concepts.
 	*/
 	//Find the top-K similar concepts for a record
 	std::vector<int> findRecordConcept(int, int, int, bool);
+
+	//Baseline find record concept
+	std::vector<int> baselineFindRecordConcept(int, int, int, bool);
 
 	//Find the most similar concepts for all records
 	void findAllConcept();

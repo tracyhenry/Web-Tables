@@ -21,6 +21,9 @@ Bridge::Bridge()
 {
 	cout << "Initializing Bridge!" << endl;
 
+	//cache clear
+	labelCache.clear();
+
 	struct timeval t1, t2;
 
 	//KB

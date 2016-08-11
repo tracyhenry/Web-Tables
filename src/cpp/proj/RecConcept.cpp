@@ -97,6 +97,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 		}
 		simScore.emplace_back(make_pair(-sumSim, dis), c);
 	}
+
 	//sort
 	sort(simScore.begin(), simScore.end());
 
@@ -112,6 +113,73 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 			cout << endl;
 		}
 	}
+
+	//return top k answers
+	vector<int> ans;
+	for (int i = 0; i < min((int) simScore.size(), K); i ++)
+		ans.push_back(simScore[i].second);
+
+	return ans;
+}
+
+/**
+* Given a table id and a row id
+* output the a ranked concept list for
+* the records represented by the query row
+* The baseline method.
+*/
+vector<int> Bridge::baselineFindRecordConcept(int tid, int r, int K, bool print)
+{
+	//similarity array
+	vector<pair<double, int>> simScore;
+
+	//current table
+	Table curTable = corpus->getTableByDataId(tid);
+	int entityCol = curTable.entityCol;
+	if (entityCol == -1)
+		entityCol = 0;
+	int entityCellId = curTable.cells[r][entityCol].id;
+	TaxoPattern *cp = cellPattern[entityCellId];
+	vector<int> labels = findColConceptAndRelation(tid, false);
+
+	//enumerate concepts in the cell pattern
+	for (auto kv : cp->c)
+	{
+		int c = kv.first;
+		if (kb->getSucCount(c)) continue;
+
+		//LCA dis
+		double dis = 0;
+		for (int lca = c; kb->getPreCount(lca); )
+			if (! cp->c.count(lca))
+				dis ++, lca = kb->getPreNode(lca, 0);
+			else
+				break;
+		if (labels[entityCol] != -1)
+			for (int lca = labels[entityCol]; kb->getPreCount(lca); )
+				if (! kb->isDescendant(c, lca))
+					dis ++, lca = kb->getPreNode(lca, 0);
+				else
+					break;
+		simScore.emplace_back(dis, c);
+	}
+
+	//sort
+	sort(simScore.begin(), simScore.end());
+
+	//output
+	if (print)
+	{
+		cout << endl << "Top " << K << " Answers: " << endl;
+		for (int i = 0; i < min((int) simScore.size(), K); i ++)
+		{
+			cout << i << ":\t" << simScore[i].first << " "
+				<< " " << kb->getConcept(simScore[i].second)
+				<< " " << kb->getDepth(simScore[i].second) << endl;
+			cout << endl;
+		}
+	}
+
 	//return top k answers
 	vector<int> ans;
 	for (int i = 0; i < min((int) simScore.size(), K); i ++)
