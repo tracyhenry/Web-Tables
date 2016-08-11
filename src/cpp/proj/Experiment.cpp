@@ -16,15 +16,39 @@ void Experiment::runAllExp()
 	vector<string> rec_methods = {"ours"};
 	//column concepts experiments
 	for (string method : col_methods)
+	{
+		struct timeval t1, t2;
+		gettimeofday(&t1, NULL);
 		runExpColConcept(method);
+		gettimeofday(&t2, NULL);
+		double elapsedTime = t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
+		cout << "Column labels " << method << " method used " << elapsedTime << "s."
+			<< endl << endl;
+	}
 
 	//column relationship experiments
 	for (string method : col_methods)
+	{
+		struct timeval t1, t2;
+		gettimeofday(&t1, NULL);
 		runExpColRelation(method);
+		gettimeofday(&t2, NULL);
+		double elapsedTime = t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
+		cout << "Column labels " << method << " method used " << elapsedTime << "s."
+			 << endl << endl;
+	}
 
 	//record concepts experiments
 	for (string method : rec_methods)
+	{
+		struct timeval t1, t2;
+		gettimeofday(&t1, NULL);
 		runExpRecConcept(method);
+		gettimeofday(&t2, NULL);
+		double elapsedTime = t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
+		cout << "Record concepts " << method << " method used " << elapsedTime << "s."
+			 << endl << endl;
+	}
 }
 
 vector<double> Experiment::runExpColConcept(string method)
@@ -38,7 +62,6 @@ vector<double> Experiment::runExpColConcept(string method)
 	ofstream resultFile(resultFileName.c_str());
 	string wrongFileName = "../../../data/Result/colConcept/colConcept_" + method + "_wrong.txt";
 	ofstream wrongFile(wrongFileName.c_str());
-	srand(time(0));
 	cout << "The " << method << " method of column concept determination is running......" << endl;
 
 	//read in the gt file
@@ -121,7 +144,6 @@ vector<double> Experiment::runExpRecConcept(string method)
 	ifstream gtFile(gtFileName.c_str());
 	string resultFileName = "../../../data/Result/recConcept/recConcept_" + method + ".txt";
 	ofstream resultFile(resultFileName.c_str());
-	srand(time(0));
 	cout << "The " << method << " method of record concept determination is running......" << endl;
 
 	//read in the gt file
@@ -238,7 +260,7 @@ vector<double> Experiment::runExpRecConcept(string method)
 	for (int i = 0; i < (int) Ks.size(); i ++)
 		harmonyRecall += avgRecall[i];
 	harmonyRecall /= (double) gts.size();
-	printf("\t%.2f%%", harmonyRecall * 100.0);
+	printf("\t%.2f%%\n", harmonyRecall * 100.0);
 
 	//return
 	vector<double> ans;
@@ -262,7 +284,6 @@ vector<double> Experiment::runExpColRelation(string method)
 	ofstream resultFile(resultFileName.c_str());
 	string wrongFileName = "../../../data/Result/colRelation/colRelation_" + method + "_wrong.txt";
 	ofstream wrongFile(wrongFileName.c_str());
-	srand(time(0));
 	cout << "The " << method << " method of binary relationship determination is running......" << endl;
 
 	//read in the gt file

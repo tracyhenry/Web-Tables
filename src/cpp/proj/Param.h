@@ -1,7 +1,7 @@
 #ifndef PARAM_H
 #define PARAM_H
 
-enum Similarity {DotProduct, Jaccard, Dice};
+enum Similarity {DotProduct, Jaccard, Dice, wJaccard};
 
 class Param
 {
@@ -31,6 +31,9 @@ public:
 
 	//The minimum threshold for the proportion of lucky cells
 	static double TMIN;
+
+	//
+	static double DISEXPBASE;
 
 	//set to default values
 	void setToDefault();

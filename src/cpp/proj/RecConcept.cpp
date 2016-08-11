@@ -48,7 +48,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 	int totalConcept = kb->countConcept();
 
 	//Similarity Array
-	vector<pair<double, int>> simScore;
+	vector<pair<pair<double, double>, int>> simScore;
 	simScore.clear();
 
 	//current table
@@ -69,16 +69,16 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 		double sumSim = 0;
 
 		//LCA dis
-		int dis = 0;
+		double dis = 0;
 		for (int lca = c; kb->getPreCount(lca); )
 			if (! cellPattern[entityCellId]->c.count(lca))
-				dis += 1, lca = kb->getPreNode(lca, 0);
+				dis ++, lca = kb->getPreNode(lca, 0);
 			else
 				break;
 		if (labels[entityCol] != -1)
 			for (int lca = labels[entityCol]; kb->getPreCount(lca); )
 				if (! kb->isDescendant(c, lca))
-					dis += 1, lca = kb->getPreNode(lca, 0);
+					dis ++, lca = kb->getPreNode(lca, 0);
 				else
 					break;
 		//loop over all attributes
@@ -93,9 +93,9 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 			TaxoPattern *p2 = conSchema[c][labels[j + nCol]];
 			double sim = Matcher::patternSim(kb, p1, p2, Param::recConceptSim);
 			//combine
-			sumSim += sim / exp(log(10) * dis);
+			sumSim += sim / exp(log(Param::DISEXPBASE) * dis);
 		}
-		simScore.emplace_back(-sumSim, c);
+		simScore.emplace_back(make_pair(-sumSim, dis), c);
 	}
 	//sort
 	sort(simScore.begin(), simScore.end());
@@ -106,7 +106,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 		cout << endl << "Top " << K << " Answers: " << endl;
 		for (int i = 0; i < min((int) simScore.size(), K); i ++)
 		{
-			cout << i << ":\t" << - simScore[i].first << " " << simScore[i].second
+			cout << i << ":\t" << - simScore[i].first.first << " " << simScore[i].first.second
 				<< " " << kb->getConcept(simScore[i].second)
 				<< " " << kb->getDepth(simScore[i].second) << endl;
 			cout << endl;

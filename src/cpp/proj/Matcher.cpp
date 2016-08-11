@@ -44,6 +44,9 @@ double Matcher::patternSim(KB *kb, TaxoPattern *p1, TaxoPattern *p2, Similarity 
 			if (Param::normalized)
 				sim /= maxSimDice;
 			break;
+
+		case wJaccard :
+			sim = weightedJaccard(kb, p1, p2);
 	}
 	return sim;
 }
