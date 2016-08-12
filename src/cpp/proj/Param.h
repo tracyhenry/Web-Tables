@@ -32,7 +32,7 @@ public:
 	//The minimum threshold for the proportion of lucky cells
 	static double TMIN;
 
-	//
+	//exponential base factor used to punish long distances
 	static double DISEXPBASE;
 
 	//set to default values

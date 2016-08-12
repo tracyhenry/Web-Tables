@@ -123,6 +123,10 @@ void interactiveQuery()
 				cin >> x;
 				bridge->findColConceptAndRelation(x, true);
 				break;
+			case 6:
+				cin >> x >> y;
+				bridge->baselineFindRecordConcept(x, y, 20, true);
+				break;
 		}
 		cout << endl << "-----------------------------------------" << endl;
 	}

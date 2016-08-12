@@ -51,6 +51,7 @@ double Bridge::distance(int c, int label, TaxoPattern *cp)
 				dis ++, lca = kb->getPreNode(lca, 0);
 			else
 				break;
+
 	return dis;
 }
 
@@ -327,18 +328,7 @@ vector<int> Bridge::baselineFindRecordConcept(int tid, int r, int K, bool print)
 		if (kb->getSucCount(c)) continue;
 
 		//LCA dis
-		double dis = 0;
-		for (int lca = c; kb->getPreCount(lca); )
-			if (! cp->c.count(lca))
-				dis ++, lca = kb->getPreNode(lca, 0);
-			else
-				break;
-		if (labels[entityCol] != -1)
-			for (int lca = labels[entityCol]; kb->getPreCount(lca); )
-				if (! kb->isDescendant(c, lca))
-					dis ++, lca = kb->getPreNode(lca, 0);
-				else
-					break;
+		double dis = distance(c, labels[entityCol], cellPattern[entityCellId]);
 		simScore.emplace_back(dis, c);
 	}
 

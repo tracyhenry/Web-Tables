@@ -126,10 +126,6 @@ vector<int> Bridge::baselineFindColConceptAndRelation(int tid, bool print)
 
 vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 {
-	//cache lookup
-	if (labelCache.count(tid))
-		return labelCache[tid];
-
 	//current table
 	Table curTable = corpus->getTableByDataId(tid);
 	int nRow = curTable.nRow;
@@ -139,6 +135,22 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	int H = kb->getDepth(kb->getRoot());
 	vector<int> ans(nCol * 2, -1);
 	double ansSim = 0;
+
+        //cache lookup
+	if (labelCache.count(tid))
+	{
+		vector<int> ans = labelCache[tid];
+		if (print)
+		{
+			cout << endl << "Entity Column : " << entityCol << endl << endl;
+			for (int i = 0; i < nCol; i ++)
+				cout << "Column " << i << " : " << endl
+					<< '\t' << (ans[i] == -1 ? "No Concept" : kb->getConcept(ans[i])) << endl
+					<< '\t' << (ans[i + nCol] == -1 ? "No Relation" : kb->getRelation(ans[i + nCol])) << endl;
+			cout <<endl;
+		}
+		return ans;
+	}
 
 	//check if there is a given entity column
 	if (entityCol == -1)
