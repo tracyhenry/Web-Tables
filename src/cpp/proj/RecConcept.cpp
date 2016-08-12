@@ -179,6 +179,13 @@ void Bridge::dfsPrune(int x, int r, int K, Table curTable)
 		//current child
 		int curChild = kb->getSucNode(x, i);
 
+		//check leaf
+		if (! kb->getSucCount(curChild))
+		{
+			dfsPrune(curChild, r, K, curTable);
+			continue;
+		}
+
 		//minimal distance
 		double minDis = 0;
 		for (int lca = curChild; kb->getPreCount(lca); )
