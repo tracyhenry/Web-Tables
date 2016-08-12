@@ -237,6 +237,7 @@ void Bridge::dfsPrune(int x, int r, int K, Table curTable)
 					for (auto kv : p2->e)
 						if (p1->e.count(kv.first))
 							p3->e[kv.first] = kv.second;
+					maxSim += Matcher::patternSim(kb, p2, p3, Param::recConceptSim);
 					break;
 			}
 		}
