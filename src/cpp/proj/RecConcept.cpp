@@ -226,13 +226,17 @@ void Bridge::dfsPrune(int x, int r, int K, Table curTable)
 					maxSim += Matcher::patternSim(kb, p2, p3, Param::recConceptSim);
 					break;
 
-				case Jaccard :
-					break;
-
 				case Dice :
-					break;
-
+				case Jaccard :
 				case wJaccard :
+
+					p3->numEntity = p2->numEntity;
+					for (auto kv : p2->c)
+						if (p1->c.count(kv.first))
+							p3->c[kv.first] = kv.second;
+					for (auto kv : p2->e)
+						if (p1->e.count(kv.first))
+							p3->e[kv.first] = kv.second;
 					break;
 			}
 		}
