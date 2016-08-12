@@ -129,3 +129,12 @@
 4790	0	2	wikicategory_Utah_Jazz_players	wikicategory_American_basketball_players
 4790	2	3	wordnet_country_108544813	wikicategory_Countries_bordering_the_Pacific_Ocean	wikicategory_Countries_bordering_the_Arctic_Ocean
 4790	3	1	wikicategory_Basketball_positions
+5135	1	1	wikicategory_Kansas_songs
+5135	5	1	wikicategory_Kansas_albums
+4786	1	1	wikicategory_Football_venues_in_Scotland
+1913	0	1	wordnet_actor_109765278
+4974	0	1	wikicategory_Orlando_Magic_players
+4974	2	1	wordnet_country_108544813
+4974	3	1	wikicategory_Basketball_positions
+1312	0	2	wikicategory_Brisbane_Broncos_players	wikicategory_Australian_rugby_league_players
+1312	1	2	wikicategory_National_Rugby_League_clubs	wikicategory_Rugby_league_teams_in_Sydney

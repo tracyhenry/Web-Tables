@@ -106,7 +106,7 @@ private:
 	void dfsPrune(int, int, int, Table);
 
 	//distance function which quantifies how far a concept deviates
-	double distance(int, int, TaxoPattern *);
+	double distance(int, double, TaxoPattern *, TaxoPattern *);
 
 public:
 	//Knowledge base

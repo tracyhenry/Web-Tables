@@ -68,3 +68,5 @@
 4703	1	1	hasCapital
 3400	1	1	actedIn
 4790	2	1	isCitizenOf
+4974	2	1	isCitizenOf
+1312	1	2	playsFor	isAffiliatedTo

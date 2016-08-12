@@ -37,21 +37,26 @@ void Bridge::findAllConcept()
 	fout.close();
 }
 
-double Bridge::distance(int c, int label, TaxoPattern *cp)
+double Bridge::distance(int c, double th, TaxoPattern *cellPt, TaxoPattern *colPt)
 {
 	double dis = 0;
+	//steps it takes to reach the cell pattern
 	for (int lca = c; kb->getPreCount(lca); )
-		if (! cp->c.count(lca))
+		if (! cellPt->c.count(lca))
 			dis ++, lca = kb->getPreNode(lca, 0);
 		else
 			break;
-	if (label != -1)
-		for (int lca = label; kb->getPreCount(lca); )
-			if (! kb->isDescendant(c, lca))
-				dis ++, lca = kb->getPreNode(lca, 0);
-			else
-				break;
 
+	//find a node in column pattern, and add its depth to dis
+	for (int lca = c; kb->getPreCount(lca); )
+		if (! colPt->c.count(lca)
+			|| colPt->c[lca] / colPt->numEntity < th)
+			lca = kb->getPreNode(lca, 0);
+		else
+		{
+			dis += kb->getDepth(lca);
+			break;
+		}
 	return dis;
 }
 
@@ -70,11 +75,17 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 
 	//current table
 	Table curTable = corpus->getTableByDataId(tid);
+	int nRow = curTable.nRow;
 	int nCol = curTable.nCol;
 	int entityCol = curTable.entityCol;
 	if (entityCol == -1)
 		entityCol = 0;
 	int entityCellId = curTable.cells[r][entityCol].id;
+	double numLuckyCell = getNumLuckyCells(curTable, entityCol);
+	double luckyRate = (double) numLuckyCell / nRow;
+	double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
+	TaxoPattern *cellPt = cellPattern[entityCellId];
+	TaxoPattern *colPt = colPattern[curTable.id][entityCol];
 
 	//column concepts and relationships
 	vector<int> labels = findColConceptAndRelation(tid, false);
@@ -85,7 +96,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 		if (kb->getSucCount(c)) continue;
 
 		//LCA dis
-		double dis = distance(c, labels[entityCol], cellPattern[entityCellId]);
+		double dis = distance(c, threshold, cellPt, colPt);
 
 		//loop over all attributes
 		double sumSim = 0;
@@ -132,11 +143,17 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 void Bridge::dfsPrune(int x, int r, int K, Table curTable)
 {
 	//Table information
+	int nRow = curTable.nRow;
 	int nCol = curTable.nCol;
 	int entityCol = curTable.entityCol;
 	if (entityCol == -1)
 		entityCol = 0;
 	int entityCellId = curTable.cells[r][entityCol].id;
+	double numLuckyCell = getNumLuckyCells(curTable, entityCol);
+	double luckyRate = (double) numLuckyCell / nRow;
+	double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
+	TaxoPattern *cellPt = cellPattern[entityCellId];
+	TaxoPattern *colPt = colPattern[curTable.id][entityCol];
 
 	//column concept & relationship labels
 	vector<int> labels = findColConceptAndRelation(curTable.table_id, false);
@@ -145,7 +162,7 @@ void Bridge::dfsPrune(int x, int r, int K, Table curTable)
 	if (! kb->getSucCount(x))
 	{
 		//LCA dis
-		double dis = distance(x, labels[entityCol], cellPattern[entityCellId]);
+		double dis = distance(x, threshold, cellPt, colPt);
 
 		//loop over all attributes
 		double sumSim = 0;
@@ -194,13 +211,9 @@ void Bridge::dfsPrune(int x, int r, int K, Table curTable)
 				minDis ++, lca = kb->getPreNode(lca, 0);
 			else
 				break;
-		if (labels[entityCol] != -1)
-			if (! kb->isDescendant(labels[entityCol], curChild))
-				for (int lca = labels[entityCol]; kb->getPreCount(lca); )
-					if (! kb->isDescendant(curChild, lca))
-						minDis ++, lca = kb->getPreNode(lca, 0);
-					else
-						break;
+		if (! colPt->c.count(curChild) ||
+			colPt->c[curChild] / colPt->numEntity < threshold)
+			minDis += kb->getDepth(curChild) + 1;
 
 		//maximal sim
 		double maxSim = 0;
@@ -318,17 +331,23 @@ vector<int> Bridge::baselineFindRecordConcept(int tid, int r, int K, bool print)
 	if (entityCol == -1)
 		entityCol = 0;
 	int entityCellId = curTable.cells[r][entityCol].id;
-	TaxoPattern *cp = cellPattern[entityCellId];
+	double numLuckyCell = getNumLuckyCells(curTable, entityCol);
+	double luckyRate = (double) numLuckyCell / curTable.nRow;
+	double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
+	TaxoPattern *cellPt = cellPattern[entityCellId];
+	TaxoPattern *colPt = colPattern[curTable.id][entityCol];
+
+	//labels
 	vector<int> labels = findColConceptAndRelation(tid, false);
 
 	//enumerate concepts in the cell pattern
-	for (auto kv : cp->c)
+	for (auto kv : cellPt->c)
 	{
 		int c = kv.first;
 		if (kb->getSucCount(c)) continue;
 
 		//LCA dis
-		double dis = distance(c, labels[entityCol], cellPattern[entityCellId]);
+		double dis = distance(c, threshold, cellPt, colPt);
 		simScore.emplace_back(dis, c);
 	}
 
