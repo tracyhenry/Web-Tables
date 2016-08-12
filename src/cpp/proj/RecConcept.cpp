@@ -41,16 +41,19 @@ double Bridge::distance(int c, double th, TaxoPattern *cellPt, TaxoPattern *colP
 {
 	double dis = 0;
 	//steps it takes to reach the cell pattern
-	for (int lca = c; kb->getPreCount(lca); )
-		if (! cellPt->c.count(lca))
+	for (int lca = c; ; )
+		if (kb->getPreCount(lca) && ! cellPt->c.count(lca))
 			dis ++, lca = kb->getPreNode(lca, 0);
 		else
 			break;
 
 	//find a node in column pattern, and add its depth to dis
-	for (int lca = c; kb->getPreCount(lca); )
-		if (! colPt->c.count(lca)
-			|| colPt->c[lca] / colPt->numEntity < th)
+	if (! kb->getPreCount(c))
+		return dis + kb->getDepth(c);
+
+	for (int lca = kb->getPreNode(c, 0); ; )
+		if (kb->getPreCount(lca) && (! colPt->c.count(lca)
+			|| colPt->c[lca] / colPt->numEntity < th))
 			lca = kb->getPreNode(lca, 0);
 		else
 		{
@@ -206,8 +209,8 @@ void Bridge::dfsPrune(int x, int r, int K, Table curTable)
 
 		//minimal distance
 		double minDis = 0;
-		for (int lca = curChild; kb->getPreCount(lca); )
-			if (! cellPattern[entityCellId]->c.count(lca))
+		for (int lca = curChild; ; )
+			if (kb->getPreCount(lca) && ! cellPattern[entityCellId]->c.count(lca))
 				minDis ++, lca = kb->getPreNode(lca, 0);
 			else
 				break;
