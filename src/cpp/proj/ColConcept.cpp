@@ -160,22 +160,22 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	}
 
 	//make a candidate concept set for each column
-//	cout << "Table_id = " << tid << endl;
 	vector<vector<int>> candidates(nCol);
 	for (int i = 0; i < nCol; i ++)
 	{
 		double numLuckyCell = getNumLuckyCells(curTable, i);
 		double luckyRate = (double) numLuckyCell / nRow;
 		double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
-		if (! numLuckyCell) continue;
+
 		for (auto kv : colPattern[curTable.id][i]->c)
 		{
 			int conceptId = kv.first;
-			if (kb->getDepth(conceptId) > Param::TH_DEPTH)
-				continue;
 			if (kv.second / colPattern[curTable.id][i]->numEntity >= threshold)
-				candidates[i].push_back(conceptId);
+				if (kb->getDepth(conceptId) <= Param::TH_DEPTH)
+					candidates[i].push_back(conceptId);
 		}
+		if (candidates[i].empty())
+			candidates[i].push_back(kb->getRoot());
 	}
 
 	//calculate search space
@@ -188,27 +188,6 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	searchSpace += (long long) sumCandSize * (long long) numRelation;
 	if (print)
 		cout << "Total search space : " << searchSpace << endl << endl;
-
-	//preprocess column utility
-	vector<double> columnUtility(nCol);
-	for (int i = 0; i < nCol; i ++)
-	{
-		if (i == entityCol)
-			continue;
-		columnUtility[i] = getNumLuckyCells(curTable, i);
-		columnUtility[i] /= (double) nRow;
-		columnUtility[i] /= (double) (candidates[i].size() + 1);
-	}
-
-	//preprocess concept utility
-	vector<unordered_map<int, double>> conceptUtility(nCol);
-	for (int i = 0; i < nCol; i ++)
-		for (int conceptId : candidates[i])
-		{
-			conceptUtility[i][conceptId] = colPattern[curTable.id][i]->c[conceptId];
-			conceptUtility[i][conceptId] /= colPattern[curTable.id][i]->numEntity;
-			conceptUtility[i][conceptId] /= ((double) (kb->getDepth(conceptId) + 1) / H);
-		}
 
 	//share computation
 	vector<vector<int>> attrConcepts(nCol, vector<int>(numRelation + 1, -1));
@@ -256,8 +235,6 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 				TaxoPattern *p2 = conSchema[entityColConcept][rel];
 				double curSim = Matcher::patternSim(kb, p1, p2, Param::colConceptSim);
 				curSim += bestSims[i][reverseRel];
-//				curDv.normalize(1.0 / columnUtility[i]);
-//				curDv.normalize(1.0 / conceptUtility[i][curConcept]);
 				if (curSim > bestSim)
 				{
 					bestSim = curSim;
@@ -267,7 +244,6 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 			}
 			sumSim += bestSim;
 		}
-//		sumDv.normalize(1.0 / conceptUtility[entityCol][entityColConcept]);
 		if (sumSim > ansSim)
 		{
 			ansSim = sumSim;
