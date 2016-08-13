@@ -70,3 +70,6 @@
 4790	2	1	isCitizenOf
 4974	2	1	isCitizenOf
 1312	1	2	playsFor	isAffiliatedTo
+4542	1	2	hasCapital	**_isLocatedIn_**
+2441	3	1	isLocatedIn
+2685	2	1	isLocatedIn

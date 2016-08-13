@@ -138,3 +138,9 @@
 4974	3	1	wikicategory_Basketball_positions
 1312	0	2	wikicategory_Brisbane_Broncos_players	wikicategory_Australian_rugby_league_players
 1312	1	2	wikicategory_National_Rugby_League_clubs	wikicategory_Rugby_league_teams_in_Sydney
+2249	0	1	wikicategory_Mama's_Family_characters
+2249	1	1	wikicategory_American_television_actors
+2598	0	1	wordnet_medium_106254669
+2441	2	1	wordnet_airport_102692232
+2685	2	1	wordnet_site_108651247
+2685	3	1	wordnet_venue_108677628
