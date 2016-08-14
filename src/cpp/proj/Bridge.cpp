@@ -13,8 +13,6 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <sys/time.h>
-#define IterID unordered_map<int, double>::iterator
-#define IterIT unordered_map<int, TaxoPattern *>::iterator
 using namespace std;
 
 Bridge::Bridge()
@@ -334,13 +332,17 @@ void Bridge::traverse()
 				break;
 			case 8 :
 				cout << "Sample Relations are: " << endl << endl;
-				for (IterIT it1 = conSchema[cur].begin();
-					it1 != conSchema[cur].end(); it1 ++)
+				for (auto kv1 : conSchema[cur])
 				{
-					cout << kb->getRelation(it1->first) << " : " << endl << "    ";
-					IterID it2 = ((it1->second)->c).begin();
-					for (int i = 1; i <= 20 && it2 != ((it1->second)->c).end(); i ++, it2 ++)
-						cout << kb->getConcept(it2->first) << "    ";
+					cout << kb->getRelation(kv1.first) << " : " << endl << "    ";
+					int cnt = 0;
+					for (auto kv2 : (kv1.second)->c)
+					{
+						cout << kb->getConcept(kv2.first) << "    ";
+						cnt ++;
+						if (cnt == 20)
+							break;
+					}
 					cout << endl;
 					cout << endl;
 				}

@@ -175,6 +175,14 @@ public:
 	void initRankedLists(int);
 	void initCoherenceScores();
 	std::vector<int> kataraFindColConceptAndRelation(int, bool);
+
+	/**
+	* Enrichment related
+	*/
+
+	void enrichKB();
+	void naiveFactTriple();
+	void naiveTypePair();
 };
 
 #endif

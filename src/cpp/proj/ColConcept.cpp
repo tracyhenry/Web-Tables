@@ -132,7 +132,6 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	int nCol = curTable.nCol;
 	int numRelation = kb->countRelation();
 	int entityCol = curTable.entityCol;
-	int H = kb->getDepth(kb->getRoot());
 	vector<int> ans(nCol * 2, -1);
 	double ansSim = 0;
 
@@ -155,7 +154,8 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	//check if there is a given entity column
 	if (entityCol == -1)
 	{
-		cout << "There is no entity column given! Quit..." << endl;
+		if (print)
+			cout << "There is no entity column given! Quit..." << endl;
 		return ans;
 	}
 

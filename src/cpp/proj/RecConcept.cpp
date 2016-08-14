@@ -70,8 +70,8 @@ double Bridge::distance(int c, double th, TaxoPattern *cellPt, TaxoPattern *colP
 */
 vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 {
-	//Brute force
-	int totalConcept = kb->countConcept();
+	//answer array
+	vector<int> ans;
 
 	//Similarity Array
 	vector<pair<pair<double, double>, int>> simScore;
@@ -82,13 +82,18 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 	int nCol = curTable.nCol;
 	int entityCol = curTable.entityCol;
 	if (entityCol == -1)
-		entityCol = 0;
+	{
+		if (print)
+			cout << "There is no entity column given! Quit..." << endl;
+		return ans;
+	}
 	int entityCellId = curTable.cells[r][entityCol].id;
 	double numLuckyCell = getNumLuckyCells(curTable, entityCol);
 	double luckyRate = (double) numLuckyCell / nRow;
 	double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
 	TaxoPattern *cellPt = cellPattern[entityCellId];
 	TaxoPattern *colPt = colPattern[curTable.id][entityCol];
+	int totalConcept = kb->countConcept();
 
 	//column concepts and relationships
 	vector<int> labels = findColConceptAndRelation(tid, false);
@@ -136,7 +141,6 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 	}
 
 	//return top k answers
-	vector<int> ans;
 	for (int i = 0; i < min((int) simScore.size(), K); i ++)
 		ans.push_back(simScore[i].second);
 
@@ -149,8 +153,6 @@ void Bridge::dfsPrune(int x, int r, int K, Table curTable)
 	int nRow = curTable.nRow;
 	int nCol = curTable.nCol;
 	int entityCol = curTable.entityCol;
-	if (entityCol == -1)
-		entityCol = 0;
 	int entityCellId = curTable.cells[r][entityCol].id;
 	double numLuckyCell = getNumLuckyCells(curTable, entityCol);
 	double luckyRate = (double) numLuckyCell / nRow;
@@ -280,8 +282,18 @@ void Bridge::dfsPrune(int x, int r, int K, Table curTable)
 
 vector<int> Bridge::fastFindRecordConcept(int tid, int r, int K, bool print)
 {
+	//answer array
+	vector<int> ans;
+
+	//table and dfs related
 	heap = priority_queue<pair<pair<double, double>, int>>();
 	Table curTable = corpus->getTableByDataId(tid);
+	if (curTable.entityCol == -1)
+	{
+		if (print)
+			cout << "There is no entity column given! Quit..." << endl;
+		return ans;
+	}
 	int kbRoot = kb->getRoot();
 
 	//call dfsPrune
@@ -310,7 +322,6 @@ vector<int> Bridge::fastFindRecordConcept(int tid, int r, int K, bool print)
 	}
 
 	//return top k answers
-	vector<int> ans;
 	for (int i = 0; i < min((int) simScore.size(), K); i ++)
 		ans.push_back(simScore[i].second);
 
@@ -325,6 +336,9 @@ vector<int> Bridge::fastFindRecordConcept(int tid, int r, int K, bool print)
 */
 vector<int> Bridge::baselineFindRecordConcept(int tid, int r, int K, bool print)
 {
+	//answer array
+	vector<int> ans;
+
 	//similarity array
 	vector<pair<double, int>> simScore;
 
@@ -332,7 +346,12 @@ vector<int> Bridge::baselineFindRecordConcept(int tid, int r, int K, bool print)
 	Table curTable = corpus->getTableByDataId(tid);
 	int entityCol = curTable.entityCol;
 	if (entityCol == -1)
-		entityCol = 0;
+	{
+		if (print)
+			cout << "There is no entity column given! Quit..." << endl;
+		return ans;
+	}
+
 	int entityCellId = curTable.cells[r][entityCol].id;
 	double numLuckyCell = getNumLuckyCells(curTable, entityCol);
 	double luckyRate = (double) numLuckyCell / curTable.nRow;
@@ -371,7 +390,6 @@ vector<int> Bridge::baselineFindRecordConcept(int tid, int r, int K, bool print)
 	}
 
 	//return top k answers
-	vector<int> ans;
 	for (int i = 0; i < min((int) simScore.size(), K); i ++)
 		ans.push_back(simScore[i].second);
 
