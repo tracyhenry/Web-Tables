@@ -156,7 +156,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	{
 		if (print)
 			cout << "There is no entity column given! Quit..." << endl;
-		return ans;
+		return labelCache[tid] = ans;
 	}
 
 	//make a candidate concept set for each column
@@ -174,8 +174,8 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 				if (kb->getDepth(conceptId) <= Param::TH_DEPTH)
 					candidates[i].push_back(conceptId);
 		}
-		if (candidates[i].empty())
-			candidates[i].push_back(kb->getRoot());
+//		if (candidates[i].empty())
+//			candidates[i].push_back(kb->getRoot());
 	}
 
 	//calculate search space

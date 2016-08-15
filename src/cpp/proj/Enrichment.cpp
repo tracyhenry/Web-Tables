@@ -18,8 +18,8 @@ void Bridge::naiveFactTriple()
 
 	//col relation array
 	int nTable = corpus->countTable();
-	vector<Table> tables;
-	vector<vector<int>> labels;
+	vector<Table> tables(1);
+	vector<vector<int>> labels(1);
 	for (int i = 1; i <= nTable; i ++)
 	{
 		if (i % 200 == 0)
@@ -78,7 +78,7 @@ void Bridge::naiveFactTriple()
 		int rel = labels[i][j + nCol];
 		int entityCol = tables[i].entityCol;
 
-		fout << i << " " << j << " : " << sim << endl;
+		fout << tables[i].table_id << " " << j << " : " << sim << endl;
 		for (int r = 0; r < nRow; r ++)
 		{
 			auto m1 = matches[tables[i].cells[r][entityCol].id];
@@ -109,9 +109,11 @@ void Bridge::naiveFactTriple()
 			cur += " ";
 			cur += tables[i].cells[r][j].value;
 
-			fout << '\t' << cur << " " << ! existInKB << endl;
+			if (! existInKB)
+				fout << '\t' << cur << " " << endl;
 		}
 	}
+	fout.close();
 }
 
 void Bridge::naiveTypePair()
