@@ -236,9 +236,9 @@ void Bridge::initCellPattern()
 	//make patterns for unlucky cells
 	for (int i = 1; i <= totalTable; i ++)
 	{
-		Table curTable = corpus->getTable(i);
-		int nRow = curTable.nRow;
-		int nCol = curTable.nCol;
+		Table *curTable = corpus->getTable(i);
+		int nRow = curTable->nRow;
+		int nCol = curTable->nCol;
 		colPattern[i].clear();
 
 		for (int y = 0; y < nCol; y ++)
@@ -248,7 +248,7 @@ void Bridge::initCellPattern()
 
 			for (int x = 0; x < nRow; x ++)
 			{
-				Cell cur = curTable.cells[x][y];
+				Cell cur = curTable->cells[x][y];
 				if (matches[cur.id].size() == 0)
 					continue;
 				curColPattern->add(cellPattern[cur.id]);
@@ -256,7 +256,7 @@ void Bridge::initCellPattern()
 
 			for (int x = 0; x < nRow; x ++)
 			{
-				Cell cur = curTable.cells[x][y];
+				Cell cur = curTable->cells[x][y];
 				if (matches[cur.id].size())
 					continue;
 				cellPattern[cur.id] = curColPattern;

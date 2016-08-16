@@ -18,19 +18,19 @@ void Bridge::findAllRelation()
 	{
 		if (i % 1000 == 0)
 			cout << i << endl;
-		Table curTable = corpus->getTable(i);
-		colRelation[i].resize(curTable.nCol);
+		Table *curTable = corpus->getTable(i);
+		colRelation[i].resize(curTable->nCol);
 
-		for (int c = 0; c < curTable.nCol; c ++)
-			colRelation[i][c] = findRelation(curTable.table_id, c, false);
+		for (int c = 0; c < curTable->nCol; c ++)
+			colRelation[i][c] = findRelation(curTable->table_id, c, false);
 	}
 
 	//output to a result file
 	ofstream fout("../../../data/Result/colRelation/colRelation.txt");
 	for (int i = 1; i <= nTable; i ++)
-		for (int c = 0; c < corpus->getTable(i).nCol; c ++)
+		for (int c = 0; c < corpus->getTable(i)->nCol; c ++)
 			if (colRelation[i][c].size())
-				fout << corpus->getTable(i).table_id << " "
+				fout << corpus->getTable(i)->table_id << " "
 					<< c << " " << kb->getRelation(colRelation[i][c][0])
 					<< endl;
 	fout.close();
@@ -44,15 +44,15 @@ void Bridge::findAllRelation()
 int Bridge::naiveFindRelation(int tid, int c, bool print)
 {
 	//Table variables
-	Table curTable = corpus->getTableByDataId(tid);
-	int entityCol = curTable.entityCol;
-	int nRow = curTable.nRow;
+	Table *curTable = corpus->getTableByDataId(tid);
+	int entityCol = curTable->entityCol;
+	int nRow = curTable->nRow;
 
-	if (c < 0 || c >= curTable.nCol || entityCol == c || entityCol == -1)
+	if (c < 0 || c >= curTable->nCol || entityCol == c || entityCol == -1)
 	{
 		if (print)
 		{
-			if (c < 0 || c >= curTable.nCol)
+			if (c < 0 || c >= curTable->nCol)
 				cout << "Sorry, index out of range!" << endl;
 			else if (entityCol == -1)
 				cout << "Sorry, this table dosen't have a given entity column." << endl;
@@ -73,8 +73,8 @@ int Bridge::naiveFindRelation(int tid, int c, bool print)
 		int totalHit = 0;
 		for (int i = 0; i < nRow; i ++)
 		{
-			int c1 = curTable.cells[i][entityCol].id;
-			int c2 = curTable.cells[i][c].id;
+			int c1 = curTable->cells[i][entityCol].id;
+			int c2 = curTable->cells[i][c].id;
 			unordered_set<int> ent1, ent2;
 			for (auto kv : matches[c1])
 				ent1.insert(kv.first);
@@ -116,14 +116,14 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 	vector<int> ans;
 
 	//Table variables
-	Table curTable = corpus->getTableByDataId(tid);
-	int entityCol = curTable.entityCol;
+	Table *curTable = corpus->getTableByDataId(tid);
+	int entityCol = curTable->entityCol;
 
-	if (c < 0 || c >= curTable.nCol || entityCol == c || entityCol == -1)
+	if (c < 0 || c >= curTable->nCol || entityCol == c || entityCol == -1)
 	{
 		if (print)
 		{
-			if (c < 0 || c >= curTable.nCol)
+			if (c < 0 || c >= curTable->nCol)
 				cout << "Sorry, index out of range!" << endl;
 			else if (entityCol == -1)
 				cout << "Sorry, this table dosen't have a given entity column." << endl;
@@ -145,16 +145,16 @@ vector<int> Bridge::findRelation(int tid, int c, bool print)
 	{
 		double sumSim = 0;
 		//loop over all row/record
-		for (int row = 0; row < curTable.nRow; row ++)
+		for (int row = 0; row < curTable->nRow; row ++)
 		{
-			int cellId = curTable.cells[row][entityCol].id;
+			int cellId = curTable->cells[row][entityCol].id;
 			for (int i = 0; i < (int) matches[cellId].size(); i ++)
 			{
 				int e = matches[cellId][i].first;
 				if (! entSchema[e].count(r))
 					continue;
 
-				TaxoPattern *cp = cellPattern[curTable.cells[row][c].id];
+				TaxoPattern *cp = cellPattern[curTable->cells[row][c].id];
 				TaxoPattern *pp = entSchema[e][r];
 				double curSim = Matcher::patternSim(kb, cp, pp, Param::colConceptSim);
 

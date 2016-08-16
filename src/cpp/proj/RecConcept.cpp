@@ -19,20 +19,20 @@ void Bridge::findAllConcept()
 
 	for (int i = 1; i <= nTable; i ++)
 	{
-		Table curTable = corpus->getTable(i);
-		if (curTable.entityCol == -1)
+		Table *curTable = corpus->getTable(i);
+		if (curTable->entityCol == -1)
 			continue;
 
-		recConcept[i].resize(curTable.nRow);
-		for (int r = 0; r < curTable.nRow; r ++)
-			recConcept[i][r] = findRecordConcept(curTable.table_id, r, 30, false);
+		recConcept[i].resize(curTable->nRow);
+		for (int r = 0; r < curTable->nRow; r ++)
+			recConcept[i][r] = findRecordConcept(curTable->table_id, r, 30, false);
 	}
 	//output to a file
 	ofstream fout("../../../data/Result/recConcept/recConcept.txt");
 	for (int i = 1; i <= nTable; i ++)
 		for (int r = 0; r < (int) recConcept[i].size(); r ++)
 			for (int k = 0; k < (int) recConcept[i][r].size(); k ++)
-				fout << corpus->getTable(i).table_id << " " << r << " " << k
+				fout << corpus->getTable(i)->table_id << " " << r << " " << k
 					<< " " << kb->getConcept(recConcept[i][r][k]) << endl;
 	fout.close();
 }
@@ -73,12 +73,12 @@ double Bridge::sigma(int c, int tid, int r)
 		return sigmaCache[hashId];
 
 	//current table
-	Table curTable = corpus->getTableByDataId(tid);
-	int nCol = curTable.nCol;
-	int entityCol = curTable.entityCol;
-	int entityCellId = curTable.cells[r][entityCol].id;
+	Table *curTable = corpus->getTableByDataId(tid);
+	int nCol = curTable->nCol;
+	int entityCol = curTable->entityCol;
+	int entityCellId = curTable->cells[r][entityCol].id;
 	TaxoPattern *cellPt = cellPattern[entityCellId];
-	TaxoPattern *colPt = colPattern[curTable.id][entityCol];
+	TaxoPattern *colPt = colPattern[curTable->id][entityCol];
 	vector<int> labels = findColConceptAndRelation(tid, false);
 
 	//dis
@@ -93,7 +93,7 @@ double Bridge::sigma(int c, int tid, int r)
 			! conSchema[c].count(labels[j + nCol]))
 				continue;
 		//patternSim
-		TaxoPattern *p1 = cellPattern[curTable.cells[r][j].id];
+		TaxoPattern *p1 = cellPattern[curTable->cells[r][j].id];
 		TaxoPattern *p2 = conSchema[c][labels[j + nCol]];
 		double sim = Matcher::patternSim(kb, p1, p2, Param::recConceptSim);
 		//combine
@@ -117,17 +117,17 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 	vector<pair<pair<double, double>, int>> simScore;
 
 	//current table
-	Table curTable = corpus->getTableByDataId(tid);
-	int entityCol = curTable.entityCol;
+	Table *curTable = corpus->getTableByDataId(tid);
+	int entityCol = curTable->entityCol;
 	if (entityCol == -1)
 	{
 		if (print)
 			cout << "There is no entity column given! Quit..." << endl;
 		return ans;
 	}
-	int entityCellId = curTable.cells[r][entityCol].id;
+	int entityCellId = curTable->cells[r][entityCol].id;
 	TaxoPattern *cellPt = cellPattern[entityCellId];
-	TaxoPattern *colPt = colPattern[curTable.id][entityCol];
+	TaxoPattern *colPt = colPattern[curTable->id][entityCol];
 	int totalConcept = kb->countConcept();
 
 	//column concepts and relationships
@@ -168,17 +168,17 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 	return ans;
 }
 
-void Bridge::dfsPrune(int x, int r, int K, Table curTable)
+void Bridge::dfsPrune(int x, int r, int K, Table *curTable)
 {
 	//Table information
-	int nCol = curTable.nCol;
-	int entityCol = curTable.entityCol;
-	int entityCellId = curTable.cells[r][entityCol].id;
+	int nCol = curTable->nCol;
+	int entityCol = curTable->entityCol;
+	int entityCellId = curTable->cells[r][entityCol].id;
 	TaxoPattern *cellPt = cellPattern[entityCellId];
-	TaxoPattern *colPt = colPattern[curTable.id][entityCol];
+	TaxoPattern *colPt = colPattern[curTable->id][entityCol];
 
 	//column concept & relationship labels
-	vector<int> labels = findColConceptAndRelation(curTable.table_id, false);
+	vector<int> labels = findColConceptAndRelation(curTable->table_id, false);
 
 	//we reach a leaf
 	if (! kb->getSucCount(x))
@@ -187,7 +187,7 @@ void Bridge::dfsPrune(int x, int r, int K, Table curTable)
 		double dis = distance(x, getThreshold(curTable, entityCol), cellPt, colPt);
 
 		//current pair
-		auto cp = make_pair(make_pair(-sigma(x, curTable.table_id, r), dis), x);
+		auto cp = make_pair(make_pair(-sigma(x, curTable->table_id, r), dis), x);
 		if ((int) heap.size() < K)
 			heap.push(cp);
 		else if (cp < heap.top())
@@ -232,7 +232,7 @@ void Bridge::dfsPrune(int x, int r, int K, Table curTable)
 					continue;
 
 			TaxoPattern *p1 = conSchema[curChild][labels[j + nCol]];
-			TaxoPattern *p2 = cellPattern[curTable.cells[r][j].id];
+			TaxoPattern *p2 = cellPattern[curTable->cells[r][j].id];
 			TaxoPattern *p3 = new TaxoPattern();
 			switch (Param::recConceptSim)
 			{
@@ -289,8 +289,8 @@ vector<int> Bridge::fastFindRecordConcept(int tid, int r, int K, bool print)
 
 	//table and dfs related
 	heap = priority_queue<pair<pair<double, double>, int>>();
-	Table curTable = corpus->getTableByDataId(tid);
-	if (curTable.entityCol == -1)
+	Table *curTable = corpus->getTableByDataId(tid);
+	if (curTable->entityCol == -1)
 	{
 		if (print)
 			cout << "There is no entity column given! Quit..." << endl;
@@ -345,8 +345,8 @@ vector<int> Bridge::baselineFindRecordConcept(int tid, int r, int K, bool print)
 	vector<pair<double, int>> simScore;
 
 	//current table
-	Table curTable = corpus->getTableByDataId(tid);
-	int entityCol = curTable.entityCol;
+	Table *curTable = corpus->getTableByDataId(tid);
+	int entityCol = curTable->entityCol;
 	if (entityCol == -1)
 	{
 		if (print)
@@ -354,9 +354,9 @@ vector<int> Bridge::baselineFindRecordConcept(int tid, int r, int K, bool print)
 		return ans;
 	}
 
-	int entityCellId = curTable.cells[r][entityCol].id;
+	int entityCellId = curTable->cells[r][entityCol].id;
 	TaxoPattern *cellPt = cellPattern[entityCellId];
-	TaxoPattern *colPt = colPattern[curTable.id][entityCol];
+	TaxoPattern *colPt = colPattern[curTable->id][entityCol];
 
 	//labels
 	vector<int> labels = findColConceptAndRelation(tid, false);

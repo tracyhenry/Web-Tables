@@ -96,19 +96,19 @@ private:
 	void printPattern(TaxoPattern *);
 
 	//get the number of lucky cells in a column, by curTable and cid
-	double getNumLuckyCells(Table, int);
+	double getNumLuckyCells(Table *, int);
 
 	//get the number of contained cells in a column by a concept, given by conceptId, curTable, cid
-	double getNumContainedCells(Table, int, int);
+	double getNumContainedCells(Table *, int, int);
 
 	//get threshold
-	double getThreshold(Table, int);
+	double getThreshold(Table *, int);
 
 	//katara private functions
 	void kataraBackTrace(int, int, double);
 
 	//recursive function for fast finding record concepts
-	void dfsPrune(int, int, int, Table);
+	void dfsPrune(int, int, int, Table *);
 
 	//distance function which quantifies how far a concept deviates
 	double distance(int, double, TaxoPattern *, TaxoPattern *);

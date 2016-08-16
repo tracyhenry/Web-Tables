@@ -49,14 +49,14 @@ Cell Corpus::getCell(int id)
 	return allCells[id];
 }
 
-Table Corpus::getTable(int id)
+Table *Corpus::getTable(int id)
 {
-	return allTables[id];
+	return &allTables[id];
 }
 
-Table WWT::getTableByDataId(int id)
+Table *WWT::getTableByDataId(int id)
 {
-	return allTables[idMap[id]];
+	return &allTables[idMap[id]];
 }
 
 WWT::WWT()

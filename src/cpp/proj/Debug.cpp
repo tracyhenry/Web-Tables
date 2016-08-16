@@ -114,7 +114,7 @@ void Bridge::letsDebug()
 			kb->getRelationId("playsFor"), true);
 	p2 = getKbSchema(kb->getConceptId("wikicategory_La_Liga_footballers"),
 			kb->getRelationId("playsFor"), true);
-	p3 = colPattern[corpus->getTableByDataId(1356).id][2];
+	p3 = colPattern[corpus->getTableByDataId(1356)->id][2];
 	printPattern(p3);
 
 	sim0 = Matcher::dVector(kb, p0, p3);
@@ -150,7 +150,7 @@ void Bridge::letsDebug()
 
 	p0 = getKbSchema(albumId, reverseRel, true);
 	p1 = getKbSchema(owlThingId, reverseRel, true);
-	p2 = colPattern[corpus->getTableByDataId(3297).id][3];
+	p2 = colPattern[corpus->getTableByDataId(3297)->id][3];
 	printPattern(p2);
 
 	sim0 = Matcher::dVector(kb, p0, p2);
@@ -180,7 +180,7 @@ void Bridge::letsDebug()
 
 	p0 = getKbSchema(actorId, rel, true);
 	p1 = getKbSchema(peopleId, rel, true);
-	p2 = colPattern[corpus->getTableByDataId(2843).id][2];
+	p2 = colPattern[corpus->getTableByDataId(2843)->id][2];
 	printPattern(p2);
 
 	sim0 = Matcher::dVector(kb, p0, p2);
@@ -208,7 +208,7 @@ void Bridge::letsDebug()
 
 	p0 = getKbSchema(areaId, rel, true);
 	p1 = getKbSchema(villageId, rel, true);
-	p2 = colPattern[corpus->getTableByDataId(3317).id][1];
+	p2 = colPattern[corpus->getTableByDataId(3317)->id][1];
 	printPattern(p2);
 
 	sim0 = Matcher::dVector(kb, p0, p2);

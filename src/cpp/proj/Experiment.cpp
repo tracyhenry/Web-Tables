@@ -379,8 +379,8 @@ void Experiment::runColRelationLatency()
 		int col = -1;
 		for (int t = 0; t < 50; t ++)
 		{
-			int nCol = bridge->corpus->getTable(curTable).nCol;
-			int entityCol = bridge->corpus->getTable(curTable).entityCol;
+			int nCol = bridge->corpus->getTable(curTable)->nCol;
+			int entityCol = bridge->corpus->getTable(curTable)->entityCol;
 			if (col >= 0 && col < nCol && col != entityCol)
 				break;
 			col = rand() % nCol;
@@ -388,7 +388,7 @@ void Experiment::runColRelationLatency()
 
 		struct timeval t1, t2;
 		gettimeofday(&t1, NULL);
-		bridge->findRelation(bridge->corpus->getTable(curTable).table_id, col, true);
+		bridge->findRelation(bridge->corpus->getTable(curTable)->table_id, col, true);
 		gettimeofday(&t2, NULL);
 
 		totalTime += t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
@@ -408,11 +408,11 @@ void Experiment::runRecConceptLatency()
 	for (int lp = 1; lp <= 1000; lp ++)
 	{
 		int curTable = rand() % nTable + 1;
-		int row = rand() % bridge->corpus->getTable(curTable).nRow;
+		int row = rand() % bridge->corpus->getTable(curTable)->nRow;
 		cout << curTable << " " << row << endl;
 		struct timeval t1, t2;
 		gettimeofday(&t1, NULL);
-		bridge->findRecordConcept(bridge->corpus->getTable(curTable).table_id, row, 10, true);
+		bridge->findRecordConcept(bridge->corpus->getTable(curTable)->table_id, row, 10, true);
 		gettimeofday(&t2, NULL);
 
 		totalTime += t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
@@ -422,7 +422,7 @@ void Experiment::runRecConceptLatency()
 	//Output the maximum running time
 	vector<int> nCols;
 	for (int i = 0; i < nTable; i ++)
-		nCols.push_back(bridge->corpus->getTable(i + 1).nCol);
+		nCols.push_back(bridge->corpus->getTable(i + 1)->nCol);
 	sort(nCols.begin(), nCols.end());
 	for (int i = 0; i < (int) nCols.size(); i ++)
 		cout << nCols[i] << endl;

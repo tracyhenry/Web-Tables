@@ -6,13 +6,13 @@
 #include <iostream>
 using namespace std;
 
-double Bridge::getNumLuckyCells(Table curTable, int c)
+double Bridge::getNumLuckyCells(Table *curTable, int c)
 {
 	double numLuckyCell = 0;
-	for (int i = 0; i < curTable.nRow; i ++)
-		if (matches[curTable.cells[i][c].id].size())
+	for (int i = 0; i < curTable->nRow; i ++)
+		if (matches[curTable->cells[i][c].id].size())
 		{
-			if (matches[curTable.cells[i][c].id][0].second == 1.0)
+			if (matches[curTable->cells[i][c].id][0].second == 1.0)
 				numLuckyCell += 1.0;
 			else
 				numLuckyCell += Param::WT_SEMILUCKY;
@@ -20,12 +20,12 @@ double Bridge::getNumLuckyCells(Table curTable, int c)
 	return numLuckyCell;
 }
 
-double Bridge::getNumContainedCells(Table curTable, int c, int conceptId)
+double Bridge::getNumContainedCells(Table *curTable, int c, int conceptId)
 {
 	double numContainedCell = 0;
-	for (int j = 0; j < curTable.nRow; j ++)
+	for (int j = 0; j < curTable->nRow; j ++)
 	{
-		vector<pair<int, double>>& curMatches = matches[curTable.cells[j][c].id];
+		vector<pair<int, double>> curMatches = matches[curTable->cells[j][c].id];
 		if (curMatches.empty())
 			continue;
 		for (auto kv: curMatches)
@@ -41,10 +41,10 @@ double Bridge::getNumContainedCells(Table curTable, int c, int conceptId)
 	return numContainedCell;
 }
 
-double Bridge::getThreshold(Table curTable, int c)
+double Bridge::getThreshold(Table *curTable, int c)
 {
 	//hashId
-	string hashId = to_string(curTable.table_id) + "#" + to_string(c);
+	string hashId = to_string(curTable->table_id) + "#" + to_string(c);
 
 	//check cache
 	if (thCache.count(hashId))
@@ -52,7 +52,7 @@ double Bridge::getThreshold(Table curTable, int c)
 
 	//calculate
 	double numLuckyCell = getNumLuckyCells(curTable, c);
-	double luckyRate = numLuckyCell / curTable.nRow;
+	double luckyRate = numLuckyCell / curTable->nRow;
 	return thCache[hashId] = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
 }
 
@@ -64,9 +64,9 @@ double Bridge::getThreshold(Table curTable, int c)
 
 vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 {
-	Table curTable = corpus->getTableByDataId(tid);
+	Table *curTable = corpus->getTableByDataId(tid);
 	//check range
-	if (c < 0 || c >= curTable.nCol)
+	if (c < 0 || c >= curTable->nCol)
 	{
 		cout << "Column index is out of range!" << "   " << tid << " " << c << endl;
 		return vector<int>();
@@ -79,7 +79,7 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 
 	//Make candidate set from column pattern
 	unordered_set<int> candidates;
-	for (auto kv : colPattern[curTable.id][c]->c)
+	for (auto kv : colPattern[curTable->id][c]->c)
 		candidates.insert(kv.first);
 
 	//Loop over all concepts
@@ -107,8 +107,8 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 
 vector<int> Bridge::baselineFindColConceptAndRelation(int tid, bool print)
 {
-	Table curTable = corpus->getTableByDataId(tid);
-	int nCol = curTable.nCol;
+	Table *curTable = corpus->getTableByDataId(tid);
+	int nCol = curTable->nCol;
 	vector<int> ans(nCol * 2, - 1);
 	vector<int> ansColConcept;
 	for (int i = 0; i < nCol; i ++)
@@ -119,7 +119,7 @@ vector<int> Bridge::baselineFindColConceptAndRelation(int tid, bool print)
 	}
         if (print)
         {
-                cout << endl << "Entity Column : " << curTable.entityCol << endl << endl;
+                cout << endl << "Entity Column : " << curTable->entityCol << endl << endl;
                 for (int i = 0; i < nCol; i ++)
                         cout << "Column " << i << " : " << endl
                                 << '\t' << (ans[i] == -1 ? "No Concept" : kb->getConcept(ans[i])) << endl
@@ -140,14 +140,14 @@ vector<int> Bridge::baselineFindColConceptAndRelation(int tid, bool print)
 vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 {
 	//current table
-	Table curTable = corpus->getTableByDataId(tid);
-	int nCol = curTable.nCol;
+	Table *curTable = corpus->getTableByDataId(tid);
+	int nCol = curTable->nCol;
 	int numRelation = kb->countRelation();
-	int entityCol = curTable.entityCol;
+	int entityCol = curTable->entityCol;
 	vector<int> ans(nCol * 2, -1);
 	double ansSim = 0;
 
-        //cache lookup
+	//cache lookup
 	if (labelCache.count(tid))
 	{
 		vector<int> ans = labelCache[tid];
@@ -175,10 +175,10 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	vector<vector<int>> candidates(nCol);
 	for (int i = 0; i < nCol; i ++)
 	{
-		for (auto kv : colPattern[curTable.id][i]->c)
+		for (auto kv : colPattern[curTable->id][i]->c)
 		{
 			int conceptId = kv.first;
-			if (kv.second / colPattern[curTable.id][i]->numEntity >= getThreshold(curTable, i))
+			if (kv.second / colPattern[curTable->id][i]->numEntity >= getThreshold(curTable, i))
 				if (kb->getDepth(conceptId) <= Param::TH_DEPTH)
 					candidates[i].push_back(conceptId);
 		}
@@ -212,7 +212,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 			{
 				if (! conSchema[conceptId].count(rel))
 					continue;
-				TaxoPattern *p1 = colPattern[curTable.id][entityCol];
+				TaxoPattern *p1 = colPattern[curTable->id][entityCol];
 				TaxoPattern *p2 = conSchema[conceptId][rel];
 				double curSim = Matcher::patternSim(kb, p1, p2, Param::colConceptSim);
 				if (curSim > bestSims[i][rel])
@@ -239,7 +239,7 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 					continue;
 				int reverseRel = kb->getReverseRelationId(rel);
 				int curConcept = attrConcepts[i][reverseRel];
-				TaxoPattern *p1 = colPattern[curTable.id][i];
+				TaxoPattern *p1 = colPattern[curTable->id][i];
 				TaxoPattern *p2 = conSchema[entityColConcept][rel];
 				double curSim = Matcher::patternSim(kb, p1, p2, Param::colConceptSim);
 				curSim += bestSims[i][reverseRel];

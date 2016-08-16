@@ -18,22 +18,22 @@ void Bridge::naiveFactTriple()
 
 	//col relation array
 	int nTable = corpus->countTable();
-	vector<Table> tables(1);
+	vector<Table *> tables(1);
 	vector<vector<int>> labels(1);
 	for (int i = 1; i <= nTable; i ++)
 	{
 		if (i % 200 == 0)
 			cout << i << " tables have been processed..." << endl;
 		tables.push_back(corpus->getTable(i));
-		labels.push_back(findColConceptAndRelation(corpus->getTable(i).table_id, false));
+		labels.push_back(findColConceptAndRelation(corpus->getTable(i)->table_id, false));
 	}
 
 	//sort by sim
 	priority_queue<pair<double, pair<int, int>>> h;
 	for (int i = 1; i <= nTable; i ++)
 	{
-		int nCol = tables[i].nCol;
-		int entityCol = tables[i].entityCol;
+		int nCol = tables[i]->nCol;
+		int entityCol = tables[i]->entityCol;
 
 		for (int j = 0; j < nCol; j ++)
 		{
@@ -73,16 +73,16 @@ void Bridge::naiveFactTriple()
 		double sim = top.first;
 		int i = top.second.first;
 		int j = top.second.second;
-		int nRow = tables[i].nRow;
-		int nCol = tables[i].nCol;
+		int nRow = tables[i]->nRow;
+		int nCol = tables[i]->nCol;
 		int rel = labels[i][j + nCol];
-		int entityCol = tables[i].entityCol;
+		int entityCol = tables[i]->entityCol;
 
-		fout << tables[i].table_id << " " << j << " : " << sim << endl;
+		fout << tables[i]->table_id << " " << j << " : " << sim << endl;
 		for (int r = 0; r < nRow; r ++)
 		{
-			auto m1 = matches[tables[i].cells[r][entityCol].id];
-			auto m2 = matches[tables[i].cells[r][j].id];
+			auto m1 = matches[tables[i]->cells[r][entityCol].id];
+			auto m2 = matches[tables[i]->cells[r][j].id];
 
 			bool existInKB = false;
 			if (m1.size() && m2.size())
@@ -105,11 +105,11 @@ void Bridge::naiveFactTriple()
 				continue;
 
 			string cur = "";
-			cur += tables[i].cells[r][entityCol].value;
+			cur += tables[i]->cells[r][entityCol].value;
 			cur += " ";
 			cur += kb->getRelation(rel);
 			cur += " ";
-			cur += tables[i].cells[r][j].value;
+			cur += tables[i]->cells[r][j].value;
 
 			fout << '\t' << cur << " " << endl;
 		}
@@ -124,7 +124,7 @@ void Bridge::naiveTypePair()
 
 	//tables
 	int nTable = corpus->countTable();
-	vector<Table> tables(1);
+	vector<Table *> tables(1);
 	for (int i = 1; i <= nTable; i ++)
 		tables.push_back(corpus->getTable(i));
 
@@ -132,7 +132,7 @@ void Bridge::naiveTypePair()
 	vector<pair<int, int>> records;
 	for (int i = 1; i <= nTable; i ++)
 	{
-		int nRow = tables[i].nRow;
+		int nRow = tables[i]->nRow;
 		for (int r = 0; r < nRow; r ++)
 			records.emplace_back(i, r);
 	}
@@ -149,11 +149,11 @@ void Bridge::naiveTypePair()
 	{
 		int i = records[recId].first;
 		int r = records[recId].second;
-		vector<int> top1 = fastFindRecordConcept(tables[i].table_id, r, 1, false);
+		vector<int> top1 = fastFindRecordConcept(tables[i]->table_id, r, 1, false);
 		if ((int) top1.size() < 1)
 			continue;
 		int conceptId = top1[0];
-		double sigmaValue = sigma(conceptId, tables[i].table_id, r);
+		double sigmaValue = sigma(conceptId, tables[i]->table_id, r);
 		h.push(make_pair(sigmaValue, make_pair(recId, conceptId)));
 		curK[recId] = 1;
 	}
@@ -170,12 +170,12 @@ void Bridge::naiveTypePair()
 		int conceptId = cp.second.second;
 		int i = records[recId].first;
 		int r = records[recId].second;
-		int entityCol = tables[i].entityCol;
+		int entityCol = tables[i]->entityCol;
 		if (entityCol == -1)
 			continue;
 
 		//check if it's an enrichment
-		auto m = matches[tables[i].cells[entityCol][r].id];
+		auto m = matches[tables[i]->cells[entityCol][r].id];
 
 		bool existInKB = false;
 		if (m.size() && m[0].second == 1.0)
@@ -197,11 +197,11 @@ void Bridge::naiveTypePair()
 		if (! existInKB)
 		{
 			string cur = "";
-			cur += tables[i].cells[r][entityCol].value;
+			cur += tables[i]->cells[r][entityCol].value;
 			cur += " is_an_instance_of ";
 			cur += kb->getConcept(conceptId);
 
-			fout << tables[i].table_id << " " << r << " " << curK[recId] << " : " << sigmaTop << endl;
+			fout << tables[i]->table_id << " " << r << " " << curK[recId] << " : " << sigmaTop << endl;
 			fout << '\t' << cur << endl;
 
 			nEnrichment ++;
@@ -213,11 +213,11 @@ void Bridge::naiveTypePair()
 		if (curK[recId] < Param::MAXK)
 		{
 			int pos = ++ curK[recId];
-			vector<int> topk = fastFindRecordConcept(tables[i].table_id, r, pos, false);
+			vector<int> topk = fastFindRecordConcept(tables[i]->table_id, r, pos, false);
 			if ((int) topk.size() >= pos)
 			{
 				int curConcept = topk[pos - 1];
-				double sigmaValue = sigma(curConcept, tables[i].table_id, r);
+				double sigmaValue = sigma(curConcept, tables[i]->table_id, r);
 				h.push(make_pair(sigmaValue / pos, make_pair(recId, curConcept)));
 			}
 		}

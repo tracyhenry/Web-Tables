@@ -21,9 +21,9 @@ struct KataraListEntry
 
 void Bridge::initRankedLists(int tid)
 {
-	Table curTable = corpus->getTableByDataId(tid);
-	int nRow = curTable.nRow;
-	int nCol = curTable.nCol;
+	Table *curTable = corpus->getTableByDataId(tid);
+	int nRow = curTable->nRow;
+	int nCol = curTable->nCol;
 	rankedLists.clear();
 
 	//individual columns
@@ -33,7 +33,7 @@ void Bridge::initRankedLists(int tid)
 		double numLuckyCell = getNumLuckyCells(curTable, i);
 		double luckyRate = (double) numLuckyCell / nRow;
 		double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
-		for (auto kv : colPattern[curTable.id][i]->c)
+		for (auto kv : colPattern[curTable->id][i]->c)
 		{
 			int c = kv.first;
 			double numContainedCell = getNumContainedCells(curTable, i, c);
@@ -42,7 +42,7 @@ void Bridge::initRankedLists(int tid)
 			double tfIdf = 0;
 			for (int j = 0; j < nRow; j ++)
 			{
-				int cellId = curTable.cells[j][i].id;
+				int cellId = curTable->cells[j][i].id;
 				//tf
 				bool belong = false;
 				for (auto kv : matches[cellId])
@@ -82,8 +82,8 @@ void Bridge::initRankedLists(int tid)
 				double tfIdf = 0;
 				for (int t = 0; t < nRow; t ++)
 				{
-					int c1 = curTable.cells[t][i].id;
-					int c2 = curTable.cells[t][j].id;
+					int c1 = curTable->cells[t][i].id;
+					int c2 = curTable->cells[t][j].id;
 					unordered_set<int> ent1, ent2;
 					for (auto kv : matches[c1])
 						ent1.insert(kv.first);
@@ -196,9 +196,9 @@ void Bridge::initCoherenceScores()
 
 vector<int> Bridge::kataraFindColConceptAndRelation(int tid, bool print)
 {
-	Table curTable = corpus->getTableByDataId(tid);
-	int nCol = curTable.nCol;
-	int entityCol = curTable.entityCol;
+	Table *curTable = corpus->getTableByDataId(tid);
+	int nCol = curTable->nCol;
+	int entityCol = curTable->entityCol;
 
 	initRankedLists(tid);
 	//make upper bounds
