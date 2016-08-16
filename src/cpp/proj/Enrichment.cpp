@@ -214,7 +214,7 @@ void Bridge::naiveTypePair()
 		{
 			int pos = ++ curK[recId];
 			vector<int> topk = fastFindRecordConcept(tables[i].table_id, r, pos, false);
-			if (topk.size() >= pos)
+			if ((int) topk.size() >= pos)
 			{
 				int curConcept = topk[pos - 1];
 				double sigmaValue = sigma(curConcept, tables[i].table_id, r);

@@ -135,10 +135,10 @@ void interactiveQuery()
 int main()
 {
 	bridge = new Bridge();
-	bridge->enrichKB();
 //	bridge->letsDebug();
-//	Experiment* experiment = new Experiment(bridge);
-//	experiment->runAllExp();
+	Experiment* experiment = new Experiment(bridge);
+	experiment->runAllExp();
+	bridge->enrichKB();
 	interactiveQuery();
 
 	return 0;

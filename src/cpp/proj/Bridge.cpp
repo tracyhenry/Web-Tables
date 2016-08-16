@@ -21,6 +21,8 @@ Bridge::Bridge()
 
 	//cache clear
 	labelCache.clear();
+	thCache.clear();
+	sigmaCache.clear();
 
 	struct timeval t1, t2;
 

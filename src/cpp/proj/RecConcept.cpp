@@ -65,6 +65,13 @@ double Bridge::distance(int c, double th, TaxoPattern *cellPt, TaxoPattern *colP
 
 double Bridge::sigma(int c, int tid, int r)
 {
+	//hashId
+	string hashId = to_string(c) + "#" + to_string(tid) + "#" + to_string(r);
+
+	//check cache
+	if (sigmaCache.count(hashId))
+		return sigmaCache[hashId];
+
 	//current table
 	Table curTable = corpus->getTableByDataId(tid);
 	int nCol = curTable.nCol;
@@ -93,7 +100,7 @@ double Bridge::sigma(int c, int tid, int r)
 		aSim += sim;
 	}
 
-	return aSim / exp(log(Param::DISEXPBASE) * dis);
+	return sigmaCache[hashId] = aSim / exp(log(Param::DISEXPBASE) * dis);
 }
 
 /**

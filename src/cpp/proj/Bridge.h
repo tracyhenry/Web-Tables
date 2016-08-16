@@ -53,8 +53,10 @@ private:
 	//Concepts for all records
 	std::vector<std::vector<std::vector<int>>> recConcept;
 
-	//col concept & relation cache
+	//Cache
 	std::unordered_map<int, std::vector<int>> labelCache;
+	std::unordered_map<std::string, double> thCache;
+	std::unordered_map<std::string, double> sigmaCache;
 
 	//debug file
 	std::ofstream debug;
