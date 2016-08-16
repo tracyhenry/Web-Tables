@@ -41,6 +41,13 @@ double Bridge::getNumContainedCells(Table curTable, int c, int conceptId)
 	return numContainedCell;
 }
 
+double Bridge::getThreshold(Table curTable, int c)
+{
+	double numLuckyCell = getNumLuckyCells(curTable, c);
+	double luckyRate = numLuckyCell / curTable.nRow;
+	return Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
+}
+
 /**
  * Given a table_id and column number,
  * output top-k concepts describing this column.
@@ -72,9 +79,7 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 	for (int conceptId : candidates)
 	{
 		double numContainedCell = getNumContainedCells(curTable, c, conceptId);
-		double luckyRate = numLuckyCell / curTable.nRow;
-		double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
-		if (numContainedCell / numLuckyCell >= threshold)
+		if (numContainedCell / numLuckyCell >= getThreshold(curTable, c))
 			score.emplace_back(kb->getDepth(conceptId), conceptId);
 	}
 	//Sort by depth
@@ -128,7 +133,6 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 {
 	//current table
 	Table curTable = corpus->getTableByDataId(tid);
-	int nRow = curTable.nRow;
 	int nCol = curTable.nCol;
 	int numRelation = kb->countRelation();
 	int entityCol = curTable.entityCol;
@@ -163,14 +167,10 @@ vector<int> Bridge::findColConceptAndRelation(int tid, bool print)
 	vector<vector<int>> candidates(nCol);
 	for (int i = 0; i < nCol; i ++)
 	{
-		double numLuckyCell = getNumLuckyCells(curTable, i);
-		double luckyRate = (double) numLuckyCell / nRow;
-		double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
-
 		for (auto kv : colPattern[curTable.id][i]->c)
 		{
 			int conceptId = kv.first;
-			if (kv.second / colPattern[curTable.id][i]->numEntity >= threshold)
+			if (kv.second / colPattern[curTable.id][i]->numEntity >= getThreshold(curTable, i))
 				if (kb->getDepth(conceptId) <= Param::TH_DEPTH)
 					candidates[i].push_back(conceptId);
 		}

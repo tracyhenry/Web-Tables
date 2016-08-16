@@ -99,6 +99,9 @@ private:
 	//get the number of contained cells in a column by a concept, given by conceptId, curTable, cid
 	double getNumContainedCells(Table, int, int);
 
+	//get threshold
+	double getThreshold(Table, int);
+
 	//katara private functions
 	void kataraBackTrace(int, int, double);
 
@@ -107,6 +110,9 @@ private:
 
 	//distance function which quantifies how far a concept deviates
 	double distance(int, double, TaxoPattern *, TaxoPattern *);
+
+	//sigma value for rec concept
+	double sigma(int, int, int);
 
 public:
 	//Knowledge base

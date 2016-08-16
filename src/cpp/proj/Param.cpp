@@ -12,6 +12,8 @@ double Param::TH_DEPTH = 12;
 double Param::TMAX = 0.8;
 double Param::TMIN = 0.4;
 double Param::DISEXPBASE = 10.0;
+int Param::MAXK = 5;
+int Param::TYPE_PAIR_K = 10000;
 
 void Param::setToDefault()
 {
@@ -26,4 +28,6 @@ void Param::setToDefault()
 	TMAX = 0.8;
 	TMIN = 0.4;
 	DISEXPBASE = 10.0;
+	MAXK = 5;
+	TYPE_PAIR_K = 10000;
 }

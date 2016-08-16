@@ -101,6 +101,8 @@ void Bridge::naiveFactTriple()
 						}
 					}
 				}
+			if (existInKB)
+				continue;
 
 			string cur = "";
 			cur += tables[i].cells[r][entityCol].value;
@@ -109,8 +111,7 @@ void Bridge::naiveFactTriple()
 			cur += " ";
 			cur += tables[i].cells[r][j].value;
 
-			if (! existInKB)
-				fout << '\t' << cur << " " << endl;
+			fout << '\t' << cur << " " << endl;
 		}
 	}
 	fout.close();
@@ -118,4 +119,102 @@ void Bridge::naiveFactTriple()
 
 void Bridge::naiveTypePair()
 {
+	string resultFileName = "../../../data/Result/enrichment/naiveTypepair.txt";
+	ofstream fout(resultFileName.c_str());
+
+	//tables
+	int nTable = corpus->countTable();
+	vector<Table> tables(1);
+	for (int i = 1; i <= nTable; i ++)
+		tables.push_back(corpus->getTable(i));
+
+	//records
+	vector<pair<int, int>> records;
+	for (int i = 1; i <= nTable; i ++)
+	{
+		int nRow = tables[i].nRow;
+		for (int r = 0; r < nRow; r ++)
+			records.emplace_back(i, r);
+	}
+
+	//score heap: <sigma, <recId, conceptId>>
+	priority_queue<pair<double, pair<int, int>>> h;
+
+	//current k for each record
+	vector<int> curK(records.size());
+
+	//initialize, insert top-1 of each record into h
+	for (int recId = 0; recId < (int) records.size(); recId ++)
+	{
+		int i = records[recId].first;
+		int r = records[recId].second;
+		vector<int> top1 = fastFindRecordConcept(tables[i].table_id, r, 1, false);
+		int conceptId = top1[0];
+		double sigmaValue = sigma(conceptId, tables[i].table_id, r);
+		h.push(make_pair(sigmaValue, make_pair(recId, conceptId)));
+		curK[recId] = 1;
+	}
+
+	//top-k
+	int nEnrichment = 0;
+	while (! h.empty())
+	{
+		auto cp = h.top();
+		h.pop();
+
+		double sigmaTop = cp.first;
+		int recId = cp.second.first;
+		int conceptId = cp.second.second;
+		int i = records[recId].first;
+		int r = records[recId].second;
+		int entityCol = tables[i].entityCol;
+		if (entityCol == -1)
+			continue;
+
+		//check if it's an enrichment
+		auto m = matches[tables[i].cells[entityCol][r].id];
+
+		bool existInKB = false;
+		if (m.size() && m[0].second == 1.0)
+		{
+			int e = m[0].first;
+			int belongCount = kb->getBelongCount(e);
+			for (int k = 0; k < belongCount; k ++)
+			{
+				int curConcept = kb->getBelongConcept(e, k);
+				if (curConcept == conceptId)
+				{
+					existInKB = true;
+					break;
+				}
+			}
+		}
+
+		//output
+		if (! existInKB)
+		{
+			string cur = "";
+			cur += tables[i].cells[r][entityCol].value;
+			cur += " is_an_instance_of ";
+			cur += kb->getConcept(conceptId);
+
+			fout << tables[i].table_id << " " << r << " " << curK[recId] << " : " << sigmaTop << endl;
+			fout << '\t' << cur << endl;
+
+			nEnrichment ++;
+			if (nEnrichment == Param::TYPE_PAIR_K)
+				break;
+		}
+
+		//move onto next
+		if (curK[recId] < Param::MAXK)
+		{
+			int pos = ++ curK[recId];
+			vector<int> topk = fastFindRecordConcept(tables[i].table_id, r, pos, false);
+			int curConcept = topk[pos - 1];
+			double sigmaValue = sigma(curConcept, tables[i].table_id, r);
+			h.push(make_pair(sigmaValue / pos, make_pair(recId, curConcept)));
+		}
+	}
+	fout.close();
 }

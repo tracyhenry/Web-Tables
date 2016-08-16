@@ -35,6 +35,12 @@ public:
 	//exponential base factor used to punish long distances
 	static double DISEXPBASE;
 
+	//max k for record type pair enrichment
+	static int MAXK;
+
+	//limitation on number of type pair enrichments
+	static int TYPE_PAIR_K;
+
 	//set to default values
 	void setToDefault();
 };
