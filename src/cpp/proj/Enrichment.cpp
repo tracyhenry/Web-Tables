@@ -144,11 +144,14 @@ void Bridge::naiveTypePair()
 	vector<int> curK(records.size());
 
 	//initialize, insert top-1 of each record into h
+	cout << "Number of records: " << records.size() << endl;
 	for (int recId = 0; recId < (int) records.size(); recId ++)
 	{
 		int i = records[recId].first;
 		int r = records[recId].second;
 		vector<int> top1 = fastFindRecordConcept(tables[i].table_id, r, 1, false);
+		if ((int) top1.size() < 1)
+			continue;
 		int conceptId = top1[0];
 		double sigmaValue = sigma(conceptId, tables[i].table_id, r);
 		h.push(make_pair(sigmaValue, make_pair(recId, conceptId)));
@@ -211,9 +214,12 @@ void Bridge::naiveTypePair()
 		{
 			int pos = ++ curK[recId];
 			vector<int> topk = fastFindRecordConcept(tables[i].table_id, r, pos, false);
-			int curConcept = topk[pos - 1];
-			double sigmaValue = sigma(curConcept, tables[i].table_id, r);
-			h.push(make_pair(sigmaValue / pos, make_pair(recId, curConcept)));
+			if (topk.size() >= pos)
+			{
+				int curConcept = topk[pos - 1];
+				double sigmaValue = sigma(curConcept, tables[i].table_id, r);
+				h.push(make_pair(sigmaValue / pos, make_pair(recId, curConcept)));
+			}
 		}
 	}
 	fout.close();
