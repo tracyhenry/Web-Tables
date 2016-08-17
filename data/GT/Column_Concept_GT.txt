@@ -144,3 +144,12 @@
 2441	2	1	wordnet_airport_102692232
 2685	2	1	wordnet_site_108651247
 2685	3	1	wordnet_venue_108677628
+3891	0	1	wordnet_head_of_state_110164747
+3891	3	1	wikicategory_Communist_parties_in_Europe
+6103	1	1	wordnet_skyscraper_104233124
+6103	2	1	wikicategory_Cities_of_Pakistan
+4361	1	3	wordnet_city_108524735	wordnet_seat_108647616	wordnet_site_108651247
+4361	2	4	wikicategory_European_countries	wikicategory_Nordic_countries	wikicategory_Member_states_of_the_United_Nations	wikicategory_Countries_bordering_the_Atlantic_Ocean
+3844	1	1	wordnet_city_108524735
+3844	2	1	wikicategory_Regions_of_Italy
+3844	3	1	wikicategory_Provinces_of_Italy

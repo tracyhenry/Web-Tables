@@ -73,3 +73,8 @@
 4542	1	2	hasCapital	**_isLocatedIn_**
 2441	3	1	isLocatedIn
 2685	2	1	isLocatedIn
+3891	3	2	isPoliticianOf	isAffiliatedTo
+6103	2	1	isLocatedIn
+4361	2	1	isLocatedIn
+3844	2	1	isLocatedIn
+3844	3	1	isLocatedIn
