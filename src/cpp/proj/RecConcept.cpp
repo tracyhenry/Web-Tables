@@ -65,13 +65,6 @@ double Bridge::distance(int c, double th, TaxoPattern *cellPt, TaxoPattern *colP
 
 double Bridge::sigma(int c, int tid, int r)
 {
-	//hashId
-	string hashId = to_string(c) + "#" + to_string(tid) + "#" + to_string(r);
-
-	//check cache
-	if (sigmaCache.count(hashId))
-		return sigmaCache[hashId];
-
 	//current table
 	Table *curTable = corpus->getTableByDataId(tid);
 	int nCol = curTable->nCol;
@@ -92,6 +85,7 @@ double Bridge::sigma(int c, int tid, int r)
 		if (labels[j + nCol] == -1 ||
 			! conSchema[c].count(labels[j + nCol]))
 				continue;
+
 		//patternSim
 		TaxoPattern *p1 = cellPattern[curTable->cells[r][j].id];
 		TaxoPattern *p2 = conSchema[c][labels[j + nCol]];
@@ -100,7 +94,7 @@ double Bridge::sigma(int c, int tid, int r)
 		aSim += sim;
 	}
 
-	return sigmaCache[hashId] = aSim / exp(log(Param::DISEXPBASE) * dis);
+	return aSim / exp(log(Param::DISEXPBASE) * dis);
 }
 
 /**
@@ -118,6 +112,8 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 
 	//current table
 	Table *curTable = corpus->getTableByDataId(tid);
+	int nCol = curTable->nCol;
+	int nRow = curTable->nRow;
 	int entityCol = curTable->entityCol;
 	if (entityCol == -1)
 	{
@@ -126,6 +122,9 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 		return ans;
 	}
 	int entityCellId = curTable->cells[r][entityCol].id;
+	double numLuckyCell = getNumLuckyCells(curTable, entityCol);
+	double luckyRate = (double) numLuckyCell / nRow;
+	double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
 	TaxoPattern *cellPt = cellPattern[entityCellId];
 	TaxoPattern *colPt = colPattern[curTable->id][entityCol];
 	int totalConcept = kb->countConcept();
@@ -139,10 +138,26 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 		if (kb->getSucCount(c)) continue;
 
 		//LCA dis
-		double dis = distance(c, getThreshold(curTable, entityCol), cellPt, colPt);
+		double dis = distance(c, threshold, cellPt, colPt);
+
+		//aSim
+		double aSim = 0;
+		for (int j = 0; j < nCol; j ++)
+		{
+			if (j == entityCol) continue;
+			if (labels[j + nCol] == -1 ||
+				! conSchema[c].count(labels[j + nCol]))
+				continue;
+
+			//patternSim
+			TaxoPattern *p1 = cellPattern[curTable->cells[r][j].id];
+			TaxoPattern *p2 = conSchema[c][labels[j + nCol]];
+			double sim = Matcher::patternSim(kb, p1, p2, Param::recConceptSim);
+			aSim += sim;
+		}
 
 		//score
-		simScore.emplace_back(make_pair(-sigma(c, tid, r), dis), c);
+		simScore.emplace_back(make_pair(- aSim / exp(log(Param::DISEXPBASE) * dis), dis), c);
 	}
 
 	//sort
@@ -171,9 +186,13 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 void Bridge::dfsPrune(int x, int r, int K, Table *curTable)
 {
 	//Table information
+	int nRow = curTable->nRow;
 	int nCol = curTable->nCol;
 	int entityCol = curTable->entityCol;
 	int entityCellId = curTable->cells[r][entityCol].id;
+	double numLuckyCell = getNumLuckyCells(curTable, entityCol);
+	double luckyRate = (double) numLuckyCell / nRow;
+	double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
 	TaxoPattern *cellPt = cellPattern[entityCellId];
 	TaxoPattern *colPt = colPattern[curTable->id][entityCol];
 
@@ -184,15 +203,29 @@ void Bridge::dfsPrune(int x, int r, int K, Table *curTable)
 	if (! kb->getSucCount(x))
 	{
 		//LCA dis
-		double dis = distance(x, getThreshold(curTable, entityCol), cellPt, colPt);
+		double dis = distance(x, threshold, cellPt, colPt);
+
+		double aSim = 0;
+		for (int j = 0; j < nCol; j ++)
+		{
+			if (j == entityCol) continue;
+			if (labels[j + nCol] == -1 ||
+				! conSchema[x].count(labels[j + nCol]))
+					continue;
+
+			//patternSim
+			TaxoPattern *p1 = cellPattern[curTable->cells[r][j].id];
+			TaxoPattern *p2 = conSchema[x][labels[j + nCol]];
+			double sim = Matcher::patternSim(kb, p1, p2, Param::recConceptSim);
+			aSim += sim / exp(log(Param::DISEXPBASE) * dis);
+		}
 
 		//current pair
-		auto cp = make_pair(make_pair(-sigma(x, curTable->table_id, r), dis), x);
+		auto cp = make_pair(make_pair(-aSim, dis), x);
 		if ((int) heap.size() < K)
 			heap.push(cp);
 		else if (cp < heap.top())
 			heap.pop(), heap.push(cp);
-
 		return;
 	}
 
@@ -219,7 +252,7 @@ void Bridge::dfsPrune(int x, int r, int K, Table *curTable)
 			else
 				break;
 		if (! colPt->c.count(curChild) ||
-			colPt->c[curChild] / colPt->numEntity < getThreshold(curTable, entityCol))
+			colPt->c[curChild] / colPt->numEntity < threshold)
 			minDis += kb->getDepth(curChild) + 1;
 
 		//maximal sim
@@ -261,6 +294,7 @@ void Bridge::dfsPrune(int x, int r, int K, Table *curTable)
 					maxSim += Matcher::patternSim(kb, p2, p3, Param::recConceptSim);
 					break;
 			}
+			delete p3;
 		}
 
 		//upper bound

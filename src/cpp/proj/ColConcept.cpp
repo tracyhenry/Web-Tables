@@ -43,17 +43,9 @@ double Bridge::getNumContainedCells(Table *curTable, int c, int conceptId)
 
 double Bridge::getThreshold(Table *curTable, int c)
 {
-	//hashId
-	string hashId = to_string(curTable->table_id) + "#" + to_string(c);
-
-	//check cache
-	if (thCache.count(hashId))
-		return thCache[hashId];
-
-	//calculate
 	double numLuckyCell = getNumLuckyCells(curTable, c);
 	double luckyRate = numLuckyCell / curTable->nRow;
-	return thCache[hashId] = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
+	return Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
 }
 
 /**
