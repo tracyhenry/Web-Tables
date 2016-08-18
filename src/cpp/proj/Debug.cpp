@@ -227,7 +227,11 @@ void Bridge::letsDebug()
 
 TaxoPattern *Bridge::getKbSchema(int conceptId, int relationId, bool isDebug)
 {
-	TaxoPattern *ans = conSchema[conceptId][relationId];
+	TaxoPattern *ans;
+	if (conSchema[conceptId].count(relationId))
+		ans = conSchema[conceptId][relationId];
+	else
+		ans = NULL;
 	if (isDebug)
 	{
 		for (int i = 1; i <= 10; i ++)

@@ -48,13 +48,19 @@ void Bridge::naiveFactTriple()
 
 			if (labels[i][entityCol] != -1)
 			{
-				p1 = conSchema[labels[i][entityCol]][rel];
+				if (conSchema[labels[i][entityCol]].count(rel))
+					p1 = conSchema[labels[i][entityCol]][rel];
+				else
+					p1 = NULL;
 				p2 = colPattern[i][j];
 				sim += Matcher::patternSim(kb, p1, p2, Param::colConceptSim);
 			}
 			if (labels[i][j] != -1)
 			{
-				p1 = conSchema[labels[i][j]][reverseRel];
+				if (conSchema[labels[i][j]].count(reverseRel))
+					p1 = conSchema[labels[i][j]][reverseRel];
+				else
+					p1 = NULL;
 				p2 = colPattern[i][entityCol];
 				sim += Matcher::patternSim(kb, p1, p2, Param::colConceptSim);
 			}
@@ -143,18 +149,24 @@ void Bridge::naiveTypePair()
 	//current k for each record
 	vector<int> curK(records.size());
 
+	//label answer
+	vector<vector<int>> labels(records.size());
+
 	//initialize, insert top-1 of each record into h
 	cout << "Number of records: " << records.size() << endl;
 	for (int recId = 0; recId < (int) records.size(); recId ++)
 	{
+		if (recId % 200 == 0)
+			cout << recId << " records have been processed." << endl;
 		int i = records[recId].first;
 		int r = records[recId].second;
-		vector<int> top1 = fastFindRecordConcept(tables[i]->table_id, r, 1, false);
-		if ((int) top1.size() < 1)
+		labels[recId] = fastFindRecordConcept(tables[i]->table_id, r, Param::MAXK, false);
+		if ((int) labels[recId].size() < 1)
 			continue;
-		int conceptId = top1[0];
+		int conceptId = labels[recId][0];
 		double sigmaValue = sigma(conceptId, tables[i]->table_id, r);
-		h.push(make_pair(sigmaValue, make_pair(recId, conceptId)));
+		double luckyRate = getNumLuckyCells(tables[i], tables[i]->entityCol) / tables[i]->nRow;
+		h.push(make_pair(sigmaValue * luckyRate, make_pair(recId, conceptId)));
 		curK[recId] = 1;
 	}
 
@@ -162,6 +174,9 @@ void Bridge::naiveTypePair()
 	int nEnrichment = 0;
 	while (! h.empty())
 	{
+		if (nEnrichment % 500 == 0)
+			cout << h.size() << " " << nEnrichment << endl;
+
 		auto cp = h.top();
 		h.pop();
 
@@ -175,7 +190,7 @@ void Bridge::naiveTypePair()
 			continue;
 
 		//check if it's an enrichment
-		auto m = matches[tables[i]->cells[entityCol][r].id];
+		auto m = matches[tables[i]->cells[r][entityCol].id];
 
 		bool existInKB = false;
 		if (m.size() && m[0].second == 1.0)
@@ -213,12 +228,12 @@ void Bridge::naiveTypePair()
 		if (curK[recId] < Param::MAXK)
 		{
 			int pos = ++ curK[recId];
-			vector<int> topk = fastFindRecordConcept(tables[i]->table_id, r, pos, false);
-			if ((int) topk.size() >= pos)
+			if ((int) labels[recId].size() >= pos)
 			{
-				int curConcept = topk[pos - 1];
+				int curConcept = labels[recId][pos - 1];
 				double sigmaValue = sigma(curConcept, tables[i]->table_id, r);
-				h.push(make_pair(sigmaValue / pos, make_pair(recId, curConcept)));
+				double luckyRate = getNumLuckyCells(tables[i], entityCol) / tables[i]->nRow;
+				h.push(make_pair(sigmaValue * luckyRate / pos, make_pair(recId, curConcept)));
 			}
 		}
 	}
