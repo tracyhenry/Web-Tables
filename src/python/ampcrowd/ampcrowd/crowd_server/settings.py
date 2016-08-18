@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import json
 from urllib2 import urlopen
-import djcelery
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 DEV_MODE = os.environ.get('DEVELOP', False) == "1"
@@ -64,13 +63,6 @@ if SSL_MODE:
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
 
-# Celery Configuration
-djcelery.setup_loader()
-
-# Set broker using hosts entry for 'rabbitmq'. This is set for Docker but can be set to alias
-# localhost in /hosts/etc if needed
-BROKER_URL = "amqp://guest:guest@rabbitmq:5672//"
-
 # Settings for the AMT app
 # AMT_SANDBOX = True # run on the sandbox, or on the real deal?
 AMT_SANDBOX_HOST = 'mechanicalturk.sandbox.amazonaws.com'
@@ -80,12 +72,12 @@ POST_BACK_AMT = 'https://www.mturk.com/mturk/externalSubmit'
 POST_BACK_AMT_SANDBOX = 'https://workersandbox.mturk.com/mturk/externalSubmit'
 
 # If True, fetch public facing IP address and use as callback, else set to crowd_host
-HAVE_PUBLIC_IP = False
+HAVE_PUBLIC_IP = True
 
 PUBLIC_IP = json.loads(urlopen('http://jsonip.com').read())['ip'] if HAVE_PUBLIC_IP else None
 
 # Set the callback for the crowd tasks. For development use /etc/hosts to set crowd_server correctly.
-AMT_CALLBACK_HOST = os.environ.get('AMT_CALLBACK_HOST', 'crowd_server:8000')
+AMT_CALLBACK_HOST = os.environ.get('AMT_CALLBACK_HOST', 'crowd_server:8002')
 
 AMT_DEFAULT_HIT_OPTIONS = { # See documentation in amt/connection.py:create_hit
     'title': 'Generic HIT',
@@ -127,11 +119,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sslserver',
-    'djcelery',
     'basecrowd',
     'amt',
-    'internal',
-    'results_dashboard',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -154,14 +143,29 @@ WSGI_APPLICATION = 'crowd_server.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ampcrowd',
-        'USER': 'ampcrowd',
-        'PASSWORD': 'ampcrowd',
-        'HOST': 'db',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'wenbo',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
     }
 }
+
+# Templates
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            '/home/guest/Web-Tables/src/python/ampcrowd/ampcrowd/amt/templates',
+            '/home/guest/Web-Tables/src/python/ampcrowd/ampcrowd/basecrowd/templates',
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            # ... some options here ...
+        },
+    },
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

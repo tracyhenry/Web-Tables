@@ -41,7 +41,7 @@ def make_em_answer(task_obj, model_spec):
                    label_set).ExpectationMaximization(iterations)
 
     # Gather answer
-    point_ids = json.loads(task_obj.responses.all()[0].content).keys()
+    point_ids = json.loads(task_obj.crowdworkerresponse_set.all()[0].content).keys()
     answer_label = {}
 
     for point_id in point_ids:

@@ -57,6 +57,9 @@ docs/_build/
 # PyBuilder
 target/
 
+# Django migrations
+migrations/
+
 # Huge Data
 data/Table/WWT_xml/
 data/Result/

@@ -3,8 +3,6 @@
 # Kill old processes
 ./scripts/stop.sh
 
-# Process options
-
 # Print errors directly to console for easy debugging with -d
 if [ "$1" == "-d" ] || [ "$2" == "-d" ]
 then
@@ -22,9 +20,6 @@ then
 else
     export SSL=0
 fi
-
-# Fire up amqp
-rabbitmq-server -detached
 
 # Run the application
 python ampcrowd/manage.py collectstatic --noinput

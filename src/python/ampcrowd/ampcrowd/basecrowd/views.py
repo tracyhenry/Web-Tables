@@ -21,6 +21,7 @@ logger = logging.getLogger('crowd_server')
 def create_task_group(request, crowd_name):
     """ See README.md for API. """
 
+
     # get the interface implementation from the crowd name.
     interface, model_spec = CrowdRegistry.get_registry_entry(crowd_name)
 
@@ -164,6 +165,7 @@ def get_assignment(request, crowd_name):
 
 
 def get_scoped_template(crowd_name, template_name, context=None):
+
     base_template_name = os.path.join(crowd_name, 'base.html')
     if context is not None:
         try:
@@ -175,7 +177,6 @@ def get_scoped_template(crowd_name, template_name, context=None):
     return select_template([
         os.path.join(crowd_name, template_name),
         os.path.join('basecrowd', template_name)])
-
 
 # When workers submit assignments, we should send data to this view via AJAX
 # before submitting to AMT.
@@ -216,9 +217,9 @@ def post_response(request, crowd_name):
     # Check if this task has been finished
     # If we've gotten too many responses, ignore.
     if (not current_task.is_complete
-        and current_task.responses.count() >= current_task.num_assignments):
+        and current_task.crowdworkerresponse_set.count() >= current_task.num_assignments):
         current_task.is_complete = True
         current_task.save()
-        gather_answer.delay(current_task.task_id, model_spec)
+        gather_answer(current_task.task_id, model_spec)
 
     return HttpResponse('ok')  # AJAX call succeded.

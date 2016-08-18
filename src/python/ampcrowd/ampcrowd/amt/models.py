@@ -7,9 +7,22 @@ from basecrowd.models import AbstractCrowdWorkerResponse
 # Inherited crowd models for the interface.
 # No need for special subclasses, we use the base implementations.
 class CrowdTaskGroup(AbstractCrowdTaskGroup): pass
-class CrowdTask(AbstractCrowdTask): pass
-class CrowdWorker(AbstractCrowdWorker): pass
-class CrowdWorkerResponse(AbstractCrowdWorkerResponse): pass
+
+class CrowdTask(AbstractCrowdTask):
+    # group
+    group = models.ForeignKey(CrowdTaskGroup)
+
+class CrowdWorker(AbstractCrowdWorker):
+    # tasks
+    tasks = models.ManyToManyField(CrowdTask)
+
+class CrowdWorkerResponse(AbstractCrowdWorkerResponse):
+    # Corresponding task
+    task = models.ForeignKey(CrowdTask)
+
+    # The work who made the response
+    worker = models.ForeignKey(CrowdWorker)
+
 
 
 # Model for storing requests

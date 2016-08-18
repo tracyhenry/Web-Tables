@@ -223,14 +223,26 @@ class CrowdRegistry(object):
     def register_crowd(cls, interface, **model_classes):
         name = interface.crowd_name
         if name in cls.registered_crowds:
-            raise ValueError("Crowd already registered: " + name)
+            return
+
         model_spec = CrowdModelSpecification(name, **model_classes)
-        model_spec.add_model_rels()
         cls.registered_crowds[name] = (interface, model_spec)
 
     # Look up the model specification for a crowd.
     @classmethod
     def get_registry_entry(cls, crowd_name):
+
+        from amt.interface import AMT_INTERFACE
+        from amt.models import *
+
+        # Register the AMT crowd with our basecrowd
+        CrowdRegistry.register_crowd(
+            AMT_INTERFACE,
+            task_model=CrowdTask,
+            group_model=CrowdTaskGroup,
+            worker_model=CrowdWorker,
+            response_model=CrowdWorkerResponse)
+
         interface, model_spec = cls.registered_crowds.get(crowd_name,
                                                           (None, None))
         if not interface and not model_spec:

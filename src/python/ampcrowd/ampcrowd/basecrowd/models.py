@@ -1,7 +1,5 @@
 from django.db import models
 from django.db.models.signals import class_prepared
-from django.contrib.contenttypes import generic
-from django.contrib.contenttypes.models import ContentType
 
 
 # Model for a group of tasks
@@ -128,25 +126,3 @@ class CrowdModelSpecification(object):
         self.group_model = group_model
         self.worker_model = worker_model
         self.response_model = response_model
-
-    @staticmethod
-    def add_rel(from_cls, to_cls, relation_cls, relation_name, related_name=None):
-        field = relation_cls(to_cls, related_name=related_name)
-        field.contribute_to_class(from_cls, relation_name)
-
-    def add_model_rels(self):
-        # tasks belong to groups
-        self.add_rel(self.task_model, self.group_model, models.ForeignKey,
-                     'group', 'tasks')
-
-        # workers work on many tasks, each task might have multiple workers
-        self.add_rel(self.worker_model, self.task_model, models.ManyToManyField,
-                     'tasks', 'workers')
-
-        # responses come from a worker
-        self.add_rel(self.response_model, self.worker_model, models.ForeignKey,
-                     'worker', 'responses')
-
-        # responses pertain to a task
-        self.add_rel(self.response_model, self.task_model, models.ForeignKey,
-                     'task', 'responses')
