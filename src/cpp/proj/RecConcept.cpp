@@ -113,7 +113,6 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 	//current table
 	Table *curTable = corpus->getTableByDataId(tid);
 	int nCol = curTable->nCol;
-	int nRow = curTable->nRow;
 	int entityCol = curTable->entityCol;
 	if (entityCol == -1)
 	{
@@ -122,8 +121,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 		return ans;
 	}
 	int entityCellId = curTable->cells[r][entityCol].id;
-	double numLuckyCell = getNumLuckyCells(curTable, entityCol);
-	double luckyRate = (double) numLuckyCell / nRow;
+	double luckyRate = colMR[tid][entityCol];
 	double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
 	TaxoPattern *cellPt = cellPattern[entityCellId];
 	TaxoPattern *colPt = colPattern[curTable->id][entityCol];
@@ -186,12 +184,10 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 void Bridge::dfsPrune(int x, int r, int K, Table *curTable)
 {
 	//Table information
-	int nRow = curTable->nRow;
 	int nCol = curTable->nCol;
 	int entityCol = curTable->entityCol;
 	int entityCellId = curTable->cells[r][entityCol].id;
-	double numLuckyCell = getNumLuckyCells(curTable, entityCol);
-	double luckyRate = (double) numLuckyCell / nRow;
+	double luckyRate = colMR[curTable->table_id][entityCol];
 	double threshold = Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
 	TaxoPattern *cellPt = cellPattern[entityCellId];
 	TaxoPattern *colPt = colPattern[curTable->id][entityCol];

@@ -20,31 +20,9 @@ double Bridge::getNumLuckyCells(Table *curTable, int c)
 	return numLuckyCell;
 }
 
-double Bridge::getNumContainedCells(Table *curTable, int c, int conceptId)
-{
-	double numContainedCell = 0;
-	for (int j = 0; j < curTable->nRow; j ++)
-	{
-		vector<pair<int, double>> curMatches = matches[curTable->cells[j][c].id];
-		if (curMatches.empty())
-			continue;
-		for (auto kv: curMatches)
-		{
-			int entityId = kv.first;
-			if (kb->checkRecursiveBelong(entityId, conceptId))
-			{
-				numContainedCell += (curMatches[0].second == 1.0 ? 1.0 : Param::WT_SEMILUCKY);
-				break;
-			}
-		}
-	}
-	return numContainedCell;
-}
-
 double Bridge::getThreshold(Table *curTable, int c)
 {
-	double numLuckyCell = getNumLuckyCells(curTable, c);
-	double luckyRate = numLuckyCell / curTable->nRow;
+	double luckyRate = colMR[curTable->table_id][c];
 	return Param::TMIN + (Param::TMAX - Param::TMIN) * luckyRate;
 }
 
@@ -78,8 +56,9 @@ vector<int> Bridge::findColConceptMajority(int tid, int c, bool print)
 	vector<pair<int, int>> score;
 	for (int conceptId : candidates)
 	{
-		double numContainedCell = getNumContainedCells(curTable, c, conceptId);
-		if (numContainedCell / numLuckyCell >= getThreshold(curTable, c))
+		double tmp = colPattern[curTable->id][c]->c[conceptId];
+		tmp /= colPattern[curTable->id][c]->numEntity;
+		if (tmp >= getThreshold(curTable, c))
 			score.emplace_back(kb->getDepth(conceptId), conceptId);
 	}
 	//Sort by depth

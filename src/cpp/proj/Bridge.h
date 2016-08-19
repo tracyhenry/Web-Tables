@@ -55,14 +55,16 @@ private:
 
 	//Cache
 	std::unordered_map<int, std::vector<int>> labelCache;
-	std::unordered_map<std::string, double> thCache;
-	std::unordered_map<std::string, double> sigmaCache;
 
 	//debug file
 	std::ofstream debug;
 
 	//For pruning algorithm
 	std::priority_queue<std::pair<std::pair<double, double>, int>> heap;
+
+	//matching rates
+	std::unordered_map<int, std::vector<double>> colMR;
+	std::vector<double> tableMR;
 
 	//For KATARA
 	std::vector<KataraListEntry> rankedLists;
@@ -86,6 +88,9 @@ private:
 	//Initialize the taxo pattern of cells
 	void initCellPattern();
 
+	//Initialize matching rates
+	void initMatchingRates();
+
 	//get kb Schema: concept id, relation id, debug or not
 	TaxoPattern *getKbSchema(int, int, bool);
 
@@ -97,9 +102,6 @@ private:
 
 	//get the number of lucky cells in a column, by curTable and cid
 	double getNumLuckyCells(Table *, int);
-
-	//get the number of contained cells in a column by a concept, given by conceptId, curTable, cid
-	double getNumContainedCells(Table *, int, int);
 
 	//get threshold
 	double getThreshold(Table *, int);
@@ -189,8 +191,9 @@ public:
 	*/
 
 	void enrichKB();
-	void naiveFactTriple();
-	void naiveTypePair();
+	void genFactTriple();
+	void genAttrTypePair();
+	void genEntityTypePair();
 };
 
 #endif

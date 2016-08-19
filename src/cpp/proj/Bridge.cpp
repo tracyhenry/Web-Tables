@@ -42,6 +42,7 @@ Bridge::Bridge()
 	//initialize match result
 	gettimeofday(&t1, NULL);
 	initMatch();
+	initMatchingRates();
 	gettimeofday(&t2, NULL);
 	cout << "Matcher Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0 << endl;
 
@@ -119,6 +120,31 @@ void Bridge::initMatch()
 			matches[i].clear();
 			matches[i].emplace_back(exactEntity, 1.0);
 		}
+	}
+}
+
+void Bridge::initMatchingRates()
+{
+	colMR.clear();
+	tableMR.clear();
+	tableMR.push_back(0);
+	int nTable = corpus->countTable();
+
+	for (int i = 1; i <= nTable; i ++)
+	{
+		Table *curTable = corpus->getTable(i);
+		int tid = curTable->table_id;
+		int nRow = curTable->nRow;
+		int nCol = curTable->nCol;
+		colMR[tid] = vector<double>(nCol);
+		tableMR.push_back(0);
+
+		for (int y = 0; y < nCol; y ++)
+		{
+			colMR[tid][y] = getNumLuckyCells(curTable, y) / nRow;
+			tableMR[i] += colMR[tid][y];
+		}
+		tableMR[i] /= nCol;
 	}
 }
 

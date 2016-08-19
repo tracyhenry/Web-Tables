@@ -7,13 +7,14 @@ using namespace std;
 
 void Bridge::enrichKB()
 {
-	naiveFactTriple();
-	naiveTypePair();
+	genFactTriple();
+	genEntityTypePair();
+	genAttrTypePair();
 }
 
-void Bridge::naiveFactTriple()
+void Bridge::genFactTriple()
 {
-	string resultFileName = "../../../data/Result/enrichment/naiveFactTriple.txt";
+	string resultFileName = "../../../data/Result/enrichment/factTriple.txt";
 	ofstream fout(resultFileName.c_str());
 
 	//col relation array
@@ -22,7 +23,7 @@ void Bridge::naiveFactTriple()
 	vector<vector<int>> labels(1);
 	for (int i = 1; i <= nTable; i ++)
 	{
-		if (i % 200 == 0)
+		if (i % 500 == 0)
 			cout << i << " tables have been processed..." << endl;
 		tables.push_back(corpus->getTable(i));
 		labels.push_back(findColConceptAndRelation(corpus->getTable(i)->table_id, false));
@@ -65,12 +66,12 @@ void Bridge::naiveFactTriple()
 				sim += Matcher::patternSim(kb, p1, p2, Param::colConceptSim);
 			}
 
-			h.push(make_pair(sim, make_pair(i, j)));
+			double matchingRate = tableMR[i];
+			h.push(make_pair(sim * matchingRate, make_pair(i, j)));
 		}
 	}
 
 	//generate enrichments
-//	vector<string> newFactTriples;
 	while (! h.empty())
 	{
 		auto top = h.top();
@@ -84,7 +85,7 @@ void Bridge::naiveFactTriple()
 		int rel = labels[i][j + nCol];
 		int entityCol = tables[i]->entityCol;
 
-		fout << tables[i]->table_id << " " << j << " : " << sim << endl;
+		fout << "# " << tables[i]->table_id << " " << j << " " << sim << endl;
 		for (int r = 0; r < nRow; r ++)
 		{
 			auto m1 = matches[tables[i]->cells[r][entityCol].id];
@@ -112,20 +113,25 @@ void Bridge::naiveFactTriple()
 
 			string cur = "";
 			cur += tables[i]->cells[r][entityCol].value;
-			cur += " ";
+			cur += "________";
 			cur += kb->getRelation(rel);
-			cur += " ";
+			cur += "________";
 			cur += tables[i]->cells[r][j].value;
 
-			fout << '\t' << cur << " " << endl;
+			fout << cur << endl;
 		}
+		fout << endl;
 	}
 	fout.close();
 }
 
-void Bridge::naiveTypePair()
+void Bridge::genAttrTypePair()
 {
-	string resultFileName = "../../../data/Result/enrichment/naiveTypepair.txt";
+}
+
+void Bridge::genEntityTypePair()
+{
+	string resultFileName = "../../../data/Result/enrichment/entityTypepair.txt";
 	ofstream fout(resultFileName.c_str());
 
 	//tables
@@ -156,7 +162,7 @@ void Bridge::naiveTypePair()
 	cout << "Number of records: " << records.size() << endl;
 	for (int recId = 0; recId < (int) records.size(); recId ++)
 	{
-		if (recId % 200 == 0)
+		if (recId % 500 == 0)
 			cout << recId << " records have been processed." << endl;
 		int i = records[recId].first;
 		int r = records[recId].second;
@@ -165,7 +171,7 @@ void Bridge::naiveTypePair()
 			continue;
 		int conceptId = labels[recId][0];
 		double sigmaValue = sigma(conceptId, tables[i]->table_id, r);
-		double luckyRate = getNumLuckyCells(tables[i], tables[i]->entityCol) / tables[i]->nRow;
+		double luckyRate = tableMR[i];
 		h.push(make_pair(sigmaValue * luckyRate, make_pair(recId, conceptId)));
 		curK[recId] = 1;
 	}
@@ -213,11 +219,11 @@ void Bridge::naiveTypePair()
 		{
 			string cur = "";
 			cur += tables[i]->cells[r][entityCol].value;
-			cur += " is_an_instance_of ";
+			cur += "________";
 			cur += kb->getConcept(conceptId);
 
-			fout << tables[i]->table_id << " " << r << " " << curK[recId] << " : " << sigmaTop << endl;
-			fout << '\t' << cur << endl;
+			fout << "# " << tables[i]->table_id << " " << r << " " << curK[recId] << " : " << sigmaTop << endl;
+			fout << cur << endl << endl;
 
 			nEnrichment ++;
 			if (nEnrichment == Param::TYPE_PAIR_K)
@@ -232,7 +238,7 @@ void Bridge::naiveTypePair()
 			{
 				int curConcept = labels[recId][pos - 1];
 				double sigmaValue = sigma(curConcept, tables[i]->table_id, r);
-				double luckyRate = getNumLuckyCells(tables[i], entityCol) / tables[i]->nRow;
+				double luckyRate = tableMR[i];
 				h.push(make_pair(sigmaValue * luckyRate / pos, make_pair(recId, curConcept)));
 			}
 		}
