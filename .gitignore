@@ -86,6 +86,7 @@ main.exe
 debug.txt
 stdout.txt
 stdout[0-9].txt
+answers.txt
 
 # Eclipse
 .project
