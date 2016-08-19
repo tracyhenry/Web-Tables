@@ -30,6 +30,18 @@ def show_table(request):
 
     return render(request, 'showtable.html', context)
 
+@require_GET
+def crowd_table(request):
+
+    # Get table id
+    table_id = int(request.GET.get('tableID'))
+
+    context = get_table_context(table_id)
+    if context == {}:
+        return HttpResponse("No such table!")
+
+    return render(request, 'crowdtable.html', context)
+
 @require_POST
 @csrf_exempt
 def show_cell(request): 

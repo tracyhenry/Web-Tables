@@ -6,6 +6,7 @@
 
 			$(document).ready(function()
 			{
+				{% block cell_click %}
 				$(".cell").click(function()
 				{
 					var id = $(this).attr("id");
@@ -26,7 +27,7 @@
 						}
 					      );
 				});
-
+				{% endblock cell_click %}
 				{% block script_extension %}
 				{% endblock script_extension %}
 			});
@@ -48,9 +49,11 @@
 
 	<body><section class = "table">
 
+		{% block table_id %}
 		<p align = "center">
 			Table id : {{ table_id }}
 		</p>
+		{% endblock table_id %}
 
 		{% block entity_col_id %}
 		<p id = "change" align = "center">
@@ -63,16 +66,17 @@
 		</p>
 
 		<table border = "1" align = "center">
+
+			{% block optional_row %}
 			<tr>
-				{% block optional_row %}
 				<td></td>
 				{% for col in gt_list|dictsort:"col" %}
 					<td>
 						<b><u> {{ col.value }} </u></b>
 					</td>
 				{% endfor %}
-				{% endblock optional_row %}
 			</tr>
+			{% endblock optional_row %}
 
 			<tr>
 				<td></td>
@@ -94,11 +98,14 @@
 						{% block td_description %}
 						<td class = "cell" id = "{{ table_id }}_{{ row.row }}_{{ col.col }}">
 						{% endblock td_description %}
-							{% if col.matched %}
-								<font color = "red"> {{ col.value }} </font>
-							{% else %}
-								{{ col.value }}
-							{% endif %}
+
+						{% block cell_color %}
+						{% if col.matched %}
+							<font color = "red"> {{ col.value }} </font>
+						{% else %}
+							{{ col.value }}
+						{% endif %}
+						{% endblock cell_color %}
 						</td>
 					{% endfor %}
 				</tr>
