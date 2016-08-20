@@ -1,19 +1,19 @@
 {% extends base_template_name %}
 
 {% block default_instruction %} 
-	<p> You are given an HTML table. First, take a close look at it to get a basic sense of what it's talking about. </p>
+	<p> You are given an HTML table. First, take a close look at it to get a basic sense of the table content. </p>
 	
-	<p> Below the table, some statements about the table await you to get judged. For each statement, you should either label it as incorrect, or give it a score of 1 to 4 based on the relevance of this statement to the given table, with 1 being irrelevant and 4 being the most relevant. </p>
+	<p> Below the table, some statements about table rows await you to get judged. For each statement, you should either label it as incorrect, or give it a score of 1 to 3 based on the relevance of this statement to the given table, with 1 being irrelevant and 3 being most relevant. </p>
 	
 	<p> There are two types of statements. The first type of statements say about the relationship between two table cells, such as <b> Stephen Curry playsFor Golden State Warriors </b>. The second type of statements describe that a cell belongs to a certain kind of things. For example, <b> The empire state building is one of the tallest buildings in New York City. </b> The cells and relationships will be highlighted. </p>
 	
-	<p> Some times column names might be missing, the cell values might be misspelled, or the topic of the table is something you are not familiar with. Then it's time for Google to help you out. </p>
+	<p> Some times column names might be missing, the cell values might be misspelled, or you have no idea what the table is talking about. Then it's time for Google to help you out. </p>
 	
 	<p> Thanks! :) </p>
 {% endblock %}
 
 {% block group_contexts %}
-<iframe src="{{group_context.table_url}}" width=100% height = 300>
+<iframe src="{{group_context.table_url}}" width=100% height = 400>
 	<p>Your browser does not support iframes.</p>
 </iframe>
 {% endblock group_contexts %}
@@ -27,5 +27,4 @@
 	<input type="radio" id = "{{id}}" name = "{{forloop.counter}}" value="1.0"> 1, correct, but irrelevant <br/>
 	<input type="radio" id = "{{id}}" name = "{{forloop.counter}}" value="2.0"> 2, correct and somewhat relevant <br/>
 	<input type="radio" id = "{{id}}" name = "{{forloop.counter}}" value="3.0"> 3, correct and relevant <br/>
-	<input type="radio" id = "{{id}}" name = "{{forloop.counter}}" value="4.0"> 4, correct and very relevant <br/>	
 {% endblock %}
