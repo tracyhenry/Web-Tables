@@ -150,13 +150,14 @@ if __name__ == "__main__":
 
         cur_data = copy.deepcopy(data)
         cur_data['group_id'] = 'test_' + str(tid)
-        cur_data['group_context']['table_url'] = 'https://166.111.131.117:8001/display/crowdtable/?tableID=' + str(tid)
+        cur_data['group_context']['table_url'] = '/table/crowdtable/?tableID=' + str(tid)
 
         for i in range(0, len(mp[tid]['ids'])):
             cur_data['content'][mp[tid]['ids'][i]] = mp[tid]['contents'][i]
 
         print 'Sending request with table_id = ' + str(tid)
-        send_request(cur_data)
+        if tid == 1:
+            send_request(cur_data)
         total_hits += len(mp[tid]['ids']) / 10 + 1
 
     print total_hits

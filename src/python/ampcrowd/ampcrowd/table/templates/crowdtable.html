@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<link href = "/static/bootstrap.min.css" rel = "stylesheet" />
+		<style>
+			.table
+			{
+				font-family : Verdana;
+			}
+			td
+			{
+				text-align : center;
+				vertical-align : middle;
+			}
+		</style>
+	</head>
+
+	<body><section class = "table">
+
+		<p align = "center">
+			{{ table_url }}
+		</p>
+
+		<table border = "1" align = "center">
+
+			<tr>
+				<td></td>
+				{% for col in schema_list|dictsort:"col" %}
+					<td>
+						<b> {{ col.value }} </b>
+					</td>
+				{% endfor %}
+			</tr>
+
+			{% for row in row_list|dictsort:"row" %}
+				<tr>
+					<td>
+						{{ row.row }}
+					</td>
+					{% for col in row.cell|dictsort:"col" %}
+						<td class = "cell">
+							{{ col.value }}
+						</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+		</table>
+
+
+	</section></body>
+</html>

@@ -178,10 +178,10 @@
                 <div class="panel-heading"><strong class="lead">Instructions</strong></div>
                 <div class="panel-body">
 			{% block instruction %}
-			{% if group_context.instruction %}
-			    {{group_context.instruction | safe}}
+			{% if 'instruction' in  group_context %}
+				{{group_context.instruction | safe}}
 			{% else %}
-			    {% block default_instruction %}
+				{% block default_instruction %}
 					Hey, I am an instruction!
 				{% endblock default_instruction%}
 			{% endif %}
@@ -190,8 +190,8 @@
             </div>
         {% endblock instruction_panel %}
 
-		{% block group_contexts %}
-		{% endblock group_contexts %}
+	{% block group_contexts %}
+	{% endblock group_contexts %}
 
         {% block error_panel %}
             <div class="panel panel-danger hidden" id="errorPanel">
