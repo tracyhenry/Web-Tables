@@ -4,6 +4,7 @@ import socket
 import re
 import ssl
 import sys
+import copy
 import json
 import urllib
 import urllib2
@@ -34,6 +35,7 @@ def send_request(data):
 
 if __name__ == "__main__":
 
+    prefix = "test_"
     # Initial data
     data = {}
     data['configuration'] = {}
@@ -50,12 +52,14 @@ if __name__ == "__main__":
     data['content'] = {}
 
     # Result Files
-    file_name1 = '../../../data/Result/enrichment/1.txt'
-    file_name2 = '../../../data/Result/enrichment/2.txt'
-    file_name3 = '../../../data/Result/enrichment/3.txt'
+    file_name1 = '../../../../data/Result/enrichment/1.txt'
+    file_name2 = '../../../../data/Result/enrichment/2.txt'
+    file_name3 = '../../../../data/Result/enrichment/3.txt'
 
     # Data structures
     mp = {}
+    maxk1 = 5000
+    maxk3 = 1000
     k = 0
     statements = Set()
 
@@ -77,11 +81,11 @@ if __name__ == "__main__":
         # statement line
         else:
             hash = line[line.find('________') + 8:]
-            if not hash in statements:
+            if not hash in statements and hash.find('null') == -1:
                 statements.add(hash)
                 # id
                 k += 1
-                id = '1_' + str(k)
+                id = prefix + '1_' + str(k)
                 mp[tid]['ids'].append(id)
                 # content
                 r = int(line[0:line.find('________')])
@@ -93,8 +97,8 @@ if __name__ == "__main__":
                 content += '<b>' + hash[0:-1] + '</b>'
                 mp[tid]['contents'].append(content.decode('latin-1'))
 
-        # top 10000
-        if k >= 10000:
+        # top k
+        if k >= maxk1:
             break
 
     f1.close()
@@ -119,11 +123,11 @@ if __name__ == "__main__":
                 mp[tid] = {'ids' : [], 'contents' : []}            
         else:
             hash = line
-            if not hash in statements:
+            if not hash in statements and hash.find('null') == -1:
                 statements.add(hash)
                 # id
                 k += 1
-                id = '3_' + str(k)
+                id = prefix + '3_' + str(k)
                 mp[tid]['ids'].append(id)
                 # content
                 content = 'Row ' + str(r) + ': '
@@ -134,16 +138,17 @@ if __name__ == "__main__":
                 content += 'is one of <b>' + hash[0:-1] + '</b>'
                 mp[tid]['contents'].append(content.decode('latin-1'))
 
-        # top 10000
-        if k >= 10000:
+        # top k
+        if k >= maxk3:
             break
 
     f3.close()
 
     # send requests
+    total_hits = 0
     for tid in mp.keys():
 
-        cur_data = data.copy()
+        cur_data = copy.deepcopy(data)
         cur_data['group_id'] = 'test_' + str(tid)
         cur_data['group_context']['table_url'] = 'https://166.111.131.117:8001/display/crowdtable/?tableID=' + str(tid)
 
@@ -151,8 +156,7 @@ if __name__ == "__main__":
             cur_data['content'][mp[tid]['ids'][i]] = mp[tid]['contents'][i]
 
         print 'Sending request with table_id = ' + str(tid)
-        #print cur_data
         send_request(cur_data)
-        break
-        #total_hits += len(mp[tid]['ids']) / 10 + 1
+        total_hits += len(mp[tid]['ids']) / 10 + 1
 
+    print total_hits
