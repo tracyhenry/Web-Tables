@@ -112,6 +112,8 @@ void Bridge::genFactTriple()
 				continue;
 
 			string cur = "";
+			cur += to_string(r);
+			cur += "________";
 			cur += tables[i]->cells[r][entityCol].value;
 			cur += "________";
 			cur += kb->getRelation(rel);

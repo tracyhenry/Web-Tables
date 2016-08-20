@@ -85,6 +85,8 @@ double Bridge::sigma(int c, int tid, int r)
 		if (labels[j + nCol] == -1 ||
 			! conSchema[c].count(labels[j + nCol]))
 				continue;
+//		if (matches[curTable->cells[r][j].id].empty())
+//			continue;
 
 		//patternSim
 		TaxoPattern *p1 = cellPattern[curTable->cells[r][j].id];
@@ -146,6 +148,8 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 			if (labels[j + nCol] == -1 ||
 				! conSchema[c].count(labels[j + nCol]))
 				continue;
+//			if (matches[curTable->cells[r][j].id].empty())
+//				continue;
 
 			//patternSim
 			TaxoPattern *p1 = cellPattern[curTable->cells[r][j].id];
@@ -208,6 +212,8 @@ void Bridge::dfsPrune(int x, int r, int K, Table *curTable)
 			if (labels[j + nCol] == -1 ||
 				! conSchema[x].count(labels[j + nCol]))
 					continue;
+//			if (matches[curTable->cells[r][j].id].empty())
+//				continue;
 
 			//patternSim
 			TaxoPattern *p1 = cellPattern[curTable->cells[r][j].id];
