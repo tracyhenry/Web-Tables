@@ -177,16 +177,14 @@
             <div class="panel panel-primary">
                 <div class="panel-heading"><strong class="lead">Instructions</strong></div>
                 <div class="panel-body">
-                    {% block instruction %}
-
+			{% block instruction %}
 			{% if group_context.instruction %}
 			    {{group_context.instruction | safe}}
 			{% else %}
 			    {% block default_instruction %}
-				Hey, I am an instruction!
-                            {% endblock %}
-                        {% endif %}
-
+					Hey, I am an instruction!
+				{% endblock default_instruction%}
+			{% endif %}
 		    {% endblock %}
                 </div>
             </div>
