@@ -119,6 +119,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'table',
     'sslserver',
     'basecrowd',
     'amt',
@@ -130,7 +131,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'amt.connection.AMTExceptionMiddleware'
 )
 
@@ -160,6 +161,7 @@ TEMPLATES = [
         'DIRS': [
             '/home/guest/Web-Tables/src/python/ampcrowd/ampcrowd/amt/templates',
             '/home/guest/Web-Tables/src/python/ampcrowd/ampcrowd/basecrowd/templates',
+            '/home/guest/Web-Tables/src/python/ampcrowd/ampcrowd/table/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -185,7 +187,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Import private settings, overriding settings in this file

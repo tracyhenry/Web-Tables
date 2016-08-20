@@ -5,5 +5,5 @@ from django.conf.urls import include, url
 
 urlpatterns = [
     url(r'^crowds/', include('basecrowd.urls', namespace="basecrowd")),
+    url(r'^table/', include('table.urls', namespace="table")),
 ]
-
