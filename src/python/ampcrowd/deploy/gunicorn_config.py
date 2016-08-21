@@ -5,7 +5,7 @@ import os
 debug = os.environ.get('DEVELOP', False) == "1"
 
 # Port to run the service on
-bind = "0.0.0.0:8000"
+bind = "0.0.0.0:8002"
 
 # Number of worker processes
 workers = multiprocessing.cpu_count() * 2 + 1

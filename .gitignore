@@ -71,6 +71,9 @@ Types_Tree.txt
 Facts.txt
 *.ttl
 
+# Static files
+staticfiles/
+
 # Executables
 stats_wwt
 stats_fuzzy

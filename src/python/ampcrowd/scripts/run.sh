@@ -7,10 +7,8 @@
 if [ "$1" == "-d" ] || [ "$2" == "-d" ]
 then
     export DEVELOP=1
-    python ampcrowd/manage.py celeryd -l DEBUG &
 else
     export DEVELOP=0
-    python ampcrowd/manage.py celeryd_detach
 fi
 
 # Enable SSL
@@ -22,7 +20,6 @@ else
 fi
 
 # Run the application
-python ampcrowd/manage.py collectstatic --noinput
 pushd ampcrowd > /dev/null
 gunicorn -c ../deploy/gunicorn_config.py crowd_server.wsgi:application
 popd > /dev/null
