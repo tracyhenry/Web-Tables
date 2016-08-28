@@ -153,3 +153,9 @@
 3844	1	1	wordnet_city_108524735
 3844	2	1	wikicategory_Regions_of_Italy
 3844	3	1	wikicategory_Provinces_of_Italy
+5307	1	1	wikicategory_Cities_in_Oklahoma
+5307	3	1	wikicategory_Governors_of_Oklahoma
+5378	1	1	wordnet_actor_109765278
+1904	0	1	wordnet_host_110187130
+1904	1	2	wikicategory_English-speaking_countries_and_territories	wordnet_country_108544813
+1904	2	1	wordnet_talk_show_106620227

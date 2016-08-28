@@ -78,3 +78,4 @@
 4361	2	1	isLocatedIn
 3844	2	1	isLocatedIn
 3844	3	1	isLocatedIn
+1904	1	1	isCitizenOf
