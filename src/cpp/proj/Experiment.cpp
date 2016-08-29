@@ -1,4 +1,5 @@
 #include "Experiment.h"
+#include "Param.h"
 #include <cmath>
 #include <cctype>
 #include <vector>
@@ -20,7 +21,7 @@ void Experiment::runAllExp()
 	{
 		struct timeval t1, t2;
 		gettimeofday(&t1, NULL);
-		runExpColConcept(method);
+		runExpColConcept(method, true);
 		gettimeofday(&t2, NULL);
 		double elapsedTime = t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
 		cout << "Column labels " << method << " method used " << elapsedTime << "s."
@@ -32,7 +33,7 @@ void Experiment::runAllExp()
 	{
 		struct timeval t1, t2;
 		gettimeofday(&t1, NULL);
-		runExpColRelation(method);
+		runExpColRelation(method, true);
 		gettimeofday(&t2, NULL);
 		double elapsedTime = t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
 		cout << "Column labels " << method << " method used " << elapsedTime << "s."
@@ -44,15 +45,18 @@ void Experiment::runAllExp()
 	{
 		struct timeval t1, t2;
 		gettimeofday(&t1, NULL);
-		runExpRecConcept(method);
+		runExpRecConcept(method, true);
 		gettimeofday(&t2, NULL);
 		double elapsedTime = t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
 		cout << "Record concepts " << method << " method used " << elapsedTime << "s."
 			 << endl << endl;
 	}
+
+	//Parameter testing for col concept & relationship
+	runExpColConceptAndRelationParam();
 }
 
-vector<double> Experiment::runExpColConcept(string method)
+vector<double> Experiment::runExpColConcept(string method, bool print)
 {
 	//some variables
 	vector<int> tids, cids, nGTs;
@@ -63,7 +67,8 @@ vector<double> Experiment::runExpColConcept(string method)
 	ofstream resultFile(resultFileName.c_str());
 	string wrongFileName = "../../../data/Result/colConcept/colConcept_" + method + "_wrong.txt";
 	ofstream wrongFile(wrongFileName.c_str());
-	cout << "The " << method << " method of column concept determination is running......" << endl;
+	if (print)
+		cout << "The " << method << " method of column concept determination is running......" << endl;
 
 	//read in the gt file
 	int tid, cid, nGT;
@@ -85,6 +90,7 @@ vector<double> Experiment::runExpColConcept(string method)
 
 	//run functions in ColConcept.cpp
 	unordered_map<int, vector<int>> outputAns;
+	bridge->clearCache();
 	for (int i = 0; i < (int) tids.size(); i ++)
 		if (! outputAns.count(tids[i]))
 		{
@@ -133,10 +139,10 @@ vector<double> Experiment::runExpColConcept(string method)
 	resultFile.close();
 	wrongFile.close();
 
-	return calculatePRF(acQuery, numOutput, (double) tids.size(), true);
+	return calculatePRF(acQuery, numOutput, (double) tids.size(), print);
 }
 
-vector<double> Experiment::runExpRecConcept(string method)
+vector<double> Experiment::runExpRecConcept(string method, bool print)
 {
 	//some variables
 	vector<int> tids, rids, nGTs;
@@ -145,7 +151,8 @@ vector<double> Experiment::runExpRecConcept(string method)
 	ifstream gtFile(gtFileName.c_str());
 	string resultFileName = "../../../data/Result/recConcept/recConcept_" + method + ".txt";
 	ofstream resultFile(resultFileName.c_str());
-	cout << "The " << method << " method of record concept determination is running......" << endl;
+	if (print)
+		cout << "The " << method << " method of record concept determination is running......" << endl;
 
 	//read in the gt file
 	int tid, rid, nGT;
@@ -175,6 +182,7 @@ vector<double> Experiment::runExpRecConcept(string method)
 
 	//run functions in RecConcept.cpp
 	vector<vector<int>> output(tids.size());
+	bridge->clearCache();
 	for (int i = 0; i < (int) tids.size(); i ++)
 		if (method == "baseline")
 			output[i] = bridge->baselineFindRecordConcept(tids[i], rids[i], Ks.back(), false);
@@ -237,7 +245,8 @@ vector<double> Experiment::runExpRecConcept(string method)
 		resultFile << endl;
 	}
 	resultFile.close();
-	//output
+
+	//calculate metrics
 	for (int i = 0; i < (int) Ks.size(); i ++)
 	{
 		int K = Ks[i];
@@ -248,37 +257,41 @@ vector<double> Experiment::runExpRecConcept(string method)
 		avgPrecision[i] /= (double) total;
 		avgNDCG[i] /= (double) (int) tids.size();
 	}
-	cout << "Ks :" << endl;
-	for (int i = 0; i < (int) Ks.size(); i ++)
-		cout << '\t' << Ks[i];
-	cout << endl;
-	cout << "Presision:  " << endl;
-	for (int i = 0; i < (int) Ks.size(); i ++)
-		printf("\t%.2f%%", avgPrecision[i] * 100.0);
-	cout << endl;
-	cout << "NDCG: " << endl;
-	for (int i = 0; i < (int) Ks.size(); i ++)
-		printf("\t%.2f%%", avgNDCG[i] * 100.0);
-	cout << endl;
-	cout << "Recall: " << endl;
 	double harmonyRecall = 0;
 	for (int i = 0; i < (int) Ks.size(); i ++)
 		harmonyRecall += avgRecall[i];
 	harmonyRecall /= (double) gts.size();
-	printf("\t%.2f%%\n", harmonyRecall * 100.0);
+
+	//print
+	if (print)
+	{
+		cout << "Ks :" << endl;
+		for (int i = 0; i < (int) Ks.size(); i ++)
+			cout << '\t' << Ks[i];
+		cout << endl;
+		cout << "Presision:  " << endl;
+		for (int i = 0; i < (int) Ks.size(); i ++)
+			printf("\t%.2f%%", avgPrecision[i] * 100.0);
+		cout << endl;
+		cout << "NDCG: " << endl;
+		for (int i = 0; i < (int) Ks.size(); i ++)
+			printf("\t%.2f%%", avgNDCG[i] * 100.0);
+		cout << endl;
+		cout << "Recall: " << endl;
+		printf("\t%.2f%%\n", harmonyRecall * 100.0);
+	}
 
 	//return
 	vector<double> ans;
 	for (int p : avgPrecision)
 		ans.push_back(p);
-	for (int r : avgRecall)
-		ans.push_back(r);
 	for (int ndcg : avgNDCG)
 		ans.push_back(ndcg);
+	ans.push_back(harmonyRecall);
 	return ans;
 }
 
-vector<double> Experiment::runExpColRelation(string method)
+vector<double> Experiment::runExpColRelation(string method, bool print)
 {
 	//some variables
 	vector<int> tids, cids, nGTs;
@@ -289,7 +302,8 @@ vector<double> Experiment::runExpColRelation(string method)
 	ofstream resultFile(resultFileName.c_str());
 	string wrongFileName = "../../../data/Result/colRelation/colRelation_" + method + "_wrong.txt";
 	ofstream wrongFile(wrongFileName.c_str());
-	cout << "The " << method << " method of binary relationship determination is running......" << endl;
+	if (print)
+		cout << "The " << method << " method of binary relationship determination is running......" << endl;
 
 	//read in the gt file
 	int tid, cid, nGT;
@@ -314,6 +328,7 @@ vector<double> Experiment::runExpColRelation(string method)
 
 	//run functions in ColConcept.cpp
 	unordered_map<int, vector<int>> outputAns;
+	bridge->clearCache();
 	for (int i = 0; i < (int) tids.size(); i ++)
 		if (! outputAns.count(tids[i]))
 		{
@@ -363,7 +378,48 @@ vector<double> Experiment::runExpColRelation(string method)
 	resultFile.close();
 	wrongFile.close();
 
-	return calculatePRF(acQuery, numOutput, (double) tids.size(), true);
+	return calculatePRF(acQuery, numOutput, (double) tids.size(), print);
+}
+
+void Experiment::runExpColConceptAndRelationParam()
+{
+	vector<double> Ms = {1.0, 2.0, 5.0, 10.0, 20.0, 50.0, 100.0};
+	vector<double> TMINs = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
+	vector<double> TMAXs = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
+	vector<Similarity> sims = {DotProduct, Jaccard, Dice};
+	string conceptParamFileName = "../../../data/Result/colConcept/param.txt";
+	string relationParamFileName = "../../../data/Result/colRelation/param.txt";
+	ofstream conceptParamFile(conceptParamFileName.c_str());
+	ofstream relationParamFile(relationParamFileName.c_str());
+
+	for (double M : Ms)
+		for (double TMIN : TMINs)
+			for (double TMAX: TMAXs)
+				for (Similarity sim : sims)
+				{
+					if (TMIN > TMAX)
+						continue;
+					Param::setToDefault();
+
+                    Param::M = M;
+                    Param::TMIN = TMIN;
+                    Param::TMAX = TMAX;
+                    Param::colConceptSim = sim;
+
+					vector<double> prf;
+					//concept
+					conceptParamFile << M << '\t' << TMIN << '\t' << TMAX << '\t' << sim << '\t';
+					prf = runExpColConcept("ours", false);
+					conceptParamFile << prf[0] << '\t' << prf[1] << '\t' << prf[2] << endl;
+					//relation
+					relationParamFile << M << '\t' << TMIN << '\t' << TMAX << '\t' << sim << '\t';
+					prf = runExpColRelation("ours", false);
+					relationParamFile << prf[0] << '\t' << prf[1] << '\t' << prf[2] << endl;
+
+					Param::setToDefault();
+				}
+	conceptParamFile.close();
+	relationParamFile.close();
 }
 
 void Experiment::runColRelationLatency()

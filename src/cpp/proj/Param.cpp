@@ -1,33 +1,34 @@
 #include "Param.h"
 using namespace std;
 
-double Param::M_DotProduct = 5.0;
-double Param::M_Jaccard = 10.0;
-double Param::M_Dice = 5.0;
+//not for experiments
 bool Param::normalized = false;
-Similarity Param::colConceptSim = Jaccard;
-Similarity Param::recConceptSim = DotProduct;
 double Param::WT_SEMILUCKY = 0.25;
 double Param::TH_DEPTH = 12;
-double Param::TMAX = 0.8;
-double Param::TMIN = 0.4;
-double Param::DISEXPBASE = 10.0;
 int Param::MAXK = 5;
 int Param::TYPE_PAIR_K = 10000;
 
+//experiments
+double Param::M = 5.0;
+double Param::DISEXPBASE = 10.0;
+Similarity Param::colConceptSim = Jaccard;
+Similarity Param::recConceptSim = DotProduct;
+double Param::TMAX = 0.8;
+double Param::TMIN = 0.4;
+
+
 void Param::setToDefault()
 {
-	M_DotProduct = 5.0;
-	M_Jaccard = 10.0;
-	M_Dice = 5.0;
 	normalized = false;
-	colConceptSim = Jaccard;
-	recConceptSim = DotProduct;
 	WT_SEMILUCKY = 0.25;
 	TH_DEPTH = 12;
-	TMAX = 0.8;
-	TMIN = 0.4;
-	DISEXPBASE = 10.0;
 	MAXK = 5;
 	TYPE_PAIR_K = 10000;
+
+	M = 5.0;
+	DISEXPBASE = 10.0;
+	colConceptSim = Jaccard;
+	recConceptSim = DotProduct;
+	TMAX = 0.8;
+	TMIN = 0.4;
 }

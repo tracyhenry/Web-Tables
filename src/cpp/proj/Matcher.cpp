@@ -18,8 +18,8 @@ double Matcher::patternSim(KB *kb, TaxoPattern *p1, TaxoPattern *p2, Similarity 
 	maxSimDotProduct = 1.0;
 	for (int h = 0; h <= H; h ++)
 	{
-		maxSimJaccard += exp(log(Param::M_Jaccard) * h);
-		maxSimDice += exp(log(Param::M_Dice) * h);
+		maxSimJaccard += exp(log(Param::M) * h);
+		maxSimDice += exp(log(Param::M) * h);
 	}
 
 	//case by case
@@ -27,21 +27,21 @@ double Matcher::patternSim(KB *kb, TaxoPattern *p1, TaxoPattern *p2, Similarity 
 	{
 		case DotProduct :
 			dv = dVector(kb, p1, p2);
-			sim = dv.score(Param::M_DotProduct);
+			sim = dv.score(Param::M);
 			if (Param::normalized)
 				sim /= maxSimDotProduct;
 			break;
 
 		case Jaccard :
 			dv = dVectorJaccard(kb, p1, p2);
-			sim = dv.score(Param::M_Jaccard);
+			sim = dv.score(Param::M);
 			if (Param::normalized)
 				sim /= maxSimJaccard;
 			break;
 
 		case Dice :
 			dv = dVectorDice(kb, p1, p2);
-			sim = dv.score(Param::M_Dice);
+			sim = dv.score(Param::M);
 			if (Param::normalized)
 				sim /= maxSimDice;
 			break;

@@ -29,13 +29,16 @@ public:
 	void runAllExp();
 
 	//column concept experiments
-	std::vector<double> runExpColConcept(std::string);
+	std::vector<double> runExpColConcept(std::string, bool);
 
 	//column relation experiments
-	std::vector<double> runExpColRelation(std::string);
+	std::vector<double> runExpColRelation(std::string, bool);
 
 	//record concept experiments
-	std::vector<double> runExpRecConcept(std::string);
+	std::vector<double> runExpRecConcept(std::string, bool);
+
+	//Parameter testing for col concept & relation
+	void runExpColConceptAndRelationParam();
 
 	//test the running time of finding relation
 	void runColRelationLatency();

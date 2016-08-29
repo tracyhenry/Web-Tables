@@ -6,10 +6,8 @@ enum Similarity {DotProduct, Jaccard, Dice, wJaccard};
 class Param
 {
 public:
-	//weighting factors for stratified similarities
-	static double M_DotProduct;
-	static double M_Jaccard;
-	static double M_Dice;
+	//weighting factor
+	static double M;
 
 	//normalized similarity or not
 	static bool normalized;
@@ -42,7 +40,7 @@ public:
 	static int TYPE_PAIR_K;
 
 	//set to default values
-	void setToDefault();
+	static void setToDefault();
 };
 
 #endif

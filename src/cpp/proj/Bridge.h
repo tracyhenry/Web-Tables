@@ -128,6 +128,9 @@ public:
 	//Constructor
 	Bridge();
 
+	//Cache clear
+	void clearCache();
+
 	//Test function
 	void testPattern();
 

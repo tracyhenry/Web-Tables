@@ -20,7 +20,7 @@ Bridge::Bridge()
 	cout << "Initializing Bridge!" << endl;
 
 	//cache clear
-	labelCache.clear();
+	clearCache();
 
 	struct timeval t1, t2;
 
@@ -69,6 +69,11 @@ Bridge::Bridge()
 	initCoherenceScores();
 	gettimeofday(&t2, NULL);
 	cout << "Coherence score Initialization time: " << t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0 << endl;
+}
+
+void Bridge::clearCache()
+{
+	labelCache.clear();
 }
 
 void Bridge::initMatch()
