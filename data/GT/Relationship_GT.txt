@@ -79,3 +79,28 @@
 3844	2	1	isLocatedIn
 3844	3	1	isLocatedIn
 1904	1	1	isCitizenOf
+2271	3	1	owns
+1	1	1	hasCapital
+5629	2	1	isCitizenOf
+3981	1	1	isLocatedIn
+3981	2	1	owns
+1864	2	2	playsFor	isAffiliatedTo
+5952	1	1	owns
+3199	2	2	isPoliticianOf	isAffiliatedTo
+4149	1	1	**_directed_**
+4149	2	1	**_actedIn_**
+3610	2	1	isLocatedIn
+587	1	2	isPoliticianOf	isAffiliatedTo
+5103	5	2	playsFor	isAffiliatedTo
+3792	2	1	isCitizenOf
+3792	3	2	playsFor	isAffiliatedTo
+3792	4	2	playsFor	isAffiliatedTo
+3115	2	1	created
+1559	2	1	actedIn
+5550	1	1	isLocatedIn
+1482	1	1	**_actedIn_**
+2684	1	1	isLocatedIn
+2684	2	1	owns
+3823	1	1	**_owns_**
+3823	2	1	isLocatedIn
+3823	3	1	isLocatedIn
