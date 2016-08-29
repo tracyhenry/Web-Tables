@@ -17,6 +17,7 @@ void Experiment::runAllExp()
 	vector<string> rec_methods = {"baseline", "ours", "prune"};
 
 	//column concepts experiments
+	bridge->clearCache();
 	for (string method : col_methods)
 	{
 		struct timeval t1, t2;
@@ -29,6 +30,7 @@ void Experiment::runAllExp()
 	}
 
 	//column relationship experiments
+	bridge->clearCache();
 	for (string method : col_methods)
 	{
 		struct timeval t1, t2;
@@ -41,6 +43,7 @@ void Experiment::runAllExp()
 	}
 
 	//record concepts experiments
+	bridge->clearCache();
 	for (string method : rec_methods)
 	{
 		struct timeval t1, t2;
@@ -90,7 +93,6 @@ vector<double> Experiment::runExpColConcept(string method, bool print)
 
 	//run functions in ColConcept.cpp
 	unordered_map<int, vector<int>> outputAns;
-	bridge->clearCache();
 	for (int i = 0; i < (int) tids.size(); i ++)
 		if (! outputAns.count(tids[i]))
 		{
@@ -182,7 +184,6 @@ vector<double> Experiment::runExpRecConcept(string method, bool print)
 
 	//run functions in RecConcept.cpp
 	vector<vector<int>> output(tids.size());
-	bridge->clearCache();
 	for (int i = 0; i < (int) tids.size(); i ++)
 		if (method == "baseline")
 			output[i] = bridge->baselineFindRecordConcept(tids[i], rids[i], Ks.back(), false);
@@ -328,7 +329,6 @@ vector<double> Experiment::runExpColRelation(string method, bool print)
 
 	//run functions in ColConcept.cpp
 	unordered_map<int, vector<int>> outputAns;
-	bridge->clearCache();
 	for (int i = 0; i < (int) tids.size(); i ++)
 		if (! outputAns.count(tids[i]))
 		{
@@ -399,14 +399,16 @@ void Experiment::runExpColConceptAndRelationParam()
 				{
 					if (TMIN > TMAX)
 						continue;
+					cout << M << '\t' << TMIN << '\t' << TMAX << '\t' << sim << endl;
 					Param::setToDefault();
 
-                    Param::M = M;
-                    Param::TMIN = TMIN;
-                    Param::TMAX = TMAX;
-                    Param::colConceptSim = sim;
+					Param::M = M;
+					Param::TMIN = TMIN;
+					Param::TMAX = TMAX;
+					Param::colConceptSim = sim;
 
 					vector<double> prf;
+					bridge->clearCache();
 					//concept
 					conceptParamFile << M << '\t' << TMIN << '\t' << TMAX << '\t' << sim << '\t';
 					prf = runExpColConcept("ours", false);

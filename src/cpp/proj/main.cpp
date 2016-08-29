@@ -61,7 +61,7 @@ int main()
 //	bridge->letsDebug();
 	Experiment* experiment = new Experiment(bridge);
 	experiment->runAllExp();
-	bridge->enrichKB();
+//	bridge->enrichKB();
 	interactiveQuery();
 
 	return 0;
