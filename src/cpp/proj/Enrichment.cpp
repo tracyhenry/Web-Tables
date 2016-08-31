@@ -129,6 +129,95 @@ void Bridge::genFactTriple()
 
 void Bridge::genAttrTypePair()
 {
+	string resultFileName = "../../../data/Result/enrichment/attributeTypepair.txt";
+	ofstream fout(resultFileName.c_str());
+
+	//col relation array
+	int nTable = corpus->countTable();
+	vector<Table *> tables(1);
+	vector<vector<int>> labels(1);
+	for (int i = 1; i <= nTable; i ++)
+	{
+		if (i % 500 == 0)
+			cout << i << " tables have been processed..." << endl;
+		tables.push_back(corpus->getTable(i));
+		labels.push_back(findColConceptAndRelation(corpus->getTable(i)->table_id, false));
+	}
+
+	//sort by sim
+	priority_queue<pair<double, pair<int, int>>> h;
+	for (int i = 1; i <= nTable; i ++)
+	{
+		int nCol = tables[i]->nCol;
+		int entityCol = tables[i]->entityCol;
+
+		for (int j = 0; j < nCol; j ++)
+		{
+			if (j == entityCol) continue;
+			if (labels[i][j] == -1)
+				continue;
+
+			double sim = 0;
+			if (labels[i][j + nCol] != -1)
+			{
+				TaxoPattern *p1, *p2;
+				int rel = kb->getReverseRelationId(labels[i][j + nCol]);
+				if (conSchema[labels[i][j]].count(rel))
+					p1 = conSchema[labels[i][j]][rel];
+				else
+					p1 = NULL;
+				p2 = colPattern[i][entityCol];
+				sim += Matcher::patternSim(kb, p1, p2, Param::colConceptSim);
+			}
+
+			double matchingRate = tableMR[i];
+			h.push(make_pair(sim * matchingRate, make_pair(i, j)));
+		}
+	}
+
+	//generate enrichments
+	while (! h.empty())
+	{
+		auto top = h.top();
+		h.pop();
+
+		double sim = top.first;
+		int i = top.second.first;
+		int j = top.second.second;
+		int nRow = tables[i]->nRow;
+		int conceptLabel = labels[i][j];
+
+		fout << "# " << tables[i]->table_id << " " << j << " " << sim << endl;
+		for (int r = 0; r < nRow; r ++)
+		{
+			auto m = matches[tables[i]->cells[r][j].id];
+			bool existInKB = false;
+			if (m.size() && m[0].second == 1.0)
+			{
+				int e = m[0].first;
+				int belongCount = kb->getBelongCount(e);
+				for (int k = 0; k < belongCount; k ++)
+				{
+					int conceptId = kb->getBelongConcept(e, k);
+					if (kb->isDescendant(conceptId, conceptLabel))
+					{
+						existInKB = true;
+						break;
+					}
+				}
+			}
+			if (existInKB)
+				continue;
+
+			string cur = "";
+			cur += tables[i]->cells[r][j].value;
+			cur += "________";
+			cur += kb->getConcept(conceptLabel);
+			fout << cur << endl;
+		}
+		fout << endl;
+	}
+	fout.close();
 }
 
 void Bridge::genEntityTypePair()
