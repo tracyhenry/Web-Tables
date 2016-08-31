@@ -59,6 +59,7 @@ if __name__ == "__main__":
     # Data structures
     mp = {}
     maxk1 = 5000
+    maxk2 = 3000
     maxk3 = 1000
     k = 0
     statements = Set()
@@ -90,11 +91,19 @@ if __name__ == "__main__":
                 # content
                 r = int(line[0:line.find('________')])
                 content = 'Row ' + str(r) + ': '
-                content += '<b>' + hash[0:hash.find('________')] + '</b> '
+                cell1 = hash[0:hash.find('________')]
                 hash = hash[hash.find('________') + 8:]
-                content += '<font color = \"red\">' + hash[0:hash.find('________')] + '</font> '
+                rel = hash[0:hash.find('________')]
                 hash = hash[hash.find('________') + 8:]
-                content += '<b>' + hash[0:-1] + '</b>'
+                cell2 = hash[0:-1]
+                if rel[0] == '*':
+                    rel = rel[3:-3]
+                    cell0 = cell1
+                    cell1 = cell2
+                    cell2 = cell0
+                content += '<b>' + cell1 + '</b> '
+                content += '<font color = \"red\">' + rel + '</font> '
+                content += '<b>' + cell2 + '</b>'
                 mp[tid]['contents'].append(content.decode('latin-1'))
 
         # top k
@@ -102,8 +111,46 @@ if __name__ == "__main__":
             break
 
     f1.close()
+
     # 2.txt - attr type pairs
-    
+    f2 = open(file_name2, 'r')
+    k = 0
+    statements = Set()
+    for line in f2.readlines():
+
+        # empty line
+        if len(line) == 1:
+            continue
+
+        # table_id line
+        if line[0] == '#':
+            tid = int(re.search(r'\d+', line).group())
+            if not tid in mp.keys():
+                mp[tid] = {'ids' : [], 'contents' : []}            
+        else:
+            hash = line[line.find('________') + 8:]
+            if not hash in statements and hash.find('null') == -1:
+                statements.add(hash)
+                # id
+                k += 1
+                id = prefix + '2_' + str(k)
+                mp[tid]['ids'].append(id)
+                # content
+                r = int(line[0:line.find('________')])
+                content = 'Row ' + str(r) + ': '
+                content += '<b>' + hash[0:hash.find('________')] + '</b> '
+                hash = hash[hash.find('________') + 8:]
+                if hash.find('wikicategory_') == 0:
+                    hash = hash[hash.find('_') + 1:]
+                content += 'is one of <b>' + hash[0:-1] + '</b>'
+                mp[tid]['contents'].append(content.decode('latin-1'))
+
+        # top k
+        if k >= maxk2:
+            break
+
+    f2.close()
+
     # 3.txt - entity type pairs
     f3 = open(file_name3, 'r')
     k = 0
