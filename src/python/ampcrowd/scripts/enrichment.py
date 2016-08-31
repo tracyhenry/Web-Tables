@@ -142,7 +142,12 @@ if __name__ == "__main__":
                 hash = hash[hash.find('________') + 8:]
                 if hash.find('wikicategory_') == 0:
                     hash = hash[hash.find('_') + 1:]
+                if hash.find('wordnet_') == 0:
+                    hash = hash[hash.find('_') + 1:]
+                    if hash.find('_') != -1:
+                        hash = hash[0:hash.find('_')]
                 content += 'is one of <b>' + hash[0:-1] + '</b>'
+                print content
                 mp[tid]['contents'].append(content.decode('latin-1'))
 
         # top k
