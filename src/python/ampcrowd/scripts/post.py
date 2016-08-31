@@ -36,8 +36,8 @@ logging.getLogger().setLevel(logging.INFO)
 def send_request(data, crowds, num_requests, use_ssl):
     # Send request
     params = {'data' : json.dumps(data)}
-    scheme = 'https' if use_ssl else 'http'
-    url = scheme + '://166.111.131.117:8002/crowds/%s/tasks/'
+    scheme = 'https'
+    url = scheme + '://lmxnb.top:8002/crowds/%s/tasks/'
     for crowd in crowds:
         for i in range(num_requests):
             try:

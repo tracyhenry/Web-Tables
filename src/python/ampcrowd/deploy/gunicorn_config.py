@@ -21,14 +21,9 @@ loglevel = "debug"
 
 # SSL
 use_ssl = os.environ.get('SSL', False) == "1"
-docker_ssl = os.environ.get('DOCKER_SSL', False) == "1"
 if use_ssl:
-    if docker_ssl:
-        keyfile = "crowd_server/ssl/docker.key"
-        certfile = "crowd_server/ssl/docker.crt"
-    else:
-        keyfile = "crowd_server/ssl/development.key"
-        certfile = "crowd_server/ssl/development.crt"
+    keyfile = "crowd_server/ssl/lmxnb.key"
+    certfile = "crowd_server/ssl/lmxnb.crt"
 
 print "Debug mode:", debug
 print "SSL mode:", use_ssl

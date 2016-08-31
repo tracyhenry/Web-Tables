@@ -76,6 +76,8 @@ HAVE_PUBLIC_IP = True
 
 PUBLIC_IP = json.loads(urlopen('http://jsonip.com').read())['ip'] if HAVE_PUBLIC_IP else None
 
+PUBLIC_DNS = 'lmxnb.top'
+
 # Set the callback for the crowd tasks. For development use /etc/hosts to set crowd_server correctly.
 AMT_CALLBACK_HOST = os.environ.get('AMT_CALLBACK_HOST', 'crowd_server:8002')
 

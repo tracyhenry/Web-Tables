@@ -19,7 +19,7 @@ logging.getLogger().setLevel(logging.INFO)
 def send_request(data):
     # Send request
     params = {'data' : json.dumps(data)}
-    url = 'https://166.111.131.117:8002/crowds/amt/tasks/'
+    url = 'https://lmxnb.top:8002/crowds/amt/tasks/'
     try:
         response = urllib2.urlopen(url,
                                urllib.urlencode(params))
@@ -156,8 +156,7 @@ if __name__ == "__main__":
             cur_data['content'][mp[tid]['ids'][i]] = mp[tid]['contents'][i]
 
         print 'Sending request with table_id = ' + str(tid)
-        if tid == 1:
-            send_request(cur_data)
+        send_request(cur_data)
         total_hits += len(mp[tid]['ids']) / 10 + 1
 
     print total_hits
