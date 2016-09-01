@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-prefix = 'test_'
+prefix = 'go_'
 
 file_name = '../ampcrowd/answers.txt'
 f = open(file_name, 'r')
@@ -24,9 +24,9 @@ for line in f.readlines():
         m3[rank] = score
 f.close()
 
-maxk1 = 100
-maxk2 = 100
-maxk3 = 100
+maxk1 = 1000
+maxk2 = 1000
+maxk3 = 1000
 
 f = open('../../../../data/Result/enrichment/plot1.txt', 'w')
 for i in range(1, maxk1):

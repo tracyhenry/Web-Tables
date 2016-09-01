@@ -35,7 +35,9 @@ def send_request(data):
 
 if __name__ == "__main__":
 
-    prefix = "test_"
+    prefix = "go_"
+    batch_size = 10
+
     # Initial data
     data = {}
     data['configuration'] = {}
@@ -43,7 +45,8 @@ if __name__ == "__main__":
     data['configuration']['task_batch_size'] = 10
     data['configuration']['num_assignments'] = 3
     data['configuration']['callback_url'] = 'www.google.com'
-    data['configuration']['amt'] = {'sandbox' : True,
+    data['configuration']['amt'] = {'sandbox' : False,
+                                    'reward' : batch_size * 0.01,
                                     'title' : 'Let\'s play with web tables',
                                     'description' : 'Assess statements about web tables.'}
 
@@ -58,8 +61,8 @@ if __name__ == "__main__":
 
     # Data structures
     mp = {}
-    maxk1 = 5000
-    maxk2 = 3000
+    maxk1 = 1000
+    maxk2 = 1000
     maxk3 = 1000
     k = 0
     statements = Set()
@@ -145,9 +148,8 @@ if __name__ == "__main__":
                 if hash.find('wordnet_') == 0:
                     hash = hash[hash.find('_') + 1:]
                     if hash.find('_') != -1:
-                        hash = hash[0:hash.find('_')]
+                        hash = hash[0:hash.find('_') + 1]
                 content += 'is one of <b>' + hash[0:-1] + '</b>'
-                print content
                 mp[tid]['contents'].append(content.decode('latin-1'))
 
         # top k
@@ -207,8 +209,15 @@ if __name__ == "__main__":
         for i in range(0, len(mp[tid]['ids'])):
             cur_data['content'][mp[tid]['ids'][i]] = mp[tid]['contents'][i]
 
+        num_points = len(mp[tid]['ids'])
+        if num_points <= 10:
+            cur_data['configuration']['amt']['reward'] = num_points * 0.01
         print 'Sending request with table_id = ' + str(tid)
         send_request(cur_data)
-        total_hits += len(mp[tid]['ids']) / 10 + 1
+        if num_points <= batch_size:
+            total_hits += num_points * 0.01
+            total_hits += max(0.01, num_points * 0.01 * 0.2)
+        else:
+            total_hits += (num_points / batch_size + 1) * batch_size * 0.01 * 1.2
 
-    print total_hits
+    print total_hits * 3

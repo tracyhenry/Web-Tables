@@ -20,3 +20,5 @@ celeryd.pid
 
 # Secrets
 private_settings.py
+private_settings_wenbo.py
+
