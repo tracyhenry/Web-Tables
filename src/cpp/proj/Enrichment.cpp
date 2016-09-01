@@ -8,8 +8,8 @@ using namespace std;
 void Bridge::enrichKB()
 {
 	genFactTriple();
-	genEntityTypePair();
 	genAttrTypePair();
+	genEntityTypePair();
 }
 
 void Bridge::genFactTriple()
@@ -170,7 +170,7 @@ void Bridge::genAttrTypePair()
 				sim += Matcher::patternSim(kb, p1, p2, Param::colConceptSim);
 			}
 
-			double matchingRate = tableMR[i];
+			double matchingRate = colMR[tables[i]->table_id][j];
 			h.push(make_pair(sim * matchingRate, make_pair(i, j)));
 		}
 	}
@@ -210,6 +210,8 @@ void Bridge::genAttrTypePair()
 				continue;
 
 			string cur = "";
+			cur += to_string(r);
+			cur += "________";
 			cur += tables[i]->cells[r][j].value;
 			cur += "________";
 			cur += kb->getConcept(conceptLabel);
