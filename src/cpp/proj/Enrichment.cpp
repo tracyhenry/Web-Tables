@@ -259,7 +259,7 @@ void Bridge::genEntityTypePair()
 			cout << recId << " records have been processed." << endl;
 		int i = records[recId].first;
 		int r = records[recId].second;
-		labels[recId] = fastFindRecordConcept(tables[i]->table_id, r, Param::MAXK, false);
+		labels[recId] = fastFindRecordConcept(tables[i]->table_id, r, Param::MAXK, false, false);
 		if ((int) labels[recId].size() < 1)
 			continue;
 		int conceptId = labels[recId][0];

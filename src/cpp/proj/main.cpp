@@ -24,7 +24,7 @@ void interactiveQuery()
 		{
 			case 0:
 				cin >> x >> y;
-				bridge->findRecordConcept(x, y, 20, true);
+				bridge->findRecordConcept(x, y, 20, false, true);
 				break;
 			case 1:
 				cin >> x >> y;
@@ -48,7 +48,7 @@ void interactiveQuery()
 				break;
 			case 6:
 				cin >> x >> y;
-				bridge->baselineFindRecordConcept(x, y, 20, true);
+				bridge->baselineFindRecordConcept(x, y, 20, true, true);
 				break;
 		}
 		cout << endl << "-----------------------------------------" << endl;

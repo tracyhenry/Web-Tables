@@ -110,7 +110,7 @@ private:
 	void kataraBackTrace(int, int, double);
 
 	//recursive function for fast finding record concepts
-	void dfsPrune(int, int, int, Table *);
+	void dfsPrune(int, int, int, Table *, bool);
 
 	//distance function which quantifies how far a concept deviates
 	double distance(int, double, TaxoPattern *, TaxoPattern *);
@@ -147,13 +147,13 @@ public:
 	* Methods to find record concepts.
 	*/
 	//Find the top-K similar concepts for a record
-	std::vector<int> findRecordConcept(int, int, int, bool);
+	std::vector<int> findRecordConcept(int, int, int, bool, bool);
 
 	//pruning algorithm
-	std::vector<int> fastFindRecordConcept(int, int, int, bool);
+	std::vector<int> fastFindRecordConcept(int, int, int, bool, bool);
 
 	//Baseline find record concept
-	std::vector<int> baselineFindRecordConcept(int, int, int, bool);
+	std::vector<int> baselineFindRecordConcept(int, int, int, bool, bool);
 
 	//Find the most similar concepts for all records
 	void findAllConcept();

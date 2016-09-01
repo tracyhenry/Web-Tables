@@ -25,7 +25,7 @@ void Bridge::findAllConcept()
 
 		recConcept[i].resize(curTable->nRow);
 		for (int r = 0; r < curTable->nRow; r ++)
-			recConcept[i][r] = findRecordConcept(curTable->table_id, r, 30, false);
+			recConcept[i][r] = findRecordConcept(curTable->table_id, r, 30, false, false);
 	}
 	//output to a file
 	ofstream fout("../../../data/Result/recConcept/recConcept.txt");
@@ -104,7 +104,7 @@ double Bridge::sigma(int c, int tid, int r)
 * output the a ranked concept list for
 * the record represented by the query row
 */
-vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
+vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool inPattern, bool print)
 {
 	//answer array
 	vector<int> ans;
@@ -136,6 +136,8 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 	for (int c = 1; c <= totalConcept; c ++)
 	{
 		if (kb->getSucCount(c)) continue;
+		if (inPattern && ! cellPt->c.count(c))
+			continue;
 
 		//LCA dis
 		double dis = distance(c, threshold, cellPt, colPt);
@@ -148,8 +150,6 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 			if (labels[j + nCol] == -1 ||
 				! conSchema[c].count(labels[j + nCol]))
 				continue;
-//			if (matches[curTable->cells[r][j].id].empty())
-//				continue;
 
 			//patternSim
 			TaxoPattern *p1 = cellPattern[curTable->cells[r][j].id];
@@ -185,7 +185,7 @@ vector<int> Bridge::findRecordConcept(int tid, int r, int K, bool print)
 	return ans;
 }
 
-void Bridge::dfsPrune(int x, int r, int K, Table *curTable)
+void Bridge::dfsPrune(int x, int r, int K, Table *curTable, bool inPattern)
 {
 	//Table information
 	int nCol = curTable->nCol;
@@ -202,32 +202,33 @@ void Bridge::dfsPrune(int x, int r, int K, Table *curTable)
 	//we reach a leaf
 	if (! kb->getSucCount(x))
 	{
-		//LCA dis
-		double dis = distance(x, threshold, cellPt, colPt);
-
-		double aSim = 0;
-		for (int j = 0; j < nCol; j ++)
+		if (! inPattern || cellPt->c.count(x))
 		{
-			if (j == entityCol) continue;
-			if (labels[j + nCol] == -1 ||
-				! conSchema[x].count(labels[j + nCol]))
-					continue;
-//			if (matches[curTable->cells[r][j].id].empty())
-//				continue;
+			//LCA dis
+			double dis = distance(x, threshold, cellPt, colPt);
 
-			//patternSim
-			TaxoPattern *p1 = cellPattern[curTable->cells[r][j].id];
-			TaxoPattern *p2 = conSchema[x][labels[j + nCol]];
-			double sim = Matcher::patternSim(kb, p1, p2, Param::recConceptSim);
-			aSim += sim / exp(log(Param::DISEXPBASE) * dis);
+			double aSim = 0;
+			for (int j = 0; j < nCol; j ++)
+			{
+				if (j == entityCol) continue;
+				if (labels[j + nCol] == -1 ||
+					! conSchema[x].count(labels[j + nCol]))
+						continue;
+
+				//patternSim
+				TaxoPattern *p1 = cellPattern[curTable->cells[r][j].id];
+				TaxoPattern *p2 = conSchema[x][labels[j + nCol]];
+				double sim = Matcher::patternSim(kb, p1, p2, Param::recConceptSim);
+				aSim += sim / exp(log(Param::DISEXPBASE) * dis);
+			}
+
+			//current pair
+			auto cp = make_pair(make_pair(-aSim, dis), x);
+			if ((int) heap.size() < K)
+				heap.push(cp);
+			else if (cp < heap.top())
+				heap.pop(), heap.push(cp);
 		}
-
-		//current pair
-		auto cp = make_pair(make_pair(-aSim, dis), x);
-		if ((int) heap.size() < K)
-			heap.push(cp);
-		else if (cp < heap.top())
-			heap.pop(), heap.push(cp);
 		return;
 	}
 
@@ -242,7 +243,7 @@ void Bridge::dfsPrune(int x, int r, int K, Table *curTable)
 		//check leaf
 		if (! kb->getSucCount(curChild))
 		{
-			dfsPrune(curChild, r, K, curTable);
+			dfsPrune(curChild, r, K, curTable, inPattern);
 			continue;
 		}
 
@@ -314,11 +315,11 @@ void Bridge::dfsPrune(int x, int r, int K, Table *curTable)
 		//prune
 		if ((int) heap.size() == K && ub < - heap.top().first.first)
 			continue;
-		dfsPrune(child, r, K, curTable);
+		dfsPrune(child, r, K, curTable, inPattern);
 	}
 }
 
-vector<int> Bridge::fastFindRecordConcept(int tid, int r, int K, bool print)
+vector<int> Bridge::fastFindRecordConcept(int tid, int r, int K, bool inPattern, bool print)
 {
 	//answer array
 	vector<int> ans;
@@ -335,7 +336,7 @@ vector<int> Bridge::fastFindRecordConcept(int tid, int r, int K, bool print)
 	int kbRoot = kb->getRoot();
 
 	//call dfsPrune
-	dfsPrune(kbRoot, r, K, curTable);
+	dfsPrune(kbRoot, r, K, curTable, inPattern);
 
 	//gather answer
 	vector<pair<pair<double, double>, int>> simScore;
@@ -372,7 +373,7 @@ vector<int> Bridge::fastFindRecordConcept(int tid, int r, int K, bool print)
 * the records represented by the query row
 * The baseline method.
 */
-vector<int> Bridge::baselineFindRecordConcept(int tid, int r, int K, bool print)
+vector<int> Bridge::baselineFindRecordConcept(int tid, int r, int K, bool inPattern, bool print)
 {
 	//answer array
 	vector<int> ans;
@@ -393,15 +394,17 @@ vector<int> Bridge::baselineFindRecordConcept(int tid, int r, int K, bool print)
 	int entityCellId = curTable->cells[r][entityCol].id;
 	TaxoPattern *cellPt = cellPattern[entityCellId];
 	TaxoPattern *colPt = colPattern[curTable->id][entityCol];
+	int totalConcept = kb->countConcept();
 
 	//labels
 	vector<int> labels = findColConceptAndRelation(tid, false);
 
 	//enumerate concepts in the cell pattern
-	for (auto kv : cellPt->c)
+	for (int c = 1; c <= totalConcept; c ++)
 	{
-		int c = kv.first;
 		if (kb->getSucCount(c)) continue;
+		if (inPattern && ! cellPt->c.count(c))
+			continue;
 
 		//LCA dis
 		double dis = distance(c, getThreshold(curTable, entityCol), cellPt, colPt);

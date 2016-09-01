@@ -14,7 +14,7 @@ Experiment::Experiment(Bridge *b) : bridge(b) {}
 void Experiment::runAllExp()
 {
 	vector<string> col_methods = {"baseline", "katara", "ours"};
-	vector<string> rec_methods = {"baseline", "ours", "prune"};
+	vector<string> rec_methods = {"baseline_notin", "baseline_in", "ours_notin", "ours_in", "prune_notin", "prune_in"};
 
 	//column concepts experiments
 	bridge->clearCache();
@@ -185,13 +185,18 @@ vector<double> Experiment::runExpRecConcept(string method, bool print)
 	//run functions in RecConcept.cpp
 	vector<vector<int>> output(tids.size());
 	for (int i = 0; i < (int) tids.size(); i ++)
-		if (method == "baseline")
-			output[i] = bridge->baselineFindRecordConcept(tids[i], rids[i], Ks.back(), false);
-		else if (method == "ours")
-			output[i] = bridge->findRecordConcept(tids[i], rids[i], Ks.back(), false);
-		else if (method == "prune")
-			output[i] = bridge->fastFindRecordConcept(tids[i], rids[i], Ks.back(), false);
-
+		if (method == "baseline_notin")
+			output[i] = bridge->baselineFindRecordConcept(tids[i], rids[i], Ks.back(), false, false);
+		else if (method == "baseline_in")
+			output[i] = bridge->baselineFindRecordConcept(tids[i], rids[i], Ks.back(), true, false);
+		else if (method == "ours_notin")
+			output[i] = bridge->findRecordConcept(tids[i], rids[i], Ks.back(), false, false);
+		else if (method == "ours_in")
+			output[i] = bridge->findRecordConcept(tids[i], rids[i], Ks.back(), true, false);
+		else if (method == "prune_notin")
+			output[i] = bridge->fastFindRecordConcept(tids[i], rids[i], Ks.back(), false, false);
+		else if (method == "prune_in")
+			output[i] = bridge->fastFindRecordConcept(tids[i], rids[i], Ks.back(), true, false);
 	for (int i = 0; i < (int) tids.size(); i ++)
 	{
 		int tid = tids[i];
@@ -470,7 +475,7 @@ void Experiment::runRecConceptLatency()
 		cout << curTable << " " << row << endl;
 		struct timeval t1, t2;
 		gettimeofday(&t1, NULL);
-		bridge->findRecordConcept(bridge->corpus->getTable(curTable)->table_id, row, 10, true);
+		bridge->findRecordConcept(bridge->corpus->getTable(curTable)->table_id, row, 10, false, true);
 		gettimeofday(&t2, NULL);
 
 		totalTime += t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) / 1000000.0;
