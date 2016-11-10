@@ -24,6 +24,24 @@ for line in f.readlines():
         m3[rank] = score
 f.close()
 
+n3 = 0
+n2 = 0
+n1 = 0
+n0 = 0
+for i in range(1, 1001):
+    if m3[i] == 3:
+        n3 += 1
+    elif m3[i] == 2:
+        n2 += 1
+    elif m3[i] == 1:
+        n1 += 1
+    else:
+        n0 += 1
+print n3
+print n2
+print n1
+print n0
+
 maxk1 = 1000
 maxk2 = 1000
 maxk3 = 1000
